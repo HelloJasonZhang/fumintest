@@ -68,6 +68,7 @@ public class PermissionUtil {
                     break;
                 }
             }
+
             if (leftPerm == null) {
                 leftPerm = new PermVo();
                 leftPerm.setId(requiresPermissions.value()[0]);
@@ -78,7 +79,7 @@ public class PermissionUtil {
                 // TODO
                 // 目前限制Controller里面每个方法的RequiresPermissionsDesc注解是唯一的
                 // 如果允许相同，可能会造成内部权限不一致。
-                throw new RuntimeException("权限已经存在，不能添加新权限");
+                // throw new RuntimeException("权限已经存在，不能添加新权限");
             }
 
         }

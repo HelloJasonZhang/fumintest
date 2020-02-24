@@ -1,6 +1,9 @@
 <template>
   <div class="dashboard-editor-container">
+  <div>你好， 欢迎使用本系统! 首页正在开发中....</div>
 
+
+<!-- 
     <el-row :gutter="40" class="panel-group">
       <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
         <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
@@ -19,7 +22,7 @@
             <svg-icon icon-class="message" class-name="card-panel-icon" />
           </div>
           <div class="card-panel-description">
-            <div class="card-panel-text">商品数量</div>
+            <div class="card-panel-text">谁请数量</div>
             <count-to :start-val="0" :end-val="goodsTotal" :duration="3000" class="card-panel-num"/>
           </div>
         </div>
@@ -46,7 +49,7 @@
           </div>
         </div>
       </el-col>
-    </el-row>
+    </el-row> -->
   </div>
 </template>
 
@@ -63,7 +66,7 @@ export default {
       userTotal: 0,
       goodsTotal: 0,
       productTotal: 0,
-      orderTotal: 0
+      orderTotal: 0,
     }
   },
   created() {

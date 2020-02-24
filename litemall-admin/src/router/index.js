@@ -48,7 +48,7 @@ export const constantRouterMap = [
   },
   {
     path: '/404',
-    component: () => import('@/views/errorPage/404'),
+    component: () => import('@/views/login/index'),
     hidden: true
   },
   {
@@ -79,11 +79,178 @@ export default new Router({
 
 export const asyncRouterMap = [
   {
+    path: '/hr',
+    component: Layout,
+    redirect: 'noredirect',
+    alwaysShow: true,
+    name: 'hr',
+    meta: {
+      title: '人社管理',
+      icon: 'chart'
+    },
+    children: [
+      {
+        path: 'audit',
+        component: () => import('@/views/fumin/applicant'),
+        name: 'audit',
+        meta: {
+          perms: ['GET /admin/applicant/list', 'POST /admin/applicant/create', 'GET /admin/applicant/read', 'POST /admin/applicant/update', 'POST /admin/applicant/delete'],
+          title: '人社审核',
+          noCache: true
+        }
+      },
+      {
+        path: 'detail',
+        component: () => import('@/views/fumin/audit'),
+        name: 'detail',
+        meta: {
+          perms: ['POST /admin/applicant/update', 'GET /admin/applicant/read'],
+          title: '审核',
+          noCache: true
+        },
+        hidden: true
+      },
+      {
+        path: 'edit',
+        component: () => import('@/views/fumin/edit'),
+        name: 'edit',
+        meta: {
+          perms: ['POST /admin/applicant/update', 'GET /admin/applicant/read'],
+          title: '修改申请人',
+          noCache: true
+        },
+        hidden: true
+      },
+      {
+        path: 'detailView',
+        component: () => import('@/views/fumin/detail'),
+        name: 'detailView',
+        meta: {
+          perms: ['GET /admin/applicant/read'],
+          title: '查看',
+          noCache: true
+        },
+        hidden: true
+      },
+      {
+        path: 'applicant',
+        component: () => import('@/views/fumin/applicant'),
+        name: 'applicant',
+        meta: {
+          perms: ['GET /admin/applicant/list', 'POST /admin/applicant/create', 'GET /admin/applicant/read', 'POST /admin/applicant/update', 'POST /admin/applicant/delete'],
+          title: '申请人',
+          noCache: true
+        },
+        hidden: true
+      },
+      {
+        path: 'create',
+        component: () => import('@/views/fumin/create'),
+        name: 'goodsCreate',
+        meta: {
+          perms: ['POST /admin/applicant/create'],
+          title: '申请贷款',
+          noCache: true
+        },
+        hidden: true
+      }
+    ]
+  }, {
+    path: '/assure',
+    component: Layout,
+    redirect: 'noredirect',
+    alwaysShow: true,
+    name: 'assure',
+    meta: {
+      title: '担保公司审核',
+      icon: 'chart'
+    },
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/assure/list'),
+        name: 'list',
+        meta: {
+          perms: ['GET /admin/assure/list', 'POST /admin/assure/create', 'GET /admin/assure/read', 'POST /admin/assure/update'],
+          title: '担保公司管理',
+          noCache: true
+        }
+      },
+      {
+        path: 'detail',
+        component: () => import('@/views/assure/audit'),
+        name: 'detail',
+        meta: {
+          perms: ['POST /admin/assure/update', 'GET /admin/assure/read'],
+          title: '担保公司审核',
+          noCache: true
+        },
+        hidden: true
+      },
+      {
+        path: 'detailView',
+        component: () => import('@/views/assure/detail'),
+        name: 'detailView',
+        meta: {
+          perms: ['GET /admin/assure/read'],
+          title: '查看',
+          noCache: true
+        },
+        hidden: true
+      }
+    ]
+  }, {
+    path: '/ba',
+    component: Layout,
+    redirect: 'noredirect',
+    alwaysShow: true,
+    name: 'ba',
+    meta: {
+      title: '贷款银行',
+      icon: 'chart'
+    },
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/bank/list'),
+        name: 'list',
+        meta: {
+          perms: ['GET /admin/ba/list', 'POST /admin/ba/create', 'GET /admin/ba/read', 'POST /admin/ba/update'],
+          title: '银行审核',
+          noCache: true
+        }
+      },
+      {
+        path: 'detail',
+        component: () => import('@/views/bank/audit'),
+        name: 'detail',
+        meta: {
+          perms: ['POST /admin/ba/update', 'GET /admin/ba/read'],
+          title: '贷款审核',
+          noCache: true
+        },
+        hidden: true
+      },
+      {
+        path: 'detailView',
+        component: () => import('@/views/bank/detail'),
+        name: 'detailView',
+        meta: {
+          perms: ['GET /admin/ba/read'],
+          title: '查看',
+          noCache: true
+        },
+        hidden: true
+      }
+    ]
+  },
+  {
     path: '/user',
     component: Layout,
     redirect: 'noredirect',
     alwaysShow: true,
     name: 'userManage',
+    hidden: true,
     meta: {
       title: '用户管理',
       icon: 'chart'
@@ -158,6 +325,7 @@ export const asyncRouterMap = [
     redirect: 'noredirect',
     alwaysShow: true,
     name: 'mallManage',
+    hidden: true,
     meta: {
       title: '商场管理',
       icon: 'chart'
@@ -241,6 +409,7 @@ export const asyncRouterMap = [
     redirect: 'noredirect',
     alwaysShow: true,
     name: 'goodsManage',
+    hidden: true,
     meta: {
       title: '商品管理',
       icon: 'chart'
@@ -274,8 +443,7 @@ export const asyncRouterMap = [
           perms: ['GET /admin/goods/detail', 'POST /admin/goods/update', 'POST /admin/goods/catAndBrand'],
           title: '商品编辑',
           noCache: true
-        },
-        hidden: true
+        }
       },
       {
         path: 'comment',
@@ -295,6 +463,7 @@ export const asyncRouterMap = [
     redirect: 'noredirect',
     alwaysShow: true,
     name: 'promotionManage',
+    hidden: true,    
     meta: {
       title: '推广管理',
       icon: 'chart'
@@ -408,6 +577,16 @@ export const asyncRouterMap = [
         }
       },
       {
+        path: 'bank',
+        component: () => import('@/views/fumin/bank'),
+        name: 'bank',
+        meta: {
+          perms: ['GET /admin/bank/list', 'POST /admin/bank/create', 'GET /admin/bank/read', 'POST /admin/bank/update', 'POST /admin/bank/delete'],
+          title: '银行管理',
+          noCache: true
+        }
+      },      
+      {
         path: 'notice',
         component: () => import('@/views/sys/notice'),
         name: 'notice',
@@ -441,6 +620,7 @@ export const asyncRouterMap = [
         path: 'os',
         component: () => import('@/views/sys/os'),
         name: 'os',
+        hidden: true,
         meta: {
           perms: ['GET /admin/storage/list', 'POST /admin/storage/create', 'POST /admin/storage/update', 'POST /admin/storage/delete'],
           title: '对象存储',
@@ -456,6 +636,7 @@ export const asyncRouterMap = [
     redirect: 'noredirect',
     alwaysShow: true,
     name: 'configManage',
+    hidden: true,    
     meta: {
       title: '配置管理',
       icon: 'chart'
@@ -509,6 +690,7 @@ export const asyncRouterMap = [
     component: Layout,
     redirect: 'noredirect',
     alwaysShow: true,
+    hidden: true,
     name: 'statManage',
     meta: {
       title: '统计报表',
@@ -586,7 +768,8 @@ export const asyncRouterMap = [
         path: 'http://www.kdniao.com/api-track',
         meta: { title: '快递鸟', icon: 'link' }
       }
-    ]
+    ],
+    hidden: true
   },
   {
     path: '/profile',

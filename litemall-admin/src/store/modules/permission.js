@@ -57,7 +57,10 @@ const permission = {
         if (perms.includes('*')) {
           accessedRouters = asyncRouterMap
         } else {
+          console.log(asyncRouterMap)
+          console.log(perms)
           accessedRouters = filterAsyncRouter(asyncRouterMap, perms)
+          console.log(accessedRouters)
         }
         commit('SET_ROUTERS', accessedRouters)
         resolve()

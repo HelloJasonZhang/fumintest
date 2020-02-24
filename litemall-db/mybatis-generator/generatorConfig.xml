@@ -43,9 +43,9 @@
 
         <!--数据库连接信息-->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://127.0.0.1:3306/litemall?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC&amp;verifyServerCertificate=false&amp;useSSL=false"
-                        userId="litemall"
-                        password="litemall123456"/>
+                        connectionURL="jdbc:mysql://localhost:3306/litemall?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC&amp;verifyServerCertificate=false&amp;useSSL=false&amp;allowPublicKeyRetrieval=true"
+                        userId="root"
+                        password="admin"/>
 
         <javaTypeResolver>
             <property name="useJSR310Types" value="true"/>
@@ -183,6 +183,18 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="pictures" javaType="java.lang.String[]"
                             typeHandler="org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler"/>
+        </table>
+        <table tableName="litemall_applicant">
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
+        <table tableName="litemall_bank">
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
+        <table tableName="litemall_applicant_bank">
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
+        <table tableName="litemall_demo">
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
         </table>
     </context>
 </generatorConfiguration>
