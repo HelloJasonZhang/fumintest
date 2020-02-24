@@ -4,24 +4,13 @@
 -- ------------------------------------------------------
 -- Server version	5.7.21-log
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
 -- Table structure for table `litemall_ad`
 --
 
 DROP TABLE IF EXISTS `litemall_ad`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_ad` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(63) NOT NULL DEFAULT '' COMMENT '广告标题',
@@ -38,15 +27,14 @@ CREATE TABLE `litemall_ad` (
   PRIMARY KEY (`id`),
   KEY `enabled` (`enabled`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='广告表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_address`
 --
 
 DROP TABLE IF EXISTS `litemall_address`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_address` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(63) NOT NULL DEFAULT '' COMMENT '收货人名称',
@@ -65,15 +53,14 @@ CREATE TABLE `litemall_address` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='收货地址表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_admin`
 --
 
 DROP TABLE IF EXISTS `litemall_admin`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_admin` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(63) NOT NULL DEFAULT '' COMMENT '管理员名称',
@@ -87,15 +74,14 @@ CREATE TABLE `litemall_admin` (
   `role_ids` varchar(127) DEFAULT '[]' COMMENT '角色列表',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='管理员表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_aftersale`
 --
 
 DROP TABLE IF EXISTS `litemall_aftersale`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_aftersale` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `aftersale_sn` varchar(63) DEFAULT NULL COMMENT '售后编号',
@@ -113,15 +99,14 @@ CREATE TABLE `litemall_aftersale` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '售后编号',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='售后表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_brand`
 --
 
 DROP TABLE IF EXISTS `litemall_brand`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_brand` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '' COMMENT '品牌商名称',
@@ -134,15 +119,14 @@ CREATE TABLE `litemall_brand` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1046003 DEFAULT CHARSET=utf8mb4 COMMENT='品牌商表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_cart`
 --
 
 DROP TABLE IF EXISTS `litemall_cart`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_cart` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL COMMENT '用户表的用户ID',
@@ -160,15 +144,14 @@ CREATE TABLE `litemall_cart` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='购物车商品表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_category`
 --
 
 DROP TABLE IF EXISTS `litemall_category`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(63) NOT NULL DEFAULT '' COMMENT '类目名称',
@@ -185,15 +168,14 @@ CREATE TABLE `litemall_category` (
   PRIMARY KEY (`id`),
   KEY `parent_id` (`pid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1036007 DEFAULT CHARSET=utf8mb4 COMMENT='类目表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_collect`
 --
 
 DROP TABLE IF EXISTS `litemall_collect`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_collect` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户表的用户ID',
@@ -206,15 +188,14 @@ CREATE TABLE `litemall_collect` (
   KEY `user_id` (`user_id`),
   KEY `goods_id` (`value_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='收藏表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_comment`
 --
 
 DROP TABLE IF EXISTS `litemall_comment`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_comment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `value_id` int(11) NOT NULL DEFAULT '0' COMMENT '如果type=0，则是商品评论；如果是type=1，则是专题评论。',
@@ -231,15 +212,14 @@ CREATE TABLE `litemall_comment` (
   PRIMARY KEY (`id`),
   KEY `id_value` (`value_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1012 DEFAULT CHARSET=utf8mb4 COMMENT='评论表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_coupon`
 --
 
 DROP TABLE IF EXISTS `litemall_coupon`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_coupon` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(63) NOT NULL COMMENT '优惠券名称',
@@ -264,15 +244,14 @@ CREATE TABLE `litemall_coupon` (
   PRIMARY KEY (`id`),
   KEY `code` (`code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COMMENT='优惠券信息及规则表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_coupon_user`
 --
 
 DROP TABLE IF EXISTS `litemall_coupon_user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_coupon_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL COMMENT '用户ID',
@@ -287,15 +266,14 @@ CREATE TABLE `litemall_coupon_user` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='优惠券用户使用表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_feedback`
 --
 
 DROP TABLE IF EXISTS `litemall_feedback`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_feedback` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户表的用户ID',
@@ -312,15 +290,14 @@ CREATE TABLE `litemall_feedback` (
   PRIMARY KEY (`id`),
   KEY `id_value` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='意见反馈表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_footprint`
 --
 
 DROP TABLE IF EXISTS `litemall_footprint`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_footprint` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户表的用户ID',
@@ -330,15 +307,14 @@ CREATE TABLE `litemall_footprint` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户浏览足迹表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_goods`
 --
 
 DROP TABLE IF EXISTS `litemall_goods`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_goods` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `goods_sn` varchar(63) NOT NULL DEFAULT '' COMMENT '商品编号',
@@ -367,15 +343,14 @@ CREATE TABLE `litemall_goods` (
   KEY `brand_id` (`brand_id`),
   KEY `sort_order` (`sort_order`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1181004 DEFAULT CHARSET=utf8mb4 COMMENT='商品基本信息表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_goods_attribute`
 --
 
 DROP TABLE IF EXISTS `litemall_goods_attribute`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_goods_attribute` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `goods_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品表的商品ID',
@@ -387,15 +362,14 @@ CREATE TABLE `litemall_goods_attribute` (
   PRIMARY KEY (`id`),
   KEY `goods_id` (`goods_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=877 DEFAULT CHARSET=utf8mb4 COMMENT='商品参数表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_goods_product`
 --
 
 DROP TABLE IF EXISTS `litemall_goods_product`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_goods_product` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `goods_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品表的商品ID',
@@ -409,15 +383,14 @@ CREATE TABLE `litemall_goods_product` (
   PRIMARY KEY (`id`),
   KEY `goods_id` (`goods_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=251 DEFAULT CHARSET=utf8mb4 COMMENT='商品货品表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_goods_specification`
 --
 
 DROP TABLE IF EXISTS `litemall_goods_specification`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_goods_specification` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `goods_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品表的商品ID',
@@ -430,15 +403,14 @@ CREATE TABLE `litemall_goods_specification` (
   PRIMARY KEY (`id`),
   KEY `goods_id` (`goods_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=250 DEFAULT CHARSET=utf8mb4 COMMENT='商品规格表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_groupon`
 --
 
 DROP TABLE IF EXISTS `litemall_groupon`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_groupon` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `order_id` int(11) NOT NULL COMMENT '关联的订单ID',
@@ -454,15 +426,14 @@ CREATE TABLE `litemall_groupon` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='团购活动表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_groupon_rules`
 --
 
 DROP TABLE IF EXISTS `litemall_groupon_rules`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_groupon_rules` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `goods_id` int(11) NOT NULL COMMENT '商品表的商品ID',
@@ -478,15 +449,14 @@ CREATE TABLE `litemall_groupon_rules` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `goods_id` (`goods_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='团购规则表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_issue`
 --
 
 DROP TABLE IF EXISTS `litemall_issue`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_issue` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `question` varchar(255) DEFAULT NULL COMMENT '问题标题',
@@ -496,15 +466,14 @@ CREATE TABLE `litemall_issue` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='常见问题表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_keyword`
 --
 
 DROP TABLE IF EXISTS `litemall_keyword`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_keyword` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `keyword` varchar(127) NOT NULL DEFAULT '' COMMENT '关键字',
@@ -517,15 +486,14 @@ CREATE TABLE `litemall_keyword` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COMMENT='关键字表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_log`
 --
 
 DROP TABLE IF EXISTS `litemall_log`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `admin` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '管理员',
@@ -540,15 +508,14 @@ CREATE TABLE `litemall_log` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='操作日志表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_notice`
 --
 
 DROP TABLE IF EXISTS `litemall_notice`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_notice` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(63) DEFAULT NULL COMMENT '通知标题',
@@ -559,15 +526,14 @@ CREATE TABLE `litemall_notice` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='通知表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_notice_admin`
 --
 
 DROP TABLE IF EXISTS `litemall_notice_admin`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_notice_admin` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `notice_id` int(11) DEFAULT NULL COMMENT '通知ID',
@@ -579,15 +545,14 @@ CREATE TABLE `litemall_notice_admin` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COMMENT='通知管理员表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_order`
 --
 
 DROP TABLE IF EXISTS `litemall_order`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_order` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL COMMENT '用户表的用户ID',
@@ -622,15 +587,14 @@ CREATE TABLE `litemall_order` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_order_goods`
 --
 
 DROP TABLE IF EXISTS `litemall_order_goods`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_order_goods` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `order_id` int(11) NOT NULL DEFAULT '0' COMMENT '订单表的订单ID',
@@ -650,15 +614,14 @@ CREATE TABLE `litemall_order_goods` (
   KEY `order_id` (`order_id`),
   KEY `goods_id` (`goods_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单商品表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_permission`
 --
 
 DROP TABLE IF EXISTS `litemall_permission`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_permission` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `role_id` int(11) DEFAULT NULL COMMENT '角色ID',
@@ -668,15 +631,14 @@ CREATE TABLE `litemall_permission` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COMMENT='权限表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_region`
 --
 
 DROP TABLE IF EXISTS `litemall_region`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_region` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pid` int(11) NOT NULL DEFAULT '0' COMMENT '行政区域父ID，例如区县的pid指向市，市的pid指向省，省的pid则是0',
@@ -688,15 +650,14 @@ CREATE TABLE `litemall_region` (
   KEY `region_type` (`type`),
   KEY `agency_id` (`code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3232 DEFAULT CHARSET=utf8mb4 COMMENT='行政区域表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_role`
 --
 
 DROP TABLE IF EXISTS `litemall_role`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_role` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(63) NOT NULL COMMENT '角色名称',
@@ -708,15 +669,14 @@ CREATE TABLE `litemall_role` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_search_history`
 --
 
 DROP TABLE IF EXISTS `litemall_search_history`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_search_history` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL COMMENT '用户表的用户ID',
@@ -727,15 +687,14 @@ CREATE TABLE `litemall_search_history` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='搜索历史表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_storage`
 --
 
 DROP TABLE IF EXISTS `litemall_storage`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_storage` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `key` varchar(63) NOT NULL COMMENT '文件的唯一索引',
@@ -749,15 +708,14 @@ CREATE TABLE `litemall_storage` (
   PRIMARY KEY (`id`),
   KEY `key` (`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文件存储表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_system`
 --
 
 DROP TABLE IF EXISTS `litemall_system`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_system` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `key_name` varchar(255) NOT NULL COMMENT '系统配置名',
@@ -767,15 +725,14 @@ CREATE TABLE `litemall_system` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='系统配置表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_topic`
 --
 
 DROP TABLE IF EXISTS `litemall_topic`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_topic` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL DEFAULT '''' COMMENT '专题标题',
@@ -792,15 +749,14 @@ CREATE TABLE `litemall_topic` (
   PRIMARY KEY (`id`),
   KEY `topic_id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=319 DEFAULT CHARSET=utf8mb4 COMMENT='专题表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `litemall_user`
 --
 
 DROP TABLE IF EXISTS `litemall_user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `litemall_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(63) NOT NULL COMMENT '用户名称',
@@ -822,16 +778,131 @@ CREATE TABLE `litemall_user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_name` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
-/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2019-12-16 23:12:57
+
+-- ----------------------------
+-- Table structure for litemall_applicant
+-- ----------------------------
+DROP TABLE IF EXISTS `litemall_applicant`;
+CREATE TABLE `litemall_applicant`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `name` varchar(10)   DEFAULT NULL COMMENT '申请人姓名',
+  `sex` varchar(10)   DEFAULT NULL COMMENT '性别',
+  `marital_status` varchar(10)   DEFAULT NULL COMMENT '婚姻状态',
+  `id_card_number` varchar(20)   DEFAULT NULL COMMENT '身份证号',
+  `phone_number` varchar(20)   DEFAULT NULL COMMENT '联系方式',
+  `spouse_name` varchar(20)   DEFAULT NULL COMMENT '配偶姓名',
+  `applicant_type` varchar(20)   DEFAULT NULL COMMENT '申请类别',
+  `applicant_amount` varchar(255)   DEFAULT NULL COMMENT '申请人金额',
+  `recruit_category` varchar(20)   DEFAULT NULL COMMENT '新招类别',
+  `applicant_category` varchar(20)   DEFAULT NULL COMMENT '申请类别',
+  `address` varchar(255)   DEFAULT NULL COMMENT '申请主体现住址',
+  `spouse_id_card_number` varchar(255)   DEFAULT NULL COMMENT '配偶身份证号',
+  `business_license_url` varchar(255)   DEFAULT NULL COMMENT '营业执照正面',
+  `business_license_url_2` varchar(255)   DEFAULT NULL COMMENT '营业执照反面',
+  `labor_contract` varchar(255)   DEFAULT NULL COMMENT '劳动合同',
+  `salary_detail` varchar(255)   DEFAULT NULL COMMENT '工资明细',
+  `id_card_url` varchar(255)   DEFAULT NULL COMMENT '身份证正面',
+  `id_card_url_2` varchar(255)   DEFAULT NULL COMMENT '身份证反面',
+  `spouse_id_card_url` varchar(255)   DEFAULT NULL COMMENT '配偶身份证正面',
+  `spouse_id_card_url_2` varchar(255)   DEFAULT NULL COMMENT '配偶身份证反面',
+  `marriage_certificate_url` varchar(255)   DEFAULT NULL COMMENT '婚姻证首页',
+  `marriage_certificate_url_2` varchar(255)   DEFAULT NULL COMMENT '婚姻证本人页',
+  `residence_booklet_url` varchar(255)   DEFAULT NULL COMMENT '户口本首页',
+  `residence_booklet_url_2` varchar(255)   DEFAULT NULL COMMENT '户口本本人页',
+  `credit_report_url` varchar(255)   DEFAULT NULL COMMENT '法定代表人信用报告',
+  `credit_report_url_2` varchar(255)   DEFAULT NULL,
+  `spouse_credit_report_url` varchar(255)   DEFAULT NULL COMMENT '配偶代表人信用报告',
+  `spouse_credit_report_url_2` varchar(255)   DEFAULT NULL,
+  `undertaking_url` varchar(255)   DEFAULT NULL COMMENT '承诺书',
+  `lease_contract_url` varchar(255)   DEFAULT NULL COMMENT '租赁合同',
+  `property_certificate_url` varchar(255)   DEFAULT NULL COMMENT '产权证',
+  `house_proprietary_certificate_url` varchar(255)   DEFAULT NULL COMMENT '房产证',
+  `vehicles_certificate_url` varchar(255)   DEFAULT NULL COMMENT '车辆权证',
+  `bank_reconciliation_url` varchar(255)   DEFAULT NULL COMMENT '银行对账',
+  `surety_id_card_url` varchar(255)   DEFAULT NULL COMMENT '担保人身份证正面',
+  `surety_id_card_url_2` varchar(255)   DEFAULT NULL COMMENT '担保人身份证反面',
+  `extra_url` varchar(255)   DEFAULT NULL COMMENT '其他照片',
+  `add_time` datetime(0) NULL DEFAULT NULL COMMENT '新增时间',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除',
+  `submit_status` int(10) NULL DEFAULT 0 COMMENT '提交状态',
+  `bank_id` int(11) NULL DEFAULT NULL COMMENT '受理银行',
+  `hs_business_license_type` varchar(255)   DEFAULT NULL COMMENT '营业执照类型',
+  `hs_applicant` varchar(255)   DEFAULT NULL COMMENT '法定代表人/申请人',
+  `hs_unified_social_credit_code` varchar(255)   DEFAULT NULL COMMENT '统一社会信用代码',
+  `hs_applicant_adress` varchar(255)   DEFAULT NULL COMMENT '身份证地址',
+  `hs_rigster_date` datetime(0) NULL DEFAULT NULL COMMENT '注册日期',
+  `hs_employment_business_license_no` varchar(255)   DEFAULT NULL COMMENT '就业创业证编号（申请主体）',
+  `hs_employees_info` varchar(255)   DEFAULT NULL COMMENT '带动就业人员信息',
+  `hs_active_employees` int(11) NULL DEFAULT NULL COMMENT '在职人数',
+  `hs_recruit_people` int(11) NULL DEFAULT NULL COMMENT '当年新招人数',
+  `hsMark` varchar(255)   DEFAULT NULL COMMENT '其他备注',
+  `hs_recuit_rate` varchar(255)   DEFAULT NULL COMMENT '新招用员工占比',
+  `hs_comment` varchar(255)   DEFAULT NULL COMMENT '市人社部门\r\n意见\r\n市人社部门\r\n意见\r\n',
+  `hs_audit_date` datetime(0) NULL DEFAULT NULL COMMENT '人社审核日期',
+  `hs_operator` varchar(255)   DEFAULT NULL COMMENT '人社经办人',
+  `sc_business_address` varchar(255)   DEFAULT NULL COMMENT '营业地址',
+  `sc_property_right` varchar(255)   DEFAULT NULL COMMENT '产权性质',
+  `sc_applicant_credit_report` varchar(255)   DEFAULT NULL COMMENT '申请人信用报告',
+  `sc_spouse_credit_report` varchar(255)   DEFAULT NULL COMMENT '配偶信用报告',
+  `sc_guarantor` varchar(255)   DEFAULT NULL COMMENT '担保人姓名',
+  `sc_guarantor_asset` varchar(255)   DEFAULT NULL COMMENT '担保人抵押资产情况',
+  `sc_extra_info` varchar(255)   DEFAULT NULL COMMENT '其他补充情况',
+  `sc_comment` varchar(255)   DEFAULT NULL COMMENT '担保公司意见',
+  `sc_letter_intent_url` varchar(255)   DEFAULT NULL COMMENT '担保意向书内容',
+  `sc_audit_date` datetime(0) NULL DEFAULT NULL COMMENT '担保公司审核日期',
+  `sc_operator` varchar(255)   DEFAULT NULL COMMENT '担保公司经办人',
+  `b_name` varchar(255)   DEFAULT NULL COMMENT '受理银行',
+  `b_sub_branch` varchar(255)   DEFAULT NULL COMMENT '支行',
+  `b_opertator` varchar(255)   DEFAULT NULL COMMENT '经办人',
+  `b_credit` varchar(255)   DEFAULT NULL COMMENT '授信额度',
+  `b_Lending_date` datetime(0) NULL DEFAULT NULL COMMENT '放贷日期',
+  `b_period_loan` varchar(255)   DEFAULT NULL COMMENT '贷款期限',
+  `b_repayment` varchar(255)   DEFAULT NULL COMMENT '还款方式',
+  `b_interest_rate` varchar(255)   DEFAULT NULL COMMENT '利率',
+  `b_interest_period` varchar(255)   DEFAULT NULL COMMENT '利息/期',
+  `b_comment` varchar(255)   DEFAULT NULL COMMENT '银行受理情况',
+  `b_audit_date` datetime(0) NULL DEFAULT NULL COMMENT '银行审核日期',
+  `b_auditor` varchar(255)   DEFAULT NULL COMMENT '银行审核人',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='申请人';
+
+
+-- ----------------------------
+-- Table structure for litemall_applicant_bank
+-- ----------------------------
+DROP TABLE IF EXISTS `litemall_applicant_bank`;
+CREATE TABLE `litemall_applicant_bank`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `applicant_id` int(11) NULL DEFAULT NULL,
+  `bank_id` int(11) NULL DEFAULT NULL,
+  `line` int(11) NULL DEFAULT NULL,
+  `interest` varchar(255)   DEFAULT NULL,
+  `audit_comment` varchar(255)   DEFAULT NULL,
+  `status` tinyint(1) NULL DEFAULT NULL,
+  `add_time` datetime(0) NULL DEFAULT NULL,
+  `update_time` datetime(0) NULL DEFAULT NULL,
+  `deleted` tinyint(1) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=319 DEFAULT CHARSET=utf8mb4 COMMENT='申请人—银行';
+
+-- ----------------------------
+-- Table structure for litemall_bank
+-- ----------------------------
+DROP TABLE IF EXISTS `litemall_bank`;
+CREATE TABLE `litemall_bank`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `name` varchar(255)   DEFAULT NULL COMMENT '银行',
+  `contact` varchar(255)   DEFAULT NULL COMMENT '联系方式',
+  `address` varchar(255)   DEFAULT NULL COMMENT '地址',
+  `sub_branch` varchar(255)   DEFAULT NULL COMMENT '支行',
+  `add_time` datetime(0) NULL DEFAULT NULL COMMENT '新增时间',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) NULL DEFAULT NULL COMMENT '删除',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=319 DEFAULT CHARSET=utf8mb4 COMMENT='申请人—银行';
+
+
