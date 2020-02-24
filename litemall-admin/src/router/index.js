@@ -463,7 +463,7 @@ export const asyncRouterMap = [
     redirect: 'noredirect',
     alwaysShow: true,
     name: 'promotionManage',
-    hidden: true,    
+    hidden: true,
     meta: {
       title: '推广管理',
       icon: 'chart'
@@ -585,7 +585,7 @@ export const asyncRouterMap = [
           title: '银行管理',
           noCache: true
         }
-      },      
+      },
       {
         path: 'notice',
         component: () => import('@/views/sys/notice'),
@@ -636,7 +636,7 @@ export const asyncRouterMap = [
     redirect: 'noredirect',
     alwaysShow: true,
     name: 'configManage',
-    hidden: true,    
+    hidden: true,
     meta: {
       title: '配置管理',
       icon: 'chart'

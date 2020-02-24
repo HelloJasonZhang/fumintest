@@ -8,7 +8,7 @@
         <el-option v-for="(key, value) in queryStatusMap" :key="key" :label="key" :value="value" />
       </el-select>
       <el-button v-permission="['GET /admin/assure/list']" class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查找</el-button>
- <!--      <el-button v-permission="['POST /admin/applicant/create']" class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">创建</el-button> -->
+      <!--      <el-button v-permission="['POST /admin/applicant/create']" class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">创建</el-button> -->
       <!--
       <el-button v-permission="['POST /admin/applicant/create']" class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">担保公司审核</el-button>
       <el-button v-permission="['POST /admin/applicant/create']" class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">银行审核</el-button> -->
@@ -26,16 +26,17 @@
       <el-table-column align="center" label="申请人（法人）类别" prop="applicantType" />
       <el-table-column align="center" label="申请额度" prop="applicantAmount" />
       </el-table-column>
-          <el-table-column
-            align="center"
-            label="审核状态"
-            width="350">
+      <el-table-column
+        align="center"
+        label="审核状态"
+        width="350"
+      >
         <template slot-scope="scope">
           <el-steps :space="100" :active="scope.row.statusName" :process-status="scope.row.status" align-center>
-            <el-step title="申请人"></el-step>
-            <el-step title="人社"></el-step>
-            <el-step title="担保"></el-step>
-            <el-step title="银行"></el-step>
+            <el-step title="申请人" />
+            <el-step title="人社" />
+            <el-step title="担保" />
+            <el-step title="银行" />
           </el-steps>
         </template>
       </el-table-column>
@@ -43,7 +44,7 @@
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleView(scope.row)">查看</el-button>
           <el-button type="primary" :disabled="scope.row.has_edit" size="mini" @click="handleAudit(scope.row)">审核</el-button>
-<!--           <el-button v-permission="['POST /admin/applicant/delete']" type="primary" size="mini" @click="handleUpdate(scope.row)">修改</el-button> -->
+          <!--           <el-button v-permission="['POST /admin/applicant/delete']" type="primary" size="mini" @click="handleUpdate(scope.row)">修改</el-button> -->
         </template>
       </el-table-column>
     </el-table>
@@ -51,7 +52,7 @@
   </div>
 </template>
 
-<style>        
+<style>
   .el-step__title {
     font-size: 12px;
     line-height: 25px;
@@ -71,14 +72,14 @@ import { getToken } from '@/utils/auth'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
 const queryStatusMap = {
-  "4": '待审核',
-  "5": '待补充',
-  "6": '通过',
+  '4': '待审核',
+  '5': '待补充',
+  '6': '通过'
 }
 
 export default {
   name: 'Applicant',
-  components: { Pagination },  
+  components: { Pagination },
   filters: {
     submitStatuFilter(status) {
       return queryStatusMap[status]
@@ -115,17 +116,17 @@ export default {
         '担保公司审核通过',
         '银行审核不通过',
         '银行审核通过'
-      ],      
+      ],
       setepStatusArray: [
-        {step: 0, status: "success"},
-        {step: 1, status: "wait"},
-        {step: 1, status: "error"},
-        {step: 1, status: "success"},
-        {step: 2, status: "wait"},
-        {step: 2, status: "error"},
-        {step: 2, status: "success"},
-        {step: 3, status: "error"},
-        {step: 3, status: "finish"}
+        { step: 0, status: 'success' },
+        { step: 1, status: 'wait' },
+        { step: 1, status: 'error' },
+        { step: 1, status: 'success' },
+        { step: 2, status: 'wait' },
+        { step: 2, status: 'error' },
+        { step: 2, status: 'success' },
+        { step: 3, status: 'error' },
+        { step: 3, status: 'finish' }
       ],
       queryStatusMap: queryStatusMap,
       downloadLoading: false
@@ -174,8 +175,8 @@ export default {
       this.$router.push({ path: '/assure/create' })
     },
     handleAudit(row) {
-      if (row.submitStatus != 3 && row.submitStatus !=6 && row.submitStatus !=8 && row.submitStatus !=9) {
-        this.$router.push({ path: '/assure/detail', query: { id: row.id, action: row.submitStatus}})
+      if (row.submitStatus != 3 && row.submitStatus != 6 && row.submitStatus != 8 && row.submitStatus != 9) {
+        this.$router.push({ path: '/assure/detail', query: { id: row.id, action: row.submitStatus }})
       } else {
         this.$message.error({
           title: '失败',
@@ -184,7 +185,7 @@ export default {
       }
     },
     handleView(row) {
-      this.$router.push({ path: '/assure/detailView', query: { id: row.id, action: row.submitStatus}})
+      this.$router.push({ path: '/assure/detailView', query: { id: row.id, action: row.submitStatus }})
     },
     handleUpdate(row) {
       this.$router.push({ path: '/hr/edit', query: { id: row.id }})

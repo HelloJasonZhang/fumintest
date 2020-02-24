@@ -297,9 +297,9 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="经办人" prop="hsRecuitRate">
-               <el-input v-model="rensheForm.hsOperator" />
+              <el-input v-model="rensheForm.hsOperator" />
             </el-form-item>
-          </el-col>          
+          </el-col>
         </el-row>
       </el-form>
 
@@ -369,9 +369,9 @@
             <i v-else class="el-icon-plus avatar-uploader-icon" />
           </el-upload>
         </el-form-item>
-            <el-form-item v-if="disableAssureHidden" label="担保意向书" prop="address">
-              <el-image v-if="assureForm.scLetterIntentUrl" style="width:50px;height:50px;" :src="assureForm.scLetterIntentUrl" :preview-src-list="[assureForm.scLetterIntentUrl]" />
-            </el-form-item>
+        <el-form-item v-if="disableAssureHidden" label="担保意向书" prop="address">
+          <el-image v-if="assureForm.scLetterIntentUrl" style="width:50px;height:50px;" :src="assureForm.scLetterIntentUrl" :preview-src-list="[assureForm.scLetterIntentUrl]" />
+        </el-form-item>
         <el-row v-if="disableAssureHidden">
           <el-col :span="8">
             <el-form-item label="是否审核通过" prop="submitStatus">
@@ -396,12 +396,12 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="经办人" prop="hsRecuitRate">
-               <el-input v-model="rensheForm.scOperator" />
+              <el-input v-model="rensheForm.scOperator" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-form-item v-if="!disableAssureHidden" label="是否审核通过" prop="submitStatus">
-         <el-select v-model="assureForm.status" prop="submitStatus" style="width:25%">
+          <el-select v-model="assureForm.status" prop="submitStatus" style="width:25%">
             <el-option :value="7" label="通过" />
             <el-option :value="6" label="不通过" />
             <el-option :value="5" label="待补充" />
@@ -486,31 +486,31 @@
         <el-form-item label="银行受理情况" prop="bComment">
           <el-input v-model="bankForm.bComment" type="textarea" :rows="7" />
         </el-form-item>
-          <el-col :span="8">
-            <el-form-item label="是否审核通过" prop="submitStatus">
+        <el-col :span="8">
+          <el-form-item label="是否审核通过" prop="submitStatus">
             <el-select v-model="bankForm.status" prop="submitStatus" style="width:100%">
-                <el-option :value="9" label="通过" />
-                <el-option :value="8" label="不通过" />
+              <el-option :value="9" label="通过" />
+              <el-option :value="8" label="不通过" />
             </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="经办日期" prop="scAuditDate">
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="经办日期" prop="scAuditDate">
             <el-date-picker
-                v-model="bankForm.scAuditDate"
-                type="date"
-                placeholder="选择日期"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                :picker-options="pickerOptions"
-                style="width:100%"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="经办人" prop="scOperator">
-              <el-input v-model="bankForm.scOperator" />
-            </el-form-item>
-          </el-col>
+              v-model="bankForm.scAuditDate"
+              type="date"
+              placeholder="选择日期"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              :picker-options="pickerOptions"
+              style="width:100%"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="经办人" prop="scOperator">
+            <el-input v-model="bankForm.scOperator" />
+          </el-form-item>
+        </el-col>
         </el-row>
       </el-form>
     </el-card>
@@ -659,19 +659,19 @@ export default {
       if (this.$route.query.action == null) {
         return
       }
- 
+
       const goAction = this.$route.query.action
       const goodsId = this.$route.query.id
 
       readApplicant({ id: goodsId }).then(response => {
         this.goods = response.data.data
 
-        if (parseInt(goAction) === 1 ) {
+        if (parseInt(goAction) === 1) {
           this.isRenSheHidden = false
           this.isAssureHidden = false
           this.isBankHidden = false
           this.rensheForm = response.data.data
-        } else if (parseInt(goAction) === 2 || parseInt(goAction) === 3 || parseInt(goAction) === 4 ) {
+        } else if (parseInt(goAction) === 2 || parseInt(goAction) === 3 || parseInt(goAction) === 4) {
           this.isRenSheHidden = true
           this.disableRenSheHidden = true
           this.isAssureHidden = false
@@ -699,9 +699,9 @@ export default {
           this.extend(this.rensheForm, response.data.data)
           this.rensheForm.status = 4
           this.extend(this.assureForm, response.data.data)
-          this.assureForm.status =7
+          this.assureForm.status = 7
           this.extend(this.bankForm, response.data.data)
-        } 
+        }
       })
     },
     handleCancel: function() {

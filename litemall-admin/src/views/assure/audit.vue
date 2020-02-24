@@ -297,17 +297,17 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="经办人" prop="hsRecuitRate">
-               <el-input v-model="rensheForm.hsOperator" />
+              <el-input v-model="rensheForm.hsOperator" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-form-item v-if="!disableRenSheHidden" label="是否审核通过" prop="submitStatus">
           <el-select v-model="rensheForm.status" style="width:25%">
-              <el-option :value="4" label="通过" />
-              <el-option :value="3" label="不通过" />
-              <el-option :value="2" label="待补充" />
+            <el-option :value="4" label="通过" />
+            <el-option :value="3" label="不通过" />
+            <el-option :value="2" label="待补充" />
           </el-select>
-        </el-form-item>      
+        </el-form-item>
         <el-input v-if="!disableRenSheHidden" v-model="rensheForm.hsOperator" type="hidden" />
       </el-form>
       <div v-if="!disableRenSheHidden" class="op-container">
@@ -388,9 +388,9 @@
             <i v-else class="el-icon-plus avatar-uploader-icon" />
           </el-upload>
         </el-form-item>
-            <el-form-item v-if="disableAssureHidden" label="担保意向书" prop="address">
-              <el-image v-if="assureForm.scLetterIntentUrl" style="width:50px;height:50px;" :src="assureForm.scLetterIntentUrl" :preview-src-list="[assureForm.scLetterIntentUrl]" />
-            </el-form-item>
+        <el-form-item v-if="disableAssureHidden" label="担保意向书" prop="address">
+          <el-image v-if="assureForm.scLetterIntentUrl" style="width:50px;height:50px;" :src="assureForm.scLetterIntentUrl" :preview-src-list="[assureForm.scLetterIntentUrl]" />
+        </el-form-item>
         <el-row v-if="disableAssureHidden">
           <el-col :span="8">
             <el-form-item label="是否审核通过" prop="submitStatus">
@@ -415,12 +415,12 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="经办人" prop="hsRecuitRate">
-               <el-input v-model="assureForm.hsOperator" />
+              <el-input v-model="assureForm.hsOperator" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-form-item v-if="!disableAssureHidden" label="是否审核通过" prop="submitStatus">
-         <el-select v-model="assureForm.status" prop="submitStatus" style="width:25%">
+          <el-select v-model="assureForm.status" prop="submitStatus" style="width:25%">
             <el-option :value="7" label="通过" />
             <el-option :value="6" label="不通过" />
             <el-option :value="5" label="待补充" />
@@ -506,7 +506,7 @@
           <el-input v-model="bankForm.bComment" type="textarea" :rows="7" />
         </el-form-item>
         <el-form-item label="是否审核通过" prop="submitStatus">
-         <el-select v-model="bankForm.status" prop="submitStatus" style="width:25%">
+          <el-select v-model="bankForm.status" prop="submitStatus" style="width:25%">
             <el-option :value="9" label="通过" />
             <el-option :value="8" label="不通过" />
           </el-select>
@@ -664,13 +664,13 @@ export default {
       if (this.$route.query.action == null) {
         return
       }
- 
+
       const goAction = this.$route.query.action
       const goodsId = this.$route.query.id
 
       readApplicant({ id: goodsId }).then(response => {
         this.goods = response.data.data
-        
+
         if (parseInt(goAction) === 1 || parseInt(goAction) === 2) {
           this.isRenSheHidden = true
           this.isAssureHidden = false
@@ -694,17 +694,17 @@ export default {
           this.rensheForm.status = 4
           this.extend(this.assureForm, response.data.data)
           console.log(this.assureForm)
-          this.assureForm.status =7
+          this.assureForm.status = 7
           this.extend(this.bankForm, response.data.data)
-        } 
+        }
       })
     },
     handleCancel: function() {
       this.goBoack()
     },
-    goBoack: function () {
+    goBoack: function() {
       var goAction = this.$route.query.action
-      if (parseInt(goAction) === 1 || parseInt(goAction) === 2 || parseInt(goAction) === 3 ) {
+      if (parseInt(goAction) === 1 || parseInt(goAction) === 2 || parseInt(goAction) === 3) {
         this.$router.push({ path: '/hr/audit' })
       } else if (parseInt(goAction) === 4 || parseInt(goAction) === 5 || parseInt(goAction) === 6) {
         this.$router.push({ path: '/assure/list' })
@@ -741,16 +741,16 @@ export default {
       this.extend(finalGoods, { 'id': this.$route.query.id })
       // this.extend(finalGoods, this.goods)
       if (parseInt(this.$route.query.action) === 1 || parseInt(this.$route.query.action) === 2) {
-        //this.rensheForm.hsOperator = store.getters.name
+        // this.rensheForm.hsOperator = store.getters.name
         this.rensheForm.submitStatus = this.rensheForm.status
         this.extend(finalGoods, this.rensheForm)
       } else if (parseInt(this.$route.query.action) === 4 || parseInt(this.$route.query.action) === 5) {
-        //this.assureForm.scOperator = store.getters.name
+        // this.assureForm.scOperator = store.getters.name
         this.assureForm.submitStatus = this.assureForm.status
         this.extend(finalGoods, this.assureForm)
         console.log(finalGoods)
       } else if (parseInt(this.$route.query.action) === 7) {
-        //this.bankForm.bOpertator = store.getters.name
+        // this.bankForm.bOpertator = store.getters.name
         this.bankForm.submitStatus = this.bankForm.status
         this.extend(finalGoods, this.bankForm)
       }
@@ -761,7 +761,7 @@ export default {
             title: '成功',
             message: '创建成功'
           })
-          this.$router.go(-1);
+          this.$router.go(-1)
           this.goBoack()
         })
         .catch(response => {

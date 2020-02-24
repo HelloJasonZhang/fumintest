@@ -1,9 +1,8 @@
 <template>
   <div class="dashboard-editor-container">
-  <div>你好， 欢迎使用本系统! 首页正在开发中....</div>
+    <div>你好， 欢迎使用本系统! 首页正在开发中....</div>
 
-
-<!-- 
+    <!--
     <el-row :gutter="40" class="panel-group">
       <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
         <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
@@ -66,7 +65,7 @@ export default {
       userTotal: 0,
       goodsTotal: 0,
       productTotal: 0,
-      orderTotal: 0,
+      orderTotal: 0
     }
   },
   created() {

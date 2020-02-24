@@ -79,7 +79,7 @@
             <el-radio key="返乡创业农民工" label="返乡创业农民工" value="返乡创业农民工" />
             <el-radio key="网络商户" label="网络商户" value="网络商户" />
             <el-radio key="建档立卡贫困人口" label="建档立卡贫困人口" value="建档立卡贫困人口" />
-            <el-radio key="农村自主创业农民" label="农村自主创业农民" value="农村自主创业农民"/>
+            <el-radio key="农村自主创业农民" label="农村自主创业农民" value="农村自主创业农民" />
             <el-radio key="其他" label="其他" value="其他" />
           </el-radio-group>
         </el-form-item>
@@ -94,7 +94,7 @@
             <el-radio key="返乡创业农民工" label="返乡创业农民工" value="返乡创业农民工" />
             <el-radio key="网络商户" label="网络商户" value="网络商户" />
             <el-radio key="建档立卡贫困人口" label="建档立卡贫困人口" value="建档立卡贫困人口" />
-            <el-radio key="农村自主创业农民" label="农村自主创业农民" value="农村自主创业农民"/>
+            <el-radio key="农村自主创业农民" label="农村自主创业农民" value="农村自主创业农民" />
             <el-radio key="其他" label="其他" value="其他" />
           </el-radio-group>
         </el-form-item>
@@ -115,7 +115,7 @@
                 <img v-if="goods.businessLicenseUrl" :src="goods.businessLicenseUrl" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon" />
               </el-upload>
-            </el-form-item> 
+            </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="营业执照反面" label-width="200px">
@@ -515,7 +515,7 @@
         <div class="op-container">
           <el-button @click="handleCancel">取消</el-button>
           <el-button type="primary" @click="handlePublish">提交</el-button>
-        </div>        
+        </div>
       </el-form>
     </el-card>
     <el-card class="box-card">
@@ -537,7 +537,7 @@
             <el-form-item label="产权性质" prop="scPropertyRight">
               <el-input v-model="assureForm.scPropertyRight" />
             </el-form-item>
-          </el-col>          
+          </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
@@ -587,7 +587,7 @@
             <el-option key="通过  " label="通过  " value="5" />
             <el-option key="不通过" label="不通过" value="6" />
           </el-select>
-        </el-form-item>        
+        </el-form-item>
         <el-input v-model="rensheForm.scAuditDate" type="hidden" />
         <el-input v-model="rensheForm.scOperator" type="hidden" />
       </el-form>
@@ -616,7 +616,7 @@
             <el-form-item label="支行" prop="bSubBranch">
               <el-input v-model="bankForm.bSubBranch" />
             </el-form-item>
-          </el-col>          
+          </el-col>
           <el-col :span="8">
             <el-form-item label="经办人" prop="bOpertator">
               <el-input v-model="bankForm.bOpertator" />
@@ -658,14 +658,14 @@
           </el-col>
         </el-row>
         <el-form-item label="银行受理情况" prop="bComment">
-          <el-input type="textarea" :rows="7" v-model="bankForm.bComment"/>
+          <el-input v-model="bankForm.bComment" type="textarea" :rows="7" />
         </el-form-item>
         <el-form-item label="是否审核通过" prop="submitStatus">
           <el-select v-model="bankForm.submitStatus" style="width:100%">
             <el-option key="通过  " label="通过  " value="7" />
             <el-option key="不通过" label="不通过" value="8" />
           </el-select>
-        </el-form-item>        
+        </el-form-item>
         <el-input v-model="bankForm.scAuditDate" type="hidden" />
         <el-input v-model="bankForm.scOperator" type="hidden" />
       </el-form>
@@ -776,7 +776,7 @@ export default {
         bSubBranch: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
         submitStatus: [{ required: true, message: '此字段不能为空', trigger: 'change' }]
       },
-      checkList: ['选中且禁用','复选框 A'],
+      checkList: ['选中且禁用', '复选框 A'],
       editorInit: {
         language: 'zh_CN',
         height: 500,
@@ -813,7 +813,7 @@ export default {
       }
 
       const goodsId = this.$route.query.id
-      readApplicant({id: goodsId }).then(response => {
+      readApplicant({ id: goodsId }).then(response => {
         this.goods = response.data.data
       })
     },
