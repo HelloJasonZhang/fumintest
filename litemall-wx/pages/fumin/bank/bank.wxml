@@ -1,0 +1,30 @@
+<view class="container">
+  <view class="header-container">
+    <!--图片宽大于屏幕宽-->
+    <image style="width: 95vw; height: {{imageheight}}px;" src="{{imageFirstSrc}}" bindload="imageLoad"></image>
+  </view>
+  <view class="bank">
+    <checkbox-group bindchange="checkboxChange">
+      <label class="checkbox" wx:for="{{bankList}}">
+        <view class="bank-item-box">
+          <view class="bank-right-box">
+            <view class="bank-icon-box">
+              <image class="img-box" src="{{item.icon}}" mode="aspectFill"></image>
+            </view>
+            <view class="bank-text-box">
+              <view class="bank-title">{{item.name}}{{item.subBranch}}</view>
+              <view class="bank-address">{{item.address}}</view>
+              <view class="bank-tel">{{item.contact}}</view>
+            </view>
+          </view>
+          <view class="bank-checkbox-box">
+            <checkbox value="{{item.id}}" checked="{{item.checked}}" />
+          </view>
+        </view>
+      </label>
+    </checkbox-group>
+    <view class="btns">
+      <button class="save" bindtap="saveApplicant">确认提交</button>
+    </view>
+  </view>
+</view>

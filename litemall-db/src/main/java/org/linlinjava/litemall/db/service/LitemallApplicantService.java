@@ -15,8 +15,15 @@ import java.util.List;
 @Service
 public class LitemallApplicantService {
     @Resource
-    private LitemallApplicantMapper ApplicantMapper;
+    private LitemallApplicantMapper applicantMapper;
     private Column[] columns = new Column[]{Column.id, Column.name};
+
+    public List<LitemallApplicant> queryByUid(Integer uid) {
+        LitemallApplicantExample example = new LitemallApplicantExample();
+        example.or().andUserIdEqualTo(uid).andDeletedEqualTo(false);
+        example.setOrderByClause("id" + " " + "desc");
+        return applicantMapper.selectByExample(example);
+    }
 
     public List<LitemallApplicant> query(Integer page, Integer limit, String sort, String order) {
         LitemallApplicantExample example = new LitemallApplicantExample();
@@ -25,7 +32,7 @@ public class LitemallApplicantService {
             example.setOrderByClause(sort + " " + order);
         }
         PageHelper.startPage(page, limit);
-        return ApplicantMapper.selectByExampleSelective(example, columns);
+        return applicantMapper.selectByExampleSelective(example, columns);
     }
 
     public List<LitemallApplicant> query(Integer page, Integer limit) {
@@ -33,8 +40,9 @@ public class LitemallApplicantService {
     }
 
     public LitemallApplicant findById(Integer id) {
-        return ApplicantMapper.selectByPrimaryKey(id);
+        return applicantMapper.selectByPrimaryKey(id);
     }
+
 
     public List<LitemallApplicant> querySelective(String id, String name, Integer page, Integer size, String sort, String order, List<Integer> submitStatusArray) {
         LitemallApplicantExample example = new LitemallApplicantExample();
@@ -57,7 +65,7 @@ public class LitemallApplicantService {
         }
 
         PageHelper.startPage(page, size);
-        return ApplicantMapper.selectByExample(example);
+        return applicantMapper.selectByExample(example);
     }
 
     public int updateById(LitemallApplicant Applicant) {
@@ -71,11 +79,28 @@ public class LitemallApplicantService {
                 Applicant.setbAuditDate(LocalDateTime.now());
             }
         }
-        return ApplicantMapper.updateByPrimaryKeySelective(Applicant);
+        return applicantMapper.updateByPrimaryKeySelective(Applicant);
+    }
+
+    public int updateById(LitemallApplicant Applicant, String username) {
+        Applicant.setUpdateTime(LocalDateTime.now());
+        if (Applicant.getSubmitStatus() != null) {
+            if (Applicant.getSubmitStatus() == 2 || Applicant.getSubmitStatus() == 3 || Applicant.getSubmitStatus() == 4) {
+                Applicant.setHsAuditDate(LocalDateTime.now());
+                Applicant.setHsOperator(username);
+            } else if (Applicant.getSubmitStatus() == 4 || Applicant.getSubmitStatus() == 5 || Applicant.getSubmitStatus() == 6) {
+                Applicant.setScAuditDate(LocalDateTime.now());
+                Applicant.setScOperator(username);
+            } else if (Applicant.getSubmitStatus() == 7 || Applicant.getSubmitStatus() == 8) {
+                Applicant.setbAuditDate(LocalDateTime.now());
+                Applicant.setbOpertator(username);
+            }
+        }
+        return applicantMapper.updateByPrimaryKeySelective(Applicant);
     }
 
     public void deleteById(Integer id) {
-        ApplicantMapper.logicalDeleteByPrimaryKey(id);
+        applicantMapper.logicalDeleteByPrimaryKey(id);
     }
 
     public void add(LitemallApplicant Applicant) {
@@ -84,12 +109,12 @@ public class LitemallApplicantService {
         if (Applicant.getSubmitStatus() == null ) {
             Applicant.setSubmitStatus(1);
         }
-        ApplicantMapper.insertSelective(Applicant);
+        applicantMapper.insertSelective(Applicant);
     }
 
     public List<LitemallApplicant> all() {
         LitemallApplicantExample example = new LitemallApplicantExample();
         example.or().andDeletedEqualTo(false);
-        return ApplicantMapper.selectByExample(example);
+        return applicantMapper.selectByExample(example);
     }
 }

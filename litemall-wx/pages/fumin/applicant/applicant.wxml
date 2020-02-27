@@ -1,0 +1,69 @@
+<view class="container">
+  <view class="header-container">
+    <!--图片宽大于屏幕宽-->
+    <image style="width: 95vw; height: {{imageheight}}px;" src="{{imageFirstSrc}}" bindload="imageLoad"></image>
+  </view>
+  <view class="applicant">
+    <view class="add-form">
+      <view class="form-item">
+        <input class="input" bindinput="bindinputName" placeholder="申请人姓名" value="{{applicant.name}}" auto-focus/>
+      </view>
+      <picker bindchange="bindPickerSex" value="{{indexSex}}" range="{{arraySex}}">
+        <view class="picker">
+          <view class="fb-type">
+            <view class="type-label">{{arraySex[indexSex]}}</view>
+            <van-icon class="type-icon" name="arrow-down" />
+          </view>
+        </view>
+      </picker> 
+      <picker bindchange="bindPickerChange" value="{{indexMaritalStatus}}" range="{{array}}">
+        <view class="picker">
+          <view class="fb-type">
+            <view class="type-label">{{array[indexMaritalStatus]}}</view>
+            <van-icon class="type-icon" name="arrow-down" />
+          </view>
+        </view>
+      </picker>
+       <view class="form-item">
+        <input class="input" bindinput="bindinputIdCardNumber" value="{{applicant.idCardNumber}}" placeholder="身份证号" />
+      </view> 
+      <view class="form-item">
+        <input class="input" bindinput="bindinputPhoneNumbere" value="{{applicant.phoneNumber}}" placeholder="联系方式" />
+      </view>
+      <view  wx:if="{{isShow}}" class="form-item">
+        <input class="input" bindinput="bindinputSpouseName" value="{{applicant.spouseName}}" placeholder="配偶姓名" />
+      </view>
+      <view  wx:if="{{isShow}}" class="form-item">
+        <input class="input" bindinput="bindinputSpouseIdCardNumber" value="{{applicant.spouseIdCardNumber}}" placeholder="配偶身份证号" />
+      </view>
+      <picker bindchange="bindPickerTypesChange" value="{{indexTypes}}" range="{{arrayTyps}}">
+        <view class="picker">
+          <view class="fb-type">
+            <view class="type-label">{{arrayTyps[indexTypes]}}</view>
+            <van-icon class="type-icon" name="arrow-down" />
+          </view>
+        </view>
+      </picker>
+      <picker bindchange="bindPickerHireChange" value="{{indexHires}}" range="{{arrayHires}}">
+        <view class="picker">
+          <view class="fb-type">
+            <view class="type-label">{{arrayHires[indexHires]}}</view>
+            <van-icon class="type-icon" name="arrow-down" />
+          </view>
+        </view>
+      </picker>
+      <view class="form-item">
+        <input class="input" bindinput="bindinputApplicantAmount" value="{{applicant.applicantAmount}}" placeholder="申请额度（万元）" />
+      </view>
+      <view class="form-item">
+        <input class="input" bindinput="bindinputAddress" value="{{applicant.address}}" placeholder="申请主体现住址" />
+      </view>
+      <view class="form-default">
+      </view>
+    </view>
+
+    <view class="btns">
+      <button class="save" bindtap="saveApplicant">下一步</button>
+    </view>
+  </view>
+</view>

@@ -12,7 +12,7 @@
     <result column="line" jdbcType="INTEGER" property="line" />
     <result column="interest" jdbcType="VARCHAR" property="interest" />
     <result column="audit_comment" jdbcType="VARCHAR" property="auditComment" />
-    <result column="status" jdbcType="BIT" property="status" />
+    <result column="status" jdbcType="INTEGER" property="status" />
     <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="deleted" jdbcType="BIT" property="deleted" />
@@ -215,7 +215,7 @@
       add_time, update_time, deleted
       )
     values (#{applicantId,jdbcType=INTEGER}, #{bankId,jdbcType=INTEGER}, #{line,jdbcType=INTEGER}, 
-      #{interest,jdbcType=VARCHAR}, #{auditComment,jdbcType=VARCHAR}, #{status,jdbcType=BIT}, 
+      #{interest,jdbcType=VARCHAR}, #{auditComment,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
       #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}
       )
   </insert>
@@ -274,7 +274,7 @@
         #{auditComment,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
-        #{status,jdbcType=BIT},
+        #{status,jdbcType=INTEGER},
       </if>
       <if test="addTime != null">
         #{addTime,jdbcType=TIMESTAMP},
@@ -323,7 +323,7 @@
         audit_comment = #{record.auditComment,jdbcType=VARCHAR},
       </if>
       <if test="record.status != null">
-        `status` = #{record.status,jdbcType=BIT},
+        `status` = #{record.status,jdbcType=INTEGER},
       </if>
       <if test="record.addTime != null">
         add_time = #{record.addTime,jdbcType=TIMESTAMP},
@@ -351,7 +351,7 @@
       line = #{record.line,jdbcType=INTEGER},
       interest = #{record.interest,jdbcType=VARCHAR},
       audit_comment = #{record.auditComment,jdbcType=VARCHAR},
-      `status` = #{record.status,jdbcType=BIT},
+      `status` = #{record.status,jdbcType=INTEGER},
       add_time = #{record.addTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       deleted = #{record.deleted,jdbcType=BIT}
@@ -382,7 +382,7 @@
         audit_comment = #{auditComment,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
-        `status` = #{status,jdbcType=BIT},
+        `status` = #{status,jdbcType=INTEGER},
       </if>
       <if test="addTime != null">
         add_time = #{addTime,jdbcType=TIMESTAMP},
@@ -407,7 +407,7 @@
       line = #{line,jdbcType=INTEGER},
       interest = #{interest,jdbcType=VARCHAR},
       audit_comment = #{auditComment,jdbcType=VARCHAR},
-      `status` = #{status,jdbcType=BIT},
+      `status` = #{status,jdbcType=INTEGER},
       add_time = #{addTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       deleted = #{deleted,jdbcType=BIT}

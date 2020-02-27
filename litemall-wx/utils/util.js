@@ -85,9 +85,42 @@ function showErrorToast(msg) {
   })
 }
 
+function fillAudit(auditItem, stataus, comment) {
+  var temp = auditItem
+  if (stataus == 1 || stataus == 4 || stataus == 7 || stataus == 9) {
+    temp.submitStatus = stataus == 1 ? "已提交" : "已审批"
+    temp.isHiddenIcon = true
+    temp.statusIcon = "passed"
+    temp.fontColor = "green"
+    temp.statusColor = "#07c160"
+    temp.colorIcon = "#07c160"
+  } else if (stataus == 3 || stataus == 6 || stataus == 8) {
+    temp.submitStatus = "不符合"
+    temp.isHiddenIcon = true
+    temp.statusIcon = "close"
+    temp.fontColor = "red"
+    temp.statusColor = "#FE0904"
+    temp.colorIcon = "#fe0904"
+  } else if (stataus == 2 || stataus == 5) {
+    temp.submitStatus = "待补充"
+    temp.isHiddenIcon = true
+    temp.statusIcon = "warning - o"
+    temp.fontColor = "yellow"
+    temp.statusColor = "#FE0904"
+    temp.colorIcon = "#FF7754"
+  }
+  if (comment) {
+    temp.comment = comment
+  }
+  temp.sValue = stataus
+  return temp
+}
+
+
 module.exports = {
   formatTime,
   request,
   redirect,
-  showErrorToast
+  showErrorToast,
+  fillAudit
 }

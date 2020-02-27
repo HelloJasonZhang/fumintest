@@ -58,10 +58,10 @@ page {
   margin-bottom: 9px;
 }
 
-.weui-uploader__img {
+imgage .weui-uploader__img {
   display: block;
-  width: 50px;
-  height: 50px;
+  width: 180px;
+  height: 180px;
 }
 
 .weui-uploader__input-box {

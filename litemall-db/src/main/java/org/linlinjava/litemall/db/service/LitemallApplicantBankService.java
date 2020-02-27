@@ -7,9 +7,10 @@ import org.linlinjava.litemall.db.domain.LitemallApplicantBank.Column;
 import org.linlinjava.litemall.db.domain.LitemallApplicantBankExample;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
 import javax.annotation.Resource;
+import javax.security.auth.Subject;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -17,6 +18,20 @@ public class LitemallApplicantBankService {
     @Resource
     private LitemallApplicantBankMapper ApplicantBankMapper;
     private Column[] columns = new Column[]{Column.id, Column.bankId};
+
+    public List<LitemallApplicantBank> queryByAppliantId(Integer uid) {
+        LitemallApplicantBankExample example = new LitemallApplicantBankExample();
+        example.or().andApplicantIdEqualTo(uid).andDeletedEqualTo(false);
+        example.setOrderByClause("id" + " " + "desc");
+        return ApplicantBankMapper.selectByExample(example);
+    }
+
+    public List<LitemallApplicantBank> querySelectiveByAidAndBankId(Integer uid, Integer[] bankIds) {
+        LitemallApplicantBankExample example = new LitemallApplicantBankExample();
+        example.or().andApplicantIdEqualTo(uid).andDeletedEqualTo(false).andBankIdIn(Arrays.asList(bankIds));
+        return ApplicantBankMapper.selectByExample(example);
+    }
+
 
     public List<LitemallApplicantBank> query(Integer page, Integer limit, String sort, String order) {
         LitemallApplicantBankExample example = new LitemallApplicantBankExample();
@@ -37,6 +52,7 @@ public class LitemallApplicantBankService {
     }
 
     public List<LitemallApplicantBank> querySelective(String id, String name, Integer page, Integer size, String sort, String order) {
+
         LitemallApplicantBankExample example = new LitemallApplicantBankExample();
         LitemallApplicantBankExample.Criteria criteria = example.createCriteria();
 

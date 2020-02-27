@@ -13,10 +13,21 @@
     <!-- 查询结果 -->
     <el-table v-loading="listLoading" :data="list" element-loading-text="正在查询中。。。" border fit highlight-current-row>
       <el-table-column align="center" label="ID" min-width="20px" prop="id" />
+
+      <el-table-column align="center" label="管理员头像" prop="icon">
+        <template slot-scope="scope">
+          <img v-if="scope.row.icon" :src="scope.row.icon" width="20">
+        </template>
+      </el-table-column>
       <el-table-column align="center" label="银行" prop="name" />
       <el-table-column align="center" property="subBranch" label="支行" />
       <el-table-column align="center" label="联系方式" prop="contact" />
       <el-table-column align="center" label="地址" prop="address" />
+      <el-table-column align="center" label="角色绑定" prop="roleId">
+        <template slot-scope="scope">
+          <el-tag type="primary" style="margin-right: 20px;"> {{ formatRole(scope.row.roleId) }} </el-tag>
+        </template>
+      </el-table-column>
       <el-table-column align="center" label="操作" width="200" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button v-permission="['POST /admin/bank/update']" type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
@@ -36,11 +47,37 @@
         <el-form-item label="支行名称" prop="subBranch">
           <el-input v-model="dataForm.subBranch" />
         </el-form-item>
+        <el-form-item label="银行图标" prop="icon">
+          <el-upload
+            :headers="headers"
+            :action="uploadPath"
+            :show-file-list="false"
+            :on-success="uploadIcon"
+            class="avatar-uploader"
+            accept=".jpg,.jpeg,.png,.gif"
+          >
+            <img v-if="dataForm.icon" :src="dataForm.icon" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon" />
+          </el-upload>
+        </el-form-item>
         <el-form-item label="联系方式" prop="contact">
           <el-input v-model="dataForm.contact" />
         </el-form-item>
         <el-form-item label="地址" prop="address">
           <el-input v-model="dataForm.address" />
+        </el-form-item>
+        <!-- <el-form-item label="关联角色" prop="roleId">
+          <el-input v-model="dataForm.roleId" />
+        </el-form-item> -->
+        <el-form-item label="关联角色" prop="roleId">
+          <el-select v-model="dataForm.roleId" placeholder="请选择">
+            <el-option
+              v-for="item in roleOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -84,6 +121,7 @@ import { listBank, createBank, updateBank, deleteBank } from '@/api/bank'
 import { uploadPath } from '@/api/storage'
 import { getToken } from '@/utils/auth'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+import { roleOptions } from '@/api/role'
 
 export default {
   name: 'Bank',
@@ -91,6 +129,7 @@ export default {
   data() {
     return {
       uploadPath,
+      roleOptions: null,
       list: [],
       total: 0,
       listLoading: true,
@@ -106,8 +145,10 @@ export default {
         id: undefined,
         name: '',
         desc: '',
+        roleId: undefined,
         floorPrice: undefined,
-        picUrl: undefined
+        address: undefined,
+        icon: undefined
       },
       dialogFormVisible: false,
       dialogStatus: '',
@@ -118,6 +159,9 @@ export default {
       rules: {
         name: [
           { required: true, message: '银行名称不能为空', trigger: 'blur' }
+        ],
+        roleId: [
+          { required: true, message: '银行必须关联角色', trigger: 'blur' }
         ]
       },
       downloadLoading: false
@@ -132,8 +176,21 @@ export default {
   },
   created() {
     this.getList()
+    roleOptions()
+      .then(response => {
+        this.roleOptions = response.data.data.list
+        console.log(this.roleOptions)
+      })
   },
   methods: {
+    formatRole(roleId) {
+      for (let i = 0; i < this.roleOptions.length; i++) {
+        if (roleId === this.roleOptions[i].value) {
+          return this.roleOptions[i].label
+        }
+      }
+      return ''
+    },
     getList() {
       this.listLoading = true
       listBank(this.listQuery)
@@ -157,8 +214,9 @@ export default {
         id: undefined,
         name: '',
         desc: '',
+        roleId: undefined,
         floorPrice: undefined,
-        picUrl: undefined
+        icon: undefined
       }
     },
     handleCreate() {
@@ -169,8 +227,8 @@ export default {
         this.$refs['dataForm'].clearValidate()
       })
     },
-    uploadPicUrl: function(response) {
-      this.dataForm.picUrl = response.data.url
+    uploadIcon: function(response) {
+      this.dataForm.icon = response.data.url
     },
     createData() {
       this.$refs['dataForm'].validate(valid => {

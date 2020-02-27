@@ -1,12 +1,13 @@
 // 以下是业务服务器API地址
 // 本机开发时使用
-var WxApiRoot = 'http://182.61.46.245:8080/wx/';
+var WxApiRoot = 'http://localhost:8080/wx/';
 // 局域网测试使用
 //var WxApiRoot = 'http://192.168.1.3:8080/wx/';
 // 云平台部署时使用
 // var WxApiRoot = 'http://122.51.199.160:8080/wx/';
 // 云平台上线时使用
 // var WxApiRoot = 'https://www.menethil.com.cn/wx/';
+
 
 module.exports = {
   IndexUrl: WxApiRoot + 'home/index', //首页数据接口
@@ -100,4 +101,14 @@ module.exports = {
 
   UserIndex: WxApiRoot + 'user/index', //个人页面用户相关信息
   IssueList: WxApiRoot + 'issue/list', //帮助信息
+
+  ApplicantAdd: WxApiRoot + 'applicant/create',
+  ApplicantRead: WxApiRoot + 'applicant/read',
+  ApplicantUpdate: WxApiRoot + 'applicant/update',
+
+  BankAdd: WxApiRoot + 'bank/create',
+  BankRead: WxApiRoot + 'bank/read',
+  BankUpdate: WxApiRoot + 'bank/update',
+  BankList: WxApiRoot + 'bank/list'
+
 };

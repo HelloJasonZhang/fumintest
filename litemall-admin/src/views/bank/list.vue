@@ -8,7 +8,7 @@
         <el-option v-for="(key, value) in queryStatusMap" :key="key" :label="key" :value="value" />
       </el-select>
       <el-button v-permission="['GET /admin/ba/list']" class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查找</el-button>
-      <!--       <el-button v-permission="['POST /admin/applicant/create']" class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">创建</el-button> -->
+      <!-- <el-button v-permission="['POST /admin/ba/create']" class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">审核</el-button> -->
       <!--
       <el-button v-permission="['POST /admin/applicant/create']" class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">担保公司审核</el-button>
       <el-button v-permission="['POST /admin/applicant/create']" class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">银行审核</el-button> -->
@@ -27,7 +27,6 @@
       <el-table-column align="center" label="申请额度" prop="applicantAmount" />
       <!--  <el-table-column align="center" label="审批状态" prop="statusLable" /> -->
       <!--   <el-table-column align="center" label="审核状态" prop="statusName" > -->
-      </el-table-column>
       <el-table-column
         align="center"
         label="审核状态"
@@ -52,6 +51,102 @@
       </el-table-column>
     </el-table>
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @paginat3ion="getList" />
+
+    <!-- 添加或修改对话框 -->
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+      <el-form ref="dataForm" :rules="rules" :model="dataForm" status-icon label-position="right" label-width="100px">
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="受理银行" prop="name">
+              <el-select v-model="dataForm.bankId" placeholder="选择审核银行">
+                <el-option
+                  v-for="item in dataForm.bankList"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="支行" prop="subBranch">
+              <el-select v-model="dataForm.subBranch" placeholder="选择支行">
+                <el-option
+                  v-for="item in dataForm.bankList"
+                  :key="item.id"
+                  :label="item.subBranch"
+                  :value="item.id"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="经办人" prop="opertator">
+              <el-input v-model="dataForm.opertator" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="授信额度" prop="credit">
+              <el-input v-model="dataForm.credit" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="放贷日期" prop="bLendingDate">
+              <el-date-picker
+                v-model="dataForm.bLendingDate"
+                type="date"
+                placeholder="选择日期"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                :picker-options="pickerOptions"
+                style="width:100%"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="贷款期限" prop="periodLoan">
+              <el-input v-model="dataForm.bPeriodLoan" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="还款方式" prop="pepayment">
+              <el-input v-model="dataForm.bRepayment" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="利率" prop="interestRate">
+              <el-input v-model="dataForm.bInterestRate" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="利息/期" prop="interestPeriod">
+              <el-input v-model="dataForm.bInterestPeriod" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-form-item label="银行受理情况" prop="comment">
+          <el-input v-model="dataForm.bComment" type="textarea" :rows="7" />
+        </el-form-item>
+        <el-form-item label="是否审核通过" prop="submitStatus">
+          <el-select v-model="dataForm.status" prop="submitStatus" style="width:25%">
+            <el-option :value="2" label="通过" />
+            <el-option :value="1" label="不通过" />
+          </el-select>
+        </el-form-item>
+        <el-input v-model="dataForm.scAuditDate" type="hidden" />
+        <el-input v-model="dataForm.scOperator" type="hidden" />
+        <el-input v-model="dataForm.applicantId" type="hidden" />
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <el-button v-if="dialogStatus=='create'" type="primary" @click="createData">确定</el-button>
+        <el-button v-else type="primary" @click="updateData">确定</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -70,7 +165,7 @@
 </style>
 
 <script>
-import { listApplicant } from '@/api/bankAudit'
+import { readApplicantBank, listApplicant, createAlicantBank } from '@/api/bankAudit'
 import { getToken } from '@/utils/auth'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
@@ -102,13 +197,6 @@ export default {
         submitStatusArray: [],
         order: 'desc'
       },
-      dataForm: {
-        id: undefined,
-        name: '',
-        desc: '',
-        floorPrice: undefined,
-        picUrl: undefined
-      },
       statusMap: [
         '申请人已提交',
         '人社审核待补充',
@@ -132,7 +220,49 @@ export default {
         { step: 3, status: 'finish' }
       ],
       queryStatusMap: queryStatusMap,
-      downloadLoading: false
+      downloadLoading: false,
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() > Date.now()
+        },
+        shortcuts: [{
+          text: '今天',
+          onClick(picker) {
+            picker.$emit('pick', new Date())
+          }
+        }, {
+          text: '昨天',
+          onClick(picker) {
+            const date = new Date()
+            date.setTime(date.getTime() - 3600 * 1000 * 24)
+            picker.$emit('pick', date)
+          }
+        }, {
+          text: '一周前',
+          onClick(picker) {
+            const date = new Date()
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
+            picker.$emit('pick', date)
+          }
+        }]
+      },
+      dataForm: {
+        bName: '',
+        opertator: '',
+        applicantId: null,
+        bankList: []
+      },
+      dialogFormVisible: false,
+      dialogStatus: '',
+      textMap: {
+        update: '编辑',
+        create: '创建'
+      },
+      rules: {
+        name: [
+          { required: true, message: '品牌商名称不能为空', trigger: 'blur' }
+        ]
+      }
     }
   },
   computed: {
@@ -156,8 +286,8 @@ export default {
           this.listLoading = false
           for (let index = 0; index < this.list.length; index++) {
             var element = this.list[index]
-            if (element.submitStatus != 7) {
-              element['has_edit'] = true
+            if (element.submitStatus !== 7) {
+              // element['has_edit'] = true
             }
             element.statusLable = this.statusMap[element.submitStatus - 1]
             element.status = this.setepStatusArray[element.submitStatus - 1].status
@@ -174,24 +304,71 @@ export default {
       this.listQuery.page = 1
       this.getList()
     },
-    handleCreate() {
-      this.$router.push({ path: '/ba/create' })
+    createData() {
+      createAlicantBank(this.dataForm)
+        .then(response => {
+          this.dialogFormVisible = false
+          this.$notify.success({
+            title: '成功',
+            message: '创建成功'
+          })
+        })
+        .catch(response => {
+          this.$notify.error({
+            title: '失败',
+            message: response.data.errmsg
+          })
+        })
+    },
+    resetForm() {
+      this.dataForm = {
+        id: undefined,
+        name: '',
+        desc: '',
+        floorPrice: undefined,
+        picUrl: undefined
+      }
+    },
+    handleCreate(row) {
+
     },
     handleAudit(row) {
-      if (row.submitStatus != 3 && row.submitStatus != 6 && row.submitStatus != 8 && row.submitStatus != 9) {
-        this.$router.push({ path: '/ba/detail', query: { id: row.id, action: row.submitStatus }})
-      } else {
-        this.$message.error({
-          title: '失败',
-          message: '数据已审核，无法操作'
+      // 显示银行数据
+      console.log(row)
+      readApplicantBank({ 'id': row.id })
+        .then(response => {
+          // console.log(response.data.data)
+          this.dataForm.opertator = response.data.data.opertator
+          this.dataForm.bankList = response.data.data.bankslist
+          this.dataForm.applicantId = row.id
+          this.dialogStatus = 'create'
+          this.dialogFormVisible = true
+          this.$nextTick(() => {
+            this.$refs['dataForm'].clearValidate()
+          })
+        }).catch(response => {
+          this.$notify.error({
+            title: '失败',
+            message: response.data.errmsg
+          })
         })
-      }
+      // if (row.submitStatus != 3 && row.submitStatus != 6 && row.submitStatus != 8 && row.submitStatus != 9) {
+      //   this.$router.push({ path: '/ba/detail', query: { id: row.id, action: row.submitStatus }})
+      // } else {
+      //   this.$message.error({
+      //     title: '失败',
+      //     message: '数据已审核，无法操作'
+      //   })
+      // }
     },
     handleView(row) {
       this.$router.push({ path: '/ba/detailView', query: { id: row.id, action: row.submitStatus }})
     },
     handleUpdate(row) {
       this.$router.push({ path: '/ba/edit', query: { id: row.id }})
+    },
+    updateData() {
+
     },
     handleDownload() {
       this.downloadLoading = true

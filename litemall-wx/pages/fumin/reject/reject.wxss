@@ -1,0 +1,115 @@
+page {
+  height: 100%;
+  background: #f4f4f4;
+}
+
+.daikuan .bg {
+  width: 80vw;
+  height: 45vh;
+  position: absolute;
+  left: 20px;
+  top: 150px;
+}
+
+.daikuan .add-form {
+  background: #fff;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+}
+
+.daikuan .form-item {
+  height: 170rpx;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  align-items: center;
+}
+
+.daikuan .f-icon {
+  width: 9vw;
+  height: 9vw;
+  margin-right: 30rpx;
+}
+
+.daikuan .info {
+  flex: 1;
+  margin-top: 18rpx;
+  line-height: 30rpx;
+  overflow: hidden;
+  color: #333;
+  font-size: 32rpx;
+}
+
+.daikuan .info-name {
+  line-height: 40rpx;
+  font-size: 36rpx;
+  font-weight: bold;
+}
+
+.info-margin {
+  margin-top: 20rpx;
+}
+
+.daikuan .info-comment {
+  margin-top: 20rpx;
+  font-size: 30rpx;
+  color: #a7a9aa;
+}
+
+.daikuan .status-icon {
+  margin-right: 5rpx;
+}
+
+.daikuan .arrow-icon {
+  margin-left: 0rpx;
+}
+
+.daikuan .lable {
+  font-weight: bold;
+  color: #333;
+  font-size: 40rpx;
+}
+
+.daikuan .form-default {
+  border-bottom: 1px solid #d9d9d9;
+  height: 96rpx;
+  background: #fff;
+  padding-top: 28rpx;
+  font-size: 28rpx;
+  padding-left: 31.25rpx;
+}
+
+.daikuan .form-default .van-checkbox .van-icon {
+  color: #fff;
+}
+
+.daikuan .btns {
+  position: relative;
+  bottom: 0;
+  left: 0;
+  top: 50rpx;
+  overflow: hidden;
+  display: flex;
+  height: 100rpx;
+  width: 100%;
+}
+
+.daikuan .cannel, .daikuan .save {
+  flex: 1;
+  height: 100rpx;
+  text-align: center;
+  line-height: 100rpx;
+  font-size: 28rpx;
+  color: #fff;
+  border: none;
+  border-radius: 0;
+}
+
+.daikuan .cannel {
+  background: #333;
+}
+
+.daikuan .save {
+  background: #ff7754;
+  border-radius: 50rpx;
+}

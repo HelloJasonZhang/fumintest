@@ -38,3 +38,20 @@ export function deleteApplicant(data) {
     data
   })
 }
+
+export function readApplicantBank(data) {
+  console.log(data)
+  return request({
+    url: '/ba/readAudit',
+    method: 'get',
+    data
+  })
+}
+
+export function createAlicantBank(data) {
+  return request({
+    url: '/ba/createAudit',
+    method: 'post',
+    data
+  })
+}

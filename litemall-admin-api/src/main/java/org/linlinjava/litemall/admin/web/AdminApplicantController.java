@@ -2,11 +2,14 @@ package org.linlinjava.litemall.admin.web;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.Subject;
 import org.linlinjava.litemall.admin.annotation.RequiresPermissionsDesc;
 import org.linlinjava.litemall.core.util.ResponseUtil;
 import org.linlinjava.litemall.core.validator.Order;
 import org.linlinjava.litemall.core.validator.Sort;
+import org.linlinjava.litemall.db.domain.LitemallAdmin;
 import org.linlinjava.litemall.db.domain.LitemallApplicant;
 import org.linlinjava.litemall.db.service.LitemallApplicantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,7 +89,10 @@ public class AdminApplicantController {
         if (error != null) {
             return error;
         }
-        if (applicantService.updateById(Applicant) == 0) {
+        Subject currentUser = SecurityUtils.getSubject();
+        LitemallAdmin currentAdmin = (LitemallAdmin) currentUser.getPrincipal();
+        String username = currentAdmin.getUsername();
+        if (applicantService.updateById(Applicant, username) == 0) {
             return ResponseUtil.updatedDataFailed();
         }
         return ResponseUtil.ok(Applicant);

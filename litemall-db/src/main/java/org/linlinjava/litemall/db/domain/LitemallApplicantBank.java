@@ -82,7 +82,7 @@ public class LitemallApplicantBank {
      *
      * @mbg.generated
      */
-    private Boolean status;
+    private Integer status;
 
     /**
      *
@@ -263,7 +263,7 @@ public class LitemallApplicantBank {
      *
      * @mbg.generated
      */
-    public Boolean getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
@@ -275,7 +275,7 @@ public class LitemallApplicantBank {
      *
      * @mbg.generated
      */
-    public void setStatus(Boolean status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -523,7 +523,7 @@ public class LitemallApplicantBank {
         line("line", "line", "INTEGER", false),
         interest("interest", "interest", "VARCHAR", false),
         auditComment("audit_comment", "auditComment", "VARCHAR", false),
-        status("status", "status", "BIT", true),
+        status("status", "status", "INTEGER", true),
         addTime("add_time", "addTime", "TIMESTAMP", false),
         updateTime("update_time", "updateTime", "TIMESTAMP", false),
         deleted("deleted", "deleted", "BIT", false);

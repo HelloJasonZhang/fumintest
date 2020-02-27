@@ -48,7 +48,7 @@ export const constantRouterMap = [
   },
   {
     path: '/404',
-    component: () => import('@/views/login/index'),
+    component: () => import('@/views/errorPage/404'),
     hidden: true
   },
   {
