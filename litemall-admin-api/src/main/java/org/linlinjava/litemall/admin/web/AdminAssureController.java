@@ -15,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -36,8 +37,14 @@ public class AdminAssureController {
                        @RequestParam(required = false) List<Integer> submitStatusArray,
                        @Sort @RequestParam(defaultValue = "add_time") String sort,
                        @Order @RequestParam(defaultValue = "desc") String order) {
-        List<LitemallApplicant> ApplicantList = applicantService.querySelective(id, name, page, limit, sort, order, submitStatusArray);
-        return ResponseUtil.okList(ApplicantList);
+        List<LitemallApplicant> applicantList= new ArrayList<LitemallApplicant>();
+        List<LitemallApplicant> tempList = applicantService.querySelective(id, name, page, limit, sort, order, submitStatusArray);
+        for (LitemallApplicant applicant : tempList) {
+            if (applicant.getSubmitStatus() > 4) {
+                applicantList.add(applicant);
+            }
+        }
+        return ResponseUtil.okList(applicantList);
     }
 
     private Object validate(LitemallApplicant Applicant) {

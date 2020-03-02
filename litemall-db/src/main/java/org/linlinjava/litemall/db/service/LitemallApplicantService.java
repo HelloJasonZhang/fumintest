@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -59,7 +60,6 @@ public class LitemallApplicantService {
         if (!StringUtils.isEmpty(sort) && !StringUtils.isEmpty(order)) {
             example.setOrderByClause(sort + " " + order);
         }
-
         if (submitStatusArray != null && submitStatusArray.size() != 0) {
             criteria.andSubmitStatusIn(submitStatusArray);
         }

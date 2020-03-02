@@ -23,10 +23,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @RestController
@@ -53,7 +50,6 @@ public class AdminBankAuditController {
                        @RequestParam(defaultValue = "1") Integer page,
                        @RequestParam(defaultValue = "10") Integer limit,
                        @RequestParam(required = false) List<Integer> submitStatusArray,
-                       @RequestParam(required = false) String bankName,
                        @Sort @RequestParam(defaultValue = "add_time") String sort,
                        @Order @RequestParam(defaultValue = "desc") String order) {
 
@@ -64,23 +60,19 @@ public class AdminBankAuditController {
         Integer[] roleIds = currentAdmin.getRoleIds();
         List<LitemallApplicant> result = new ArrayList<LitemallApplicant>();
 
-        List<Integer> roleIdsList = new ArrayList<Integer>();
-        for (int i =0 ; i < roleIds.length; i++){
-            roleIdsList.add(new Integer(roleIds[i]));
-        }
+        List<Integer> roleIdsList = Arrays.asList(roleIds);
 
         List<LitemallApplicant> ApplicantList = applicantService.querySelective(id, name, page, limit, sort, order, submitStatusArray);
         for (LitemallApplicant al : ApplicantList) {
             // 当前用户是否属于此银行关联的role  al.getBankId();
             boolean isHasRole = false;
             Integer[] bankIds = al.getBankId();
-            List<Integer> idsList = new ArrayList<Integer>();
-            for (int i =0 ; i < bankIds.length; i++){
-                idsList.add(new Integer(bankIds[i]));
-            }
-            List<LitemallBank>  bankList = litemallBankService.queryByIds(idsList, roleIdsList);
-            if (bankList != null && bankList.size() > 0) {
-                isHasRole = true;
+            if (bankIds != null) {
+                List<Integer> idsList = Arrays.asList(bankIds);
+                List<LitemallBank>  bankList = litemallBankService.queryByIds(idsList, roleIdsList);
+                if (bankList != null && bankList.size() > 0) {
+                    isHasRole = true;
+                }
             }
             if(isHasRole) {
                 result.add(al);
