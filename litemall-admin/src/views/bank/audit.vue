@@ -684,7 +684,7 @@ export default {
           this.extend(this.rensheForm, response.data.data)
           this.rensheForm.status = 4
           this.extend(this.assureForm, response.data.data)
-        } else if (parseInt(goAction) === 7) {
+        } else if (parseInt(goAction) === 9) {
           this.isRenSheHidden = true
           this.disableRenSheHidden = true
           this.isAssureHidden = true
@@ -693,7 +693,6 @@ export default {
           this.extend(this.rensheForm, response.data.data)
           this.rensheForm.status = 4
           this.extend(this.assureForm, response.data.data)
-          console.log(this.assureForm)
           this.assureForm.status = 7
           this.extend(this.bankForm, response.data.data)
         }

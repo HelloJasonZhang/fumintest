@@ -54,3 +54,11 @@ export function createAlicantBank(data) {
     data
   })
 }
+
+export function createFinishAudit(data) {
+  return request({
+    url: '/ba/createFinishAudit',
+    method: 'post',
+    data
+  })
+}

@@ -749,7 +749,7 @@ export default {
         this.assureForm.submitStatus = this.assureForm.status
         this.extend(finalGoods, this.assureForm)
         console.log(finalGoods)
-      } else if (parseInt(this.$route.query.action) === 7) {
+      } else if (parseInt(this.$route.query.action) === 9) {
         // this.bankForm.bOpertator = store.getters.name
         this.bankForm.submitStatus = this.bankForm.status
         this.extend(finalGoods, this.bankForm)

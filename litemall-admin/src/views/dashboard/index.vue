@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-editor-container">
-    <div>你好， 欢迎使用本系统! 首页正在开发中....</div>
-
+    <div>你好，{{user.getters.name}}用户, 欢迎使用本系统。</div>
+  
     <!--
     <el-row :gutter="40" class="panel-group">
       <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
@@ -54,6 +54,7 @@
 
 <script>
 import { info } from '@/api/dashboard'
+import store from '@/store'
 import CountTo from 'vue-count-to'
 
 export default {
@@ -65,7 +66,8 @@ export default {
       userTotal: 0,
       goodsTotal: 0,
       productTotal: 0,
-      orderTotal: 0
+      orderTotal: 0,
+      user: store
     }
   },
   created() {

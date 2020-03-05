@@ -689,7 +689,7 @@ export default {
           this.rensheForm.status = 4
           this.extend(this.assureForm, response.data.data)
           this.assureForm.status = parseInt(goAction)
-        } else if (parseInt(goAction) === 7 || parseInt(goAction) === 8  || parseInt(goAction) === 9) {
+        } else if (parseInt(goAction) === 7 || parseInt(goAction) === 8 || parseInt(goAction) === 9 || parseInt(goAction) === 10) {
           this.isRenSheHidden = true
           this.disableRenSheHidden = true
           this.isAssureHidden = true

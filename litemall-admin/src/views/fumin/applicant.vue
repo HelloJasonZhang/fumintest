@@ -43,7 +43,7 @@
       <el-table-column align="center" label="操作" width="150" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button v-permission="['POST /admin/applicant/update']" type="primary" size="mini" @click="handleView(scope.row)">查看</el-button>
-          <el-button v-permission="['POST /admin/applicant/update']" type="primary" :disabled="scope.row.has_edit" size="mini" @click="handleAudit(scope.row)">审核</el-button>
+          <el-button v-permission="['POST /admin/applicant/update']" type="success" :disabled="scope.row.has_edit" size="mini" @click="handleAudit(scope.row)">审核</el-button>
           <!--           <el-button v-permission="['POST /admin/applicant/delete']" type="primary" size="mini" @click="handleUpdate(scope.row)">修改</el-button> -->
         </template>
       </el-table-column>
@@ -115,6 +115,7 @@ export default {
         '担保公司审核不通过',
         '担保公司审核通过',
         '银行审核不通过',
+        '银行审核受理',
         '银行审核通过'
       ],
       setepStatusArray: [
@@ -126,6 +127,7 @@ export default {
         { step: 2, status: 'error' },
         { step: 2, status: 'success' },
         { step: 3, status: 'error' },
+        { step: 3, status: 'process' },
         { step: 3, status: 'finish' }
       ],
       queryStatusMap: queryStatusMap,

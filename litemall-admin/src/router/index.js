@@ -225,7 +225,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/bank/audit'),
         name: 'detail',
         meta: {
-          perms: ['POST /admin/ba/update', 'GET /admin/ba/read'],
+          perms: ['GET /admin/ba/list', 'POST /admin/ba/create', 'GET /admin/ba/read', 'POST /admin/ba/update'],
           title: '贷款审核',
           noCache: true
         },
@@ -236,7 +236,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/bank/detail'),
         name: 'detailView',
         meta: {
-          perms: ['GET /admin/ba/read'],
+          perms: ['GET /admin/ba/list', 'POST /admin/ba/create', 'GET /admin/ba/read', 'POST /admin/ba/update'],
           title: '查看',
           noCache: true
         },

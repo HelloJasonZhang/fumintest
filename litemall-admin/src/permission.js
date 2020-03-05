@@ -24,6 +24,7 @@ router.beforeEach((to, from, next) => {
       next({ path: '/' })
       NProgress.done() // if current page is dashboard will not trigger	afterEach hook, so manually handle it
     } else {
+     
       if (store.getters.perms.length === 0) { // 判断当前用户是否已拉取完user_info信息
         store.dispatch('GetUserInfo').then(res => { // 拉取user_info
           const perms = res.data.data.perms // note: perms must be a array! such as: ['GET /aaa','POST /bbb']
