@@ -40,7 +40,7 @@ public class AdminAssureController {
         List<LitemallApplicant> applicantList= new ArrayList<LitemallApplicant>();
         List<LitemallApplicant> tempList = applicantService.querySelective(id, name, page, limit, sort, order, submitStatusArray);
         for (LitemallApplicant applicant : tempList) {
-            if (applicant.getSubmitStatus() > 4) {
+            if (applicant.getSubmitStatus() >= 4) {
                 applicantList.add(applicant);
             }
         }

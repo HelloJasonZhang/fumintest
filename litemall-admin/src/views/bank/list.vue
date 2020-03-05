@@ -25,8 +25,8 @@
       <el-table-column align="center" label="联系方式" prop="phoneNumber" />
       <el-table-column align="center" label="申请人类别" prop="applicantType" />
       <el-table-column align="center" label="申请额度" prop="applicantAmount" />
-      <!--  <el-table-column align="center" label="审批状态" prop="statusLable" /> -->
-      <!--   <el-table-column align="center" label="审核状态" prop="statusName" > -->
+      <!-- <el-table-column align="center" label="审批状态" prop="statusLable" /> 
+      <el-table-column align="center" label="审核状态" prop="submitStatus" /> -->
       <el-table-column
         align="center"
         label="审核状态"
@@ -58,17 +58,20 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="受理银行" prop="name">
-              <el-select v-model="dataForm.bankId" placeholder="选择审核银行">
+              <div class="block">
+                <el-cascader v-model="dataForm.bankCascader" :options="dataForm.cascaderOptions" :props="{ expandTrigger: 'hover' }" @change="handleCascaderChange" />
+              </div>
+              <!-- <el-select v-model="dataForm.bankId" placeholder="选择审核银行">
                 <el-option
                   v-for="item in dataForm.bankList"
                   :key="item.id"
                   :label="item.name"
                   :value="item.id"
                 />
-              </el-select>
+              </el-select> -->
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <!-- <el-col :span="8">
             <el-form-item label="支行" prop="subBranch">
               <el-select v-model="dataForm.subBranch" placeholder="选择支行">
                 <el-option
@@ -79,7 +82,7 @@
                 />
               </el-select>
             </el-form-item>
-          </el-col>
+          </el-col> -->
           <el-col :span="8">
             <el-form-item label="经办人" prop="opertator">
               <el-input v-model="dataForm.opertator" />
@@ -93,9 +96,9 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="放贷日期" prop="bLendingDate">
+            <el-form-item label="放贷日期" prop="lendingDate">
               <el-date-picker
-                v-model="dataForm.bLendingDate"
+                v-model="dataForm.lendingDate"
                 type="date"
                 placeholder="选择日期"
                 value-format="yyyy-MM-dd HH:mm:ss"
@@ -106,29 +109,29 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="贷款期限" prop="periodLoan">
-              <el-input v-model="dataForm.bPeriodLoan" />
+              <el-input v-model="dataForm.periodLoan" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="8">
-            <el-form-item label="还款方式" prop="pepayment">
-              <el-input v-model="dataForm.bRepayment" />
+            <el-form-item label="还款方式" prop="repayment">
+              <el-input v-model="dataForm.repayment" />
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="利率" prop="interestRate">
-              <el-input v-model="dataForm.bInterestRate" />
+            <el-form-item label="利率" prop="interest">
+              <el-input v-model="dataForm.interest" />
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="利息/期" prop="interestPeriod">
-              <el-input v-model="dataForm.bInterestPeriod" />
+              <el-input v-model="dataForm.interestPeriod" />
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item label="银行受理情况" prop="comment">
-          <el-input v-model="dataForm.bComment" type="textarea" :rows="7" />
+        <el-form-item label="银行受理情况" prop="auditComment">
+          <el-input v-model="dataForm.auditComment" type="textarea" :rows="7" />
         </el-form-item>
         <el-form-item label="是否审核通过" prop="submitStatus">
           <el-select v-model="dataForm.status" prop="submitStatus" style="width:25%">
@@ -136,9 +139,8 @@
             <el-option :value="1" label="不通过" />
           </el-select>
         </el-form-item>
-        <el-input v-model="dataForm.scAuditDate" type="hidden" />
-        <el-input v-model="dataForm.scOperator" type="hidden" />
         <el-input v-model="dataForm.applicantId" type="hidden" />
+        <el-input v-model="dataForm.id" type="hidden" />
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取消</el-button>
@@ -206,6 +208,7 @@ export default {
         '担保公司审核不通过',
         '担保公司审核通过',
         '银行审核不通过',
+        '银行审核受理',
         '银行审核通过'
       ],
       setepStatusArray: [
@@ -217,7 +220,8 @@ export default {
         { step: 2, status: 'error' },
         { step: 2, status: 'success' },
         { step: 3, status: 'error' },
-        { step: 3, status: 'finish' }
+        { step: 3, status: 'finish' },
+        { step: 3, status: 'process' }
       ],
       queryStatusMap: queryStatusMap,
       downloadLoading: false,
@@ -247,16 +251,28 @@ export default {
         }]
       },
       dataForm: {
-        bName: '',
+        id: null,
         opertator: '',
         applicantId: null,
-        bankList: []
+        bankList: [],
+        cascaderOptions: [],
+        bankCascader: [],
+        bankId: null,
+        credit: null,
+        lendingDate: null,
+        periodLoan: null,
+        repayment: null,
+        interest: null,
+        interestPeriod: null,
+        auditComment: null,
+        status: null,
+        applicantBank: []
       },
       dialogFormVisible: false,
       dialogStatus: '',
       textMap: {
         update: '编辑',
-        create: '创建'
+        create: '受理'
       },
       rules: {
         name: [
@@ -287,7 +303,7 @@ export default {
           for (let index = 0; index < this.list.length; index++) {
             var element = this.list[index]
             if (element.submitStatus !== 7) {
-              // element['has_edit'] = true
+              element['has_edit'] = true
             }
             element.statusLable = this.statusMap[element.submitStatus - 1]
             element.status = this.setepStatusArray[element.submitStatus - 1].status
@@ -305,9 +321,11 @@ export default {
       this.getList()
     },
     createData() {
+      console.log(this.dataForm)
       createAlicantBank(this.dataForm)
         .then(response => {
           this.dialogFormVisible = false
+          this.getList()
           this.$notify.success({
             title: '成功',
             message: '创建成功'
@@ -329,18 +347,71 @@ export default {
         picUrl: undefined
       }
     },
-    handleCreate(row) {
-
+    handleCascaderChange(value) {
+      this.dataForm.bankId = value[0]
+      if (this.dataForm.applicantBank.length > 1) {
+        for (var i = 0; i < this.dataForm.applicantBank.length; i++) {
+          if (this.dataForm.applicantBank[i].id === value[0]) {
+            var applicantBank = this.dataForm.applicantBank[i]
+            this.dataForm.id = applicantBank.id
+            this.dataForm.opertator = applicantBank.opertator
+            this.dataForm.applicantId = applicantBank.applicantId
+            this.dataForm.credit = applicantBank.credit
+            this.dataForm.lendingDate = applicantBank.lendingDate
+            this.dataForm.periodLoan = applicantBank.periodLoan
+            this.dataForm.repayment = applicantBank.repayment
+            this.dataForm.interest = applicantBank.interest
+            this.dataForm.interestPeriod = applicantBank.interestPeriod
+            this.dataForm.auditComment = applicantBank.auditComment
+            this.dataForm.status = applicantBank.status
+          }
+        }
+      }
     },
     handleAudit(row) {
       // 显示银行数据
-      console.log(row)
       readApplicantBank({ 'id': row.id })
         .then(response => {
-          // console.log(response.data.data)
-          this.dataForm.opertator = response.data.data.opertator
+          this.dataForm.cascaderOptions = []
           this.dataForm.bankList = response.data.data.bankslist
-          this.dataForm.applicantId = row.id
+          this.dataForm.applicantBank = response.data.data.applicantBank
+          for (var i = 0; i < this.dataForm.bankList.length; i++) {
+            var bank = this.dataForm.bankList[i]
+            this.dataForm.cascaderOptions.push({
+              value: bank.id,
+              label: bank.name,
+              children: [{
+                value: bank.subBranch,
+                label: bank.subBranch
+              }]
+            })
+          }
+
+          if (this.dataForm.applicantBank.length === 1) {
+            var applicantBank = this.dataForm.applicantBank[0]
+            this.dataForm.id = applicantBank.id
+            this.dataForm.opertator = response.data.data.opertator
+            this.dataForm.applicantId = row.id
+            var subBranch = null
+            for (var i = 0; i < this.dataForm.bankList.length; i++) {
+              if (this.dataForm.bankList[i].id === applicantBank.bankId) {
+                subBranch = this.dataForm.bankList[i].subBranch
+              }
+            }
+            if (subBranch) {
+              this.dataForm.bankCascader = [applicantBank.bankId, subBranch]
+            }
+            this.dataForm.bankId = applicantBank.bankId
+            this.dataForm.credit = applicantBank.credit
+            this.dataForm.lendingDate = applicantBank.lendingDate
+            this.dataForm.periodLoan = applicantBank.periodLoan
+            this.dataForm.repayment = applicantBank.repayment
+            this.dataForm.interest = applicantBank.interest
+            this.dataForm.interestPeriod = applicantBank.interestPeriod
+            this.dataForm.auditComment = applicantBank.auditComment
+            this.dataForm.status = applicantBank.status
+          }
+
           this.dialogStatus = 'create'
           this.dialogFormVisible = true
           this.$nextTick(() => {

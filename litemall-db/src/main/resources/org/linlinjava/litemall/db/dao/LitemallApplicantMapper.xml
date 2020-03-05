@@ -79,7 +79,7 @@
     <result column="b_sub_branch" jdbcType="VARCHAR" property="bSubBranch" />
     <result column="b_opertator" jdbcType="VARCHAR" property="bOpertator" />
     <result column="b_credit" jdbcType="VARCHAR" property="bCredit" />
-    <result column="b_Lending_date" jdbcType="TIMESTAMP" property="bLendingDate" />
+    <result column="b_lending_date" jdbcType="TIMESTAMP" property="bLendingDate" />
     <result column="b_period_loan" jdbcType="VARCHAR" property="bPeriodLoan" />
     <result column="b_repayment" jdbcType="VARCHAR" property="bRepayment" />
     <result column="b_interest_rate" jdbcType="VARCHAR" property="bInterestRate" />
@@ -211,7 +211,7 @@
     hsMark, hs_recuit_rate, hs_comment, hs_audit_date, hs_operator, sc_business_address, 
     sc_property_right, sc_applicant_credit_report, sc_spouse_credit_report, sc_guarantor, 
     sc_guarantor_asset, sc_extra_info, sc_comment, sc_letter_intent_url, sc_audit_date, 
-    sc_operator, b_name, b_sub_branch, b_opertator, b_credit, b_Lending_date, b_period_loan, 
+    sc_operator, b_name, b_sub_branch, b_opertator, b_credit, b_lending_date, b_period_loan, 
     b_repayment, b_interest_rate, b_interest_period, b_comment, b_audit_date, b_auditor
   </sql>
   <select id="selectByExample" parameterType="org.linlinjava.litemall.db.domain.LitemallApplicantExample" resultMap="BaseResultMap">
@@ -361,7 +361,7 @@
       sc_extra_info, sc_comment, sc_letter_intent_url, 
       sc_audit_date, sc_operator, b_name, 
       b_sub_branch, b_opertator, b_credit, 
-      b_Lending_date, b_period_loan, b_repayment, 
+      b_lending_date, b_period_loan, b_repayment, 
       b_interest_rate, b_interest_period, b_comment, 
       b_audit_date, b_auditor)
     values (#{userId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
@@ -623,7 +623,7 @@
         b_credit,
       </if>
       <if test="bLendingDate != null">
-        b_Lending_date,
+        b_lending_date,
       </if>
       <if test="bPeriodLoan != null">
         b_period_loan,
@@ -1127,7 +1127,7 @@
         b_credit = #{record.bCredit,jdbcType=VARCHAR},
       </if>
       <if test="record.bLendingDate != null">
-        b_Lending_date = #{record.bLendingDate,jdbcType=TIMESTAMP},
+        b_lending_date = #{record.bLendingDate,jdbcType=TIMESTAMP},
       </if>
       <if test="record.bPeriodLoan != null">
         b_period_loan = #{record.bPeriodLoan,jdbcType=VARCHAR},
@@ -1234,7 +1234,7 @@
       b_sub_branch = #{record.bSubBranch,jdbcType=VARCHAR},
       b_opertator = #{record.bOpertator,jdbcType=VARCHAR},
       b_credit = #{record.bCredit,jdbcType=VARCHAR},
-      b_Lending_date = #{record.bLendingDate,jdbcType=TIMESTAMP},
+      b_lending_date = #{record.bLendingDate,jdbcType=TIMESTAMP},
       b_period_loan = #{record.bPeriodLoan,jdbcType=VARCHAR},
       b_repayment = #{record.bRepayment,jdbcType=VARCHAR},
       b_interest_rate = #{record.bInterestRate,jdbcType=VARCHAR},
@@ -1470,7 +1470,7 @@
         b_credit = #{bCredit,jdbcType=VARCHAR},
       </if>
       <if test="bLendingDate != null">
-        b_Lending_date = #{bLendingDate,jdbcType=TIMESTAMP},
+        b_lending_date = #{bLendingDate,jdbcType=TIMESTAMP},
       </if>
       <if test="bPeriodLoan != null">
         b_period_loan = #{bPeriodLoan,jdbcType=VARCHAR},
@@ -1574,7 +1574,7 @@
       b_sub_branch = #{bSubBranch,jdbcType=VARCHAR},
       b_opertator = #{bOpertator,jdbcType=VARCHAR},
       b_credit = #{bCredit,jdbcType=VARCHAR},
-      b_Lending_date = #{bLendingDate,jdbcType=TIMESTAMP},
+      b_lending_date = #{bLendingDate,jdbcType=TIMESTAMP},
       b_period_loan = #{bPeriodLoan,jdbcType=VARCHAR},
       b_repayment = #{bRepayment,jdbcType=VARCHAR},
       b_interest_rate = #{bInterestRate,jdbcType=VARCHAR},

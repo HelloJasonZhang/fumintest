@@ -36,7 +36,8 @@ public class AdminBankAuditController {
     private LitemallApplicantService applicantService;
 
     @Autowired
-    private LitemallApplicantBankService applicantBankService;
+    private LitemallApplicantBankService applicantBankService
+            ;
 
     @Autowired
     private LitemallBankService litemallBankService;
@@ -56,20 +57,26 @@ public class AdminBankAuditController {
         //查询改应该名称
         Subject currentUser = SecurityUtils.getSubject();
         LitemallAdmin currentAdmin = (LitemallAdmin) currentUser.getPrincipal();
+
         Integer uId = currentAdmin.getId();
         Integer[] roleIds = currentAdmin.getRoleIds();
         List<LitemallApplicant> result = new ArrayList<LitemallApplicant>();
 
         List<Integer> roleIdsList = Arrays.asList(roleIds);
 
-        List<LitemallApplicant> ApplicantList = applicantService.querySelective(id, name, page, limit, sort, order, submitStatusArray);
-        for (LitemallApplicant al : ApplicantList) {
+        List<LitemallApplicant> applicantList = applicantService.querySelective(id, name, page, limit, sort, order, submitStatusArray);
+        for (LitemallApplicant al : applicantList) {
             // 当前用户是否属于此银行关联的role  al.getBankId();
             boolean isHasRole = false;
             Integer[] bankIds = al.getBankId();
             if (bankIds != null) {
                 List<Integer> idsList = Arrays.asList(bankIds);
-                List<LitemallBank>  bankList = litemallBankService.queryByIds(idsList, roleIdsList);
+                List<LitemallBank>  bankList = null;
+                if (roleIds.length == 1 && roleIds[0] == 1) { //超级管理员 ID = 1
+                    bankList = litemallBankService.queryByIds(idsList);
+                } else {
+                    bankList = litemallBankService.queryByIdsAndRoleIds(idsList, roleIdsList);
+                }
                 if (bankList != null && bankList.size() > 0) {
                     isHasRole = true;
                 }
@@ -123,60 +130,57 @@ public class AdminBankAuditController {
     @RequiresPermissionsDesc(menu = {"贷款银行", "银行审核"}, button = "添加")
     @PostMapping("/createAudit")
     public Object createAudit(@RequestBody LitemallApplicantBank applicantBank) {
-        //审核状态 如果通过。
-        //不通过，查看另外一个银行的审批状态。
-        Subject currentUser = SecurityUtils.getSubject();
-        LitemallAdmin currentAdmin = (LitemallAdmin) currentUser.getPrincipal();
-        Integer uId = currentAdmin.getId();
-        String username = currentAdmin.getUsername();
-        Integer[] roleIds = currentAdmin.getRoleIds();
-        //获取所有关联银行数据
-        List<LitemallApplicantBank>  albList = applicantBankService.querySelectiveByAidAndBankId(uId,roleIds );
-        if (albList.size() > 0) {
-            int xIndex = 1;
-            int yIndex = 1;
-            for (LitemallApplicantBank appBank : albList) {
-                if (appBank.getStatus() == 1) {
-                    xIndex++;
-                } else if (appBank.getStatus() == 2) {
-                    yIndex++;
-                }
-            }
-            if (albList.size() == xIndex) {
-                //全部失败
-                //更新应用人 8
-                LitemallApplicant applicant = new LitemallApplicant();
-                applicant.setId(applicantBank.getApplicantId());
-                applicant.setSubmitStatus(8);
-                applicantService.updateById(applicant);
-
-            } else if (albList.size() == yIndex) {
-                //全部成功
-                //更新应用人 9
-                LitemallApplicant applicant = new LitemallApplicant();
-                applicant.setId(applicantBank.getApplicantId());
-                applicant.setSubmitStatus(9);
-                applicantService.updateById(applicant);
-            } else {
-                //有一家银行在审核，XX已经审核。
-            }
+        if (applicantBank.getStatus() == null) {
+            return ResponseUtil.badArgumentValue();
         }
-        applicantBankService.add(applicantBank);
+
+        //更新申请人
+        LitemallApplicant applicant = applicantService.findById(applicantBank.getApplicantId());
+        if (applicant.getSubmitStatus() == 7 && applicantBank.getStatus() == 2) {
+            applicant.setSubmitStatus(9);
+        }
+        applicantService.updateById(applicant);
+        //更新申请人银行关系表, 银行审核数据只有一条
+        if(applicantBank.getId() != null ){
+            applicantBankService.updateById(applicantBank);
+        }
         return ResponseUtil.ok(applicantBank);
     }
 
     @RequiresPermissions("admin:ba:readAudit")
     @RequiresPermissionsDesc(menu = {"贷款银行", "银行审核"}, button = "详情")
     @GetMapping("/readAudit")
-    public Object readAudit(Integer id) {
+    public Object readAudit(@RequestParam Integer id) {
         //通过UserName拿到角色ID
         Subject currentUser = SecurityUtils.getSubject();
         LitemallAdmin currentAdmin = (LitemallAdmin) currentUser.getPrincipal();
         Integer[] roleIds = currentAdmin.getRoleIds();
-        List< LitemallBank>  bankslist = litemallBankService.queryByRids(roleIds);
+
+        //获取银行列表
+        List< LitemallBank>  bankslist =  new ArrayList<LitemallBank>();
+        //获取有审核数据
+        List<LitemallApplicantBank> albList = new ArrayList<LitemallApplicantBank>();
+        if (roleIds.length == 1 && roleIds[0] == 1) {
+            //超级管理员 ID = 1
+            albList = applicantBankService.querySelectiveByAdminId(id);
+            List<Integer> banksId = new ArrayList<Integer>();
+            for (LitemallApplicantBank abl : albList) {
+                banksId.add(abl.getBankId());
+            }
+            bankslist =  litemallBankService.queryByIds(banksId);
+        } else {
+            bankslist =  litemallBankService.queryByRids(roleIds);
+            List<Integer> bankIds = new ArrayList<Integer>();
+            for (LitemallBank bank: bankslist) {
+                bankIds.add(bank.getId());
+            }
+            albList = applicantBankService.querySelectiveByAidAndBankId(id,bankIds);
+
+        }
         Map<String, Object> map = new HashMap<String,Object>();
         map.put("opertator",currentAdmin.getUsername());
         map.put("bankslist",bankslist);
+        map.put("applicantBank",albList);
         return ResponseUtil.ok(map);
     }
 

@@ -26,9 +26,14 @@ public class LitemallApplicantBankService {
         return ApplicantBankMapper.selectByExample(example);
     }
 
-    public List<LitemallApplicantBank> querySelectiveByAidAndBankId(Integer uid, Integer[] bankIds) {
+    public List<LitemallApplicantBank> querySelectiveByAidAndBankId(Integer uid, List<Integer> bankIds) {
         LitemallApplicantBankExample example = new LitemallApplicantBankExample();
-        example.or().andApplicantIdEqualTo(uid).andDeletedEqualTo(false).andBankIdIn(Arrays.asList(bankIds));
+        example.or().andApplicantIdEqualTo(uid).andDeletedEqualTo(false).andBankIdIn(bankIds);
+        return ApplicantBankMapper.selectByExample(example);
+    }
+    public List<LitemallApplicantBank> querySelectiveByAdminId(Integer uid) {
+        LitemallApplicantBankExample example = new LitemallApplicantBankExample();
+        example.or().andApplicantIdEqualTo(uid).andDeletedEqualTo(false);
         return ApplicantBankMapper.selectByExample(example);
     }
 

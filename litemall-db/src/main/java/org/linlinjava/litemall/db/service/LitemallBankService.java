@@ -29,9 +29,15 @@ public class LitemallBankService {
         return bankMapper.selectByExampleSelective(example, columns);
     }
 
-    public List<LitemallBank> queryByIds(List<Integer> ids, List<Integer> roleIds) {
+    public List<LitemallBank> queryByIdsAndRoleIds(List<Integer> ids, List<Integer> roleIds) {
         LitemallBankExample example = new LitemallBankExample();
         example.or().andIdIn(ids).andDeletedEqualTo(false).andRoleIdIn(roleIds);
+        return bankMapper.selectByExampleSelective(example, columns);
+    }
+
+    public List<LitemallBank> queryByIds(List<Integer> ids) {
+        LitemallBankExample example = new LitemallBankExample();
+        example.or().andIdIn(ids).andDeletedEqualTo(false);
         return bankMapper.selectByExampleSelective(example, columns);
     }
 

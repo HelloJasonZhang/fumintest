@@ -10116,17 +10116,17 @@ public class LitemallApplicantExample {
         }
 
         public Criteria andBLendingDateIsNull() {
-            addCriterion("b_Lending_date is null");
+            addCriterion("b_lending_date is null");
             return (Criteria) this;
         }
 
         public Criteria andBLendingDateIsNotNull() {
-            addCriterion("b_Lending_date is not null");
+            addCriterion("b_lending_date is not null");
             return (Criteria) this;
         }
 
         public Criteria andBLendingDateEqualTo(LocalDateTime value) {
-            addCriterion("b_Lending_date =", value, "bLendingDate");
+            addCriterion("b_lending_date =", value, "bLendingDate");
             return (Criteria) this;
         }
 
@@ -10137,12 +10137,12 @@ public class LitemallApplicantExample {
          * @mbg.generated
          */
         public Criteria andBLendingDateEqualToColumn(LitemallApplicant.Column column) {
-            addCriterion(new StringBuilder("b_Lending_date = ").append(column.getEscapedColumnName()).toString());
+            addCriterion(new StringBuilder("b_lending_date = ").append(column.getEscapedColumnName()).toString());
             return (Criteria) this;
         }
 
         public Criteria andBLendingDateNotEqualTo(LocalDateTime value) {
-            addCriterion("b_Lending_date <>", value, "bLendingDate");
+            addCriterion("b_lending_date <>", value, "bLendingDate");
             return (Criteria) this;
         }
 
@@ -10153,12 +10153,12 @@ public class LitemallApplicantExample {
          * @mbg.generated
          */
         public Criteria andBLendingDateNotEqualToColumn(LitemallApplicant.Column column) {
-            addCriterion(new StringBuilder("b_Lending_date <> ").append(column.getEscapedColumnName()).toString());
+            addCriterion(new StringBuilder("b_lending_date <> ").append(column.getEscapedColumnName()).toString());
             return (Criteria) this;
         }
 
         public Criteria andBLendingDateGreaterThan(LocalDateTime value) {
-            addCriterion("b_Lending_date >", value, "bLendingDate");
+            addCriterion("b_lending_date >", value, "bLendingDate");
             return (Criteria) this;
         }
 
@@ -10169,12 +10169,12 @@ public class LitemallApplicantExample {
          * @mbg.generated
          */
         public Criteria andBLendingDateGreaterThanColumn(LitemallApplicant.Column column) {
-            addCriterion(new StringBuilder("b_Lending_date > ").append(column.getEscapedColumnName()).toString());
+            addCriterion(new StringBuilder("b_lending_date > ").append(column.getEscapedColumnName()).toString());
             return (Criteria) this;
         }
 
         public Criteria andBLendingDateGreaterThanOrEqualTo(LocalDateTime value) {
-            addCriterion("b_Lending_date >=", value, "bLendingDate");
+            addCriterion("b_lending_date >=", value, "bLendingDate");
             return (Criteria) this;
         }
 
@@ -10185,12 +10185,12 @@ public class LitemallApplicantExample {
          * @mbg.generated
          */
         public Criteria andBLendingDateGreaterThanOrEqualToColumn(LitemallApplicant.Column column) {
-            addCriterion(new StringBuilder("b_Lending_date >= ").append(column.getEscapedColumnName()).toString());
+            addCriterion(new StringBuilder("b_lending_date >= ").append(column.getEscapedColumnName()).toString());
             return (Criteria) this;
         }
 
         public Criteria andBLendingDateLessThan(LocalDateTime value) {
-            addCriterion("b_Lending_date <", value, "bLendingDate");
+            addCriterion("b_lending_date <", value, "bLendingDate");
             return (Criteria) this;
         }
 
@@ -10201,12 +10201,12 @@ public class LitemallApplicantExample {
          * @mbg.generated
          */
         public Criteria andBLendingDateLessThanColumn(LitemallApplicant.Column column) {
-            addCriterion(new StringBuilder("b_Lending_date < ").append(column.getEscapedColumnName()).toString());
+            addCriterion(new StringBuilder("b_lending_date < ").append(column.getEscapedColumnName()).toString());
             return (Criteria) this;
         }
 
         public Criteria andBLendingDateLessThanOrEqualTo(LocalDateTime value) {
-            addCriterion("b_Lending_date <=", value, "bLendingDate");
+            addCriterion("b_lending_date <=", value, "bLendingDate");
             return (Criteria) this;
         }
 
@@ -10217,27 +10217,27 @@ public class LitemallApplicantExample {
          * @mbg.generated
          */
         public Criteria andBLendingDateLessThanOrEqualToColumn(LitemallApplicant.Column column) {
-            addCriterion(new StringBuilder("b_Lending_date <= ").append(column.getEscapedColumnName()).toString());
+            addCriterion(new StringBuilder("b_lending_date <= ").append(column.getEscapedColumnName()).toString());
             return (Criteria) this;
         }
 
         public Criteria andBLendingDateIn(List<LocalDateTime> values) {
-            addCriterion("b_Lending_date in", values, "bLendingDate");
+            addCriterion("b_lending_date in", values, "bLendingDate");
             return (Criteria) this;
         }
 
         public Criteria andBLendingDateNotIn(List<LocalDateTime> values) {
-            addCriterion("b_Lending_date not in", values, "bLendingDate");
+            addCriterion("b_lending_date not in", values, "bLendingDate");
             return (Criteria) this;
         }
 
         public Criteria andBLendingDateBetween(LocalDateTime value1, LocalDateTime value2) {
-            addCriterion("b_Lending_date between", value1, value2, "bLendingDate");
+            addCriterion("b_lending_date between", value1, value2, "bLendingDate");
             return (Criteria) this;
         }
 
         public Criteria andBLendingDateNotBetween(LocalDateTime value1, LocalDateTime value2) {
-            addCriterion("b_Lending_date not between", value1, value2, "bLendingDate");
+            addCriterion("b_lending_date not between", value1, value2, "bLendingDate");
             return (Criteria) this;
         }
 

@@ -665,7 +665,7 @@ export default {
 
       readApplicant({ id: goodsId }).then(response => {
         this.goods = response.data.data
-
+        console.log(response)
         if (parseInt(goAction) === 1) {
           this.isRenSheHidden = false
           this.isAssureHidden = false
@@ -689,7 +689,7 @@ export default {
           this.rensheForm.status = 4
           this.extend(this.assureForm, response.data.data)
           this.assureForm.status = parseInt(goAction)
-        } else if (parseInt(goAction) === 7 || parseInt(goAction) === 8) {
+        } else if (parseInt(goAction) === 7 || parseInt(goAction) === 8  || parseInt(goAction) === 9) {
           this.isRenSheHidden = true
           this.disableRenSheHidden = true
           this.isAssureHidden = true

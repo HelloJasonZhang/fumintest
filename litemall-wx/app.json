@@ -1,8 +1,8 @@
 {
   "pages": [
     
-    "pages/fumin/bank/bank",
     "pages/fumin/index/index",
+    "pages/fumin/bank/bank",
     "pages/index/index",
 
     "pages/fumin/applicantDetail/applicantDetail",

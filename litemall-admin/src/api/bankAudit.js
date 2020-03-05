@@ -42,9 +42,8 @@ export function deleteApplicant(data) {
 export function readApplicantBank(data) {
   console.log(data)
   return request({
-    url: '/ba/readAudit',
-    method: 'get',
-    data
+    url: '/ba/readAudit?id=' + data.id,
+    method: 'get'
   })
 }
 
