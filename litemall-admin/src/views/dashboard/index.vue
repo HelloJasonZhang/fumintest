@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-editor-container">
-    <div>你好，{{user.getters.name}}用户, 欢迎使用本系统。</div>
-  
+    <div>你好，{{ user.getters.name }}用户, 欢迎使用本系统。</div>
+
     <!--
     <el-row :gutter="40" class="panel-group">
       <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">

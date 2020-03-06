@@ -1,12 +1,2 @@
-<!--index.wxml-->
-
-<view>
-  <image style="width: 100vw; height: 100vh; position:relative; z-index:-1" src="{{imagethirdsrc}}"></image>
-</view>
-<view style="width: 80vw; height: 50vh; position:absolute;  left: 60rpx; top:80vh; ">
-  <view class="dengdai">
-    <view class="btns">
-      <button class="save" bindtap="navigateBack">返回</button>
-    </view>
-  </view>
-</view>
+<!--pages/fumin/shenhe/shenhe.wxml-->
+<text>pages/fumin/shenhe/shenhe.wxml</text>

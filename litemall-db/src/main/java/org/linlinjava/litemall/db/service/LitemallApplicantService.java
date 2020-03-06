@@ -73,9 +73,9 @@ public class LitemallApplicantService {
         if (Applicant.getSubmitStatus() != null) {
             if (Applicant.getSubmitStatus() == 2 || Applicant.getSubmitStatus() == 3 || Applicant.getSubmitStatus() == 4) {
                 Applicant.setHsAuditDate(LocalDateTime.now());
-            } else if (Applicant.getSubmitStatus() == 4 || Applicant.getSubmitStatus() == 5 || Applicant.getSubmitStatus() == 6) {
+            } else if (Applicant.getSubmitStatus() == 5 || Applicant.getSubmitStatus() == 6 || Applicant.getSubmitStatus() == 7) {
                 Applicant.setScAuditDate(LocalDateTime.now());
-            } else if (Applicant.getSubmitStatus() == 7 || Applicant.getSubmitStatus() == 8) {
+            } else if (Applicant.getSubmitStatus() == 8 || Applicant.getSubmitStatus() == 9 || Applicant.getSubmitStatus() == 10) {
                 Applicant.setbAuditDate(LocalDateTime.now());
             }
         }
@@ -88,10 +88,10 @@ public class LitemallApplicantService {
             if (Applicant.getSubmitStatus() == 2 || Applicant.getSubmitStatus() == 3 || Applicant.getSubmitStatus() == 4) {
                 Applicant.setHsAuditDate(LocalDateTime.now());
                 Applicant.setHsOperator(username);
-            } else if (Applicant.getSubmitStatus() == 4 || Applicant.getSubmitStatus() == 5 || Applicant.getSubmitStatus() == 6) {
+            } else if (Applicant.getSubmitStatus() == 5 || Applicant.getSubmitStatus() == 6 || Applicant.getSubmitStatus() == 7) {
                 Applicant.setScAuditDate(LocalDateTime.now());
                 Applicant.setScOperator(username);
-            } else if (Applicant.getSubmitStatus() == 7 || Applicant.getSubmitStatus() == 8) {
+            } else if (Applicant.getSubmitStatus() == 8 || Applicant.getSubmitStatus() == 9 || Applicant.getSubmitStatus() == 10) {
                 Applicant.setbAuditDate(LocalDateTime.now());
                 Applicant.setbOpertator(username);
             }

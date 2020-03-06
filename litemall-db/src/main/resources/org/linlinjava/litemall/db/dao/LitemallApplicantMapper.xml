@@ -59,11 +59,12 @@
     <result column="hs_employees_info" jdbcType="VARCHAR" property="hsEmployeesInfo" />
     <result column="hs_active_employees" jdbcType="INTEGER" property="hsActiveEmployees" />
     <result column="hs_recruit_people" jdbcType="INTEGER" property="hsRecruitPeople" />
-    <result column="hsMark" jdbcType="VARCHAR" property="hsmark" />
+    <result column="hs_mark" jdbcType="VARCHAR" property="hsMark" />
     <result column="hs_recuit_rate" jdbcType="VARCHAR" property="hsRecuitRate" />
     <result column="hs_comment" jdbcType="VARCHAR" property="hsComment" />
     <result column="hs_audit_date" jdbcType="TIMESTAMP" property="hsAuditDate" />
     <result column="hs_operator" jdbcType="VARCHAR" property="hsOperator" />
+    <result column="hs_top_amount" jdbcType="DECIMAL" property="hsTopAmount" />
     <result column="sc_business_address" jdbcType="VARCHAR" property="scBusinessAddress" />
     <result column="sc_property_right" jdbcType="VARCHAR" property="scPropertyRight" />
     <result column="sc_applicant_credit_report" jdbcType="VARCHAR" property="scApplicantCreditReport" />
@@ -75,6 +76,7 @@
     <result column="sc_letter_intent_url" jdbcType="VARCHAR" property="scLetterIntentUrl" />
     <result column="sc_audit_date" jdbcType="TIMESTAMP" property="scAuditDate" />
     <result column="sc_operator" jdbcType="VARCHAR" property="scOperator" />
+    <result column="b_bank_id" jdbcType="INTEGER" property="bBankId" />
     <result column="b_name" jdbcType="VARCHAR" property="bName" />
     <result column="b_sub_branch" jdbcType="VARCHAR" property="bSubBranch" />
     <result column="b_opertator" jdbcType="VARCHAR" property="bOpertator" />
@@ -208,11 +210,12 @@
     extra_url, add_time, update_time, deleted, submit_status, bank_id, hs_business_license_type, 
     hs_applicant, hs_unified_social_credit_code, hs_applicant_adress, hs_rigster_date, 
     hs_employment_business_license_no, hs_employees_info, hs_active_employees, hs_recruit_people, 
-    hsMark, hs_recuit_rate, hs_comment, hs_audit_date, hs_operator, sc_business_address, 
+    hs_mark, hs_recuit_rate, hs_comment, hs_audit_date, hs_operator, hs_top_amount, sc_business_address, 
     sc_property_right, sc_applicant_credit_report, sc_spouse_credit_report, sc_guarantor, 
     sc_guarantor_asset, sc_extra_info, sc_comment, sc_letter_intent_url, sc_audit_date, 
-    sc_operator, b_name, b_sub_branch, b_opertator, b_credit, b_lending_date, b_period_loan, 
-    b_repayment, b_interest_rate, b_interest_period, b_comment, b_audit_date, b_auditor
+    sc_operator, b_bank_id, b_name, b_sub_branch, b_opertator, b_credit, b_lending_date, 
+    b_period_loan, b_repayment, b_interest_rate, b_interest_period, b_comment, b_audit_date, 
+    b_auditor
   </sql>
   <select id="selectByExample" parameterType="org.linlinjava.litemall.db.domain.LitemallApplicantExample" resultMap="BaseResultMap">
     <!--
@@ -354,16 +357,17 @@
       hs_business_license_type, hs_applicant, hs_unified_social_credit_code, 
       hs_applicant_adress, hs_rigster_date, hs_employment_business_license_no, 
       hs_employees_info, hs_active_employees, hs_recruit_people, 
-      hsMark, hs_recuit_rate, hs_comment, 
-      hs_audit_date, hs_operator, sc_business_address, 
-      sc_property_right, sc_applicant_credit_report, 
+      hs_mark, hs_recuit_rate, hs_comment, 
+      hs_audit_date, hs_operator, hs_top_amount, 
+      sc_business_address, sc_property_right, sc_applicant_credit_report, 
       sc_spouse_credit_report, sc_guarantor, sc_guarantor_asset, 
       sc_extra_info, sc_comment, sc_letter_intent_url, 
-      sc_audit_date, sc_operator, b_name, 
-      b_sub_branch, b_opertator, b_credit, 
-      b_lending_date, b_period_loan, b_repayment, 
-      b_interest_rate, b_interest_period, b_comment, 
-      b_audit_date, b_auditor)
+      sc_audit_date, sc_operator, b_bank_id, 
+      b_name, b_sub_branch, b_opertator, 
+      b_credit, b_lending_date, b_period_loan, 
+      b_repayment, b_interest_rate, b_interest_period, 
+      b_comment, b_audit_date, b_auditor
+      )
     values (#{userId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
       #{maritalStatus,jdbcType=VARCHAR}, #{idCardNumber,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR}, 
       #{spouseName,jdbcType=VARCHAR}, #{applicantType,jdbcType=VARCHAR}, #{applicantAmount,jdbcType=VARCHAR}, 
@@ -385,16 +389,17 @@
       #{hsBusinessLicenseType,jdbcType=VARCHAR}, #{hsApplicant,jdbcType=VARCHAR}, #{hsUnifiedSocialCreditCode,jdbcType=VARCHAR}, 
       #{hsApplicantAdress,jdbcType=VARCHAR}, #{hsRigsterDate,jdbcType=TIMESTAMP}, #{hsEmploymentBusinessLicenseNo,jdbcType=VARCHAR}, 
       #{hsEmployeesInfo,jdbcType=VARCHAR}, #{hsActiveEmployees,jdbcType=INTEGER}, #{hsRecruitPeople,jdbcType=INTEGER}, 
-      #{hsmark,jdbcType=VARCHAR}, #{hsRecuitRate,jdbcType=VARCHAR}, #{hsComment,jdbcType=VARCHAR}, 
-      #{hsAuditDate,jdbcType=TIMESTAMP}, #{hsOperator,jdbcType=VARCHAR}, #{scBusinessAddress,jdbcType=VARCHAR}, 
-      #{scPropertyRight,jdbcType=VARCHAR}, #{scApplicantCreditReport,jdbcType=VARCHAR}, 
+      #{hsMark,jdbcType=VARCHAR}, #{hsRecuitRate,jdbcType=VARCHAR}, #{hsComment,jdbcType=VARCHAR}, 
+      #{hsAuditDate,jdbcType=TIMESTAMP}, #{hsOperator,jdbcType=VARCHAR}, #{hsTopAmount,jdbcType=DECIMAL}, 
+      #{scBusinessAddress,jdbcType=VARCHAR}, #{scPropertyRight,jdbcType=VARCHAR}, #{scApplicantCreditReport,jdbcType=VARCHAR}, 
       #{scSpouseCreditReport,jdbcType=VARCHAR}, #{scGuarantor,jdbcType=VARCHAR}, #{scGuarantorAsset,jdbcType=VARCHAR}, 
       #{scExtraInfo,jdbcType=VARCHAR}, #{scComment,jdbcType=VARCHAR}, #{scLetterIntentUrl,jdbcType=VARCHAR}, 
-      #{scAuditDate,jdbcType=TIMESTAMP}, #{scOperator,jdbcType=VARCHAR}, #{bName,jdbcType=VARCHAR}, 
-      #{bSubBranch,jdbcType=VARCHAR}, #{bOpertator,jdbcType=VARCHAR}, #{bCredit,jdbcType=VARCHAR}, 
-      #{bLendingDate,jdbcType=TIMESTAMP}, #{bPeriodLoan,jdbcType=VARCHAR}, #{bRepayment,jdbcType=VARCHAR}, 
-      #{bInterestRate,jdbcType=VARCHAR}, #{bInterestPeriod,jdbcType=VARCHAR}, #{bComment,jdbcType=VARCHAR}, 
-      #{bAuditDate,jdbcType=TIMESTAMP}, #{bAuditor,jdbcType=VARCHAR})
+      #{scAuditDate,jdbcType=TIMESTAMP}, #{scOperator,jdbcType=VARCHAR}, #{bBankId,jdbcType=INTEGER}, 
+      #{bName,jdbcType=VARCHAR}, #{bSubBranch,jdbcType=VARCHAR}, #{bOpertator,jdbcType=VARCHAR}, 
+      #{bCredit,jdbcType=VARCHAR}, #{bLendingDate,jdbcType=TIMESTAMP}, #{bPeriodLoan,jdbcType=VARCHAR}, 
+      #{bRepayment,jdbcType=VARCHAR}, #{bInterestRate,jdbcType=VARCHAR}, #{bInterestPeriod,jdbcType=VARCHAR}, 
+      #{bComment,jdbcType=VARCHAR}, #{bAuditDate,jdbcType=TIMESTAMP}, #{bAuditor,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="org.linlinjava.litemall.db.domain.LitemallApplicant">
     <!--
@@ -562,8 +567,8 @@
       <if test="hsRecruitPeople != null">
         hs_recruit_people,
       </if>
-      <if test="hsmark != null">
-        hsMark,
+      <if test="hsMark != null">
+        hs_mark,
       </if>
       <if test="hsRecuitRate != null">
         hs_recuit_rate,
@@ -576,6 +581,9 @@
       </if>
       <if test="hsOperator != null">
         hs_operator,
+      </if>
+      <if test="hsTopAmount != null">
+        hs_top_amount,
       </if>
       <if test="scBusinessAddress != null">
         sc_business_address,
@@ -609,6 +617,9 @@
       </if>
       <if test="scOperator != null">
         sc_operator,
+      </if>
+      <if test="bBankId != null">
+        b_bank_id,
       </if>
       <if test="bName != null">
         b_name,
@@ -804,8 +815,8 @@
       <if test="hsRecruitPeople != null">
         #{hsRecruitPeople,jdbcType=INTEGER},
       </if>
-      <if test="hsmark != null">
-        #{hsmark,jdbcType=VARCHAR},
+      <if test="hsMark != null">
+        #{hsMark,jdbcType=VARCHAR},
       </if>
       <if test="hsRecuitRate != null">
         #{hsRecuitRate,jdbcType=VARCHAR},
@@ -818,6 +829,9 @@
       </if>
       <if test="hsOperator != null">
         #{hsOperator,jdbcType=VARCHAR},
+      </if>
+      <if test="hsTopAmount != null">
+        #{hsTopAmount,jdbcType=DECIMAL},
       </if>
       <if test="scBusinessAddress != null">
         #{scBusinessAddress,jdbcType=VARCHAR},
@@ -851,6 +865,9 @@
       </if>
       <if test="scOperator != null">
         #{scOperator,jdbcType=VARCHAR},
+      </if>
+      <if test="bBankId != null">
+        #{bBankId,jdbcType=INTEGER},
       </if>
       <if test="bName != null">
         #{bName,jdbcType=VARCHAR},
@@ -1066,8 +1083,8 @@
       <if test="record.hsRecruitPeople != null">
         hs_recruit_people = #{record.hsRecruitPeople,jdbcType=INTEGER},
       </if>
-      <if test="record.hsmark != null">
-        hsMark = #{record.hsmark,jdbcType=VARCHAR},
+      <if test="record.hsMark != null">
+        hs_mark = #{record.hsMark,jdbcType=VARCHAR},
       </if>
       <if test="record.hsRecuitRate != null">
         hs_recuit_rate = #{record.hsRecuitRate,jdbcType=VARCHAR},
@@ -1080,6 +1097,9 @@
       </if>
       <if test="record.hsOperator != null">
         hs_operator = #{record.hsOperator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hsTopAmount != null">
+        hs_top_amount = #{record.hsTopAmount,jdbcType=DECIMAL},
       </if>
       <if test="record.scBusinessAddress != null">
         sc_business_address = #{record.scBusinessAddress,jdbcType=VARCHAR},
@@ -1113,6 +1133,9 @@
       </if>
       <if test="record.scOperator != null">
         sc_operator = #{record.scOperator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bBankId != null">
+        b_bank_id = #{record.bBankId,jdbcType=INTEGER},
       </if>
       <if test="record.bName != null">
         b_name = #{record.bName,jdbcType=VARCHAR},
@@ -1214,11 +1237,12 @@
       hs_employees_info = #{record.hsEmployeesInfo,jdbcType=VARCHAR},
       hs_active_employees = #{record.hsActiveEmployees,jdbcType=INTEGER},
       hs_recruit_people = #{record.hsRecruitPeople,jdbcType=INTEGER},
-      hsMark = #{record.hsmark,jdbcType=VARCHAR},
+      hs_mark = #{record.hsMark,jdbcType=VARCHAR},
       hs_recuit_rate = #{record.hsRecuitRate,jdbcType=VARCHAR},
       hs_comment = #{record.hsComment,jdbcType=VARCHAR},
       hs_audit_date = #{record.hsAuditDate,jdbcType=TIMESTAMP},
       hs_operator = #{record.hsOperator,jdbcType=VARCHAR},
+      hs_top_amount = #{record.hsTopAmount,jdbcType=DECIMAL},
       sc_business_address = #{record.scBusinessAddress,jdbcType=VARCHAR},
       sc_property_right = #{record.scPropertyRight,jdbcType=VARCHAR},
       sc_applicant_credit_report = #{record.scApplicantCreditReport,jdbcType=VARCHAR},
@@ -1230,6 +1254,7 @@
       sc_letter_intent_url = #{record.scLetterIntentUrl,jdbcType=VARCHAR},
       sc_audit_date = #{record.scAuditDate,jdbcType=TIMESTAMP},
       sc_operator = #{record.scOperator,jdbcType=VARCHAR},
+      b_bank_id = #{record.bBankId,jdbcType=INTEGER},
       b_name = #{record.bName,jdbcType=VARCHAR},
       b_sub_branch = #{record.bSubBranch,jdbcType=VARCHAR},
       b_opertator = #{record.bOpertator,jdbcType=VARCHAR},
@@ -1409,8 +1434,8 @@
       <if test="hsRecruitPeople != null">
         hs_recruit_people = #{hsRecruitPeople,jdbcType=INTEGER},
       </if>
-      <if test="hsmark != null">
-        hsMark = #{hsmark,jdbcType=VARCHAR},
+      <if test="hsMark != null">
+        hs_mark = #{hsMark,jdbcType=VARCHAR},
       </if>
       <if test="hsRecuitRate != null">
         hs_recuit_rate = #{hsRecuitRate,jdbcType=VARCHAR},
@@ -1423,6 +1448,9 @@
       </if>
       <if test="hsOperator != null">
         hs_operator = #{hsOperator,jdbcType=VARCHAR},
+      </if>
+      <if test="hsTopAmount != null">
+        hs_top_amount = #{hsTopAmount,jdbcType=DECIMAL},
       </if>
       <if test="scBusinessAddress != null">
         sc_business_address = #{scBusinessAddress,jdbcType=VARCHAR},
@@ -1456,6 +1484,9 @@
       </if>
       <if test="scOperator != null">
         sc_operator = #{scOperator,jdbcType=VARCHAR},
+      </if>
+      <if test="bBankId != null">
+        b_bank_id = #{bBankId,jdbcType=INTEGER},
       </if>
       <if test="bName != null">
         b_name = #{bName,jdbcType=VARCHAR},
@@ -1554,11 +1585,12 @@
       hs_employees_info = #{hsEmployeesInfo,jdbcType=VARCHAR},
       hs_active_employees = #{hsActiveEmployees,jdbcType=INTEGER},
       hs_recruit_people = #{hsRecruitPeople,jdbcType=INTEGER},
-      hsMark = #{hsmark,jdbcType=VARCHAR},
+      hs_mark = #{hsMark,jdbcType=VARCHAR},
       hs_recuit_rate = #{hsRecuitRate,jdbcType=VARCHAR},
       hs_comment = #{hsComment,jdbcType=VARCHAR},
       hs_audit_date = #{hsAuditDate,jdbcType=TIMESTAMP},
       hs_operator = #{hsOperator,jdbcType=VARCHAR},
+      hs_top_amount = #{hsTopAmount,jdbcType=DECIMAL},
       sc_business_address = #{scBusinessAddress,jdbcType=VARCHAR},
       sc_property_right = #{scPropertyRight,jdbcType=VARCHAR},
       sc_applicant_credit_report = #{scApplicantCreditReport,jdbcType=VARCHAR},
@@ -1570,6 +1602,7 @@
       sc_letter_intent_url = #{scLetterIntentUrl,jdbcType=VARCHAR},
       sc_audit_date = #{scAuditDate,jdbcType=TIMESTAMP},
       sc_operator = #{scOperator,jdbcType=VARCHAR},
+      b_bank_id = #{bBankId,jdbcType=INTEGER},
       b_name = #{bName,jdbcType=VARCHAR},
       b_sub_branch = #{bSubBranch,jdbcType=VARCHAR},
       b_opertator = #{bOpertator,jdbcType=VARCHAR},

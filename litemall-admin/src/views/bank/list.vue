@@ -46,11 +46,11 @@
         </template>
       </el-table-column>
       <!--       <el-table-column align="center" label="审核状态" prop="submitStatus" /> -->
-      <el-table-column align="center" label="操作" width="150" class-name="small-padding fixed-width">
+      <el-table-column align="left" label="操作" width="150" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button v-permission="['POST /admin/ba/update']" type="primary" size="mini" @click="handleAuditView(scope.row)">查看</el-button>
-          <el-button v-if="scope.row.submitStatus == 7" v-permission="['POST /admin/ba/update']" type="success" :disabled="scope.row.has_edit" size="mini" @click="handleAudit(scope.row)">受理</el-button>
-          <el-button v-if="scope.row.submitStatus == 9" v-permission="['POST /admin/ba/update']" type="success" :disabled="scope.row.has_finish" size="mini" @click="handleFinish(scope.row)">结束</el-button>
+          <el-button v-if="scope.row.submitStatus === 7" v-permission="['POST /admin/ba/update']" type="primary" :disabled="scope.row.has_edit" size="mini" @click="handleAudit(scope.row)">受理</el-button>
+          <el-button v-if="scope.row.submitStatus === 9" v-permission="['POST /admin/ba/update']" type="success" :disabled="scope.row.has_finish" size="mini" @click="handleFinish(scope.row)">结束</el-button>
           <!--           <el-button v-permission="['POST /admin/applicant/delete']" type="primary" size="mini" @click="handleUpdate(scope.row)">修改</el-button> -->
         </template>
       </el-table-column>
@@ -193,7 +193,7 @@
       </template>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFinnishFormVisible = false">取消</el-button>
-        <el-button type="primary" @click="createFinishAudit">确定</el-button>
+        <el-button type="primary" @click="createFinishAudit" :disabled="canFinish">确定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -319,6 +319,7 @@ export default {
       dialogFormVisible: false,
       dialogAduitFormVisible: false,
       dialogFinnishFormVisible: false,
+      canFinish: true,
       dialogStatus: '',
       textMap: {
         update: '编辑',
@@ -434,7 +435,7 @@ export default {
               a.status = '通过'
               for (let j = 0; j < response.data.data.bankslist.length; j++) {
                 var b = response.data.data.bankslist[j]
-                if (a.id === b.id) {
+                if (a.bankId === b.id) {
                   a['bankName'] = b.name
                   a['subBranch'] = b.subBranch
                 }
@@ -461,6 +462,7 @@ export default {
             title: '成功',
             message: '创建成功'
           })
+          this.dialogFinnishFormVisible = true
         })
         .catch(response => {
           this.$notify.error({
@@ -488,6 +490,7 @@ export default {
         this.dataForm.interest = applicantBank.interest
         this.dataForm.interestPeriod = applicantBank.interestPeriod
         this.dataForm.auditComment = applicantBank.auditComment
+        this.canFinish = false
       }
     },
     handleAudit(row) {
@@ -567,7 +570,7 @@ export default {
             }
             for (let j = 0; j < response.data.data.bankslist.length; j++) {
               var b = response.data.data.bankslist[j]
-              if (a.id === b.id) {
+              if (a.bankId === b.id) {
                 a['bankName'] = b.name
                 a['subBranch'] = b.subBranch
               }

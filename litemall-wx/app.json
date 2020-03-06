@@ -1,10 +1,7 @@
 {
   "pages": [
-    
     "pages/fumin/index/index",
     "pages/fumin/bank/bank",
-    "pages/index/index",
-
     "pages/fumin/applicantDetail/applicantDetail",
     "pages/fumin/daikuan/daikuan",
     "pages/fumin/applicant/applicant",
@@ -12,50 +9,7 @@
     "pages/fumin/reject/reject",
     "pages/fumin/tongguo/tongguo",
     "pages/fumin/dengdai/dengdai",
-    "pages/fumin/shenhe/shenhe",
-
-    
- 
-    "pages/catalog/catalog",
-    "pages/newGoods/newGoods",
-    "pages/hotGoods/hotGoods",
-    "pages/ucenter/index/index",
-    "pages/ucenter/address/address",
-    "pages/ucenter/addressAdd/addressAdd",
-    "pages/ucenter/feedback/feedback",
-    "pages/ucenter/footprint/footprint",
-    "pages/ucenter/order/order",
-    "pages/ucenter/orderDetail/orderDetail",
-    "pages/ucenter/couponList/couponList",
-    "pages/ucenter/couponSelect/couponSelect",
-    "pages/ucenter/collect/collect",
-    "pages/auth/login/login",
-    "pages/auth/accountLogin/accountLogin",
-    "pages/auth/register/register",
-    "pages/auth/reset/reset",
-    "pages/payResult/payResult",
-    "pages/comment/comment",
-    "pages/commentPost/commentPost",
-    "pages/topic/topic",
-    "pages/topicComment/topicComment",
-    "pages/topicDetail/topicDetail",
-    "pages/topicCommentPost/topicCommentPost",
-    "pages/brand/brand",
-    "pages/brandDetail/brandDetail",
-    "pages/search/search",
-    "pages/category/category",
-    "pages/cart/cart",
-    "pages/checkout/checkout",
-    "pages/goods/goods",
-    "pages/about/about",
-    "pages/groupon/myGroupon/myGroupon",
-    "pages/groupon/grouponDetail/grouponDetail",
-    "pages/groupon/grouponList/grouponList",
-    "pages/coupon/coupon",
-    "pages/help/help",
-    "pages/ucenter/aftersale/aftersale",
-    "pages/ucenter/aftersaleList/aftersaleList",
-    "pages/ucenter/aftersaleDetail/aftersaleDetail"
+    "pages/fumin/shenhe/shenhe"
   ],
   "window": {
     "navigationBarBackgroundColor": "#5677fe",

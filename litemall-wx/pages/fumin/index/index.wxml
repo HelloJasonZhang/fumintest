@@ -1,23 +1,2 @@
-<!--index.wxml-->
-<view>
-  <view>
-    <image style="width: 100vw; height: 55vh; position:absolute;  top:250rpx; " src="{{imageFoursrc}}"></image>
-  </view>
-  <image style="width: 100vw; height: 100vh; position:relative; z-index:-1" src="{{imagethirdsrc}}"></image>
-</view>
-<view style="width: 80vw; height: 60vh; position:absolute;  left: 60rpx; top:340rpx; ">
-  <view class="danbao">
-    <view class="add-form">
-      <span class="lable">选择企业类型</span>
-      <radio-group class="radio-group" bindchange="radioChange">
-        <view class="form-item" wx:for-items="{{items}}">
-          <span class="input">{{item.name}}</span>
-          <radio wx:key="{{item.name}}" value="{{item.value}}" color="#5677fe" checked="{{item.checked}}" auto-focus/>
-        </view>
-      </radio-group>
-    </view>
-    <view class="btns">
-      <button class="save" bindtap="saveDanbao">下一步</button>
-    </view>
-  </view>
-</view>
+<!--pages/fumin/index/index.wxml-->
+<text>pages/fumin/index/index.wxml</text>

@@ -1,225 +1,66 @@
-//index.js
-//获取应用实例
-var imageUtil = require('../../../utils/image.js');
-var util = require('../../../utils/util.js');
-var app = getApp()
+// pages/fumin/applicant/applicant.js
 Page({
+
+  /**
+   * 页面的初始数据
+   */
   data: {
-    _title: "填写资料",
-    applicant: {
-      "id": 1,
-      "name": "",
-      "sex": "",
-      "maritalStatus": "",
-      "idCardNumber": "",
-      "phoneNumber": "",
-      "spouseName": "",
-      "applicantType": "",
-      "applicantAmount": "",
-      "recruitCategory": "",
-      "applicantCategory": "",
-      "address": "",
-      "spouseIdCardNumber": "",
-    },
-    imageFirstSrc: '/static/images/fumin/step1.png',
-    array: ['请选择婚姻状态', '已婚', '离异', '未婚'],
-    arraySex: ['请选择性别', '男', '女'],
-    arrayTyps: [
-      '请选择申请人类别',
-      '城镇登记失业人员 ',
-      '复员转业退役军人',
-      '刑满释放人员',
-      '高校毕业生',
-      '化解过剩产能企业职工和失业职工',
-      '返乡创业农民工',
-      '网络商户',
-      '建档立卡贫困人口',
-      '农村自主创业农民',
-      '其他'
-    ],
-    arrayHires: [
-      '请选择新招/雇佣人类别',
-      '城镇登记失业人员 ',
-      '复员转业退役军人',
-      '刑满释放人员',
-      '高校毕业生',
-      '化解过剩产能企业职工和失业职工',
-      '返乡创业农民工',
-      '网络商户',
-      '建档立卡贫困人口',
-      '农村自主创业农民',
-      '其他'
-    ],
-    indexMaritalStatus: 0,
-    indexTypes: 0,
-    indexHires: 0,
-    indexSex: 0,
-    isShow: false,
-    selecValue: "企业",
-    type: ""
+
   },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
   onLoad: function (options) {
-    wx.setNavigationBarTitle({
-      title: this.data._title
-    })
-    // 页面初始化 options为页面跳转所带来的参数
-    console.log(options)
-    if (options.type && options.type != "") {
-      this.setData({
-        type: options.type
-      });
-    }
-  },
-  imageLoad: function (e) {
-    var imageSize = imageUtil.imageUtil(e)
-    this.setData({
-      imagewidth: imageSize.imageWidth,
-      imageheight: imageSize.imageHeight
-    })
-  },
-  radioChange(e) {
-    this.data.selecValue = e.detail.value
-  },
-  bindPickerSex: function (e) {
-    this.setData({
-      indexSex: e.detail.value //e.detail.value
-    });
-    // let applicant = this.data.applicant;
-    // applicant.sex = this.data.arraySex[e.detail.value];
-    // this.setData({
-    //   applicant: applicant
-    // });
-  },
-  bindPickerChange: function (e) { //配偶
-    this.setData({
-      indexMaritalStatus: e.detail.value
-    });
-    //隐藏配偶
-    if (e.detail.value == 1) {
-      this.setData({
-        isShow: true
-      });
-    } else {
-      this.setData({
-        isShow: false
-      });
-    }
-  },
-  bindPickerTypesChange: function (e) {
-    this.setData({
-      indexTypes: e.detail.value
-    });
-    // let applicant = this.data.applicant;
-    // applicant.applicantAmount = this.data.arrayTyps[e.detail.value];
-    // this.setData({
-    //   applicant: applicant
-    // });
-  },
-  bindPickerHireChange: function (e) {
-    this.setData({
-      indexHires: e.detail.value
-    });
-    // let applicant = this.data.applicant;
-    // applicant.recruitCategory = this.data.arrayHires[e.detail.value];
-    // this.setData({
-    //   applicant: applicant
-    // });
-  },
-  bindinputIdCardNumber: function (e) {
-    let applicant = this.data.applicant;
-    applicant.idCardNumber = e.detail.value;
-    this.setData({
-      applicant: applicant
-    });
-  },
-  bindinputPhoneNumbere: function (e) {
-    let applicant = this.data.applicant;
-    applicant.phoneNumber = e.detail.value;
-    this.setData({
-      applicant: applicant
-    });
-  },
-  bindinputSpouseName: function (e) {
-    let applicant = this.data.applicant;
-    applicant.spouseName = e.detail.value;
-    this.setData({
-      applicant: applicant
-    });
-  },
-  bindinputSpouseIdCardNumber: function (e) {
-    let applicant = this.data.applicant;
-    applicant.spouseIdCardNumber = e.detail.value;
-    this.setData({
-      applicant: applicant
-    });
-  },
-  bindinputAddress: function (e) {
-    let applicant = this.data.applicant;
-    applicant.address = e.detail.value;
-    this.setData({
-      applicant: applicant
-    });
-  },
-  bindinputName: function (e) {
-    let applicant = this.data.applicant;
-    applicant.name = e.detail.value;
-    this.setData({
-      applicant: applicant
-    });
-  },
-  bindinputApplicantAmount: function (e) {
-    let applicant = this.data.applicant;
-    applicant.applicantAmount = e.detail.value;
-    this.setData({
-      applicant: applicant
-    });
-  },
-  saveApplicant() {
 
+  },
 
-    let indexSex = this.data.indexSex
-    if (this.data.indexSex == 0) {
-      util.showErrorToast('请选择性别');
-      return false;
-    }
-    let indexMaritalStatus = this.data.indexMaritalStatus
-    if (this.data.indexMaritalStatus == 0) {
-      util.showErrorToast('请选择婚姻状态');
-      return false;
-    }
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
 
-    let indexTypes = this.data.indexTypes
-    if (this.data.indexTypes == 0) {
-      util.showErrorToast('请选择申请人类别');
-      return false;
-    }
+  },
 
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
 
-    let indexHires = this.data.indexHires
-    if (this.data.indexHires == 0) {
-      util.showErrorToast('请选择新招/雇佣人类别');
-      return false;
-    }
+  },
 
-    var applicant = this.data.applicant;
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
 
-    applicant.sex = this.data.arraySex[indexSex];
+  },
 
-    console.log(indexMaritalStatus)
-    applicant.maritalStatus = this.data.array[indexMaritalStatus];
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
 
-    applicant.applicantCategory = this.data.arrayTyps[indexTypes];
+  },
 
-    applicant.recruitCategory = this.data.arrayHires[indexHires];
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
 
-    applicant.applicantType = this.data.selecValue
+  },
 
-    this.setData({
-      applicant: applicant
-    });
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
 
-    wx.navigateTo({
-      url: '/pages/fumin/applicantUpload/applicantUpload?applicantType=' + this.data.type + "&maritalStatus=" + this.data.applicant.maritalStatus
-    })
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+
   }
 })

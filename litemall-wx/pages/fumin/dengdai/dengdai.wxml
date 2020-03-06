@@ -1,18 +1,2 @@
-<!--index.wxml-->
-
-<view>
-  <image style="width: 100vw; height: 100vh; position:relative; z-index:-1" src="{{imagethirdsrc}}"></image>
-</view>
-<view style="width: 80vw; height: 90vh; position:absolute;  left: 60rpx; top:50vh; ">
-  <view class="dengdai">
-    <view style="text-align: center">
-      <view style="margin-top: 30rpx">
-        <span style="color: #A7A9AA; font-size:30rpx;">等待审核...</span>
-      </view>
-      
-    </view>    
-    <view class="btns" style="top:20vh;">
-      <button class="save" bindtap="goBack">返回</button>
-    </view>
-  </view>
-</view>
+<!--pages/fumin/dengdai/dengdai.wxml-->
+<text>pages/fumin/dengdai/dengdai.wxml</text>

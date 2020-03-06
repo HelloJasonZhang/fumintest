@@ -1,20 +1,2 @@
-<!--index.wxml-->
-<view>
-  <image style="width: 100vw; height: 100vh; position:relative; z-index:-1" src="{{imagethirdsrc}}"></image>
-</view>
-
-<view style="width: 85vw; height: 60vh; position:absolute;  left: 60rpx; top:35vh; ">
-  <view class="daikuan">
-    <view style="text-align: center">
-      <view style="">
-        <span style="color: #333333; font-size:40rpx;font-weight:bold" >抱歉，你的审核未通过</span>
-      </view>
-      <view style="margin-top: 30rpx">
-        <span style="color: #A7A9AA; font-size:25rpx;">{{errorMessage}}</span>
-      </view>
-    </view>
-    <view class="btns" style="top:40vh;">
-      <button class="save" bindtap="redo">重新申请</button>
-    </view>
-  </view>
-</view>
+<!--pages/fumin/reject/reject.wxml-->
+<text>pages/fumin/reject/reject.wxml</text>
