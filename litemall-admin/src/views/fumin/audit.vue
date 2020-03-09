@@ -187,8 +187,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-input v-model="rensheForm.hsAuditDate" type="hidden" />
-        <el-input v-model="rensheForm.hsOperator" type="hidden" />
       </el-form>
     </el-card>
     <el-card v-if="isRenSheHidden" class="box-card">
@@ -203,320 +201,102 @@
       >
         <el-row>
           <el-col :span="8">
-            <el-form-item label="营业执照类型" prop="hsBusinessLicenseType">
-              <el-input v-model="rensheForm.hsBusinessLicenseType" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="法定代表人/申请人" prop="hsApplicant">
-              <el-input v-model="rensheForm.hsApplicant" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="统一社会信用代码" prop="hsUnifiedSocialCreditCode">
-              <el-input v-model="rensheForm.hsUnifiedSocialCreditCode" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="身份证地址" prop="hsApplicantAdress">
-              <el-input v-model="rensheForm.hsApplicantAdress" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="其他/备注" prop="hsMark">
-              <el-input v-model="rensheForm.hsMark" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="注册日期" prop="hsRigsterDate">
-              <el-date-picker
-                v-model="rensheForm.hsRigsterDate"
-                type="date"
-                placeholder="选择日期"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                :picker-options="pickerOptions"
-                style="width:100%"
-              />
-              <!-- <el-input v-model="rensheForm.hsRigsterDate" /> -->
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="就业创业证编号（申请主体）" prop="hsEmploymentBusinessLicenseNo">
-              <el-input v-model="rensheForm.hsEmploymentBusinessLicenseNo" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="带动就业人员信息" prop="hsEmployeesInfo">
-              <el-input v-model="rensheForm.hsEmployeesInfo" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="在职人数" prop="hsActiveEmployees">
-              <el-input v-model="rensheForm.hsActiveEmployees" type="number" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="当年新招人数" prop="hsRecruitPeople">
-              <el-input v-model="rensheForm.hsRecruitPeople" type="number" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="新招用员工占比" prop="hsRecuitRate">
-              <el-input v-model="rensheForm.hsRecuitRate" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-form-item label="人社部门意见" prop="hsComment">
-          <el-input v-model="rensheForm.hsComment" type="textarea" :rows="7" />
-        </el-form-item>
-        <el-row v-if="disableRenSheHidden">
-          <el-col :span="8">
-            <el-form-item label="是否审核通过" prop="submitStatus">
-              <el-select v-model="rensheForm.status" prop="submitStatus" style="width:100%">
+            <el-form-item v-if="!disableRenSheHidden" label="是否审核通过" prop="status">
+              <el-select v-model="rensheForm.status" style="width:100%" @change="onChangeHrSubmitstatus">
                 <el-option :value="4" label="通过" />
                 <el-option :value="3" label="不通过" />
                 <el-option :value="2" label="待补充" />
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="经办日期" prop="hsRecruitPeople">
-              <el-date-picker
-                v-model="rensheForm.hsAuditDate"
-                type="date"
-                placeholder="选择日期"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                :picker-options="pickerOptions"
-                style="width:100%"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="经办人" prop="hsRecuitRate">
-              <el-input v-model="rensheForm.hsOperator" />
+          <el-col v-if="rensheForm.isApproval" :span="8">
+            <el-form-item label="最高额度(万元)" prop="hsTopAmount">
+              <el-input v-model="rensheForm.hsTopAmount" />
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item v-if="!disableRenSheHidden" label="是否审核通过" prop="submitStatus">
-          <el-select v-model="rensheForm.status" style="width:25%">
-            <el-option :value="4" label="通过" />
-            <el-option :value="3" label="不通过" />
-            <el-option :value="2" label="待补充" />
-          </el-select>
+        <el-row v-if="rensheForm.isApproval">
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="营业执照类型" prop="hsBusinessLicenseType">
+                <el-input v-model="rensheForm.hsBusinessLicenseType" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="法定代表人/申请人" prop="hsApplicant">
+                <el-input v-model="rensheForm.hsApplicant" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="统一社会信用代码" prop="hsUnifiedSocialCreditCode">
+                <el-input v-model="rensheForm.hsUnifiedSocialCreditCode" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="身份证地址" prop="hsApplicantAdress">
+                <el-input v-model="rensheForm.hsApplicantAdress" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="其他/备注" prop="hsMark">
+                <el-input v-model="rensheForm.hsMark" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="注册日期" prop="hsRigsterDate">
+                <el-date-picker
+                  v-model="rensheForm.hsRigsterDate"
+                  type="date"
+                  placeholder="选择日期"
+                  value-format="yyyy-MM-dd HH:mm:ss"
+                  :picker-options="pickerOptions"
+                  style="width:100%"
+                />
+              <!-- <el-input v-model="rensheForm.hsRigsterDate" /> -->
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="就业创业证编号（申请主体）" prop="hsEmploymentBusinessLicenseNo">
+                <el-input v-model="rensheForm.hsEmploymentBusinessLicenseNo" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="带动就业人员信息" prop="hsEmployeesInfo">
+                <el-input v-model="rensheForm.hsEmployeesInfo" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="在职人数" prop="hsActiveEmployees">
+                <el-input v-model="rensheForm.hsActiveEmployees" type="number" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="当年新招人数" prop="hsRecruitPeople">
+                <el-input v-model="rensheForm.hsRecruitPeople" type="number" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="新招用员工占比" prop="hsRecuitRate">
+                <el-input v-model="rensheForm.hsRecuitRate" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-row>
+        <el-form-item label="人社部门意见" prop="hsComment">
+          <el-input v-model="rensheForm.hsComment" type="textarea" :rows="7" />
         </el-form-item>
         <el-input v-if="!disableRenSheHidden" v-model="rensheForm.hsOperator" type="hidden" />
       </el-form>
       <div v-if="!disableRenSheHidden" class="op-container">
-        <el-button @click="handleCancel">取消</el-button>
-        <el-button type="primary" @click="handleEdit">提交</el-button>
-      </div>
-      <!--       <el-row type="flex" class="row-bg" justify="space-around">
-        <el-col :span="6">
-          <div class="op-container">
-            <el-button @click="handleCancel">取消</el-button>
-            <el-button type="primary" @click="handleEdit">提交</el-button>
-          </div>
-        </el-col>
-      </el-row> -->
-    </el-card>
-    <el-card v-if="isAssureHidden" class="box-card">
-      <h3>担保公司核查信息情况</h3>
-      <el-form
-        ref="assureForm"
-        :rules="assureRulrs"
-        :model="assureForm"
-        :disabled="disableAssureHidden"
-        label-position="right"
-        label-width="200px"
-      >
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="营业地址" prop="scBusinessAddress">
-              <el-input v-model="assureForm.scBusinessAddress" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="产权性质" prop="scPropertyRight">
-              <el-input v-model="assureForm.scPropertyRight" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="申请人信用报告" prop="scApplicantCreditReport">
-              <el-input v-model="assureForm.scApplicantCreditReport" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="配偶信用报告" prop="scSpouseCreditReport">
-              <el-input v-model="assureForm.scSpouseCreditReport" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="担保人姓名" prop="scGuarantor">
-              <el-input v-model="assureForm.scGuarantor" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="担保人抵押资产情况" prop="scGuarantorAsset">
-              <el-input v-model="assureForm.scGuarantorAsset" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-form-item label="其他补充情况" prop="scExtraInfo">
-          <el-input v-model="assureForm.scExtraInfo" />
-        </el-form-item>
-        <el-form-item label="市人社部门意见" prop="scComment">
-          <el-input v-model="assureForm.scComment" type="textarea" :rows="7" />
-        </el-form-item>
-        <el-form-item v-if="!disableAssureHidden" label="担保意向书" label-width="200px">
-          <el-upload
-            :action="uploadPath"
-            :show-file-list="false"
-            :headers="headers"
-            :on-success="uploadPicUrl"
-            class="avatar-uploader"
-            accept=".jpg,.jpeg,.png,.gif"
-          >
-            <img v-if="assureForm.scLetterIntentUrl" :src="assureForm.scLetterIntentUrl" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon" />
-          </el-upload>
-        </el-form-item>
-        <el-form-item v-if="disableAssureHidden" label="担保意向书" prop="address">
-          <el-image v-if="assureForm.scLetterIntentUrl" style="width:50px;height:50px;" :src="assureForm.scLetterIntentUrl" :preview-src-list="[assureForm.scLetterIntentUrl]" />
-        </el-form-item>
-        <el-row v-if="disableAssureHidden">
-          <el-col :span="8">
-            <el-form-item label="是否审核通过" prop="submitStatus">
-              <el-select v-model="assureForm.status" prop="submitStatus" style="width:100%">
-                <el-option :value="7" label="通过" />
-                <el-option :value="6" label="不通过" />
-                <el-option :value="5" label="待补充" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="经办日期" prop="hsRecruitPeople">
-              <el-date-picker
-                v-model="assureForm.hsAuditDate"
-                type="date"
-                placeholder="选择日期"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                :picker-options="pickerOptions"
-                style="width:100%"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="经办人" prop="hsRecuitRate">
-              <el-input v-model="assureForm.hsOperator" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-form-item v-if="!disableAssureHidden" label="是否审核通过" prop="submitStatus">
-          <el-select v-model="assureForm.status" prop="submitStatus" style="width:25%">
-            <el-option :value="7" label="通过" />
-            <el-option :value="6" label="不通过" />
-            <el-option :value="5" label="待补充" />
-          </el-select>
-        </el-form-item>
-        <el-input v-model="assureForm.scOperator" type="hidden" />
-      </el-form>
-      <div v-if="!disableAssureHidden" class="op-container">
-        <el-button @click="handleCancel">取消</el-button>
-        <el-button type="primary" @click="handleEdit">提交</el-button>
-      </div>
-    </el-card>
-
-    <el-card v-if="isBankHidden" class="box-card">
-      <h3>银行受理信息情况</h3>
-      <el-form
-        ref="bankForm"
-        :rules="bankRules"
-        :model="bankForm"
-        :disabled="disableBankHidden"
-        label-position="right"
-        label-width="200px"
-      >
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="受理银行" prop="bName">
-              <el-input v-model="bankForm.bName" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="支行" prop="bSubBranch">
-              <el-input v-model="bankForm.bSubBranch" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="经办人" prop="bOpertator">
-              <el-input v-model="bankForm.bOpertator" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="授信额度" prop="bCredit">
-              <el-input v-model="bankForm.bCredit" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="放贷日期" prop="bLendingDate">
-              <el-date-picker
-                v-model="rensheForm.bLendingDate"
-                type="date"
-                placeholder="选择日期"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                :picker-options="pickerOptions"
-                style="width:100%"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="贷款期限" prop="bPeriodLoan">
-              <el-input v-model="bankForm.bPeriodLoan" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="还款方式" prop="bRepayment">
-              <el-input v-model="bankForm.bRepayment" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="利率" prop="bInterestRate">
-              <el-input v-model="bankForm.bInterestRate" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="利息/期" prop="bInterestPeriod">
-              <el-input v-model="bankForm.bInterestPeriod" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-form-item label="银行受理情况" prop="bComment">
-          <el-input v-model="bankForm.bComment" type="textarea" :rows="7" />
-        </el-form-item>
-        <el-form-item label="是否审核通过" prop="submitStatus">
-          <el-select v-model="bankForm.status" prop="submitStatus" style="width:25%">
-            <el-option :value="9" label="通过" />
-            <el-option :value="8" label="不通过" />
-          </el-select>
-        </el-form-item>
-        <el-input v-model="bankForm.scAuditDate" type="hidden" />
-        <el-input v-model="bankForm.scOperator" type="hidden" />
-      </el-form>
-      <div class="op-container">
         <el-button @click="handleCancel">取消</el-button>
         <el-button type="primary" @click="handleEdit">提交</el-button>
       </div>
@@ -596,7 +376,12 @@ export default {
       disableBankHidden: false,
       goods: { picUrl: '' },
       specForm: { specification: '', value: '', picUrl: '' },
-      rensheForm: { hsRigsterDate: undefined },
+      rensheForm: {
+        hsRigsterDate: undefined,
+        isApproval: false,
+        status: '',
+        hsComment: ''
+      },
       assureForm: { scLetterIntentUrl: '', value: '', picUrl: '' },
       bankForm: { },
       pickerOptions: {
@@ -625,25 +410,14 @@ export default {
         }]
       },
       rensheRulrs: {
+        hsTopAmount: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
         hsBusinessLicenseType: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
         hsApplicant: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
         hsUnifiedSocialCreditCode: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
         hsApplicantAdress: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
         hsRigsterDate: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
-        submitStatus: [{ required: true, message: '此字段不能为空', trigger: 'change' }]
-      },
-      assureRulrs: {
-        scBusinessAddress: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
-        scPropertyRight: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
-        scApplicantCreditReport: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
-        scSpouseCreditReport: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
-        hsApplicantAdress: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
-        submitStatus: [{ required: true, message: '此字段不能为空', trigger: 'change' }]
-      },
-      bankRules: {
-        bName: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
-        bSubBranch: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
-        submitStatus: [{ required: true, message: '此字段不能为空', trigger: 'change' }]
+        submitStatus: [{ required: true, message: '此字段不能为空', trigger: 'change' }],
+        status: [{ required: true, message: '此字段不能为空', trigger: 'change' }]
       }
     }
   },
@@ -739,39 +513,31 @@ export default {
       return target
     },
     handleEdit: function() {
-      const finalGoods = {}
-      this.extend(finalGoods, { 'id': this.$route.query.id })
-      // this.extend(finalGoods, this.goods)
-      if (parseInt(this.$route.query.action) === 1 || parseInt(this.$route.query.action) === 2) {
-        // this.rensheForm.hsOperator = store.getters.name
-        this.rensheForm.submitStatus = this.rensheForm.status
-        this.extend(finalGoods, this.rensheForm)
-      } else if (parseInt(this.$route.query.action) === 4 || parseInt(this.$route.query.action) === 5) {
-        // this.assureForm.scOperator = store.getters.name
-        this.assureForm.submitStatus = this.assureForm.status
-        this.extend(finalGoods, this.assureForm)
-        console.log(finalGoods)
-      } else if (parseInt(this.$route.query.action) === 9) {
-        // this.bankForm.bOpertator = store.getters.name
-        this.bankForm.submitStatus = this.bankForm.status
-        this.extend(finalGoods, this.bankForm)
-      }
-
-      updateApplicant(finalGoods)
-        .then(response => {
-          this.$notify.success({
-            title: '成功',
-            message: '创建成功'
-          })
-          this.$router.go(-1)
-          this.goBoack()
-        })
-        .catch(response => {
-          MessageBox.alert('业务错误：' + response.data.errmsg, '警告', {
-            confirmButtonText: '确定',
-            type: 'error'
-          })
-        })
+      this.$refs['rensheForm'].validate((valid) => {
+        if (valid) {
+          const finalGoods = {}
+          this.extend(finalGoods, { 'id': this.$route.query.id })
+          if (parseInt(this.$route.query.action) === 1 || parseInt(this.$route.query.action) === 2) {
+            this.rensheForm.submitStatus = this.rensheForm.status
+            this.extend(finalGoods, this.rensheForm)
+          }
+          updateApplicant(finalGoods)
+            .then(response => {
+              this.$notify.success({
+                title: '成功',
+                message: '创建成功'
+              })
+              this.$router.go(-1)
+              this.goBoack()
+            })
+            .catch(response => {
+              MessageBox.alert('业务错误：' + response.data.errmsg, '警告', {
+                confirmButtonText: '确定',
+                type: 'error'
+              })
+            })
+        }
+      })
     },
     uploadPicUrl: function(response) {
       this.assureForm.scLetterIntentUrl = response.data.url
@@ -810,6 +576,13 @@ export default {
     handleProductShow(row) {
       this.productForm = Object.assign({}, row)
       this.productVisiable = true
+    },
+    onChangeHrSubmitstatus: function(value) {
+      if (value === 4) {
+        this.rensheForm.isApproval = true
+      } else {
+        this.rensheForm.isApproval = false
+      }
     }
   }
 }

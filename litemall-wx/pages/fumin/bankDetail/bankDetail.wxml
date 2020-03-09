@@ -1,0 +1,62 @@
+<view class="container">
+  <view class="bank-detail">
+    <view class="bank-detail-container">
+      <label class="bank-detail-checkbox" wx:for="{{bankAuitList}}">
+
+        <view class='bank-yes-pic' wx:if="{{item.status == 2}}">
+          <view class="bank-detail-item-box">
+            <view class="bank-detail-right-box">
+              <view class="bank-detail-icon-box">
+                <image class="bank-detail-img-box" src="{{item.icon}}" mode="aspectFill"></image>
+              </view>
+              <view class="bank-detail-text-box">
+                <view class="bank-detail-title">{{item.name}}{{item.subBranch}}</view>
+              </view>
+            </view>
+            <view class="bank-detail-audit-box">
+              <view style="width:85%">
+                <view class="bank-detail-amount-value">{{item.bankAmount}}-{{item.hsTopAmount}}<span class="bank-detail-amount-unit">万元</span></view>
+                <view class="bank-detail-amount-name">货款额度</view>
+              </view>
+              <view  style="width:15%">
+                <view class="bank-detail-interest-value">{{item.interest}}%</view>
+                <view class="bank-detail-interest-name">利息</view>
+              </view>
+            </view>
+          </view>
+        </view>
+
+        <view class='bank-no-pic' wx:if="{{item.status == 1}}">
+          <view class="bank-detail-item-box">
+            <view class="bank-detail-right-box">
+              <view class="bank-detail-icon-box">
+                <image class="bank-detail-img-box" src="{{item.icon}}" mode="aspectFill"></image>
+              </view>
+              <view class="bank-detail-text-box">
+                <view class="bank-detail-title">{{item.name}}{{item.subBranch}}</view>
+              </view>
+            </view>
+            <view>
+                <view class="bank-detail-audit-name">未受理原因：<span>{{item.comment}}</span></view>
+            </view>
+          </view>
+        </view>
+        <view class='bank-yes-pic' wx:if="{{item.status == 0}}">
+          <view class="bank-detail-item-box">
+            <view class="bank-detail-right-box">
+              <view class="bank-detail-icon-box">
+                <image class="bank-detail-img-box" src="{{item.icon}}" mode="aspectFill"></image>
+              </view>
+              <view class="bank-detail-text-box">
+                <view class="bank-detail-title">{{item.name}}{{item.subBranch}}</view>
+              </view>
+            </view>
+            <view>
+                <view class="bank-detail--no-audit-name">待受理...</view>
+            </view>
+          </view>
+        </view>
+      </label>
+    </view>
+  </view>
+</view>

@@ -49,6 +49,7 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="deleted" jdbcType="BIT" property="deleted" />
     <result column="submit_status" jdbcType="INTEGER" property="submitStatus" />
+    <result column="is_available" jdbcType="BIT" property="isAvailable" />
     <result column="bank_id" jdbcType="VARCHAR" property="bankId" typeHandler="org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler" />
     <result column="hs_business_license_type" jdbcType="VARCHAR" property="hsBusinessLicenseType" />
     <result column="hs_applicant" jdbcType="VARCHAR" property="hsApplicant" />
@@ -207,15 +208,15 @@
     credit_report_url, credit_report_url_2, spouse_credit_report_url, spouse_credit_report_url_2, 
     undertaking_url, lease_contract_url, property_certificate_url, house_proprietary_certificate_url, 
     vehicles_certificate_url, bank_reconciliation_url, surety_id_card_url, surety_id_card_url_2, 
-    extra_url, add_time, update_time, deleted, submit_status, bank_id, hs_business_license_type, 
-    hs_applicant, hs_unified_social_credit_code, hs_applicant_adress, hs_rigster_date, 
-    hs_employment_business_license_no, hs_employees_info, hs_active_employees, hs_recruit_people, 
-    hs_mark, hs_recuit_rate, hs_comment, hs_audit_date, hs_operator, hs_top_amount, sc_business_address, 
-    sc_property_right, sc_applicant_credit_report, sc_spouse_credit_report, sc_guarantor, 
-    sc_guarantor_asset, sc_extra_info, sc_comment, sc_letter_intent_url, sc_audit_date, 
-    sc_operator, b_bank_id, b_name, b_sub_branch, b_opertator, b_credit, b_lending_date, 
-    b_period_loan, b_repayment, b_interest_rate, b_interest_period, b_comment, b_audit_date, 
-    b_auditor
+    extra_url, add_time, update_time, deleted, submit_status, is_available, bank_id, 
+    hs_business_license_type, hs_applicant, hs_unified_social_credit_code, hs_applicant_adress, 
+    hs_rigster_date, hs_employment_business_license_no, hs_employees_info, hs_active_employees, 
+    hs_recruit_people, hs_mark, hs_recuit_rate, hs_comment, hs_audit_date, hs_operator, 
+    hs_top_amount, sc_business_address, sc_property_right, sc_applicant_credit_report, 
+    sc_spouse_credit_report, sc_guarantor, sc_guarantor_asset, sc_extra_info, sc_comment, 
+    sc_letter_intent_url, sc_audit_date, sc_operator, b_bank_id, b_name, b_sub_branch, 
+    b_opertator, b_credit, b_lending_date, b_period_loan, b_repayment, b_interest_rate, 
+    b_interest_period, b_comment, b_audit_date, b_auditor
   </sql>
   <select id="selectByExample" parameterType="org.linlinjava.litemall.db.domain.LitemallApplicantExample" resultMap="BaseResultMap">
     <!--
@@ -353,7 +354,7 @@
       bank_reconciliation_url, surety_id_card_url, 
       surety_id_card_url_2, extra_url, add_time, 
       update_time, deleted, submit_status, 
-      bank_id, 
+      is_available, bank_id, 
       hs_business_license_type, hs_applicant, hs_unified_social_credit_code, 
       hs_applicant_adress, hs_rigster_date, hs_employment_business_license_no, 
       hs_employees_info, hs_active_employees, hs_recruit_people, 
@@ -385,7 +386,7 @@
       #{bankReconciliationUrl,jdbcType=VARCHAR}, #{suretyIdCardUrl,jdbcType=VARCHAR}, 
       #{suretyIdCardUrl2,jdbcType=VARCHAR}, #{extraUrl,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}, #{submitStatus,jdbcType=INTEGER}, 
-      #{bankId,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler}, 
+      #{isAvailable,jdbcType=BIT}, #{bankId,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler}, 
       #{hsBusinessLicenseType,jdbcType=VARCHAR}, #{hsApplicant,jdbcType=VARCHAR}, #{hsUnifiedSocialCreditCode,jdbcType=VARCHAR}, 
       #{hsApplicantAdress,jdbcType=VARCHAR}, #{hsRigsterDate,jdbcType=TIMESTAMP}, #{hsEmploymentBusinessLicenseNo,jdbcType=VARCHAR}, 
       #{hsEmployeesInfo,jdbcType=VARCHAR}, #{hsActiveEmployees,jdbcType=INTEGER}, #{hsRecruitPeople,jdbcType=INTEGER}, 
@@ -536,6 +537,9 @@
       </if>
       <if test="submitStatus != null">
         submit_status,
+      </if>
+      <if test="isAvailable != null">
+        is_available,
       </if>
       <if test="bankId != null">
         bank_id,
@@ -784,6 +788,9 @@
       </if>
       <if test="submitStatus != null">
         #{submitStatus,jdbcType=INTEGER},
+      </if>
+      <if test="isAvailable != null">
+        #{isAvailable,jdbcType=BIT},
       </if>
       <if test="bankId != null">
         #{bankId,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler},
@@ -1053,6 +1060,9 @@
       <if test="record.submitStatus != null">
         submit_status = #{record.submitStatus,jdbcType=INTEGER},
       </if>
+      <if test="record.isAvailable != null">
+        is_available = #{record.isAvailable,jdbcType=BIT},
+      </if>
       <if test="record.bankId != null">
         bank_id = #{record.bankId,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler},
       </if>
@@ -1227,6 +1237,7 @@
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       deleted = #{record.deleted,jdbcType=BIT},
       submit_status = #{record.submitStatus,jdbcType=INTEGER},
+      is_available = #{record.isAvailable,jdbcType=BIT},
       bank_id = #{record.bankId,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler},
       hs_business_license_type = #{record.hsBusinessLicenseType,jdbcType=VARCHAR},
       hs_applicant = #{record.hsApplicant,jdbcType=VARCHAR},
@@ -1404,6 +1415,9 @@
       <if test="submitStatus != null">
         submit_status = #{submitStatus,jdbcType=INTEGER},
       </if>
+      <if test="isAvailable != null">
+        is_available = #{isAvailable,jdbcType=BIT},
+      </if>
       <if test="bankId != null">
         bank_id = #{bankId,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler},
       </if>
@@ -1575,6 +1589,7 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       deleted = #{deleted,jdbcType=BIT},
       submit_status = #{submitStatus,jdbcType=INTEGER},
+      is_available = #{isAvailable,jdbcType=BIT},
       bank_id = #{bankId,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler},
       hs_business_license_type = #{hsBusinessLicenseType,jdbcType=VARCHAR},
       hs_applicant = #{hsApplicant,jdbcType=VARCHAR},

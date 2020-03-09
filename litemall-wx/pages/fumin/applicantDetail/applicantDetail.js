@@ -1,66 +1,66 @@
-// pages/fumin/applicantDetail/applicantDetail.js
-Page({
+var imageUtil = require('../../../utils/image.js');
+var util = require('../../../utils/util.js');
+var api = require('../../../config/api.js');
+//获取应用实例
+const app = getApp();
 
+Page({
   /**
    * 页面的初始数据
    */
   data: {
-
+    applicant: {
+      "id": 1,
+      "name": "",
+      "sex": "",
+      "maritalStatus": "",
+      "idCardNumber": "",
+      "phoneNumber": "",
+      "spouseName": "",
+      "applicantType": "",
+      "applicantAmount": "",
+      "recruitCategory": "",
+      "applicantCategory": "",
+      "address": "",
+      "spouseIdCardNumber": "",
+      "businessLicenseUrl": "",
+      "salaryDetailUrl": "",
+      "idCardUrl": "",
+      "idCardUrl2": "",
+      "spouseIdCardUrl": "",
+      "spouseIdCardUrl2": "",
+      "marriageCertificateUrl": "",
+      "marriageCertificateUrl2": "",
+      "spouseIdMarriageCertificateUrl1": "",
+      "spouseIdMarriageCertificateUrl2": "",
+      "residenceBookletUrl": "",
+      "residenceBookletUrl2": "",
+      "creditReportUrl": "",
+      "creditReportUrl2": "",
+      "undertakingUrl": "",
+      "leaseContractUrl": "",
+      "propertyCertificateUrl": "",
+      "houseProprietaryCertificateUrl": "",
+      "vehiclesCertificateUrl": "",
+      "bankReconciliationUrl": "",
+      "suretyIdCardUrl": "",
+      "suretyIdCardUrl2": "",
+      "extraUrl": ""
+    }
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-
+  onLoad: function(options) {
+    this.getApplicant();
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+  getApplicant: function() {
+    let that = this;
+    util.request(api.ApplicantRead).then(function(res) {
+      that.setData({
+        applicant: res.data
+      })
+    })
   }
 })

@@ -694,7 +694,7 @@ export default {
           this.disableRenSheHidden = true
           this.isAssureHidden = true
           this.disableAssureHidden = true
-          this.isBankHidden = true
+          this.isBankHidden = false
           this.disableBankHidden = true
           this.extend(this.rensheForm, response.data.data)
           this.rensheForm.status = 4

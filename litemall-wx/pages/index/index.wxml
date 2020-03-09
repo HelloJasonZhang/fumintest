@@ -1,0 +1,54 @@
+<!--index.wxml-->
+<view>
+  <view>
+    <image style="width: 100vw; height: 55vh; position:absolute;  top:250rpx; " src="{{imageFoursrc}}"></image>
+  </view>
+  <image style="width: 100vw; height: 100vh; position:relative; z-index:-1" src="{{imagethirdsrc}}"></image>
+</view>
+<view style="width: 80vw; height: 70vh; position:absolute;  left: 60rpx; top:340rpx; ">
+  <view class="danbao">
+    <view class="add-form">
+      <span class="lable">选择企业类型</span>
+      <radio-group class="radio-group" bindchange="radioChange">
+        <view class="form-item" wx:for-items="{{items}}">
+          <span class="input">{{item.name}}</span>
+          <radio wx:key="{{item.name}}" value="{{item.value}}" color="#5677fe" checked="{{item.checked}}" auto-focus/>
+        </view>
+      </radio-group>
+    </view>
+    <view style="margin-left:15px;margin-top:15px;">
+      <view class="document-box">
+        <view style="padding-bottom: 0rpx;">
+          <checkbox-group bindchange="checkboxChange">
+            <label class="checkbox" wx:for="{{checkboxItems}}">
+              <checkbox value="{{item.name}}" checked="{{item.checked}}" color="#5677fe"/>
+            </label>
+          </checkbox-group>
+        </view>
+        <view style="padding-top: 10rpx;">
+          <span class="link-tips">请提前阅读</span>
+          <span class="link-text" bindtap="showDocment" data-address-id="policy">政策说明</span>
+          <span>,</span>
+          <span class="link-text" bindtap="showDocment" data-address-id="workflow">流程说明</span>
+        </view>
+      </view>
+    </view>
+    <view class="btns">
+      <button class="save" bindtap="saveDanbao">下一步</button>
+    </view>
+  </view>
+</view>
+
+<van-popup show="{{ show }}" closeable close-icon="close" position="bottom" custom-style="height: 70%;" bind:close="onClose">
+  <view style="margin: 20rpx;">
+    <view style="margin: 20rpx 0px;">{{docTyp}}</view>
+    <view style="margin: 30rpx 0px;">
+
+      <view class="detail">
+        <import src="/lib/wxParse/wxParse.wxml" />
+        <template is="wxParse" data="{{wxParseData:documentDetail.nodes}}" />
+      </view>
+    </view>
+  </view>
+
+</van-popup>

@@ -24,8 +24,6 @@ public class AdminCommentController {
     @Autowired
     private LitemallCommentService commentService;
 
-    @RequiresPermissions("admin:comment:list")
-    @RequiresPermissionsDesc(menu = {"商品管理", "评论管理"}, button = "查询")
     @GetMapping("/list")
     public Object list(String userId, String valueId,
                        @RequestParam(defaultValue = "1") Integer page,
@@ -36,8 +34,6 @@ public class AdminCommentController {
         return ResponseUtil.okList(commentList);
     }
 
-    @RequiresPermissions("admin:comment:delete")
-    @RequiresPermissionsDesc(menu = {"商品管理", "评论管理"}, button = "删除")
     @PostMapping("/delete")
     public Object delete(@RequestBody LitemallComment comment) {
         Integer id = comment.getId();

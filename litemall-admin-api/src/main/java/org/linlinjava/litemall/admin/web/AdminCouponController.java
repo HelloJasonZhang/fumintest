@@ -31,8 +31,6 @@ public class AdminCouponController {
     @Autowired
     private LitemallCouponUserService couponUserService;
 
-    @RequiresPermissions("admin:coupon:list")
-    @RequiresPermissionsDesc(menu = {"推广管理", "优惠券管理"}, button = "查询")
     @GetMapping("/list")
     public Object list(String name, Short type, Short status,
                        @RequestParam(defaultValue = "1") Integer page,
@@ -43,8 +41,6 @@ public class AdminCouponController {
         return ResponseUtil.okList(couponList);
     }
 
-    @RequiresPermissions("admin:coupon:listuser")
-    @RequiresPermissionsDesc(menu = {"推广管理", "优惠券管理"}, button = "查询用户")
     @GetMapping("/listuser")
     public Object listuser(Integer userId, Integer couponId, Short status,
                            @RequestParam(defaultValue = "1") Integer page,
@@ -64,8 +60,6 @@ public class AdminCouponController {
         return null;
     }
 
-    @RequiresPermissions("admin:coupon:create")
-    @RequiresPermissionsDesc(menu = {"推广管理", "优惠券管理"}, button = "添加")
     @PostMapping("/create")
     public Object create(@RequestBody LitemallCoupon coupon) {
         Object error = validate(coupon);
@@ -83,16 +77,12 @@ public class AdminCouponController {
         return ResponseUtil.ok(coupon);
     }
 
-    @RequiresPermissions("admin:coupon:read")
-    @RequiresPermissionsDesc(menu = {"推广管理", "优惠券管理"}, button = "详情")
     @GetMapping("/read")
     public Object read(@NotNull Integer id) {
         LitemallCoupon coupon = couponService.findById(id);
         return ResponseUtil.ok(coupon);
     }
 
-    @RequiresPermissions("admin:coupon:update")
-    @RequiresPermissionsDesc(menu = {"推广管理", "优惠券管理"}, button = "编辑")
     @PostMapping("/update")
     public Object update(@RequestBody LitemallCoupon coupon) {
         Object error = validate(coupon);
@@ -105,8 +95,6 @@ public class AdminCouponController {
         return ResponseUtil.ok(coupon);
     }
 
-    @RequiresPermissions("admin:coupon:delete")
-    @RequiresPermissionsDesc(menu = {"推广管理", "优惠券管理"}, button = "删除")
     @PostMapping("/delete")
     public Object delete(@RequestBody LitemallCoupon coupon) {
         couponService.deleteById(coupon.getId());

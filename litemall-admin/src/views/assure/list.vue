@@ -16,7 +16,8 @@
     </div>
 
     <!-- 查询结果 -->
-    <el-table v-loading="listLoading" :data="list" element-loading-text="正在查询中。。。" border fit highlight-current-row>
+    <el-table ref="multipleTable" v-loading="listLoading" :data="list" element-loading-text="正在查询中。。。" border fit highlight-current-row @selection-change="handleApplicantSelectionChange">
+      <el-table-column type="selection" min-width="30px" />
       <el-table-column align="center" label="ID" min-width="20px" prop="id" />
       <el-table-column align="center" label="申请人（法人）姓名" prop="name" />
       <el-table-column align="center" label="性别" prop="sex" />
@@ -131,7 +132,8 @@ export default {
         { step: 3, status: 'finish' }
       ],
       queryStatusMap: queryStatusMap,
-      downloadLoading: false
+      downloadLoading: false,
+      multipleSelection: []
     }
   },
   computed: {
@@ -192,25 +194,35 @@ export default {
     handleUpdate(row) {
       this.$router.push({ path: '/hr/edit', query: { id: row.id }})
     },
+    handleApplicantSelectionChange(value) {
+      this.multipleSelection = value
+    },
     handleDownload() {
-      this.downloadLoading = true
-      import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = [
-          '姓名',
-          '性别',
-          '联系方式',
-          '申请人（法人）类别',
-          '申请额度'
-        ]
-        const filterVal = ['name', 'sex', 'phoneNumber', 'applicantType', 'applicantAmount']
-        excel.export_json_to_excel2(
-          tHeader,
-          this.list,
-          filterVal,
-          '申请人'
-        )
-        this.downloadLoading = false
-      })
+      if (this.multipleSelection.length > 0) {
+        this.downloadLoading = true
+        import('@/vendor/Export2Excel').then(excel => {
+          const tHeader = [
+            '姓名',
+            '性别',
+            '联系方式',
+            '申请人（法人）类别',
+            '申请额度'
+          ]
+          const filterVal = ['name', 'sex', 'phoneNumber', 'applicantType', 'applicantAmount']
+          excel.export_json_to_excel2(
+            tHeader,
+            this.multipleSelection,
+            filterVal,
+            '申请人'
+          )
+          this.downloadLoading = false
+        })
+      } else {
+        this.$notify.warning({
+          title: '无法下载',
+          message: '请选择数据'
+        })
+      }
     }
   }
 }

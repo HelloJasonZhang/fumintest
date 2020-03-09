@@ -27,8 +27,6 @@ public class AdminUserController {
     @Autowired
     private LitemallUserService userService;
 
-    @RequiresPermissions("admin:user:list")
-    @RequiresPermissionsDesc(menu = {"用户管理", "会员管理"}, button = "查询")
     @GetMapping("/list")
     public Object list(String username, String mobile,
                        @RequestParam(defaultValue = "1") Integer page,

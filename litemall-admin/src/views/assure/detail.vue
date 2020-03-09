@@ -353,7 +353,7 @@
         <el-form-item label="其他补充情况" prop="scExtraInfo">
           <el-input v-model="assureForm.scExtraInfo" />
         </el-form-item>
-        <el-form-item label="市人社部门意见" prop="scComment">
+        <el-form-item label="担保公司核查信息情况" prop="scComment">
           <el-input v-model="assureForm.scComment" type="textarea" :rows="7" />
         </el-form-item>
         <el-form-item v-if="!disableAssureHidden" label="担保意向书" label-width="200px">
@@ -694,7 +694,7 @@ export default {
           this.disableRenSheHidden = true
           this.isAssureHidden = true
           this.disableAssureHidden = true
-          this.isBankHidden = true
+          this.isBankHidden = false
           this.disableBankHidden = true
           this.extend(this.rensheForm, response.data.data)
           this.rensheForm.status = 4

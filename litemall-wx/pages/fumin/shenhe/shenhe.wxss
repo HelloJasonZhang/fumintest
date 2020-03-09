@@ -1,1 +1,42 @@
-/* pages/fumin/shenhe/shenhe.wxss */
+page {
+  height: 100%;
+  background: #f4f4f4;
+}
+
+.dengdai {
+  display: flex;
+  align-items:center;
+}
+
+.dengdai .contect-box {
+  text-align: center;
+  margin-left: 30rpx; 
+}
+
+.dengdai .btns {
+  bottom: 0;
+  left: 0;
+  top: 80rpx;
+  overflow: hidden;
+  display: flex;
+  height: 100rpx;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.dengdai .save {
+  width: 90%;
+  height: 100rpx;
+  text-align: center;
+  line-height: 100rpx;
+  font-size: 28rpx;
+  color: #fff;
+  border: none;
+  border-radius: 0;
+}
+
+.dengdai .save {
+  background: #5677fe;
+  border-radius: 50rpx;
+}

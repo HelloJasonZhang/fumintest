@@ -17,7 +17,7 @@ import java.util.List;
 public class LitemallBankService {
     @Resource
     private LitemallBankMapper bankMapper;
-    private Column[] columns = new Column[]{Column.id, Column.name, Column.contact, Column.address, Column.subBranch, Column.roleId};
+    private Column[] columns = new Column[]{Column.id, Column.name, Column.contact, Column.address, Column.subBranch, Column.roleId, Column.icon};
 
     public List<LitemallBank> query(Integer page, Integer limit, String sort, String order) {
         LitemallBankExample example = new LitemallBankExample();

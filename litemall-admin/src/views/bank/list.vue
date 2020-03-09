@@ -16,8 +16,9 @@
     </div>
 
     <!-- 查询结果 -->
-    <el-table v-loading="listLoading" :data="list" element-loading-text="正在查询中。。。" border fit highlight-current-row>
-      <el-table-column align="center" label="ID" min-width="20px" prop="id">
+    <el-table ref="multipleTable" v-loading="listLoading" :data="list" element-loading-text="正在查询中。。。" border fit highlight-current-row @selection-change="handleApplicantSelectionChange">
+      <el-table-column type="selection" min-width="30px" />
+      <el-table-column align="center" label="ID" min-width="30px" prop="id">
         <template slot-scope="scope">
           <a class="link-type" @click="handleView(scope.row)">{{ scope.row.id }}</a>
         </template>
@@ -30,7 +31,7 @@
       <el-table-column align="center" label="申请人类别" prop="applicantType" />
       <el-table-column align="center" label="申请额度" prop="applicantAmount" />
       <!-- <el-table-column align="center" label="审批状态" prop="statusLable" /> -->
-      <el-table-column align="center" label="审核状态" prop="submitStatus" />
+      <!-- <el-table-column align="center" label="审核状态" prop="submitStatus" /> -->
       <el-table-column
         align="center"
         label="审核状态"
@@ -58,91 +59,75 @@
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @paginat3ion="getList" />
 
     <!-- 添加或修改对话框 -->
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" width="70%">
       <el-form ref="dataForm" :rules="rules" :model="dataForm" status-icon label-position="right" label-width="120px">
         <el-row>
           <el-col :span="8">
-            <el-form-item label="受理银行" prop="name">
-              <div class="block">
-                <el-cascader v-model="dataForm.bankCascader" :options="dataForm.cascaderOptions" :props="{ expandTrigger: 'hover' }" @change="handleCascaderChange" />
-              </div>
-              <!-- <el-select v-model="dataForm.bankId" placeholder="选择审核银行">
-                <el-option
-                  v-for="item in dataForm.bankList"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id"
-                />
-              </el-select> -->
-            </el-form-item>
-          </el-col>
-          <!-- <el-col :span="8">
-            <el-form-item label="支行" prop="subBranch">
-              <el-select v-model="dataForm.subBranch" placeholder="选择支行">
-                <el-option
-                  v-for="item in dataForm.bankList"
-                  :key="item.id"
-                  :label="item.subBranch"
-                  :value="item.id"
-                />
+            <el-form-item label="是否审核通过" prop="status">
+              <el-select v-model="dataForm.status" prop="status" style="width:100%" @change="onChangeAuditStatus">
+                <el-option :value="2" label="通过" />
+                <el-option :value="1" label="不通过" />
               </el-select>
             </el-form-item>
-          </el-col> -->
+          </el-col>
           <el-col :span="8">
+            <el-form-item label="受理银行" prop="name">
+              <div class="block">
+                <el-cascader v-model="dataForm.bankCascader" :options="dataForm.cascaderOptions" :props="{ expandTrigger: 'hover' }" style="width:100%" @change="handleCascaderChange" />
+              </div>
+            </el-form-item>
+          </el-col>
+          <el-col v-if="dataForm.isApprove" :span="8">
             <el-form-item label="经办人" prop="opertator">
               <el-input v-model="dataForm.opertator" />
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="授信额度" prop="credit">
-              <el-input v-model="dataForm.credit" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="放贷日期" prop="lendingDate">
-              <el-date-picker
-                v-model="dataForm.lendingDate"
-                type="date"
-                placeholder="选择日期"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                :picker-options="pickerOptions"
-                style="width:100%"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="贷款期限" prop="periodLoan">
-              <el-input v-model="dataForm.periodLoan" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="还款方式" prop="repayment">
-              <el-input v-model="dataForm.repayment" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="利率" prop="interest">
-              <el-input v-model="dataForm.interest" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="利息/期" prop="interestPeriod">
-              <el-input v-model="dataForm.interestPeriod" />
-            </el-form-item>
-          </el-col>
+        <el-row v-if="dataForm.isApprove">
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="授信额度(万元)" prop="credit">
+                <el-input v-model="dataForm.credit" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="放贷日期" prop="lendingDate">
+                <el-date-picker
+                  v-model="dataForm.lendingDate"
+                  type="date"
+                  placeholder="选择日期"
+                  value-format="yyyy-MM-dd HH:mm:ss"
+                  :picker-options="pickerOptions"
+                  style="width:100%"
+                />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="贷款期限" prop="periodLoan">
+                <el-input v-model="dataForm.periodLoan" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="还款方式" prop="repayment">
+                <el-input v-model="dataForm.repayment" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="利率(%)" prop="interest">
+                <el-input v-model="dataForm.interest" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="利息/期" prop="interestPeriod">
+                <el-input v-model="dataForm.interestPeriod" />
+              </el-form-item>
+            </el-col>
+          </el-row>
         </el-row>
         <el-form-item label="银行受理情况" prop="auditComment">
           <el-input v-model="dataForm.auditComment" type="textarea" :rows="7" />
-        </el-form-item>
-        <el-form-item label="是否审核通过" prop="status">
-          <el-select v-model="dataForm.status" prop="status" style="width:25%">
-            <el-option :value="2" label="通过" />
-            <el-option :value="1" label="不通过" />
-          </el-select>
         </el-form-item>
         <el-input v-model="dataForm.applicantId" type="hidden" />
         <el-input v-model="dataForm.id" type="hidden" />
@@ -160,12 +145,12 @@
         <el-table :data="dataForm.applicantBank" stripestyle="width: 100%">
           <el-table-column align="center" prop="bankName" label="银行" />
           <el-table-column align="center" prop="subBranch" label="分行" />
-          <el-table-column align="center" prop="credit" label="授信额度" />
+          <el-table-column align="center" prop="credit" label="授信额度(万元)" />
           <el-table-column align="center" prop="opertator" label="经办人" />
           <el-table-column align="center" prop="lendingDate" label="放贷日期" width="180" />
           <el-table-column align="center" prop="periodLoan" label="还款方式" />
           <el-table-column align="center" prop="repayment" label="还款方式" />
-          <el-table-column align="center" prop="interest" label="利率" />
+          <el-table-column align="center" prop="interest" label="利率(%)" />
           <el-table-column align="center" prop="interestPeriod" label="利息/期" />
           <el-table-column align="center" prop="auditComment" label="银行受理情况" width="180" />
           <el-table-column align="center" prop="status" label="受理状态" />
@@ -180,12 +165,12 @@
           <el-table-column type="selection" width="55" />
           <el-table-column align="center" prop="bankName" label="银行" />
           <el-table-column align="center" prop="subBranch" label="分行" />
-          <el-table-column align="center" prop="credit" label="授信额度" />
+          <el-table-column align="center" prop="credit" label="授信额度(万元)" />
           <el-table-column align="center" prop="opertator" label="经办人" />
           <el-table-column align="center" prop="lendingDate" label="放贷日期" width="180" />
           <el-table-column align="center" prop="periodLoan" label="还款方式" />
           <el-table-column align="center" prop="repayment" label="还款方式" />
-          <el-table-column align="center" prop="interest" label="利率" />
+          <el-table-column align="center" prop="interest" label="利率(%)" />
           <el-table-column align="center" prop="interestPeriod" label="利息/期" />
           <el-table-column align="center" prop="auditComment" label="银行受理情况" width="180" />
           <el-table-column align="center" prop="status" label="受理状态" />
@@ -193,7 +178,7 @@
       </template>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFinnishFormVisible = false">取消</el-button>
-        <el-button type="primary" @click="createFinishAudit" :disabled="canFinish">确定</el-button>
+        <el-button type="primary" :disabled="canFinish" @click="createFinishAudit">确定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -314,7 +299,8 @@ export default {
         interestPeriod: null,
         auditComment: null,
         status: null,
-        applicantBank: []
+        applicantBank: [],
+        isApprove: false
       },
       dialogFormVisible: false,
       dialogAduitFormVisible: false,
@@ -332,7 +318,8 @@ export default {
         status: [
           { required: true, message: '此字段不能为空', trigger: 'change' }
         ]
-      }
+      },
+      multipleSelection: []
     }
   },
   computed: {
@@ -456,13 +443,12 @@ export default {
     createFinishAudit() {
       createFinishAudit(this.dataForm)
         .then(response => {
-          this.dialogFormVisible = false
+          this.dialogFinnishFormVisible = false
           this.getList()
           this.$notify.success({
             title: '成功',
             message: '创建成功'
           })
-          this.dialogFinnishFormVisible = true
         })
         .catch(response => {
           this.$notify.error({
@@ -586,25 +572,42 @@ export default {
           })
         })
     },
+    onChangeAuditStatus(value) {
+      if (value === 2) {
+        this.dataForm.isApprove = true
+      } else {
+        this.dataForm.isApprove = false
+      }
+    },
+    handleApplicantSelectionChange(value) {
+      this.multipleSelection = value
+    },
     handleDownload() {
-      this.downloadLoading = true
-      import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = [
-          '姓名',
-          '性别',
-          '联系方式',
-          '申请人（法人）类别',
-          '申请额度'
-        ]
-        const filterVal = ['name', 'sex', 'phoneNumber', 'applicantType', 'applicantAmount']
-        excel.export_json_to_excel2(
-          tHeader,
-          this.list,
-          filterVal,
-          '申请人'
-        )
-        this.downloadLoading = false
-      })
+      if (this.multipleSelection.length > 0) {
+        this.downloadLoading = true
+        import('@/vendor/Export2Excel').then(excel => {
+          const tHeader = [
+            '姓名',
+            '性别',
+            '联系方式',
+            '申请人（法人）类别',
+            '申请额度'
+          ]
+          const filterVal = ['name', 'sex', 'phoneNumber', 'applicantType', 'applicantAmount']
+          excel.export_json_to_excel2(
+            tHeader,
+            this.multipleSelection,
+            filterVal,
+            '申请人'
+          )
+          this.downloadLoading = false
+        })
+      } else {
+        this.$notify.warning({
+          title: '无法下载',
+          message: '请选择数据'
+        })
+      }
     }
   }
 }

@@ -8,7 +8,7 @@
         <el-option v-for="(key, value) in queryStatusMap" :key="key" :label="key" :value="value" />
       </el-select>
       <el-button v-permission="['GET /admin/applicant/list']" class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查找</el-button>
-      <el-button v-permission="['POST /admin/applicant/create']" class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">创建</el-button>
+      <!-- <el-button v-permission="['POST /admin/applicant/create']" class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">创建</el-button> -->
       <!--
       <el-button v-permission="['POST /admin/applicant/create']" class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">担保公司审核</el-button>
       <el-button v-permission="['POST /admin/applicant/create']" class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">银行审核</el-button> -->
@@ -16,15 +16,20 @@
     </div>
 
     <!-- 查询结果 -->
-    <el-table v-loading="listLoading" :data="list" element-loading-text="正在查询中。。。" border fit highlight-current-row>
+    <el-table ref="multipleTable" v-loading="listLoading" :data="list" element-loading-text="正在查询中。。。" border fit highlight-current-row @selection-change="handleApplicantSelectionChange">
+      <el-table-column type="selection" min-width="30px" />
       <el-table-column align="center" label="ID" min-width="20px" prop="id" />
-      <el-table-column align="center" label="申请人（法人）姓名" prop="name" />
+      <el-table-column align="center" label="姓名" prop="name" />
       <el-table-column align="center" label="性别" prop="sex" />
       <el-table-column align="center" label="婚姻状况" prop="maritalStatus" />
       <el-table-column align="center" label="身份证号" prop="idCardNumber" />
       <el-table-column align="center" label="联系方式" prop="phoneNumber" />
-      <el-table-column align="center" label="申请人（法人）类别" prop="applicantType" />
+      <el-table-column align="center" label="类别" prop="applicantType" />
       <el-table-column align="center" label="申请额度" prop="applicantAmount" />
+      <el-table-column align="center" label="状态" prop="isAvailable">
+        <template slot-scope="scope">
+          <el-tag size="mini">{{ scope.row.isAvailable ? "作废" : "有效" }}</el-tag>
+        </template>
       </el-table-column>
       <el-table-column
         align="center"
@@ -40,11 +45,11 @@
           </el-steps>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="操作" width="150" class-name="small-padding fixed-width">
+      <el-table-column align="center" label="操作" width="250" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button v-permission="['POST /admin/applicant/update']" type="primary" size="mini" @click="handleView(scope.row)">查看</el-button>
-          <el-button v-permission="['POST /admin/applicant/update']" type="success" :disabled="scope.row.has_edit" size="mini" @click="handleAudit(scope.row)">审核</el-button>
-          <!--           <el-button v-permission="['POST /admin/applicant/delete']" type="primary" size="mini" @click="handleUpdate(scope.row)">修改</el-button> -->
+          <el-button type="primary" size="mini" @click="handleView(scope.row)">查看</el-button>
+          <el-button type="success" :disabled="scope.row.has_edit" size="mini" @click="handleAudit(scope.row)">审核</el-button>
+          <el-button type="danger" :disabled="scope.row.has_redo" size="mini" style="width:72px;" @click="handleRedo(scope.row)">重新申请</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -67,14 +72,22 @@
 </style>
 
 <script>
-import { listApplicant } from '@/api/applicant'
+import { listApplicant, updateApplicant } from '@/api/applicant'
+import { MessageBox } from 'element-ui'
 import { getToken } from '@/utils/auth'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
 const queryStatusMap = {
   '1': '待审核',
   '2': '待补充',
-  '4': '通过'
+  '3': '不通过',
+  '4': '通过',
+  '5': '担保公司待审核',
+  '6': '担保公司不通过',
+  '7': '担保公司通过',
+  '8': '银行待受理',
+  '9': '银行已受理',
+  '10': '结束'
 }
 
 export default {
@@ -131,7 +144,8 @@ export default {
         { step: 3, status: 'finish' }
       ],
       queryStatusMap: queryStatusMap,
-      downloadLoading: false
+      downloadLoading: false,
+      multipleSelection: []
     }
   },
   computed: {
@@ -147,7 +161,6 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
-      console.log(this.listQuery)
       listApplicant(this.listQuery)
         .then(response => {
           this.list = response.data.data.list
@@ -155,9 +168,16 @@ export default {
           this.listLoading = false
           for (let index = 0; index < this.list.length; index++) {
             var element = this.list[index]
-            if (element.submitStatus != 1 && element.submitStatus != 2) {
+            element['has_redo'] = true
+            if (element.submitStatus !== 1 && element.submitStatus !== 2) {
               element['has_edit'] = true
             }
+            if (element.submitStatus === 3 || element.submitStatus === 6) {
+              if (!element.isAvailable) {
+                element['has_redo'] = false
+              }
+            }
+
             element.statusLable = this.statusMap[element.submitStatus - 1]
             element.status = this.setepStatusArray[element.submitStatus - 1].status
             element.statusName = this.setepStatusArray[element.submitStatus - 1].step
@@ -192,25 +212,64 @@ export default {
     handleUpdate(row) {
       this.$router.push({ path: '/hr/edit', query: { id: row.id }})
     },
-    handleDownload() {
-      this.downloadLoading = true
-      import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = [
-          '姓名',
-          '性别',
-          '联系方式',
-          '申请人（法人）类别',
-          '申请额度'
-        ]
-        const filterVal = ['name', 'sex', 'phoneNumber', 'applicantType', 'applicantAmount']
-        excel.export_json_to_excel2(
-          tHeader,
-          this.list,
-          filterVal,
-          '申请人'
-        )
-        this.downloadLoading = false
+    handleRedo(row) {
+      this.$confirm('此操作是重新申请, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        var applicant = row
+        applicant['isAvailable'] = true
+        updateApplicant(applicant)
+          .then(response => {
+            this.getList()
+            this.$notify.success({
+              title: '成功',
+              message: '修改成功'
+            })
+          })
+          .catch(response => {
+            MessageBox.alert('业务错误：' + response.data.errmsg, '警告', {
+              confirmButtonText: '确定',
+              type: 'error'
+            })
+          })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
       })
+    },
+    handleApplicantSelectionChange(value) {
+      this.multipleSelection = value
+    },
+    handleDownload() {
+      if (this.multipleSelection.length > 0) {
+        this.downloadLoading = true
+        import('@/vendor/Export2Excel').then(excel => {
+          const tHeader = [
+            '姓名',
+            '性别',
+            '联系方式',
+            '申请人（法人）类别',
+            '申请额度'
+          ]
+          const filterVal = ['name', 'sex', 'phoneNumber', 'applicantType', 'applicantAmount']
+          excel.export_json_to_excel2(
+            tHeader,
+            this.multipleSelection,
+            filterVal,
+            '申请人'
+          )
+          this.downloadLoading = false
+        })
+      } else {
+        this.$notify.warning({
+          title: '无法下载',
+          message: '请选择数据'
+        })
+      }
     }
   }
 }

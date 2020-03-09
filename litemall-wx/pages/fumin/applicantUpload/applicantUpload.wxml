@@ -1,2 +1,46 @@
-<!--pages/fumin/applicantUpload/applicantUpload.wxml-->
-<text>pages/fumin/applicantUpload/applicantUpload.wxml</text>
+<view class="container">
+  <view class="header-container">
+    <!--图片宽大于屏幕宽-->
+    <image style="width: 95vw; height: {{imageheight}}px;" src="{{imageFirstSrc}}" bindload="imageLoad"></image>
+  </view>
+  <view class="aplicant-upload">
+    <view class="applicant-upload-list">
+      <view class="item" wx:for="{{uploadFiles}}" wx:for-item="i">
+      
+        <view class="l" wx:for="{{i.imageURLs}}" wx:for-item="j">
+          <view wx:if="{{j.isHadden}}">
+            <view class="name">{{j.name}} 
+              <!-- <label wx:if="{{item.isShowDoc}}" class="label-1__text">下载模板</label> -->
+              <van-icon  wx:if="{{ j.picUrls.length > 0 }}" name="cross" color="red" size="40rpx" bindtap="removePic" data-item-id="{{j.id}}"/>
+            </view>
+            <view class="weui-uploader__files" id="uploaderFiles">
+              <block wx:for="{{j.picUrls}}" wx:key="*this" wx:for-item="k">
+                <view class="weui-uploader__file" bindtap="previewImage" id="{{j.id}}" data-url-id="{{k}}">
+                  <image class="weui-uploader__img" src="{{k}}" mode="aspectFill" />
+                  
+                </view>
+              </block>
+              <view class="weui-uploader__input-box" wx:if="{{ j.picUrls.length < 1 }}">
+                <view class="weui-uploader__input" bindtap="chooseImage" data-address-id="{{j.id}}"></view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="btns">
+    <button class="save" bindtap="saveUplaod">下一步</button>
+  </view>
+</view>
+
+<!-- <view class="weui-uploader__files" id="uploaderFiles">
+            <block wx:for="{{files}}" wx:key="*this">
+              <view class="weui-uploader__file" bindtap="previewImage" id="{{item.id}}">
+                <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
+              </view>
+            </block>
+            <view class="weui-uploader__input-box" wx:if="{{ files.length < 1 }}">
+              <view class="weui-uploader__input" bindtap="chooseImage"></view>
+            </view>
+          </view> -->

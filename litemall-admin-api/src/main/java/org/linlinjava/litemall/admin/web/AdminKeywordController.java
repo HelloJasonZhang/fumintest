@@ -26,8 +26,6 @@ public class AdminKeywordController {
     @Autowired
     private LitemallKeywordService keywordService;
 
-    @RequiresPermissions("admin:keyword:list")
-    @RequiresPermissionsDesc(menu = {"商场管理", "关键词"}, button = "查询")
     @GetMapping("/list")
     public Object list(String keyword, String url,
                        @RequestParam(defaultValue = "1") Integer page,
@@ -46,8 +44,6 @@ public class AdminKeywordController {
         return null;
     }
 
-    @RequiresPermissions("admin:keyword:create")
-    @RequiresPermissionsDesc(menu = {"商场管理", "关键词"}, button = "添加")
     @PostMapping("/create")
     public Object create(@RequestBody LitemallKeyword keyword) {
         Object error = validate(keyword);
@@ -58,16 +54,12 @@ public class AdminKeywordController {
         return ResponseUtil.ok(keyword);
     }
 
-    @RequiresPermissions("admin:keyword:read")
-    @RequiresPermissionsDesc(menu = {"商场管理", "关键词"}, button = "详情")
     @GetMapping("/read")
     public Object read(@NotNull Integer id) {
         LitemallKeyword keyword = keywordService.findById(id);
         return ResponseUtil.ok(keyword);
     }
 
-    @RequiresPermissions("admin:keyword:update")
-    @RequiresPermissionsDesc(menu = {"商场管理", "关键词"}, button = "编辑")
     @PostMapping("/update")
     public Object update(@RequestBody LitemallKeyword keyword) {
         Object error = validate(keyword);
@@ -80,8 +72,6 @@ public class AdminKeywordController {
         return ResponseUtil.ok(keyword);
     }
 
-    @RequiresPermissions("admin:keyword:delete")
-    @RequiresPermissionsDesc(menu = {"商场管理", "关键词"}, button = "删除")
     @PostMapping("/delete")
     public Object delete(@RequestBody LitemallKeyword keyword) {
         Integer id = keyword.getId();

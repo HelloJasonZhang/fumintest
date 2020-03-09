@@ -1,2 +1,22 @@
-<!--pages/fumin/shenhe/shenhe.wxml-->
-<text>pages/fumin/shenhe/shenhe.wxml</text>
+<view>
+  <image style="width: 100vw; height: 100vh;" src="{{imagethirdsrc}}"></image>
+</view>
+<view style="position:absolute; top:35vh;">
+  <view  style="margin: 0rpx 0rpx;">
+    <view class="dengdai">
+      <view class="contect-box">
+        <view>
+          <span style="color: #000; font-size:50rpx;font-weight:bold" >恭喜你审核通过</span>
+        </view>
+
+        <view style="margin: 30rpx 0px;">
+          <image style="width: 90vw; height: 35vh;" src="{{scLetterIntentUrl}}" bindload="imageLoad"></image>
+        </view>
+
+        <view class="btns">
+          <button class="save" bindtap="navigateBack">返回</button>
+        </view>
+      </view>  
+    </view>
+  </view>
+</view>

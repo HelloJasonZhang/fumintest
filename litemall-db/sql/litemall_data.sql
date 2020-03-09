@@ -39,7 +39,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `litemall_admin` WRITE;
 /*!40000 ALTER TABLE `litemall_admin` DISABLE KEYS */;
-INSERT INTO `litemall_admin` VALUES (1,'admin123','$2a$10$.rEfyBb/GURD9P2p0fRg/OAJGloGNDkJS4lY0cQHeqDgsbdTylBpu',NULL,NULL,'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif','2018-02-01 00:00:00','2018-02-01 00:00:00',0,'[1]'),(4,'promotion123','$2a$10$wDZLOLLnzZ1EFZ3ldZ1XFOUWDEX6TnQCUFdJz4g.PoMaLTzS8TjWq','',NULL,'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif','2019-01-07 15:16:59','2019-01-07 15:17:34',0,'[3]'),(5,'mall123','$2a$10$aCtsc4rG6KmxQ59.IkYse.oRyKuwQoU2CPCmxSdB.d5nXq6aw/z4O','',NULL,'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif','2019-01-07 15:17:25','2019-01-07 15:21:05',0,'[2]');
+INSERT INTO `litemall_admin` VALUES (1,'admin123','$2a$10$.rEfyBb/GURD9P2p0fRg/OAJGloGNDkJS4lY0cQHeqDgsbdTylBpu',NULL,NULL,'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif','2018-02-01 00:00:00','2018-02-01 00:00:00',0,'[1]');
 /*!40000 ALTER TABLE `litemall_admin` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -270,7 +270,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `litemall_permission` WRITE;
 /*!40000 ALTER TABLE `litemall_permission` DISABLE KEYS */;
-INSERT INTO `litemall_permission` VALUES (1,1,'*','2019-01-01 00:00:00','2019-01-01 00:00:00',0),(2,2,'admin:category:read','2019-01-07 15:18:53','2019-01-07 15:18:53',0),(3,2,'admin:category:update','2019-01-07 15:18:53','2019-01-07 15:18:53',0),(4,2,'admin:category:delete','2019-01-07 15:18:53','2019-01-07 15:18:53',0),(5,2,'admin:category:create','2019-01-07 15:18:53','2019-01-07 15:18:53',0),(6,2,'admin:category:list','2019-01-07 15:18:53','2019-01-07 15:18:53',0),(7,2,'admin:brand:create','2019-01-07 15:18:53','2019-01-07 15:18:53',0),(8,2,'admin:brand:list','2019-01-07 15:18:53','2019-01-07 15:18:53',0),(9,2,'admin:brand:delete','2019-01-07 15:18:53','2019-01-07 15:18:53',0),(10,2,'admin:brand:read','2019-01-07 15:18:53','2019-01-07 15:18:53',0),(11,2,'admin:brand:update','2019-01-07 15:18:53','2019-01-07 15:18:53',0),(12,3,'admin:ad:list','2019-01-07 15:18:57','2019-01-07 15:18:57',0),(13,3,'admin:ad:delete','2019-01-07 15:18:57','2019-01-07 15:18:57',0),(14,3,'admin:ad:create','2019-01-07 15:18:57','2019-01-07 15:18:57',0),(15,3,'admin:ad:update','2019-01-07 15:18:57','2019-01-07 15:18:57',0),(16,3,'admin:ad:read','2019-01-07 15:18:57','2019-01-07 15:18:57',0),(17,3,'admin:groupon:list','2019-01-07 15:18:57','2019-01-07 15:18:57',0),(18,3,'admin:groupon:update','2019-01-07 15:18:57','2019-01-07 15:18:57',0),(19,3,'admin:groupon:create','2019-01-07 15:18:57','2019-01-07 15:18:57',0),(20,3,'admin:groupon:read','2019-01-07 15:18:57','2019-01-07 15:18:57',0),(21,3,'admin:groupon:delete','2019-01-07 15:18:57','2019-01-07 15:18:57',0),(22,3,'admin:topic:create','2019-01-07 15:18:57','2019-01-07 15:18:57',0),(23,3,'admin:topic:read','2019-01-07 15:18:57','2019-01-07 15:18:57',0),(24,3,'admin:topic:list','2019-01-07 15:18:57','2019-01-07 15:18:57',0),(25,3,'admin:topic:delete','2019-01-07 15:18:57','2019-01-07 15:18:57',0),(26,3,'admin:topic:update','2019-01-07 15:18:57','2019-01-07 15:18:57',0),(27,3,'admin:coupon:list','2019-01-07 15:18:57','2019-01-07 15:18:57',0),(28,3,'admin:coupon:delete','2019-01-07 15:18:57','2019-01-07 15:18:57',0),(29,3,'admin:coupon:read','2019-01-07 15:18:57','2019-01-07 15:18:57',0),(30,3,'admin:coupon:create','2019-01-07 15:18:57','2019-01-07 15:18:57',0),(31,3,'admin:coupon:update','2019-01-07 15:18:57','2019-01-07 15:18:57',0);
+INSERT INTO `litemall_permission` VALUES (1,1,'*','2019-01-01 00:00:00','2019-01-01 00:00:00',0);
 /*!40000 ALTER TABLE `litemall_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -290,7 +290,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `litemall_role` WRITE;
 /*!40000 ALTER TABLE `litemall_role` DISABLE KEYS */;
-INSERT INTO `litemall_role` VALUES (1,'超级管理员','所有模块的权限',1,'2019-01-01 00:00:00','2019-01-01 00:00:00',0),(2,'商场管理员','只有商场模块的操作权限',1,'2019-01-01 00:00:00','2019-01-07 15:15:12',0),(3,'推广管理员','只有推广模块的操作权限',1,'2019-01-01 00:00:00','2019-01-07 15:15:24',0);
+INSERT INTO `litemall_role` VALUES (1,'超级管理员','所有模块的权限',1,'2019-01-01 00:00:00','2019-01-01 00:00:00',0);
 /*!40000 ALTER TABLE `litemall_role` ENABLE KEYS */;
 UNLOCK TABLES;
 

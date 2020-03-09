@@ -31,8 +31,6 @@ public class AdminFeedbackController {
     @Autowired
     private LitemallFeedbackService feedbackService;
 
-    @RequiresPermissions("admin:feedback:list")
-    @RequiresPermissionsDesc(menu = {"用户管理", "意见反馈"}, button = "查询")
     @GetMapping("/list")
     public Object list(Integer userId, String username,
                        @RequestParam(defaultValue = "1") Integer page,

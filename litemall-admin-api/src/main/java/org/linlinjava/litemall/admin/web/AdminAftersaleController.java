@@ -54,8 +54,6 @@ public class AdminAftersaleController {
     @Autowired
     private NotifyService notifyService;
 
-    @RequiresPermissions("admin:aftersale:list")
-    @RequiresPermissionsDesc(menu = {"商城管理", "售后管理"}, button = "查询")
     @GetMapping("/list")
     public Object list(Integer orderId, String aftersaleSn, Short status,
                        @RequestParam(defaultValue = "1") Integer page,
@@ -66,8 +64,6 @@ public class AdminAftersaleController {
         return ResponseUtil.okList(aftersaleList);
     }
 
-    @RequiresPermissions("admin:aftersale:recept")
-    @RequiresPermissionsDesc(menu = {"商城管理", "售后管理"}, button = "审核通过")
     @PostMapping("/recept")
     public Object recept(@RequestBody LitemallAftersale aftersale) {
         Integer id = aftersale.getId();
@@ -88,8 +84,6 @@ public class AdminAftersaleController {
         return ResponseUtil.ok();
     }
 
-    @RequiresPermissions("admin:aftersale:batch-recept")
-    @RequiresPermissionsDesc(menu = {"商城管理", "售后管理"}, button = "批量通过")
     @PostMapping("/batch-recept")
     public Object batchRecept(@RequestBody String body) {
         List<Integer> ids = JacksonUtil.parseIntegerList(body, "ids");
@@ -116,8 +110,6 @@ public class AdminAftersaleController {
         return ResponseUtil.ok();
     }
 
-    @RequiresPermissions("admin:aftersale:reject")
-    @RequiresPermissionsDesc(menu = {"商城管理", "售后管理"}, button = "审核拒绝")
     @PostMapping("/reject")
     public Object reject(@RequestBody LitemallAftersale aftersale) {
         Integer id = aftersale.getId();
@@ -138,8 +130,6 @@ public class AdminAftersaleController {
         return ResponseUtil.ok();
     }
 
-    @RequiresPermissions("admin:aftersale:batch-reject")
-    @RequiresPermissionsDesc(menu = {"商城管理", "售后管理"}, button = "批量拒绝")
     @PostMapping("/batch-reject")
     public Object batchReject(@RequestBody String body) {
         List<Integer> ids = JacksonUtil.parseIntegerList(body, "ids");
@@ -162,8 +152,6 @@ public class AdminAftersaleController {
         return ResponseUtil.ok();
     }
 
-    @RequiresPermissions("admin:aftersale:refund")
-    @RequiresPermissionsDesc(menu = {"商城管理", "售后管理"}, button = "退款")
     @PostMapping("/refund")
     public Object refund(@RequestBody LitemallAftersale aftersale) {
         Integer id = aftersale.getId();

@@ -65,7 +65,13 @@ public class AdminBankAuditController {
         List<Integer> roleIdsList = Arrays.asList(roleIds);
 
         List<LitemallApplicant> applicantList = applicantService.querySelective(id, name, page, limit, sort, order, submitStatusArray);
+
         for (LitemallApplicant al : applicantList) {
+            //过滤担保公司审核没通过的数据
+            if (al.getSubmitStatus() <7) {
+                continue;
+            }
+
             // 当前用户是否属于此银行关联的role  al.getBankId();
             boolean isHasRole = false;
             Integer[] bankIds = al.getBankId();
@@ -111,6 +117,7 @@ public class AdminBankAuditController {
                 }
             }
         }
+
         //担保通过后，银行才能看到数据
         List<LitemallApplicant> tempList = new ArrayList<LitemallApplicant>();
         for (LitemallApplicant applicant : result) {

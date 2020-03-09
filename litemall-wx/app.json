@@ -1,20 +1,21 @@
 {
   "pages": [
-    "pages/fumin/index/index",
+    "pages/index/index",
+    "pages/fumin/reject/reject",
+    "pages/fumin/applicantUpload/applicantUpload",
+    "pages/fumin/shenhe/shenhe",
+    "pages/fumin/daikuan/daikuan",
+    "pages/fumin/bankDetail/bankDetail",
     "pages/fumin/bank/bank",
     "pages/fumin/applicantDetail/applicantDetail",
-    "pages/fumin/daikuan/daikuan",
     "pages/fumin/applicant/applicant",
-    "pages/fumin/applicantUpload/applicantUpload",
-    "pages/fumin/reject/reject",
     "pages/fumin/tongguo/tongguo",
-    "pages/fumin/dengdai/dengdai",
-    "pages/fumin/shenhe/shenhe"
+    "pages/fumin/dengdai/dengdai"
   ],
   "window": {
     "navigationBarBackgroundColor": "#5677fe",
     "navigationBarTitleText": "富民创业担保贷款",
-    "enablePullDownRefresh": false,
+    "enablePullDownRefresh": true,
     "navigationBarTextStyle": "white",
     "backgroundColor": "#FFFFFF",
     "backgroundTextStyle": "dark"

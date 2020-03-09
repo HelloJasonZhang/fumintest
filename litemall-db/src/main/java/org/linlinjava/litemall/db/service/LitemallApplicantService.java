@@ -26,6 +26,13 @@ public class LitemallApplicantService {
         return applicantMapper.selectByExample(example);
     }
 
+    public List<LitemallApplicant> queryByUidAndSubmitStatus(Integer uid, List<Integer> submitStatusList) {
+        LitemallApplicantExample example = new LitemallApplicantExample();
+        example.or().andUserIdEqualTo(uid).andSubmitStatusNotIn(submitStatusList).andDeletedEqualTo(false);
+        example.setOrderByClause("id" + " " + "desc");
+        return applicantMapper.selectByExample(example);
+    }
+
     public List<LitemallApplicant> query(Integer page, Integer limit, String sort, String order) {
         LitemallApplicantExample example = new LitemallApplicantExample();
         example.or().andDeletedEqualTo(false);

@@ -333,98 +333,74 @@
         label-position="right"
         label-width="200px"
       >
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="营业地址" prop="scBusinessAddress">
-              <el-input v-model="assureForm.scBusinessAddress" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="产权性质" prop="scPropertyRight">
-              <el-input v-model="assureForm.scPropertyRight" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="申请人信用报告" prop="scApplicantCreditReport">
-              <el-input v-model="assureForm.scApplicantCreditReport" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="配偶信用报告" prop="scSpouseCreditReport">
-              <el-input v-model="assureForm.scSpouseCreditReport" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="担保人姓名" prop="scGuarantor">
-              <el-input v-model="assureForm.scGuarantor" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="担保人抵押资产情况" prop="scGuarantorAsset">
-              <el-input v-model="assureForm.scGuarantorAsset" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-form-item label="其他补充情况" prop="scExtraInfo">
-          <el-input v-model="assureForm.scExtraInfo" />
-        </el-form-item>
-        <el-form-item label="市人社部门意见" prop="scComment">
-          <el-input v-model="assureForm.scComment" type="textarea" :rows="7" />
-        </el-form-item>
-        <el-form-item v-if="!disableAssureHidden" label="担保意向书" label-width="200px">
-          <el-upload
-            :action="uploadPath"
-            :show-file-list="false"
-            :headers="headers"
-            :on-success="uploadPicUrl"
-            class="avatar-uploader"
-            accept=".jpg,.jpeg,.png,.gif"
-          >
-            <img v-if="assureForm.scLetterIntentUrl" :src="assureForm.scLetterIntentUrl" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon" />
-          </el-upload>
-        </el-form-item>
-        <el-form-item v-if="disableAssureHidden" label="担保意向书" prop="address">
-          <el-image v-if="assureForm.scLetterIntentUrl" style="width:50px;height:50px;" :src="assureForm.scLetterIntentUrl" :preview-src-list="[assureForm.scLetterIntentUrl]" />
-        </el-form-item>
-        <el-row v-if="disableAssureHidden">
-          <el-col :span="8">
-            <el-form-item label="是否审核通过" prop="submitStatus">
-              <el-select v-model="assureForm.status" prop="submitStatus" style="width:100%">
-                <el-option :value="7" label="通过" />
-                <el-option :value="6" label="不通过" />
-                <el-option :value="5" label="待补充" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="经办日期" prop="hsRecruitPeople">
-              <el-date-picker
-                v-model="assureForm.hsAuditDate"
-                type="date"
-                placeholder="选择日期"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                :picker-options="pickerOptions"
-                style="width:100%"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="经办人" prop="hsRecuitRate">
-              <el-input v-model="assureForm.hsOperator" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-form-item v-if="!disableAssureHidden" label="是否审核通过" prop="submitStatus">
-          <el-select v-model="assureForm.status" prop="submitStatus" style="width:25%">
+        <el-form-item v-if="!disableAssureHidden" label="是否审核通过" prop="status">
+          <el-select v-model="assureForm.status" style="width:43%" @change="onChangeAcSubmitstatus">
             <el-option :value="7" label="通过" />
             <el-option :value="6" label="不通过" />
             <el-option :value="5" label="待补充" />
           </el-select>
+        </el-form-item>
+        <el-row v-if="assureForm.isApproval">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="营业地址" prop="scBusinessAddress">
+                <el-input v-model="assureForm.scBusinessAddress" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="产权性质" prop="scPropertyRight">
+                <el-input v-model="assureForm.scPropertyRight" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="申请人信用报告" prop="scApplicantCreditReport">
+                <el-input v-model="assureForm.scApplicantCreditReport" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="配偶信用报告" prop="scSpouseCreditReport">
+                <el-input v-model="assureForm.scSpouseCreditReport" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="担保人姓名" prop="scGuarantor">
+                <el-input v-model="assureForm.scGuarantor" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="担保人抵押资产情况" prop="scGuarantorAsset">
+                <el-input v-model="assureForm.scGuarantorAsset" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-form-item label="其他补充情况" prop="scExtraInfo">
+            <el-input v-model="assureForm.scExtraInfo" />
+          </el-form-item>
+        </el-row>
+        <el-form-item label="担保公司核查信息情况" prop="scComment">
+          <el-input v-model="assureForm.scComment" type="textarea" :rows="7" />
+        </el-form-item>
+        <el-row v-if="assureForm.isApproval">
+          <el-form-item v-if="!disableAssureHidden" label="担保意向书" label-width="200px">
+            <el-upload
+              :action="uploadPath"
+              :show-file-list="false"
+              :headers="headers"
+              :on-success="uploadPicUrl"
+              class="avatar-uploader"
+              accept=".jpg,.jpeg,.png,.gif"
+            >
+              <img v-if="assureForm.scLetterIntentUrl" :src="assureForm.scLetterIntentUrl" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon" />
+            </el-upload>
+          </el-form-item>
+        </el-row>
+        <el-form-item v-if="disableAssureHidden" label="担保意向书" prop="address">
+          <el-image v-if="assureForm.scLetterIntentUrl" style="width:50px;height:50px;" :src="assureForm.scLetterIntentUrl" :preview-src-list="[assureForm.scLetterIntentUrl]" />
         </el-form-item>
         <el-input v-model="assureForm.scOperator" type="hidden" />
       </el-form>
@@ -434,91 +410,6 @@
       </div>
     </el-card>
 
-    <el-card v-if="isBankHidden" class="box-card">
-      <h3>银行受理信息情况</h3>
-      <el-form
-        ref="bankForm"
-        :rules="bankRules"
-        :model="bankForm"
-        :disabled="disableBankHidden"
-        label-position="right"
-        label-width="200px"
-      >
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="受理银行" prop="bName">
-              <el-input v-model="bankForm.bName" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="支行" prop="bSubBranch">
-              <el-input v-model="bankForm.bSubBranch" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="经办人" prop="bOpertator">
-              <el-input v-model="bankForm.bOpertator" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="授信额度" prop="bCredit">
-              <el-input v-model="bankForm.bCredit" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="放贷日期" prop="bLendingDate">
-              <el-date-picker
-                v-model="rensheForm.bLendingDate"
-                type="date"
-                placeholder="选择日期"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                :picker-options="pickerOptions"
-                style="width:100%"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="贷款期限" prop="bPeriodLoan">
-              <el-input v-model="bankForm.bPeriodLoan" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="还款方式" prop="bRepayment">
-              <el-input v-model="bankForm.bRepayment" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="利率" prop="bInterestRate">
-              <el-input v-model="bankForm.bInterestRate" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="利息/期" prop="bInterestPeriod">
-              <el-input v-model="bankForm.bInterestPeriod" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-form-item label="银行受理情况" prop="bComment">
-          <el-input v-model="bankForm.bComment" type="textarea" :rows="7" />
-        </el-form-item>
-        <el-form-item label="是否审核通过" prop="submitStatus">
-          <el-select v-model="bankForm.status" prop="submitStatus" style="width:25%">
-            <el-option :value="9" label="通过" />
-            <el-option :value="8" label="不通过" />
-          </el-select>
-        </el-form-item>
-        <el-input v-model="bankForm.scAuditDate" type="hidden" />
-        <el-input v-model="bankForm.scOperator" type="hidden" />
-      </el-form>
-      <div class="op-container">
-        <el-button @click="handleCancel">取消</el-button>
-        <el-button type="primary" @click="handleEdit">提交</el-button>
-      </div>
-    </el-card>
   </div>
 </template>
 
@@ -595,7 +486,7 @@ export default {
       goods: { picUrl: '' },
       specForm: { specification: '', value: '', picUrl: '' },
       rensheForm: { hsRigsterDate: undefined },
-      assureForm: { scLetterIntentUrl: '', value: '', picUrl: '' },
+      assureForm: { scLetterIntentUrl: '', value: '', picUrl: '', isApproval: false, scComment: ''},
       bankForm: { },
       pickerOptions: {
         disabledDate(time) {
@@ -636,7 +527,8 @@ export default {
         scApplicantCreditReport: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
         scSpouseCreditReport: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
         hsApplicantAdress: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
-        submitStatus: [{ required: true, message: '此字段不能为空', trigger: 'change' }]
+        submitStatus: [{ required: true, message: '此字段不能为空', trigger: 'change' }],
+        status: [{ required: true, message: '此字段不能为空', trigger: 'change' }]
       },
       bankRules: {
         bName: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
@@ -684,6 +576,7 @@ export default {
           this.extend(this.rensheForm, response.data.data)
           this.rensheForm.status = 4
           this.extend(this.assureForm, response.data.data)
+          this.assureForm.scComment = ''
         } else if (parseInt(goAction) === 7) {
           this.isRenSheHidden = true
           this.disableRenSheHidden = true
@@ -693,7 +586,6 @@ export default {
           this.extend(this.rensheForm, response.data.data)
           this.rensheForm.status = 4
           this.extend(this.assureForm, response.data.data)
-          console.log(this.assureForm)
           this.assureForm.status = 7
           this.extend(this.bankForm, response.data.data)
         }
@@ -737,39 +629,41 @@ export default {
       return target
     },
     handleEdit: function() {
-      const finalGoods = {}
-      this.extend(finalGoods, { 'id': this.$route.query.id })
-      // this.extend(finalGoods, this.goods)
-      if (parseInt(this.$route.query.action) === 1 || parseInt(this.$route.query.action) === 2) {
-        // this.rensheForm.hsOperator = store.getters.name
-        this.rensheForm.submitStatus = this.rensheForm.status
-        this.extend(finalGoods, this.rensheForm)
-      } else if (parseInt(this.$route.query.action) === 4 || parseInt(this.$route.query.action) === 5) {
-        // this.assureForm.scOperator = store.getters.name
-        this.assureForm.submitStatus = this.assureForm.status
-        this.extend(finalGoods, this.assureForm)
-        console.log(finalGoods)
-      } else if (parseInt(this.$route.query.action) === 9) {
-        // this.bankForm.bOpertator = store.getters.name
-        this.bankForm.submitStatus = this.bankForm.status
-        this.extend(finalGoods, this.bankForm)
-      }
-
-      updateApplicant(finalGoods)
-        .then(response => {
-          this.$notify.success({
-            title: '成功',
-            message: '创建成功'
-          })
-          this.$router.go(-1)
-          this.goBoack()
-        })
-        .catch(response => {
-          MessageBox.alert('业务错误：' + response.data.errmsg, '警告', {
-            confirmButtonText: '确定',
-            type: 'error'
-          })
-        })
+      this.$refs['assureForm'].validate((valid) => {
+        if (valid) {
+          const finalGoods = {}
+          this.extend(finalGoods, { 'id': this.$route.query.id })
+          // this.extend(finalGoods, this.goods)
+          if (parseInt(this.$route.query.action) === 1 || parseInt(this.$route.query.action) === 2) {
+            // this.rensheForm.hsOperator = store.getters.name
+            this.rensheForm.submitStatus = this.rensheForm.status
+            this.extend(finalGoods, this.rensheForm)
+          } else if (parseInt(this.$route.query.action) === 4 || parseInt(this.$route.query.action) === 5) {
+            // this.assureForm.scOperator = store.getters.name
+            this.assureForm.submitStatus = this.assureForm.status
+            this.extend(finalGoods, this.assureForm)
+          } else if (parseInt(this.$route.query.action) === 9) {
+            // this.bankForm.bOpertator = store.getters.name
+            this.bankForm.submitStatus = this.bankForm.status
+            this.extend(finalGoods, this.bankForm)
+          }
+          updateApplicant(finalGoods)
+            .then(response => {
+              this.$notify.success({
+                title: '成功',
+                message: '创建成功'
+              })
+              this.$router.go(-1)
+              this.goBoack()
+            })
+            .catch(response => {
+              MessageBox.alert('业务错误：' + response.data.errmsg, '警告', {
+                confirmButtonText: '确定',
+                type: 'error'
+              })
+            })
+        }
+      })
     },
     uploadPicUrl: function(response) {
       this.assureForm.scLetterIntentUrl = response.data.url
@@ -808,6 +702,13 @@ export default {
     handleProductShow(row) {
       this.productForm = Object.assign({}, row)
       this.productVisiable = true
+    },
+    onChangeAcSubmitstatus: function(value) {
+      if (value === 7) {
+        this.assureForm.isApproval = true
+      } else {
+        this.assureForm.isApproval = false
+      }
     }
   }
 }

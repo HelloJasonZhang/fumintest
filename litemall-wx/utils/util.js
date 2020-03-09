@@ -5,12 +5,9 @@ function formatTime(date) {
   var year = date.getFullYear()
   var month = date.getMonth() + 1
   var day = date.getDate()
-
   var hour = date.getHours()
   var minute = date.getMinutes()
   var second = date.getSeconds()
-
-
   return [year, month, day].map(formatNumber).join('-') + ' ' + [hour, minute, second].map(formatNumber).join(':')
 }
 
@@ -87,8 +84,12 @@ function showErrorToast(msg) {
 
 function fillAudit(auditItem, stataus, comment) {
   var temp = auditItem
-  if (stataus == 1 || stataus == 4 || stataus == 7 || stataus == 9) {
-    temp.submitStatus = stataus == 1 ? "已提交" : "已审批"
+  if (stataus == 1 || stataus == 4 || stataus == 7 || stataus == 9 || stataus == 10) {
+    if (stataus == 9 || stataus == 10) {
+      temp.submitStatus = "已受理"
+    } else {
+      temp.submitStatus = stataus == 1 ? "已提交" : "已审批"
+    }
     temp.isHiddenIcon = true
     temp.statusIcon = "passed"
     temp.fontColor = "green"
@@ -109,18 +110,40 @@ function fillAudit(auditItem, stataus, comment) {
     temp.statusColor = "#FE0904"
     temp.colorIcon = "#FF7754"
   }
-  if (comment) {
+  if (comment && (stataus != 9 && stataus != 10)) {
     temp.comment = comment
   }
   temp.sValue = stataus
   return temp
 }
 
+function filter (name, array) {
+  var index = 0
+  for (var i = 0; i < array.length; i++) {
+    if (array[i] == name) {
+      index = i
+    }
+  }
+  return index
+}
+
+function getArray(name) {
+  console.log(name)
+  var array = []
+  if (name != null && name != "") {
+    array[0] = name
+  }
+  return array
+}
 
 module.exports = {
   formatTime,
   request,
   redirect,
   showErrorToast,
-  fillAudit
+  fillAudit,
+  filter,
+  getArray
 }
+
+

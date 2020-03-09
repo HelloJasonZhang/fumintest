@@ -28,8 +28,6 @@ public class AdminCategoryController {
     @Autowired
     private LitemallCategoryService categoryService;
 
-    @RequiresPermissions("admin:category:list")
-    @RequiresPermissionsDesc(menu = {"商场管理", "类目管理"}, button = "查询")
     @GetMapping("/list")
     public Object list() {
         List<CategoryVo> categoryVoList = new ArrayList<>();
@@ -89,8 +87,6 @@ public class AdminCategoryController {
         return null;
     }
 
-    @RequiresPermissions("admin:category:create")
-    @RequiresPermissionsDesc(menu = {"商场管理", "类目管理"}, button = "添加")
     @PostMapping("/create")
     public Object create(@RequestBody LitemallCategory category) {
         Object error = validate(category);
@@ -101,16 +97,12 @@ public class AdminCategoryController {
         return ResponseUtil.ok(category);
     }
 
-    @RequiresPermissions("admin:category:read")
-    @RequiresPermissionsDesc(menu = {"商场管理", "类目管理"}, button = "详情")
     @GetMapping("/read")
     public Object read(@NotNull Integer id) {
         LitemallCategory category = categoryService.findById(id);
         return ResponseUtil.ok(category);
     }
 
-    @RequiresPermissions("admin:category:update")
-    @RequiresPermissionsDesc(menu = {"商场管理", "类目管理"}, button = "编辑")
     @PostMapping("/update")
     public Object update(@RequestBody LitemallCategory category) {
         Object error = validate(category);
@@ -124,8 +116,6 @@ public class AdminCategoryController {
         return ResponseUtil.ok();
     }
 
-    @RequiresPermissions("admin:category:delete")
-    @RequiresPermissionsDesc(menu = {"商场管理", "类目管理"}, button = "删除")
     @PostMapping("/delete")
     public Object delete(@RequestBody LitemallCategory category) {
         Integer id = category.getId();

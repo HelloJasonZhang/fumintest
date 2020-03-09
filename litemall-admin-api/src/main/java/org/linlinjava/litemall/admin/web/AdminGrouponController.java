@@ -45,8 +45,6 @@ public class AdminGrouponController {
     @Autowired
     private TaskService taskService;
 
-    @RequiresPermissions("admin:groupon:read")
-    @RequiresPermissionsDesc(menu = {"推广管理", "团购管理"}, button = "详情")
     @GetMapping("/listRecord")
     public Object listRecord(String grouponRuleId,
                              @RequestParam(defaultValue = "1") Integer page,
@@ -77,8 +75,6 @@ public class AdminGrouponController {
         return ResponseUtil.okList(groupons, grouponList);
     }
 
-    @RequiresPermissions("admin:groupon:list")
-    @RequiresPermissionsDesc(menu = {"推广管理", "团购管理"}, button = "查询")
     @GetMapping("/list")
     public Object list(String goodsId,
                        @RequestParam(defaultValue = "1") Integer page,
@@ -110,8 +106,6 @@ public class AdminGrouponController {
         return null;
     }
 
-    @RequiresPermissions("admin:groupon:update")
-    @RequiresPermissionsDesc(menu = {"推广管理", "团购管理"}, button = "编辑")
     @PostMapping("/update")
     public Object update(@RequestBody LitemallGrouponRules grouponRules) {
         Object error = validate(grouponRules);
@@ -143,8 +137,6 @@ public class AdminGrouponController {
         return ResponseUtil.ok();
     }
 
-    @RequiresPermissions("admin:groupon:create")
-    @RequiresPermissionsDesc(menu = {"推广管理", "团购管理"}, button = "添加")
     @PostMapping("/create")
     public Object create(@RequestBody LitemallGrouponRules grouponRules) {
         Object error = validate(grouponRules);
@@ -175,8 +167,6 @@ public class AdminGrouponController {
         return ResponseUtil.ok(grouponRules);
     }
 
-    @RequiresPermissions("admin:groupon:delete")
-    @RequiresPermissionsDesc(menu = {"推广管理", "团购管理"}, button = "删除")
     @PostMapping("/delete")
     public Object delete(@RequestBody LitemallGrouponRules grouponRules) {
         Integer id = grouponRules.getId();
