@@ -6,9 +6,8 @@
   <view class="aplicant-upload">
     <view class="applicant-upload-list">
       <view class="item" wx:for="{{uploadFiles}}" wx:for-item="i">
-      
         <view class="l" wx:for="{{i.imageURLs}}" wx:for-item="j">
-          <view wx:if="{{j.isHadden}}">
+          <view>
             <view class="name">{{j.name}} 
               <!-- <label wx:if="{{item.isShowDoc}}" class="label-1__text">下载模板</label> -->
               <van-icon  wx:if="{{ j.picUrls.length > 0 }}" name="cross" color="red" size="40rpx" bindtap="removePic" data-item-id="{{j.id}}"/>
@@ -25,6 +24,9 @@
               </view>
             </view>
           </view>
+          <!-- <view wx:if="{{j.id == 'signatureUrl'}}" class="signatureBtnBox">
+            <button bindtap="goSignatureUrl" class="signatureBtn">签名</button>
+          </view> -->
         </view>
       </view>
     </view>
@@ -33,7 +35,9 @@
     <button class="save" bindtap="saveUplaod">下一步</button>
   </view>
 </view>
-
+  <view class="round-click">
+      <navigator url='/pages/fumin/document/document?docType=danbao_desc' >用户须知</navigator >
+  </view>
 <!-- <view class="weui-uploader__files" id="uploaderFiles">
             <block wx:for="{{files}}" wx:key="*this">
               <view class="weui-uploader__file" bindtap="previewImage" id="{{item.id}}">

@@ -37,6 +37,7 @@
     <result column="spouse_credit_report_url" jdbcType="VARCHAR" property="spouseCreditReportUrl" />
     <result column="spouse_credit_report_url_2" jdbcType="VARCHAR" property="spouseCreditReportUrl2" />
     <result column="undertaking_url" jdbcType="VARCHAR" property="undertakingUrl" />
+    <result column="signature_url" jdbcType="VARCHAR" property="signatureUrl" />
     <result column="lease_contract_url" jdbcType="VARCHAR" property="leaseContractUrl" />
     <result column="property_certificate_url" jdbcType="VARCHAR" property="propertyCertificateUrl" />
     <result column="house_proprietary_certificate_url" jdbcType="VARCHAR" property="houseProprietaryCertificateUrl" />
@@ -44,6 +45,13 @@
     <result column="bank_reconciliation_url" jdbcType="VARCHAR" property="bankReconciliationUrl" />
     <result column="surety_id_card_url" jdbcType="VARCHAR" property="suretyIdCardUrl" />
     <result column="surety_id_card_url_2" jdbcType="VARCHAR" property="suretyIdCardUrl2" />
+    <result column="asset_url" jdbcType="VARCHAR" property="assetUrl" />
+    <result column="job_url" jdbcType="VARCHAR" property="jobUrl" />
+    <result column="job_url_2" jdbcType="VARCHAR" property="jobUrl2" />
+    <result column="mortgage_url" jdbcType="VARCHAR" property="mortgageUrl" />
+    <result column="guarantee_statement_url" jdbcType="VARCHAR" property="guaranteeStatementUrl" />
+    <result column="employment_promotion_url" jdbcType="VARCHAR" property="employmentPromotionUrl" />
+    <result column="pay_taxes_url" jdbcType="VARCHAR" property="payTaxesUrl" />
     <result column="extra_url" jdbcType="VARCHAR" property="extraUrl" />
     <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -66,6 +74,7 @@
     <result column="hs_audit_date" jdbcType="TIMESTAMP" property="hsAuditDate" />
     <result column="hs_operator" jdbcType="VARCHAR" property="hsOperator" />
     <result column="hs_top_amount" jdbcType="DECIMAL" property="hsTopAmount" />
+    <result column="hs_extra_pic_url" jdbcType="VARCHAR" property="hsExtraPicUrl" typeHandler="org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler" />
     <result column="sc_business_address" jdbcType="VARCHAR" property="scBusinessAddress" />
     <result column="sc_property_right" jdbcType="VARCHAR" property="scPropertyRight" />
     <result column="sc_applicant_credit_report" jdbcType="VARCHAR" property="scApplicantCreditReport" />
@@ -77,6 +86,7 @@
     <result column="sc_letter_intent_url" jdbcType="VARCHAR" property="scLetterIntentUrl" />
     <result column="sc_audit_date" jdbcType="TIMESTAMP" property="scAuditDate" />
     <result column="sc_operator" jdbcType="VARCHAR" property="scOperator" />
+    <result column="sc_extra_pic_url" jdbcType="VARCHAR" property="scExtraPicUrl" typeHandler="org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler" />
     <result column="b_bank_id" jdbcType="INTEGER" property="bBankId" />
     <result column="b_name" jdbcType="VARCHAR" property="bName" />
     <result column="b_sub_branch" jdbcType="VARCHAR" property="bSubBranch" />
@@ -138,6 +148,44 @@
                 </when>
               </choose>
             </foreach>
+            <foreach collection="criteria.hsExtraPicUrlCriteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler} and #{criterion.secondValue,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+            <foreach collection="criteria.scExtraPicUrlCriteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler} and #{criterion.secondValue,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
           </trim>
         </if>
       </foreach>
@@ -190,6 +238,44 @@
                 </when>
               </choose>
             </foreach>
+            <foreach collection="criteria.hsExtraPicUrlCriteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler} and #{criterion.secondValue,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+            <foreach collection="criteria.scExtraPicUrlCriteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler} and #{criterion.secondValue,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
           </trim>
         </if>
       </foreach>
@@ -206,17 +292,18 @@
     salary_detail_url, id_card_url, id_card_url_2, spouse_id_card_url, spouse_id_card_url_2, 
     marriage_certificate_url, marriage_certificate_url_2, residence_booklet_url, residence_booklet_url_2, 
     credit_report_url, credit_report_url_2, spouse_credit_report_url, spouse_credit_report_url_2, 
-    undertaking_url, lease_contract_url, property_certificate_url, house_proprietary_certificate_url, 
+    undertaking_url, signature_url, lease_contract_url, property_certificate_url, house_proprietary_certificate_url, 
     vehicles_certificate_url, bank_reconciliation_url, surety_id_card_url, surety_id_card_url_2, 
-    extra_url, add_time, update_time, deleted, submit_status, is_available, bank_id, 
-    hs_business_license_type, hs_applicant, hs_unified_social_credit_code, hs_applicant_adress, 
+    asset_url, job_url, job_url_2, mortgage_url, guarantee_statement_url, employment_promotion_url, 
+    pay_taxes_url, extra_url, add_time, update_time, deleted, submit_status, is_available, 
+    bank_id, hs_business_license_type, hs_applicant, hs_unified_social_credit_code, hs_applicant_adress, 
     hs_rigster_date, hs_employment_business_license_no, hs_employees_info, hs_active_employees, 
     hs_recruit_people, hs_mark, hs_recuit_rate, hs_comment, hs_audit_date, hs_operator, 
-    hs_top_amount, sc_business_address, sc_property_right, sc_applicant_credit_report, 
+    hs_top_amount, hs_extra_pic_url, sc_business_address, sc_property_right, sc_applicant_credit_report, 
     sc_spouse_credit_report, sc_guarantor, sc_guarantor_asset, sc_extra_info, sc_comment, 
-    sc_letter_intent_url, sc_audit_date, sc_operator, b_bank_id, b_name, b_sub_branch, 
-    b_opertator, b_credit, b_lending_date, b_period_loan, b_repayment, b_interest_rate, 
-    b_interest_period, b_comment, b_audit_date, b_auditor
+    sc_letter_intent_url, sc_audit_date, sc_operator, sc_extra_pic_url, b_bank_id, b_name, 
+    b_sub_branch, b_opertator, b_credit, b_lending_date, b_period_loan, b_repayment, 
+    b_interest_rate, b_interest_period, b_comment, b_audit_date, b_auditor
   </sql>
   <select id="selectByExample" parameterType="org.linlinjava.litemall.db.domain.LitemallApplicantExample" resultMap="BaseResultMap">
     <!--
@@ -349,26 +436,29 @@
       residence_booklet_url_2, credit_report_url, 
       credit_report_url_2, spouse_credit_report_url, 
       spouse_credit_report_url_2, undertaking_url, 
-      lease_contract_url, property_certificate_url, 
+      signature_url, lease_contract_url, property_certificate_url, 
       house_proprietary_certificate_url, vehicles_certificate_url, 
       bank_reconciliation_url, surety_id_card_url, 
-      surety_id_card_url_2, extra_url, add_time, 
-      update_time, deleted, submit_status, 
-      is_available, bank_id, 
+      surety_id_card_url_2, asset_url, job_url, 
+      job_url_2, mortgage_url, guarantee_statement_url, 
+      employment_promotion_url, pay_taxes_url, extra_url, 
+      add_time, update_time, deleted, 
+      submit_status, is_available, bank_id, 
       hs_business_license_type, hs_applicant, hs_unified_social_credit_code, 
       hs_applicant_adress, hs_rigster_date, hs_employment_business_license_no, 
       hs_employees_info, hs_active_employees, hs_recruit_people, 
       hs_mark, hs_recuit_rate, hs_comment, 
       hs_audit_date, hs_operator, hs_top_amount, 
+      hs_extra_pic_url, 
       sc_business_address, sc_property_right, sc_applicant_credit_report, 
       sc_spouse_credit_report, sc_guarantor, sc_guarantor_asset, 
       sc_extra_info, sc_comment, sc_letter_intent_url, 
-      sc_audit_date, sc_operator, b_bank_id, 
-      b_name, b_sub_branch, b_opertator, 
-      b_credit, b_lending_date, b_period_loan, 
-      b_repayment, b_interest_rate, b_interest_period, 
-      b_comment, b_audit_date, b_auditor
-      )
+      sc_audit_date, sc_operator, sc_extra_pic_url, 
+      b_bank_id, b_name, b_sub_branch, 
+      b_opertator, b_credit, b_lending_date, 
+      b_period_loan, b_repayment, b_interest_rate, 
+      b_interest_period, b_comment, b_audit_date, 
+      b_auditor)
     values (#{userId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
       #{maritalStatus,jdbcType=VARCHAR}, #{idCardNumber,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR}, 
       #{spouseName,jdbcType=VARCHAR}, #{applicantType,jdbcType=VARCHAR}, #{applicantAmount,jdbcType=VARCHAR}, 
@@ -381,26 +471,29 @@
       #{residenceBookletUrl2,jdbcType=VARCHAR}, #{creditReportUrl,jdbcType=VARCHAR}, 
       #{creditReportUrl2,jdbcType=VARCHAR}, #{spouseCreditReportUrl,jdbcType=VARCHAR}, 
       #{spouseCreditReportUrl2,jdbcType=VARCHAR}, #{undertakingUrl,jdbcType=VARCHAR}, 
-      #{leaseContractUrl,jdbcType=VARCHAR}, #{propertyCertificateUrl,jdbcType=VARCHAR}, 
+      #{signatureUrl,jdbcType=VARCHAR}, #{leaseContractUrl,jdbcType=VARCHAR}, #{propertyCertificateUrl,jdbcType=VARCHAR}, 
       #{houseProprietaryCertificateUrl,jdbcType=VARCHAR}, #{vehiclesCertificateUrl,jdbcType=VARCHAR}, 
       #{bankReconciliationUrl,jdbcType=VARCHAR}, #{suretyIdCardUrl,jdbcType=VARCHAR}, 
-      #{suretyIdCardUrl2,jdbcType=VARCHAR}, #{extraUrl,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}, #{submitStatus,jdbcType=INTEGER}, 
-      #{isAvailable,jdbcType=BIT}, #{bankId,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler}, 
+      #{suretyIdCardUrl2,jdbcType=VARCHAR}, #{assetUrl,jdbcType=VARCHAR}, #{jobUrl,jdbcType=VARCHAR}, 
+      #{jobUrl2,jdbcType=VARCHAR}, #{mortgageUrl,jdbcType=VARCHAR}, #{guaranteeStatementUrl,jdbcType=VARCHAR}, 
+      #{employmentPromotionUrl,jdbcType=VARCHAR}, #{payTaxesUrl,jdbcType=VARCHAR}, #{extraUrl,jdbcType=VARCHAR}, 
+      #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}, 
+      #{submitStatus,jdbcType=INTEGER}, #{isAvailable,jdbcType=BIT}, #{bankId,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler}, 
       #{hsBusinessLicenseType,jdbcType=VARCHAR}, #{hsApplicant,jdbcType=VARCHAR}, #{hsUnifiedSocialCreditCode,jdbcType=VARCHAR}, 
       #{hsApplicantAdress,jdbcType=VARCHAR}, #{hsRigsterDate,jdbcType=TIMESTAMP}, #{hsEmploymentBusinessLicenseNo,jdbcType=VARCHAR}, 
       #{hsEmployeesInfo,jdbcType=VARCHAR}, #{hsActiveEmployees,jdbcType=INTEGER}, #{hsRecruitPeople,jdbcType=INTEGER}, 
       #{hsMark,jdbcType=VARCHAR}, #{hsRecuitRate,jdbcType=VARCHAR}, #{hsComment,jdbcType=VARCHAR}, 
       #{hsAuditDate,jdbcType=TIMESTAMP}, #{hsOperator,jdbcType=VARCHAR}, #{hsTopAmount,jdbcType=DECIMAL}, 
+      #{hsExtraPicUrl,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler}, 
       #{scBusinessAddress,jdbcType=VARCHAR}, #{scPropertyRight,jdbcType=VARCHAR}, #{scApplicantCreditReport,jdbcType=VARCHAR}, 
       #{scSpouseCreditReport,jdbcType=VARCHAR}, #{scGuarantor,jdbcType=VARCHAR}, #{scGuarantorAsset,jdbcType=VARCHAR}, 
       #{scExtraInfo,jdbcType=VARCHAR}, #{scComment,jdbcType=VARCHAR}, #{scLetterIntentUrl,jdbcType=VARCHAR}, 
-      #{scAuditDate,jdbcType=TIMESTAMP}, #{scOperator,jdbcType=VARCHAR}, #{bBankId,jdbcType=INTEGER}, 
-      #{bName,jdbcType=VARCHAR}, #{bSubBranch,jdbcType=VARCHAR}, #{bOpertator,jdbcType=VARCHAR}, 
-      #{bCredit,jdbcType=VARCHAR}, #{bLendingDate,jdbcType=TIMESTAMP}, #{bPeriodLoan,jdbcType=VARCHAR}, 
-      #{bRepayment,jdbcType=VARCHAR}, #{bInterestRate,jdbcType=VARCHAR}, #{bInterestPeriod,jdbcType=VARCHAR}, 
-      #{bComment,jdbcType=VARCHAR}, #{bAuditDate,jdbcType=TIMESTAMP}, #{bAuditor,jdbcType=VARCHAR}
-      )
+      #{scAuditDate,jdbcType=TIMESTAMP}, #{scOperator,jdbcType=VARCHAR}, #{scExtraPicUrl,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler}, 
+      #{bBankId,jdbcType=INTEGER}, #{bName,jdbcType=VARCHAR}, #{bSubBranch,jdbcType=VARCHAR}, 
+      #{bOpertator,jdbcType=VARCHAR}, #{bCredit,jdbcType=VARCHAR}, #{bLendingDate,jdbcType=TIMESTAMP}, 
+      #{bPeriodLoan,jdbcType=VARCHAR}, #{bRepayment,jdbcType=VARCHAR}, #{bInterestRate,jdbcType=VARCHAR}, 
+      #{bInterestPeriod,jdbcType=VARCHAR}, #{bComment,jdbcType=VARCHAR}, #{bAuditDate,jdbcType=TIMESTAMP}, 
+      #{bAuditor,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="org.linlinjava.litemall.db.domain.LitemallApplicant">
     <!--
@@ -502,6 +595,9 @@
       <if test="undertakingUrl != null">
         undertaking_url,
       </if>
+      <if test="signatureUrl != null">
+        signature_url,
+      </if>
       <if test="leaseContractUrl != null">
         lease_contract_url,
       </if>
@@ -522,6 +618,27 @@
       </if>
       <if test="suretyIdCardUrl2 != null">
         surety_id_card_url_2,
+      </if>
+      <if test="assetUrl != null">
+        asset_url,
+      </if>
+      <if test="jobUrl != null">
+        job_url,
+      </if>
+      <if test="jobUrl2 != null">
+        job_url_2,
+      </if>
+      <if test="mortgageUrl != null">
+        mortgage_url,
+      </if>
+      <if test="guaranteeStatementUrl != null">
+        guarantee_statement_url,
+      </if>
+      <if test="employmentPromotionUrl != null">
+        employment_promotion_url,
+      </if>
+      <if test="payTaxesUrl != null">
+        pay_taxes_url,
       </if>
       <if test="extraUrl != null">
         extra_url,
@@ -589,6 +706,9 @@
       <if test="hsTopAmount != null">
         hs_top_amount,
       </if>
+      <if test="hsExtraPicUrl != null">
+        hs_extra_pic_url,
+      </if>
       <if test="scBusinessAddress != null">
         sc_business_address,
       </if>
@@ -621,6 +741,9 @@
       </if>
       <if test="scOperator != null">
         sc_operator,
+      </if>
+      <if test="scExtraPicUrl != null">
+        sc_extra_pic_url,
       </if>
       <if test="bBankId != null">
         b_bank_id,
@@ -753,6 +876,9 @@
       <if test="undertakingUrl != null">
         #{undertakingUrl,jdbcType=VARCHAR},
       </if>
+      <if test="signatureUrl != null">
+        #{signatureUrl,jdbcType=VARCHAR},
+      </if>
       <if test="leaseContractUrl != null">
         #{leaseContractUrl,jdbcType=VARCHAR},
       </if>
@@ -773,6 +899,27 @@
       </if>
       <if test="suretyIdCardUrl2 != null">
         #{suretyIdCardUrl2,jdbcType=VARCHAR},
+      </if>
+      <if test="assetUrl != null">
+        #{assetUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="jobUrl != null">
+        #{jobUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="jobUrl2 != null">
+        #{jobUrl2,jdbcType=VARCHAR},
+      </if>
+      <if test="mortgageUrl != null">
+        #{mortgageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="guaranteeStatementUrl != null">
+        #{guaranteeStatementUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="employmentPromotionUrl != null">
+        #{employmentPromotionUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="payTaxesUrl != null">
+        #{payTaxesUrl,jdbcType=VARCHAR},
       </if>
       <if test="extraUrl != null">
         #{extraUrl,jdbcType=VARCHAR},
@@ -840,6 +987,9 @@
       <if test="hsTopAmount != null">
         #{hsTopAmount,jdbcType=DECIMAL},
       </if>
+      <if test="hsExtraPicUrl != null">
+        #{hsExtraPicUrl,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler},
+      </if>
       <if test="scBusinessAddress != null">
         #{scBusinessAddress,jdbcType=VARCHAR},
       </if>
@@ -872,6 +1022,9 @@
       </if>
       <if test="scOperator != null">
         #{scOperator,jdbcType=VARCHAR},
+      </if>
+      <if test="scExtraPicUrl != null">
+        #{scExtraPicUrl,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler},
       </if>
       <if test="bBankId != null">
         #{bBankId,jdbcType=INTEGER},
@@ -1024,6 +1177,9 @@
       <if test="record.undertakingUrl != null">
         undertaking_url = #{record.undertakingUrl,jdbcType=VARCHAR},
       </if>
+      <if test="record.signatureUrl != null">
+        signature_url = #{record.signatureUrl,jdbcType=VARCHAR},
+      </if>
       <if test="record.leaseContractUrl != null">
         lease_contract_url = #{record.leaseContractUrl,jdbcType=VARCHAR},
       </if>
@@ -1044,6 +1200,27 @@
       </if>
       <if test="record.suretyIdCardUrl2 != null">
         surety_id_card_url_2 = #{record.suretyIdCardUrl2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.assetUrl != null">
+        asset_url = #{record.assetUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobUrl != null">
+        job_url = #{record.jobUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobUrl2 != null">
+        job_url_2 = #{record.jobUrl2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mortgageUrl != null">
+        mortgage_url = #{record.mortgageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.guaranteeStatementUrl != null">
+        guarantee_statement_url = #{record.guaranteeStatementUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.employmentPromotionUrl != null">
+        employment_promotion_url = #{record.employmentPromotionUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payTaxesUrl != null">
+        pay_taxes_url = #{record.payTaxesUrl,jdbcType=VARCHAR},
       </if>
       <if test="record.extraUrl != null">
         extra_url = #{record.extraUrl,jdbcType=VARCHAR},
@@ -1111,6 +1288,9 @@
       <if test="record.hsTopAmount != null">
         hs_top_amount = #{record.hsTopAmount,jdbcType=DECIMAL},
       </if>
+      <if test="record.hsExtraPicUrl != null">
+        hs_extra_pic_url = #{record.hsExtraPicUrl,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler},
+      </if>
       <if test="record.scBusinessAddress != null">
         sc_business_address = #{record.scBusinessAddress,jdbcType=VARCHAR},
       </if>
@@ -1143,6 +1323,9 @@
       </if>
       <if test="record.scOperator != null">
         sc_operator = #{record.scOperator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.scExtraPicUrl != null">
+        sc_extra_pic_url = #{record.scExtraPicUrl,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler},
       </if>
       <if test="record.bBankId != null">
         b_bank_id = #{record.bBankId,jdbcType=INTEGER},
@@ -1225,6 +1408,7 @@
       spouse_credit_report_url = #{record.spouseCreditReportUrl,jdbcType=VARCHAR},
       spouse_credit_report_url_2 = #{record.spouseCreditReportUrl2,jdbcType=VARCHAR},
       undertaking_url = #{record.undertakingUrl,jdbcType=VARCHAR},
+      signature_url = #{record.signatureUrl,jdbcType=VARCHAR},
       lease_contract_url = #{record.leaseContractUrl,jdbcType=VARCHAR},
       property_certificate_url = #{record.propertyCertificateUrl,jdbcType=VARCHAR},
       house_proprietary_certificate_url = #{record.houseProprietaryCertificateUrl,jdbcType=VARCHAR},
@@ -1232,6 +1416,13 @@
       bank_reconciliation_url = #{record.bankReconciliationUrl,jdbcType=VARCHAR},
       surety_id_card_url = #{record.suretyIdCardUrl,jdbcType=VARCHAR},
       surety_id_card_url_2 = #{record.suretyIdCardUrl2,jdbcType=VARCHAR},
+      asset_url = #{record.assetUrl,jdbcType=VARCHAR},
+      job_url = #{record.jobUrl,jdbcType=VARCHAR},
+      job_url_2 = #{record.jobUrl2,jdbcType=VARCHAR},
+      mortgage_url = #{record.mortgageUrl,jdbcType=VARCHAR},
+      guarantee_statement_url = #{record.guaranteeStatementUrl,jdbcType=VARCHAR},
+      employment_promotion_url = #{record.employmentPromotionUrl,jdbcType=VARCHAR},
+      pay_taxes_url = #{record.payTaxesUrl,jdbcType=VARCHAR},
       extra_url = #{record.extraUrl,jdbcType=VARCHAR},
       add_time = #{record.addTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
@@ -1254,6 +1445,7 @@
       hs_audit_date = #{record.hsAuditDate,jdbcType=TIMESTAMP},
       hs_operator = #{record.hsOperator,jdbcType=VARCHAR},
       hs_top_amount = #{record.hsTopAmount,jdbcType=DECIMAL},
+      hs_extra_pic_url = #{record.hsExtraPicUrl,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler},
       sc_business_address = #{record.scBusinessAddress,jdbcType=VARCHAR},
       sc_property_right = #{record.scPropertyRight,jdbcType=VARCHAR},
       sc_applicant_credit_report = #{record.scApplicantCreditReport,jdbcType=VARCHAR},
@@ -1265,6 +1457,7 @@
       sc_letter_intent_url = #{record.scLetterIntentUrl,jdbcType=VARCHAR},
       sc_audit_date = #{record.scAuditDate,jdbcType=TIMESTAMP},
       sc_operator = #{record.scOperator,jdbcType=VARCHAR},
+      sc_extra_pic_url = #{record.scExtraPicUrl,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler},
       b_bank_id = #{record.bBankId,jdbcType=INTEGER},
       b_name = #{record.bName,jdbcType=VARCHAR},
       b_sub_branch = #{record.bSubBranch,jdbcType=VARCHAR},
@@ -1379,6 +1572,9 @@
       <if test="undertakingUrl != null">
         undertaking_url = #{undertakingUrl,jdbcType=VARCHAR},
       </if>
+      <if test="signatureUrl != null">
+        signature_url = #{signatureUrl,jdbcType=VARCHAR},
+      </if>
       <if test="leaseContractUrl != null">
         lease_contract_url = #{leaseContractUrl,jdbcType=VARCHAR},
       </if>
@@ -1399,6 +1595,27 @@
       </if>
       <if test="suretyIdCardUrl2 != null">
         surety_id_card_url_2 = #{suretyIdCardUrl2,jdbcType=VARCHAR},
+      </if>
+      <if test="assetUrl != null">
+        asset_url = #{assetUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="jobUrl != null">
+        job_url = #{jobUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="jobUrl2 != null">
+        job_url_2 = #{jobUrl2,jdbcType=VARCHAR},
+      </if>
+      <if test="mortgageUrl != null">
+        mortgage_url = #{mortgageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="guaranteeStatementUrl != null">
+        guarantee_statement_url = #{guaranteeStatementUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="employmentPromotionUrl != null">
+        employment_promotion_url = #{employmentPromotionUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="payTaxesUrl != null">
+        pay_taxes_url = #{payTaxesUrl,jdbcType=VARCHAR},
       </if>
       <if test="extraUrl != null">
         extra_url = #{extraUrl,jdbcType=VARCHAR},
@@ -1466,6 +1683,9 @@
       <if test="hsTopAmount != null">
         hs_top_amount = #{hsTopAmount,jdbcType=DECIMAL},
       </if>
+      <if test="hsExtraPicUrl != null">
+        hs_extra_pic_url = #{hsExtraPicUrl,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler},
+      </if>
       <if test="scBusinessAddress != null">
         sc_business_address = #{scBusinessAddress,jdbcType=VARCHAR},
       </if>
@@ -1498,6 +1718,9 @@
       </if>
       <if test="scOperator != null">
         sc_operator = #{scOperator,jdbcType=VARCHAR},
+      </if>
+      <if test="scExtraPicUrl != null">
+        sc_extra_pic_url = #{scExtraPicUrl,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler},
       </if>
       <if test="bBankId != null">
         b_bank_id = #{bBankId,jdbcType=INTEGER},
@@ -1577,6 +1800,7 @@
       spouse_credit_report_url = #{spouseCreditReportUrl,jdbcType=VARCHAR},
       spouse_credit_report_url_2 = #{spouseCreditReportUrl2,jdbcType=VARCHAR},
       undertaking_url = #{undertakingUrl,jdbcType=VARCHAR},
+      signature_url = #{signatureUrl,jdbcType=VARCHAR},
       lease_contract_url = #{leaseContractUrl,jdbcType=VARCHAR},
       property_certificate_url = #{propertyCertificateUrl,jdbcType=VARCHAR},
       house_proprietary_certificate_url = #{houseProprietaryCertificateUrl,jdbcType=VARCHAR},
@@ -1584,6 +1808,13 @@
       bank_reconciliation_url = #{bankReconciliationUrl,jdbcType=VARCHAR},
       surety_id_card_url = #{suretyIdCardUrl,jdbcType=VARCHAR},
       surety_id_card_url_2 = #{suretyIdCardUrl2,jdbcType=VARCHAR},
+      asset_url = #{assetUrl,jdbcType=VARCHAR},
+      job_url = #{jobUrl,jdbcType=VARCHAR},
+      job_url_2 = #{jobUrl2,jdbcType=VARCHAR},
+      mortgage_url = #{mortgageUrl,jdbcType=VARCHAR},
+      guarantee_statement_url = #{guaranteeStatementUrl,jdbcType=VARCHAR},
+      employment_promotion_url = #{employmentPromotionUrl,jdbcType=VARCHAR},
+      pay_taxes_url = #{payTaxesUrl,jdbcType=VARCHAR},
       extra_url = #{extraUrl,jdbcType=VARCHAR},
       add_time = #{addTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
@@ -1606,6 +1837,7 @@
       hs_audit_date = #{hsAuditDate,jdbcType=TIMESTAMP},
       hs_operator = #{hsOperator,jdbcType=VARCHAR},
       hs_top_amount = #{hsTopAmount,jdbcType=DECIMAL},
+      hs_extra_pic_url = #{hsExtraPicUrl,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler},
       sc_business_address = #{scBusinessAddress,jdbcType=VARCHAR},
       sc_property_right = #{scPropertyRight,jdbcType=VARCHAR},
       sc_applicant_credit_report = #{scApplicantCreditReport,jdbcType=VARCHAR},
@@ -1617,6 +1849,7 @@
       sc_letter_intent_url = #{scLetterIntentUrl,jdbcType=VARCHAR},
       sc_audit_date = #{scAuditDate,jdbcType=TIMESTAMP},
       sc_operator = #{scOperator,jdbcType=VARCHAR},
+      sc_extra_pic_url = #{scExtraPicUrl,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler},
       b_bank_id = #{bBankId,jdbcType=INTEGER},
       b_name = #{bName,jdbcType=VARCHAR},
       b_sub_branch = #{bSubBranch,jdbcType=VARCHAR},

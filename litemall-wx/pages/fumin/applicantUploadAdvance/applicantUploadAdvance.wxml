@@ -1,0 +1,66 @@
+<view class="container">
+  <view class="header-container">
+    <!--图片宽大于屏幕宽-->
+    <image style="width: 95vw; height: {{imageheight}}px;" src="{{imageFirstSrc}}" bindload="imageLoad"></image>
+  </view>
+  <view class="aplicant-upload">
+    <view class="applicant-upload-list">
+      <view class="item" wx:for="{{uploadFiles}}" wx:for-item="i">
+        <view class="l" wx:for="{{i.imageURLs}}" wx:for-item="j">
+          <view>
+            <view class="name">{{j.name}}
+              <!-- <label wx:if="{{item.isShowDoc}}" class="label-1__text">下载模板</label> -->
+              <van-icon wx:if="{{ j.picUrls.length > 0 }}" name="cross" color="red" size="40rpx" bindtap="removePic" data-item-id="{{j.id}}" />
+            </view>
+            <view class="weui-uploader__files" id="uploaderFiles">
+              <block wx:for="{{j.picUrls}}" wx:key="*this" wx:for-item="k">
+                <view class="weui-uploader__file" bindtap="previewImage" id="{{j.id}}" data-url-id="{{k}}">
+                  <image class="weui-uploader__img" src="{{k}}" mode="aspectFill" />
+                </view>
+              </block>
+              <view class="weui-uploader__input-box" wx:if="{{ j.picUrls.length < 1 }}">
+                <view class="weui-uploader__input" bindtap="chooseImage" data-address-id="{{j.id}}"></view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="item-signature">
+        <view style="margin-left:15px;margin-top:15px;">
+            <view class="document-box">
+              <view style="padding-bottom: 0rpx;">
+                <checkbox-group bindchange="checkboxChange">
+                  <label class="checkbox" wx:for="{{checkboxItems}}">
+                    <checkbox value="{{item.name}}" checked="{{item.checked}}" color="#5677fe" />
+                  </label>
+                </checkbox-group>
+              </view>
+              <view style="padding-top: 10rpx; padding-bottom: 30rpx;">
+                <span class="link-tips">已阅读</span>
+                <span class="link-text" bindtap="showDocment" data-address-id="undertaking">承若书</span>
+                <span>并</span>
+                <span class="link-text" bindtap="signaturePic" data-address-id="workflow">填写电子签名</span>
+              </view>
+            </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="btns">
+    <button class="save" bindtap="saveUplaod">下一步</button>
+  </view>
+</view>
+<view class="round-click">
+  <navigator url='/pages/fumin/document/document?docType=danbao_desc'>用户须知</navigator>
+</view>
+<van-popup show="{{ show }}" closeable close-icon="close" position="bottom" custom-style="height: 70%;" bind:close="onClose">
+  <view style="margin: 20rpx;">
+    <view style="margin: 20rpx 0px;">承诺书</view>
+    <view style="margin: 30rpx 0px;">
+      <view class="detail">
+        <import src="/lib/wxParse/wxParse.wxml" />
+        <template is="wxParse" data="{{wxParseData:documentDetail.nodes}}" />
+      </view>
+    </view>
+  </view>
+</van-popup>

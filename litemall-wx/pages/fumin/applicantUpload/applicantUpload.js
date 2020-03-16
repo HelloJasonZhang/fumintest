@@ -36,6 +36,7 @@ Page({
       "creditReportUrl": "",
       "creditReportUrl2": "",
       "undertakingUrl": "",
+      "signatureUrl": "",
       "leaseContractUrl": "",
       "propertyCertificateUrl": "",
       "houseProprietaryCertificateUrl": "",
@@ -212,7 +213,17 @@ Page({
           col: 0,
           isHadden: true,
           isShowDoc: true
-        }]
+        },{
+            id: "signatureUrl",
+            name: "电子签名",
+            hasPicture: false,
+            picUrls: [],
+            files: [],
+            row: 7,
+            col: 1,
+            isHadden: true,
+            isShowDoc: true
+          }]
       },
       {
         id: 9,
@@ -313,7 +324,8 @@ Page({
     isApplicantType: false,
     isMarital: false,
     applicantType: null,
-    applicantId: null
+    applicantId: null,
+    signatureUrl: '',
   },
   onLoad: function(options) {
     console.log(options)
@@ -373,6 +385,33 @@ Page({
     //   }
     // }
 
+  },
+  onShow: function (options) {
+    //回显到电子签名
+    console.log(this.data.signatureUrl)
+    if (this.data.signatureUrl != "") {
+      //this.data.uploadFiles[7].imageURLs[1].picUrls[0] = this.data.signatureUrl
+      let uploadFiles = this.data.uploadFiles
+      let file = this.data.uploadFiles[7]
+      let picture = file.imageURLs[1]
+
+      picture.picUrls[0] = this.data.signatureUrl
+      picture.hasPicture = true
+
+      file.imageURLs[1] = picture
+      uploadFiles[7] = file
+
+      this.setData({
+        uploadFiles: uploadFiles
+      })
+    }
+    console.log(this.data.uploadFiles[7].imageURLs[1])
+
+  },
+  goSignatureUrl: function() {
+    wx.navigateTo({
+      url: '/pages/handwriting/index/index'
+    })
   },
   getApplicant: function() {
     let that = this;
@@ -551,7 +590,17 @@ Page({
                 col: 0,
                 isHadden: true,
                 isShowDoc: true
-              }]
+              },{
+                  id: "signatureUrl",
+                  name: "承诺书",
+                  hasPicture: applicant.signatureUrl != null,
+                  picUrls: util.getArray(applicant.signatureUrl),
+                  files: [],
+                  row: 7,
+                  col: 0,
+                  isHadden: true,
+                  isShowDoc: true
+                }]
             },
             {
               id: 9,
@@ -666,23 +715,26 @@ Page({
       for (var j = 0; j < file.imageURLs.length; j++) {
         var picture = file.imageURLs[j]
         console.log(picture.id)
-
         if (e.currentTarget.dataset.addressId == picture.id) {
           xPosition = picture.col
           yPosition = picture.row
         }
       }
     }
-    console.log("==========1111111111======== =" + xPosition)
-    console.log("xPosition =" + xPosition)
-    console.log("yPosition =" + yPosition)
     if (this.data.uploadFiles[yPosition].imageURLs[xPosition].picUrls.length >= 1) {
       util.showErrorToast('只能上传一张图片')
       return false;
     }
     //that.data.uploadFiles[0].imageURLs[1].file
-
     var that = this;
+    console.log(this.data.uploadFiles[yPosition].imageURLs[xPosition])
+    if (this.data.uploadFiles[yPosition].imageURLs[xPosition].id === 'signatureUrl') {
+      wx.navigateTo({
+        url: '/pages/handwriting/index/index'
+      })
+      return
+    }
+
     wx.chooseImage({
       count: 1,
       sizeType: ['original', 'compressed'],
@@ -806,6 +858,7 @@ Page({
       "creditReportUrl",
       "creditReportUrl2",
       "undertakingUrl",
+      "signatureUrl",
       "leaseContractUrl",
       "propertyCertificateUrl",
       "houseProprietaryCertificateUrl",

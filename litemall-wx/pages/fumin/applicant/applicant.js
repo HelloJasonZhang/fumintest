@@ -2,6 +2,7 @@
 //获取应用实例
 var imageUtil = require('../../../utils/image.js');
 var util = require('../../../utils/util.js');
+var check = require('../../../utils/check.js');
 var api = require('../../../config/api.js');
 var app = getApp()
 Page({
@@ -56,7 +57,7 @@ Page({
     indexHires: 0,
     indexSex: 0,
     isShow: false,
-    selecValue: "企业",
+    selecValue: "",
     type: "",
     id: null
   },
@@ -204,9 +205,8 @@ Page({
     });
   },
   saveApplicant() {
-    let name = this.data.name
-    console.log(name)
-    if (this.data.applicant.name == null && this.data.applicant.name != "") {
+
+    if (this.data.applicant.name == null || this.data.applicant.name == "") {
       util.showErrorToast('请填写姓名');
       return false;
     }
@@ -228,12 +228,21 @@ Page({
       return false;
     }
 
-
-    let indexHires = this.data.indexHires
-    if (this.data.indexHires == 0) {
-      util.showErrorToast('请选择新招/雇佣人类别');
+    if (this.data.applicant.applicantAmount == null || this.data.applicant.applicantAmount == "" || this.data.applicant.applicantAmount == "0") {
+      util.showErrorToast('请填写申请额度');
       return false;
     }
+
+    if (!check.isValidNumber(this.data.applicant.applicantAmount)) {
+      util.showErrorToast('申请额度不是正数');
+      return false;
+    }
+
+    // let indexHires = this.data.indexHires
+    // if (this.data.indexHires == 0) {
+    //   util.showErrorToast('请选择新招/雇佣人类别');
+    //   return false;
+    // }
 
     var applicant = this.data.applicant;
 
@@ -243,16 +252,17 @@ Page({
 
     applicant.applicantCategory = this.data.arrayTyps[indexTypes];
 
-    applicant.recruitCategory = this.data.arrayHires[indexHires];
+    //applicant.recruitCategory = this.data.arrayHires[indexHires];
 
-    applicant.applicantType = this.data.selecValue
+    applicant.applicantType = this.data.type
+    console.log(applicant.applicantType)
 
     this.setData({
       applicant: applicant
     });
 
     wx.navigateTo({
-      url: '/pages/fumin/applicantUpload/applicantUpload?applicantType=' + this.data.type + "&maritalStatus=" + this.data.applicant.maritalStatus + "&id=" + this.data.id
+      url: '/pages/fumin/applicantUploadAdvance/applicantUploadAdvance?applicantType=' + this.data.type + "&maritalStatus=" + this.data.applicant.maritalStatus + "&id=" + this.data.id + "&applicantAmount=" + this.data.applicant.applicantAmount
     })
   }
 })

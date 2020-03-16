@@ -188,6 +188,10 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true" />
             <columnOverride column="bank_id" javaType="java.lang.Integer[]"
                             typeHandler="org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler"/>
+            <columnOverride column="sc_extra_pic_url" javaType="java.lang.String[]"
+                            typeHandler="org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler"/>
+            <columnOverride column="hs_extra_pic_url" javaType="java.lang.String[]"
+                            typeHandler="org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler"/>
         </table>
         <table tableName="litemall_bank">
             <generatedKey column="id" sqlStatement="MySql" identity="true" />

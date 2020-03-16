@@ -1,14 +1,17 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/fumin/reject/reject",
+    "pages/fumin/applicantUploadAdvance/applicantUploadAdvance",
+    "pages/fumin/applicant/applicant",
     "pages/fumin/applicantUpload/applicantUpload",
+    "pages/handwriting/index/index",
+    "pages/fumin/document/document",
+    "pages/fumin/reject/reject",
     "pages/fumin/shenhe/shenhe",
     "pages/fumin/daikuan/daikuan",
     "pages/fumin/bankDetail/bankDetail",
     "pages/fumin/bank/bank",
     "pages/fumin/applicantDetail/applicantDetail",
-    "pages/fumin/applicant/applicant",
     "pages/fumin/tongguo/tongguo",
     "pages/fumin/dengdai/dengdai"
   ],

@@ -18,19 +18,23 @@
     <!-- 查询结果 -->
     <el-table ref="multipleTable" v-loading="listLoading" :data="list" element-loading-text="正在查询中。。。" border fit highlight-current-row @selection-change="handleApplicantSelectionChange">
       <el-table-column type="selection" min-width="30px" />
-      <el-table-column align="center" label="ID" min-width="30px" prop="id">
+      <el-table-column align="center" label="ID" min-width="50px" prop="id">
         <template slot-scope="scope">
           <a class="link-type" @click="handleView(scope.row)">{{ scope.row.id }}</a>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="申请人姓名" prop="name" />
+      <el-table-column align="center" label="姓名" prop="name" />
       <el-table-column align="center" label="性别" prop="sex" />
       <el-table-column align="center" label="婚姻状况" prop="maritalStatus" />
       <el-table-column align="center" label="身份证号" prop="idCardNumber" />
       <el-table-column align="center" label="联系方式" prop="phoneNumber" />
-      <el-table-column align="center" label="申请人类别" prop="applicantType" />
+      <el-table-column align="center" label="类别" prop="applicantType" />
       <el-table-column align="center" label="申请额度" prop="applicantAmount" />
-      <!-- <el-table-column align="center" label="审批状态" prop="statusLable" /> -->
+      <el-table-column align="center" label="状态" prop="isAvailable">
+        <template slot-scope="scope">
+          <el-tag size="mini">{{ scope.row.isAvailable ? "作废" : "有效" }}</el-tag>
+        </template>
+      </el-table-column>
       <!-- <el-table-column align="center" label="审核状态" prop="submitStatus" /> -->
       <el-table-column
         align="center"
@@ -50,8 +54,8 @@
       <el-table-column align="left" label="操作" width="150" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button v-permission="['POST /admin/ba/update']" type="primary" size="mini" @click="handleAuditView(scope.row)">查看</el-button>
-          <el-button v-if="scope.row.submitStatus === 7" v-permission="['POST /admin/ba/update']" type="primary" :disabled="scope.row.has_edit" size="mini" @click="handleAudit(scope.row)">受理</el-button>
-          <el-button v-if="scope.row.submitStatus === 9" v-permission="['POST /admin/ba/update']" type="success" :disabled="scope.row.has_finish" size="mini" @click="handleFinish(scope.row)">结束</el-button>
+          <el-button v-if="scope.row.submitStatus === 7 && !scope.row.isAvailable " v-permission="['POST /admin/ba/update']" type="primary" :disabled="scope.row.has_edit" size="mini" @click="handleAudit(scope.row)">受理</el-button>
+          <el-button v-if="scope.row.submitStatus === 9 && !scope.row.isAvailable " v-permission="['POST /admin/ba/update']" type="success" :disabled="scope.row.has_finish" size="mini" @click="handleFinish(scope.row)">结束</el-button>
           <!--           <el-button v-permission="['POST /admin/applicant/delete']" type="primary" size="mini" @click="handleUpdate(scope.row)">修改</el-button> -->
         </template>
       </el-table-column>

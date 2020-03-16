@@ -18,14 +18,18 @@
     <!-- 查询结果 -->
     <el-table ref="multipleTable" v-loading="listLoading" :data="list" element-loading-text="正在查询中。。。" border fit highlight-current-row @selection-change="handleApplicantSelectionChange">
       <el-table-column type="selection" min-width="30px" />
-      <el-table-column align="center" label="ID" min-width="20px" prop="id" />
-      <el-table-column align="center" label="申请人（法人）姓名" prop="name" />
+      <el-table-column align="center" label="ID" min-width="50px" prop="id" />
+      <el-table-column align="center" label="姓名" prop="name" />
       <el-table-column align="center" label="性别" prop="sex" />
       <el-table-column align="center" label="婚姻状况" prop="maritalStatus" />
       <el-table-column align="center" label="身份证号" prop="idCardNumber" />
       <el-table-column align="center" label="联系方式" prop="phoneNumber" />
-      <el-table-column align="center" label="申请人（法人）类别" prop="applicantType" />
+      <el-table-column align="center" label="类别" prop="applicantType" />
       <el-table-column align="center" label="申请额度" prop="applicantAmount" />
+      <el-table-column align="center" label="状态" prop="isAvailable">
+        <template slot-scope="scope">
+          <el-tag size="mini">{{ scope.row.isAvailable ? "作废" : "有效" }}</el-tag>
+        </template>
       </el-table-column>
       <el-table-column
         align="center"

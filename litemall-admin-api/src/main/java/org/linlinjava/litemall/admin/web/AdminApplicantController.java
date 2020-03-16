@@ -11,7 +11,11 @@ import org.linlinjava.litemall.core.validator.Order;
 import org.linlinjava.litemall.core.validator.Sort;
 import org.linlinjava.litemall.db.domain.LitemallAdmin;
 import org.linlinjava.litemall.db.domain.LitemallApplicant;
+import org.linlinjava.litemall.db.domain.LitemallApplicantBank;
+import org.linlinjava.litemall.db.domain.LitemallBank;
+import org.linlinjava.litemall.db.service.LitemallApplicantBankService;
 import org.linlinjava.litemall.db.service.LitemallApplicantService;
+import org.linlinjava.litemall.db.service.LitemallBankService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -29,6 +34,8 @@ public class AdminApplicantController {
 
     @Autowired
     private LitemallApplicantService applicantService;
+    @Autowired
+    private LitemallBankService bankService;
 
     @RequiresPermissions("admin:applicant:list")
     @RequiresPermissionsDesc(menu = {"人社管理", "人社审核"}, button = "查询")
@@ -80,6 +87,15 @@ public class AdminApplicantController {
         LitemallApplicant Applicant = applicantService.findById(id);
         return ResponseUtil.ok(Applicant);
     }
+
+    @RequiresPermissions("admin:applicant:readBank")
+    @RequiresPermissionsDesc(menu = {"人社管理", "人社审核"}, button = "详情")
+    @GetMapping("/readBank")
+    public Object readBank(@NotNull Integer bankId) {
+        LitemallBank bank = bankService.findById(bankId);
+        return ResponseUtil.ok(bank);
+    }
+
 
     @RequiresPermissions("admin:applicant:update")
     @RequiresPermissionsDesc(menu = {"人社管理", "人社审核"}, button = "编辑")

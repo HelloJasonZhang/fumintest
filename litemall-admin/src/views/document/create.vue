@@ -78,7 +78,7 @@ export default {
       addVisiable: false,
 
       listLoading: false,
-      docTypes: [{ code: 'policy', name: '政策说明' }, { code: 'workflow', name: '流程说明' }],
+      docTypes: [{ code: 'policy', name: '贷款政策说明' }, { code: 'workflow', name: '贷款流程说明' }, { code: 'caizheng_policy', name: '财政部政策说明' }, { code: 'danbao_desc', name: '担保流程说明' }, { code: 'undertaking', name: '承诺书' }],
       actives: [{ code: true , name: '启动' }, { code: false, name: '不启用' }],
       rules: {
         docName: [

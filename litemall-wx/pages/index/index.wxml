@@ -25,8 +25,8 @@
             </label>
           </checkbox-group>
         </view>
-        <view style="padding-top: 10rpx;">
-          <span class="link-tips">请提前阅读</span>
+        <view style="padding-top: 10rpx; padding-bottom: 30rpx;">
+          <span class="link-tips">已阅读</span>
           <span class="link-text" bindtap="showDocment" data-address-id="policy">政策说明</span>
           <span>,</span>
           <span class="link-text" bindtap="showDocment" data-address-id="workflow">流程说明</span>

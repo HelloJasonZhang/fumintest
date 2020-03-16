@@ -18,7 +18,7 @@
     <!-- 查询结果 -->
     <el-table ref="multipleTable" v-loading="listLoading" :data="list" element-loading-text="正在查询中。。。" border fit highlight-current-row @selection-change="handleApplicantSelectionChange">
       <el-table-column type="selection" min-width="30px" />
-      <el-table-column align="center" label="ID" min-width="20px" prop="id" />
+      <el-table-column align="center" label="ID" min-width="50px" prop="id" />
       <el-table-column align="center" label="姓名" prop="name" />
       <el-table-column align="center" label="性别" prop="sex" />
       <el-table-column align="center" label="婚姻状况" prop="maritalStatus" />
@@ -45,13 +45,16 @@
           </el-steps>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="操作" width="250" class-name="small-padding fixed-width">
+      <el-table-column align="center" label="操作" width="350" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleView(scope.row)">查看</el-button>
           <el-button type="success" :disabled="scope.row.has_edit" size="mini" @click="handleAudit(scope.row)">审核</el-button>
           <el-button type="danger" :disabled="scope.row.has_redo" size="mini" style="width:72px;" @click="handleRedo(scope.row)">重新申请</el-button>
+          <el-button type="danger" :disabled="scope.row.has_disable" size="mini" style="width:72px;" @click="handleRedo(scope.row)">失效</el-button>
         </template>
       </el-table-column>
+      <el-table-column align="center" label="申请时间" min-width="180px" prop="addTime" />
+      <el-table-column align="center" label="修改时间" min-width="180px" prop="updateTime" />
     </el-table>
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
   </div>
@@ -169,15 +172,21 @@ export default {
           for (let index = 0; index < this.list.length; index++) {
             var element = this.list[index]
             element['has_redo'] = true
+            element['has_disable'] = true
+
             if (element.submitStatus !== 1 && element.submitStatus !== 2) {
               element['has_edit'] = true
             }
+
             if (element.submitStatus === 3 || element.submitStatus === 6) {
               if (!element.isAvailable) {
                 element['has_redo'] = false
               }
             }
 
+            if (!element.isAvailable && element.submitStatus !== 10) {
+              element['has_disable'] = false
+            }
             element.statusLable = this.statusMap[element.submitStatus - 1]
             element.status = this.setepStatusArray[element.submitStatus - 1].status
             element.statusName = this.setepStatusArray[element.submitStatus - 1].step
@@ -197,7 +206,7 @@ export default {
       this.$router.push({ path: '/hr/create' })
     },
     handleAudit(row) {
-      if (row.submitStatus != 3 && row.submitStatus != 6 && row.submitStatus != 8 && row.submitStatus != 9) {
+      if (row.submitStatus !== 3 && row.submitStatus !== 6 && row.submitStatus !== 8 && row.submitStatus !== 9) {
         this.$router.push({ path: '/hr/detail', query: { id: row.id, action: row.submitStatus }})
       } else {
         this.$message.error({
@@ -213,7 +222,7 @@ export default {
       this.$router.push({ path: '/hr/edit', query: { id: row.id }})
     },
     handleRedo(row) {
-      this.$confirm('此操作是重新申请, 是否继续?', '提示', {
+      this.$confirm('此操作是失效, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -250,12 +259,26 @@ export default {
         import('@/vendor/Export2Excel').then(excel => {
           const tHeader = [
             '姓名',
-            '性别',
-            '联系方式',
-            '申请人（法人）类别',
-            '申请额度'
+            '身份证号',
+            '贷款发放日期',
+            '贷款到期日期',
+            '贷款期限',
+            '贷款金额',
+            '贷款银行',
+            '支行',
+            '利率'
           ]
-          const filterVal = ['name', 'sex', 'phoneNumber', 'applicantType', 'applicantAmount']
+          const filterVal = [
+            'name',
+            'idCardNumber',
+            'bLendingDate',
+            'bLendingDate',
+            'bPeriodLoan',
+            'bCredit',
+            'bName',
+            'bSubBranch',
+            'bInterestRate'
+          ]
           excel.export_json_to_excel2(
             tHeader,
             this.multipleSelection,

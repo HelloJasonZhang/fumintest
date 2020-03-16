@@ -23,6 +23,13 @@ export function readApplicant(data) {
   })
 }
 
+export function readBank(data) {
+  return request({
+    url: '/applicant/readBank?bankId=' + data.bankId,
+    method: 'get'
+  })
+}
+
 export function updateApplicant(data) {
   return request({
     url: '/applicant/update',

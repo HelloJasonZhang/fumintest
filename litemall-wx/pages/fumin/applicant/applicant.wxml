@@ -44,14 +44,14 @@
           </view>
         </view>
       </picker>
-      <picker bindchange="bindPickerHireChange" value="{{indexHires}}" range="{{arrayHires}}">
+      <!-- <picker bindchange="bindPickerHireChange" value="{{indexHires}}" range="{{arrayHires}}">
         <view class="picker">
           <view class="fb-type">
             <view class="type-label">{{arrayHires[indexHires]}}</view>
             <van-icon class="type-icon" name="arrow-down" />
           </view>
         </view>
-      </picker>
+      </picker> -->
       <view class="form-item">
         <input class="input" bindinput="bindinputApplicantAmount" value="{{applicant.applicantAmount}}" placeholder="申请额度（万元）" />
       </view>

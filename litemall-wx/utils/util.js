@@ -128,7 +128,6 @@ function filter (name, array) {
 }
 
 function getArray(name) {
-  console.log(name)
   var array = []
   if (name != null && name != "") {
     array[0] = name

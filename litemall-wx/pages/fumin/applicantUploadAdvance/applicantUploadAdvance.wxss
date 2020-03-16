@@ -240,3 +240,27 @@ page {
   border: none;
   border-radius: 20%;
 }
+
+.applicant-upload-list .item-signature {
+  display:flex; 
+  height: 100rpx;
+  align-items: center;
+  margin: 30rpx 0rpx 10rpx 0rpx; 
+  background:#fff;
+}
+
+.aplicant-upload .item-signature .document-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.aplicant-upload .item-signature .document-box .link-tips {
+  font-size: 26rpx;
+  color: #A7A9AA
+}
+
+.aplicant-upload .item-signature .document-box .link-text {
+  font-size: 26rpx;
+  color: #5677fe;
+}

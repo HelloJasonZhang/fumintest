@@ -110,7 +110,7 @@ Page({
 
     let checked = this.data.checked;
     if (!checked) {
-      util.showErrorToast('请点击勾选框');
+      util.showErrorToast('请点击已阅读');
       return false;
     }
 
@@ -144,6 +144,7 @@ Page({
         }
       })
     } else {
+     
       wx.navigateTo({
         url: '/pages/fumin/applicant/applicant?type=' + selecValue
       })

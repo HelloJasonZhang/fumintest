@@ -17,7 +17,7 @@
 <view style="width: 85vw; height: 60vh; position:absolute;  left: 60rpx; top:340rpx; ">
   <view class="daikuan">
     <view class="add-form">
-      <span class="lable">选择企业类型</span>
+      <span class="lable">我的贷款</span>
 
       <view class="form-item" wx:for="{{items}}" wx:key="id" data-address-id="{{item.id}}" >
         <image class="f-icon" src="{{item.icon}}" />
@@ -25,9 +25,9 @@
           <view>
             <span class="info-name">{{item.name}}</span>
           </view>
-          <view class="info-margin">
+          <!-- <view class="info-margin">
             <span class="info-comment">{{item.comment}}</span>
-          </view>
+          </view> -->
         </view>
         <view catchtap="goDetailChange" data-item="{{item}}" class="item-right-box">
           <van-icon wx:if="{{item.isHiddenIcon}}" class="status-icon" name="{{item.statusIcon}}" color="{{item.colorIcon}}" size="35rpx"/>

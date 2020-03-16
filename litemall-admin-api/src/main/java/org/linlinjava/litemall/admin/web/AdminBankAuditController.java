@@ -34,11 +34,8 @@ public class AdminBankAuditController {
 
     @Autowired
     private LitemallApplicantService applicantService;
-
     @Autowired
-    private LitemallApplicantBankService applicantBankService
-            ;
-
+    private LitemallApplicantBankService applicantBankService;
     @Autowired
     private LitemallBankService litemallBankService;
     @Autowired

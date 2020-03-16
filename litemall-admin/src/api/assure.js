@@ -23,9 +23,24 @@ export function readApplicant(data) {
   })
 }
 
+export function listBank(data) {
+  return request({
+    url: '/assure/listBank',
+    method: 'get'
+  })
+}
+
 export function updateApplicant(data) {
   return request({
     url: '/assure/update',
+    method: 'post',
+    data
+  })
+}
+
+export function updateByBank(data) {
+  return request({
+    url: '/assure/updateByBank',
     method: 'post',
     data
   })
@@ -38,3 +53,4 @@ export function deleteApplicant(data) {
     data
   })
 }
+

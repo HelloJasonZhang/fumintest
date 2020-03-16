@@ -2,7 +2,7 @@
 /* eslint-disable no-trailing-spaces */
 <template>
   <div class="app-container">
-    <el-card class="box-card">
+      <el-card class="box-card">
       <h3>申请人信息</h3>
       <el-form ref="goods" :model="goods" label-width="180px">
         <el-row>
@@ -75,29 +75,53 @@
         <el-form-item label="申请主体现住址" prop="address">
           <el-input v-model="goods.address" :readonly="goodsReadyOnly" />
         </el-form-item>
-        <el-row>
+
+        <el-row v-if="goods.applicantType != '企业'">
+          <el-col :span="24"><h3>人社审核资料</h3></el-col>
           <el-col :span="6">
             <el-form-item label="营业执照正面" prop="businessLicenseUrl">
               <el-image v-if="goods.businessLicenseUrl" style="width:50px;height:50px;" :src="goods.businessLicenseUrl" :preview-src-list="[goods.businessLicenseUrl]" />
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="近三个月工资发放明细" prop="salaryDetailUrl">
+            <el-form-item label="工资单" prop="salaryDetailUrl">
               <el-image v-if="goods.salaryDetailUrl" style="width:50px;height:50px;" :src="goods.salaryDetailUrl" :preview-src-list="[goods.salaryDetailUrl]" />
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="法定代表人身份证正面" prop="idCardUrl">
+            <el-form-item label="身份证正面" prop="idCardUrl">
               <el-image v-if="goods.idCardUrl" style="width:50px;height:50px;" :src="goods.idCardUrl" :preview-src-list="[goods.idCardUrl]" />
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="法定代表人身份证反面" prop="idCardUrl2">
+            <el-form-item label="身份证反面" prop="idCardUrl2">
               <el-image v-if="goods.idCardUrl2" style="width:50px;height:50px;" :src="goods.idCardUrl2" :preview-src-list="[goods.idCardUrl2]" />
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="goods.applicantType != '企业'">
+          <el-col :span="6">
+            <el-form-item label="承诺书" prop="address">
+              <el-image v-if="goods.undertakingUrl" style="width:50px;height:50px;" :src="goods.undertakingUrl" :preview-src-list="[goods.undertakingUrl]" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="电子签名" prop="address">
+              <el-image v-if="goods.signatureUrl" style="width:50px;height:50px;" :src="goods.signatureUrl" :preview-src-list="[goods.signatureUrl]" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="就业创业证2" prop="jobUrl">
+              <el-image v-if="goods.idCardUrl" style="width:50px;height:50px;" :src="goods.jobUrl" :preview-src-list="[goods.jobUrl]" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="就业创业证3" prop="jobUrl2">
+              <el-image v-if="goods.idCardUrl2" style="width:50px;height:50px;" :src="goods.jobUrl2" :preview-src-list="[goods.jobUrl2]" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row v-if="goods.applicantType != '企业'">
           <el-col :span="6">
             <el-form-item label="配偶身份证正面" prop="addrespouseIdCardUrl">
               <el-image v-if="goods.spouseIdCardUrl" style="width:50px;height:50px;" :src="goods.spouseIdCardUrl" :preview-src-list="[goods.spouseIdCardUrl]" />
@@ -119,36 +143,32 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="goods.applicantType != '企业'">
           <el-col :span="6">
-            <el-form-item label="户口本首页本人页" prop="address">
+            <el-form-item label="户口本首页" prop="address">
               <el-image v-if="goods.residenceBookletUrl" style="width:50px;height:50px;" :src="goods.residenceBookletUrl" :preview-src-list="[goods.residenceBookletUrl]" />
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="户口本首页本人页" prop="address">
+            <el-form-item label="户口本本人页" prop="address">
               <el-image v-if="goods.residenceBookletUrl2" style="width:50px;height:50px;" :src="goods.residenceBookletUrl2" :preview-src-list="[goods.residenceBookletUrl2]" />
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="法定代表人信用报告" prop="address">
+            <el-form-item label="信用报告" prop="address">
               <el-image v-if="goods.creditReportUrl" style="width:50px;height:50px;" :src="goods.creditReportUrl" :preview-src-list="[goods.creditReportUrl]" />
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="配偶代表人信用报告" prop="address">
+            <el-form-item label="配偶信用报告" prop="address">
               <el-image v-if="goods.spouseCreditReportUrl" style="width:50px;height:50px;" :src="goods.spouseCreditReportUrl" :preview-src-list="[goods.spouseCreditReportUrl]" />
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col :span="6">
-            <el-form-item label="承诺书" prop="address">
-              <el-image v-if="goods.undertakingUrl" style="width:50px;height:50px;" :src="goods.undertakingUrl" :preview-src-list="[goods.undertakingUrl]" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
+        <el-row />
+
+        <el-row v-if="goods.applicantType != '企业'">
+          <el-col :span="24"><h3>担保审核资料</h3></el-col>
           <el-col :span="6">
             <el-form-item label="租赁合同" prop="address">
               <el-image v-if="goods.leaseContractUrl" style="width:50px;height:50px;" :src="goods.leaseContractUrl" :preview-src-list="[goods.leaseContractUrl]" />
@@ -160,33 +180,126 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="申请主体房产证" prop="address">
-              <el-image v-if="goods.houseProprietaryCertificateUrl" style="width:50px;height:50px;" :src="goods.houseProprietaryCertificateUrl" :preview-src-list="[goods.houseProprietaryCertificateUrl]" />
+            <el-form-item label="抵押信息" prop="address">
+              <el-image v-if="goods.mortgageUrl" style="width:50px;height:50px;" :src="goods.mortgageUrl" :preview-src-list="[goods.mortgageUrl]" />
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="车辆权证" prop="address">
-              <el-image v-if="goods.vehiclesCertificateUrl" style="width:50px;height:50px;" :src="goods.vehiclesCertificateUrl" :preview-src-list="[goods.vehiclesCertificateUrl]" />
+            <el-form-item label="共同担保声明" prop="address">
+              <el-image v-if="goods.guaranteeStatementUrl" style="width:50px;height:50px;" :src="goods.guaranteeStatementUrl" :preview-src-list="[goods.guaranteeStatementUrl]" />
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="goods.applicantType != '企业'">
           <el-col :span="6">
-            <el-form-item label="企业/申请人近一年银行对账" prop="address">
-              <el-image v-if="goods.bankReconciliationUrl" style="width:50px;height:50px;" :src="goods.bankReconciliationUrl" :preview-src-list="[goods.bankReconciliationUrl]" />
+            <el-form-item label="个人资产证明" prop="address">
+              <el-image v-if="goods.assetUrl" style="width:50px;height:50px;" :src="goods.assetUrl" :preview-src-list="[goods.assetUrl]" />
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="担保人身份证" prop="address">
+            <el-form-item label="反担保人身份证正面" prop="address">
               <el-image v-if="goods.suretyIdCardUrl" style="width:50px;height:50px;" :src="goods.suretyIdCardUrl" :preview-src-list="[goods.suretyIdCardUrl]" />
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="其他图片（跟申请人电话沟通后，上传）" prop="address">
+            <el-form-item label="反担保人身份证反面" prop="address">
+              <el-image v-if="goods.suretyIdCardUrl2" style="width:50px;height:50px;" :src="goods.suretyIdCardUrl2" :preview-src-list="[goods.suretyIdCardUrl2]" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="其他图片" prop="address">
               <el-image v-if="goods.extraUrl" style="width:50px;height:50px;" :src="goods.extraUrl" :preview-src-list="[goods.extraUrl]" />
             </el-form-item>
           </el-col>
         </el-row>
+
+        <el-row v-if="goods.applicantType == '企业'">
+          <el-col :span="24"><h3>人社审核资料</h3></el-col>
+          <el-col :span="6">
+            <el-form-item label="营业执照正面" prop="businessLicenseUrl">
+              <el-image v-if="goods.businessLicenseUrl" style="width:50px;height:50px;" :src="goods.businessLicenseUrl" :preview-src-list="[goods.businessLicenseUrl]" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="身份证正面" prop="idCardUrl">
+              <el-image v-if="goods.idCardUrl" style="width:50px;height:50px;" :src="goods.idCardUrl" :preview-src-list="[goods.idCardUrl]" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="身份证反面" prop="idCardUrl2">
+              <el-image v-if="goods.idCardUrl2" style="width:50px;height:50px;" :src="goods.idCardUrl2" :preview-src-list="[goods.idCardUrl2]" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="法人征信查询记录" prop="creditReportUrl">
+              <el-image v-if="goods.creditReportUrl" style="width:50px;height:50px;" :src="goods.creditReportUrl" :preview-src-list="[goods.creditReportUrl]" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row v-if="goods.applicantType == '企业'">
+          <el-col :span="6">
+            <el-form-item label="承诺书" prop="address">
+              <el-image v-if="goods.undertakingUrl" style="width:50px;height:50px;" :src="goods.undertakingUrl" :preview-src-list="[goods.undertakingUrl]" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="电子签名" prop="address">
+              <el-image v-if="goods.signatureUrl" style="width:50px;height:50px;" :src="goods.signatureUrl" :preview-src-list="[goods.signatureUrl]" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="户口本首页" prop="address">
+              <el-image v-if="goods.residenceBookletUrl" style="width:50px;height:50px;" :src="goods.residenceBookletUrl" :preview-src-list="[goods.residenceBookletUrl]" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="户口本本人页" prop="address">
+              <el-image v-if="goods.residenceBookletUrl2" style="width:50px;height:50px;" :src="goods.residenceBookletUrl2" :preview-src-list="[goods.residenceBookletUrl2]" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row v-if="goods.applicantType == '企业'">
+          <el-col :span="6">
+            <el-form-item label="配偶身份证正面" prop="addrespouseIdCardUrl">
+              <el-image v-if="goods.spouseIdCardUrl" style="width:50px;height:50px;" :src="goods.spouseIdCardUrl" :preview-src-list="[goods.spouseIdCardUrl]" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="配偶身份证反面" prop="address">
+              <el-image v-if="goods.spouseIdCardUrl2" style="width:50px;height:50px;" :src="goods.spouseIdCardUrl2" :preview-src-list="[goods.spouseIdCardUrl2]" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="结婚照/离婚征首页" prop="address">
+              <el-image v-if="goods.marriageCertificateUrl" style="width:50px;height:50px;" :src="goods.marriageCertificateUrl" :preview-src-list="[goods.marriageCertificateUrl]" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="结婚照/离婚征本人页" prop="address">
+              <el-image v-if="goods.marriageCertificateUrl2" style="width:50px;height:50px;" :src="goods.marriageCertificateUrl2" :preview-src-list="[goods.marriageCertificateUrl2]" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row v-if="goods.applicantType == '企业'">
+          <el-col :span="6">
+            <el-form-item label="带动就业人员信息" prop="employmentPromotionUrl">
+              <el-image v-if="goods.employmentPromotionUrl" style="width:50px;height:50px;" :src="goods.employmentPromotionUrl" :preview-src-list="[goods.employmentPromotionUrl]" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="当年纳税申报及上年纳税收据" prop="address">
+              <el-image v-if="goods.payTaxesUrl" style="width:50px;height:50px;" :src="goods.payTaxesUrl" :preview-src-list="[goods.payTaxesUrl]" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="其他补充图片" prop="address">
+              <el-image v-if="goods.extraUrl" style="width:50px;height:50px;" :src="goods.extraUrl" :preview-src-list="[goods.extraUrl]" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row />
+        <el-input v-model="rensheForm.hsAuditDate" type="hidden" />
+        <el-input v-model="rensheForm.hsOperator" type="hidden" />
       </el-form>
     </el-card>
     <el-card v-if="isRenSheHidden" class="box-card">
@@ -290,6 +403,22 @@
               </el-form-item>
             </el-col>
           </el-row>
+          <el-form-item label="补充资料">
+            <el-upload
+              :action="uploadPath"
+              :limit="100"
+              :headers="headers"
+              :file-list="renSheExtraPicUrlList"
+              :on-exceed="uploadOverrun"
+              :on-success="handleExtraPicUrl"
+              :on-remove="handleRemove"
+              multiple
+              accept=".jpg,.jpeg,.png,.gif"
+              list-type="picture-card"
+            >
+              <i class="el-icon-plus" />
+            </el-upload>
+          </el-form-item>
         </el-row>
         <el-form-item label="人社部门意见" prop="hsComment">
           <el-input v-model="rensheForm.hsComment" type="textarea" :rows="7" />
@@ -374,13 +503,15 @@ export default {
       disableRenSheHidden: false,
       disableAssureHidden: false,
       disableBankHidden: false,
+      renSheExtraPicUrlList: [],
       goods: { picUrl: '' },
       specForm: { specification: '', value: '', picUrl: '' },
       rensheForm: {
         hsRigsterDate: undefined,
         isApproval: false,
         status: '',
-        hsComment: ''
+        hsComment: '',
+        hsExtraPicUrl: []
       },
       assureForm: { scLetterIntentUrl: '', value: '', picUrl: '' },
       bankForm: { },
@@ -473,6 +604,13 @@ export default {
           this.assureForm.status = 7
           this.extend(this.bankForm, response.data.data)
         }
+
+        this.renSheExtraPicUrlList = []
+        for (var i = 0; i < this.rensheForm.hsExtraPicUrl.length; i++) {
+          this.renSheExtraPicUrlList.push({
+            url: this.rensheForm.hsExtraPicUrl[i]
+          })
+        }
       })
     },
     handleCancel: function() {
@@ -539,17 +677,22 @@ export default {
         }
       })
     },
-    uploadPicUrl: function(response) {
-      this.assureForm.scLetterIntentUrl = response.data.url
-    },
     uploadOverrun: function() {
       this.$message({
         type: 'error',
-        message: '上传文件个数超出限制!最多上传5张图片!'
+        message: '上传文件个数超出限制!最多上传100张图片!'
       })
     },
+    handleExtraPicUrl(response, file, fileList) {
+      if (response.errno === 0) {
+        if (this.rensheForm.hsExtraPicUrl == null) {
+          this.rensheForm.hsExtraPicUrl = []
+        }
+        this.rensheForm.hsExtraPicUrl.push(response.data.url)
+      }
+    },
     handleRemove: function(file, fileList) {
-      for (var i = 0; i < this.goods.gallery.length; i++) {
+      for (var i = 0; i < this.rensheForm.hsExtraPicUrl.length; i++) {
         // 这里存在两种情况
         // 1. 如果所删除图片是刚刚上传的图片，那么图片地址是file.response.data.url
         //    此时的file.url虽然存在，但是是本机地址，而不是远程地址。
@@ -561,21 +704,10 @@ export default {
           url = file.response.data.url
         }
 
-        if (this.goods.gallery[i] === url) {
-          this.goods.gallery.splice(i, 1)
+        if (this.rensheForm.hsExtraPicUrl[i] === url) {
+          this.rensheForm.hsExtraPicUrl.splice(i, 1)
         }
       }
-    },
-    uploadSpecPicUrl: function(response) {
-      this.specForm.picUrl = response.data.url
-    },
-    handleSpecificationShow() {
-      this.specForm = { specification: '', value: '', picUrl: '' }
-      this.specVisiable = true
-    },
-    handleProductShow(row) {
-      this.productForm = Object.assign({}, row)
-      this.productVisiable = true
     },
     onChangeHrSubmitstatus: function(value) {
       if (value === 4) {

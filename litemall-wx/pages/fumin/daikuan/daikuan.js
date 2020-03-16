@@ -11,7 +11,7 @@ Page({
     imageIconSrc: '/static/images/fumin/4.png',
     items: [{
       id: 1,
-      cdoe: "info",
+      code: "info",
       name: "个人信息",
       submitStatus: "待完善",
       statusIcon: "info",
@@ -23,7 +23,7 @@ Page({
       comment: ""
     }, {
       id: 2,
-      cdoe: "shenshe",
+      code: "shenshe",
       name: "人社审核信息",
       submitStatus: "待审批",
       statusIcon: "",
@@ -35,7 +35,7 @@ Page({
       comment: ""
     }, {
       id: 3,
-      cdoe: "danbao",
+      code: "danbao",
       name: "担保公司审核信息",
       submitStatus: "待审批",
       statusIcon: "",
@@ -47,7 +47,7 @@ Page({
       comment: ""
     }, {
       id: 4,
-      cdoe: "bank",
+      code: "bank",
       name: "银行受理信息",
       submitStatus: "待受理",
       statusIcon: "",
@@ -57,7 +57,19 @@ Page({
       icon: "/static/images/fumin/4.png",
       sValue: 0,
       comment: ""
-    }],
+      }, {
+        id: 5,
+        code: "caizheng",
+        name: "财政部",
+        submitStatus: "政策说明",
+        statusIcon: "",
+        statusColor: "",
+        isHiddenIcon: false,
+        fontColor: "gray",
+        icon: "/static/images/fumin/4.png",
+        sValue: 0,
+        comment: ""
+      }],
     picUrls: [],
     files: [],
     selecValue: "",
@@ -78,10 +90,9 @@ Page({
       var status = res.data.submitStatus
       that.setData({
         selecValue: res.data.applicantType,
-        hsTopAmount: res.data.hsTopAmount == null ? 0 : res.data.hsTopAmount,
+        hsTopAmount: res.data.hsTopAmount == null ? "-" : res.data.hsTopAmount,
         applicantId: res.data.id
       })
-
 
       if (res.errno === 0) {
         let auditAll = that.data.items
@@ -114,9 +125,16 @@ Page({
     })
   },
   goDetailChange: function(e) {
+    console.log(e)
     let id = e.currentTarget.dataset.item.id;
     let sValue = e.currentTarget.dataset.item.sValue;
     let title = ""
+
+    if (id == 5) {
+      wx.navigateTo({
+        url: '/pages/fumin/document/document?docType=caizheng_policy'
+      })
+    }
 
     if (sValue == 0) {
       if(id == 1) {

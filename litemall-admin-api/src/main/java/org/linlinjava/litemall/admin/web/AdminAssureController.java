@@ -8,7 +8,11 @@ import org.linlinjava.litemall.core.util.ResponseUtil;
 import org.linlinjava.litemall.core.validator.Order;
 import org.linlinjava.litemall.core.validator.Sort;
 import org.linlinjava.litemall.db.domain.LitemallApplicant;
+import org.linlinjava.litemall.db.domain.LitemallApplicantBank;
+import org.linlinjava.litemall.db.domain.LitemallBank;
+import org.linlinjava.litemall.db.service.LitemallApplicantBankService;
 import org.linlinjava.litemall.db.service.LitemallApplicantService;
+import org.linlinjava.litemall.db.service.LitemallBankService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
@@ -27,6 +31,10 @@ public class AdminAssureController {
 
     @Autowired
     private LitemallApplicantService applicantService;
+    @Autowired
+    private LitemallBankService bankService;
+    @Autowired
+    private LitemallApplicantBankService applicantBankService;
 
     @RequiresPermissions("admin:assure:list")
     @RequiresPermissionsDesc(menu = {"担保公司管理", "担保公司审核"}, button = "查询")
@@ -85,6 +93,14 @@ public class AdminAssureController {
         return ResponseUtil.ok(Applicant);
     }
 
+    @RequiresPermissions("admin:assure:listBank")
+    @RequiresPermissionsDesc(menu = {"担保公司管理", "担保公司审核"}, button = "查询银行")
+    @GetMapping("/listBank")
+    public Object listBank() {
+        List<LitemallBank> bankList =bankService.all();
+        return ResponseUtil.ok(bankList);
+    }
+
     @RequiresPermissions("admin:assure:update")
     @RequiresPermissionsDesc(menu = {"担保公司管理", "担保公司审核"}, button = "编辑")
     @PostMapping("/update")
@@ -99,6 +115,38 @@ public class AdminAssureController {
         return ResponseUtil.ok(Applicant);
     }
 
+    @RequiresPermissions("admin:assure:updateByBank")
+    @RequiresPermissionsDesc(menu = {"担保公司管理", "担保公司审核"}, button = "提交")
+    @PostMapping("/updateByBank")
+    public Object updateByBank(@RequestBody LitemallApplicant applicant) {
+        Object error = validate(applicant);
+        if (error != null) {
+            return error;
+        }
+
+        if (applicant.getBankId() != null) {
+            //删除申请人-银行关联表
+            List<LitemallApplicantBank> applicantBankList = applicantBankService.queryByAppliantId(applicant.getId());
+            for (LitemallApplicantBank applicantBank :  applicantBankList) {
+                applicantBankService.deleteById(applicantBank.getId());
+            }
+
+            //新增担保公司指定银行
+            LitemallApplicantBank newApplicantBank = new LitemallApplicantBank();
+            Integer[] bankIds = applicant.getBankId();
+            for (Integer id : bankIds) {
+                newApplicantBank.setApplicantId(applicant.getId());
+                newApplicantBank.setBankId(id);
+                applicantBankService.add(newApplicantBank);
+            }
+        }
+
+        if (applicantService.updateById(applicant) == 0) {
+            return ResponseUtil.updatedDataFailed();
+        }
+        return ResponseUtil.ok(applicant);
+    }
+
     @RequiresPermissions("admin:assure:delete")
     @RequiresPermissionsDesc(menu = {"担保公司管理", "担保公司审核"}, button = "删除")
     @PostMapping("/delete")
@@ -110,5 +158,4 @@ public class AdminAssureController {
         applicantService.deleteById(id);
         return ResponseUtil.ok();
     }
-
 }

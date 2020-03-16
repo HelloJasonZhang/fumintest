@@ -16,7 +16,7 @@
       <el-table-column align="center" label="ID" prop="id" />
       <el-table-column align="center" label="文本类型" prop="docType">
         <template slot-scope="scope">
-          <el-tag size="medium">{{ scope.row.docType === "policy" ? "政策说明" : "流程说明" }}</el-tag>
+          <el-tag size="medium">{{ scope.row.docTypeName }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column align="center" label="状态" prop="active">
@@ -118,6 +118,20 @@ export default {
       this.listLoading = true
       listDocument(this.listQuery)
         .then(response => {
+          for (let index = 0; index < response.data.data.list.length; index++) {
+            const element = response.data.data.list[index]
+            if (element.docType === 'policy') {
+              element['docTypeName'] = '贷款政策说明'
+            } else if (element.docType === 'workflow') {
+              element['docTypeName'] = '贷款流程说明'
+            } else if (element.docType === 'caizheng_policy') {
+              element['docTypeName'] = '财政部政策说明'
+            } else if (element.docType === 'danbao_desc') {
+              element['docTypeName'] = '担保流程说明'
+            }else if (element.docType === 'undertaking') {
+              element['docTypeName'] = '承诺书'
+            }
+          }
           this.list = response.data.data.list
           this.total = response.data.data.total
           this.listLoading = false
