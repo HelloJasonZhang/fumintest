@@ -91,7 +91,7 @@
           </el-col>
         </el-row>
         <el-row v-if="goods.applicantType == 'personal' && goods.applicantAmount < 10">
-          <el-row> 
+          <el-row>
             <el-col :span="6">
               <el-form-item label="营业执照正面" prop="businessLicenseUrl">
                 <el-image v-if="goods.businessLicenseUrl" style="width:50px;height:50px;" :src="goods.businessLicenseUrl" :preview-src-list="[goods.businessLicenseUrl]" />
@@ -315,7 +315,7 @@
           </el-timeline>
         </el-row>
       </div>
-    </el-card>    
+    </el-card>
   </div>
 </template>
 
@@ -376,7 +376,6 @@ import { MessageBox } from 'element-ui'
 import { getToken } from '@/utils/auth'
 import { listAudit } from '@/api/audit'
 import { getAuditByStatus } from '@/utils'
-
 
 export default {
   name: 'GoodsCreate',

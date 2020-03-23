@@ -706,7 +706,6 @@ import { getToken } from '@/utils/auth'
 import { listAudit } from '@/api/audit'
 import { getAuditByStatus } from '@/utils'
 
-
 export default {
   name: 'GoodsCreate',
   components: { },

@@ -630,7 +630,6 @@ export default {
       // 显示银行受理数据
       readApplicantBank({ 'id': row.id })
         .then(response => {
-
           for (let x = 0; x < response.data.data.applicantBank.length; x++) {
             var a = response.data.data.applicantBank[x]
             if (a.status === 1) {

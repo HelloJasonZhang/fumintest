@@ -89,7 +89,7 @@
           </el-col>
         </el-row>
         <el-row v-if="goods.applicantType == 'personal' && goods.applicantAmount < 10">
-          <el-row> 
+          <el-row>
             <el-col :span="6">
               <el-form-item label="营业执照正面" prop="businessLicenseUrl">
                 <el-image v-if="goods.businessLicenseUrl" style="width:50px;height:50px;" :src="goods.businessLicenseUrl" :preview-src-list="[goods.businessLicenseUrl]" />
