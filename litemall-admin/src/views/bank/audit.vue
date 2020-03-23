@@ -630,6 +630,21 @@
         <el-button type="primary" @click="handleEdit">提交</el-button>
       </div>
     </el-card>
+    <el-card>
+      <h3>审核记录</h3>
+      <div class="block">
+        <el-row v-for="(item) in auditList" :key="item.id">
+          <el-timeline>
+            <el-timeline-item :timestamp="item.updateTime" placement="top">
+              <el-card>
+                <h4>{{ item.auditCommit }}</h4>
+                <p>审批人:{{ item.operatorName }}, 审批状态: {{ item.submiteStatus }}</p>
+              </el-card>
+            </el-timeline-item>
+          </el-timeline>
+        </el-row>
+      </div>
+    </el-card>
   </div>
 </template>
 
@@ -688,6 +703,9 @@ import { createStorage, uploadPath } from '@/api/storage'
 import store from '@/store'
 import { MessageBox } from 'element-ui'
 import { getToken } from '@/utils/auth'
+import { listAudit } from '@/api/audit'
+import { getAuditByStatus } from '@/utils'
+
 
 export default {
   name: 'GoodsCreate',
@@ -753,7 +771,8 @@ export default {
         bName: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
         bSubBranch: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
         submitStatus: [{ required: true, message: '此字段不能为空', trigger: 'change' }]
-      }
+      },
+      auditList: []
     }
   },
   computed: {
@@ -795,6 +814,7 @@ export default {
           this.extend(this.rensheForm, response.data.data)
           this.rensheForm.status = 4
           this.extend(this.assureForm, response.data.data)
+          this.getAuditList(goodsId)
         } else if (parseInt(goAction) === 9) {
           this.isRenSheHidden = true
           this.disableRenSheHidden = true
@@ -811,6 +831,16 @@ export default {
     },
     handleCancel: function() {
       this.goBoack()
+    },
+    getAuditList: function(id) {
+      listAudit({ id: id }).then(response => {
+        for (let i = 0; i < response.data.data.length; i++) {
+          const element = response.data.data[i]
+          element.submiteStatus = getAuditByStatus(element.submiteStatus)
+        }
+        this.auditList = response.data.data
+        console.log(this.auditList)
+      })
     },
     goBoack: function() {
       var goAction = this.$route.query.action

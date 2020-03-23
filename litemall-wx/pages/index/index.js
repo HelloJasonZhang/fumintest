@@ -11,20 +11,21 @@ Page({
     imageFoursrc: '/static/images/fumin/bg3.png',
     items: [{
         id: 1,
-        name: "企业",
-        value: "企业",
+        name: "小微企业",
+        value: "company",
         checked: true
       },
       {
         id: 2,
         name: "个人",
-        value: "个人",
+        value: "personal",
         checked: false
       }
     ],
     picUrls: [],
     files: [],
-    selecValue: "企业",
+    selecValue: "company",
+    selectLable: "小微企业",
     detail: "",
     checked: false,
     checkboxItems: [
@@ -32,19 +33,30 @@ Page({
     ]
   },
   onLoad: function() {
+    console.log(1111111111111)
     //主动检查权限
     if (wx.getStorageSync('userInfo') && wx.getStorageSync('token')) {
       //判断是否有申请数据
       util.request(api.ApplicantRead).then(function(res) {
-        console.log(res)
         if (res.data != null) {
           if (res.data.submitStatus != null && (res.data.submitStatus == 10 || res.data.submitStatus == 0 || res.data.isAvailable)) {
             //do nothing 重新申请
           } else {
             //去申请状态页面
-            wx.navigateTo({
-              url: '/pages/fumin/daikuan/daikuan'
-            })
+            console.log(res)
+            if (res.data.signatureUrl == null) {
+              wx.navigateTo({
+                url: '/pages/handwriting/index/index?id=' + res.data.id
+              })
+            } else if (res.data.bankId == null) {
+              wx.navigateTo({
+                url: '/pages/fumin/bank/bank?id=' + res.data.id
+              })
+            } else {
+              wx.navigateTo({
+                url: '/pages/fumin/daikuan/daikuan'
+              })
+            }
           }
         }
       })
@@ -59,6 +71,14 @@ Page({
   },
   radioChange(e) {
     this.data.selecValue = e.detail.value
+    this.data.selectLable = e.detail.value === 'company' ? "小微企业" : "个人"
+    //  for (var i = 0; this.data.items.length; i++) {
+    //    var item = this.data.items[i];
+    //    console.log(item)
+    // //   if (e.detail.value === item.value) {
+    // //     this.data.selectLable = item.name
+    // //   }
+    //  }
   },
   checkboxChange(e) {
     this.setData({
@@ -102,8 +122,9 @@ Page({
     });
   },
   saveDanbao() {
-    let selecValue = this.data.selecValue;
-    if (selecValue == '') {
+    let that = this
+    let type = this.data.selecValue;
+    if (type == '') {
       util.showErrorToast('请选择类型');
       return false;
     }
@@ -128,7 +149,7 @@ Page({
         if (res.data == null) {
           //去申请页面
           wx.navigateTo({
-            url: '/pages/fumin/applicant/applicant?type=' + selecValue
+            url: '/pages/fumin/applicant/applicant?type=' + type + '&typeLable=' + that.data.selectLable
           })
         } else {
           //去申请状态页面
@@ -138,15 +159,14 @@ Page({
             })
           } else {
             wx.navigateTo({
-              url: '/pages/fumin/applicant/applicant?type=' + selecValue
+              url: '/pages/fumin/applicant/applicant?type=' + type + '&typeLable=' + that.data.selectLable
             })
           }
         }
       })
     } else {
-     
       wx.navigateTo({
-        url: '/pages/fumin/applicant/applicant?type=' + selecValue
+        url: '/pages/fumin/applicant/applicant?type=' + type
       })
     }
   }

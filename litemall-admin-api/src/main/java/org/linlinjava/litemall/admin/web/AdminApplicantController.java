@@ -15,6 +15,7 @@ import org.linlinjava.litemall.db.domain.LitemallApplicantBank;
 import org.linlinjava.litemall.db.domain.LitemallBank;
 import org.linlinjava.litemall.db.service.LitemallApplicantBankService;
 import org.linlinjava.litemall.db.service.LitemallApplicantService;
+import org.linlinjava.litemall.db.service.LitemallAuditService;
 import org.linlinjava.litemall.db.service.LitemallBankService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -36,6 +37,8 @@ public class AdminApplicantController {
     private LitemallApplicantService applicantService;
     @Autowired
     private LitemallBankService bankService;
+    @Autowired
+    private LitemallAuditService auditService;
 
     @RequiresPermissions("admin:applicant:list")
     @RequiresPermissionsDesc(menu = {"人社管理", "人社审核"}, button = "查询")
@@ -107,7 +110,9 @@ public class AdminApplicantController {
         }
         Subject currentUser = SecurityUtils.getSubject();
         LitemallAdmin currentAdmin = (LitemallAdmin) currentUser.getPrincipal();
+        Integer userId = currentAdmin.getId();
         String username = currentAdmin.getUsername();
+        auditService.add(Applicant,userId, username, Applicant.getHsComment());
         if (applicantService.updateById(Applicant, username) == 0) {
             return ResponseUtil.updatedDataFailed();
         }

@@ -11,8 +11,6 @@ function imageUtil(e) {
       var windowWidth = res.windowWidth;
       var windowHeight = res.windowHeight;
       var windowscale = windowHeight / windowWidth;//屏幕高宽比
-      console.log('windowWidth: ' + windowWidth)
-      console.log('windowHeight: ' + windowHeight)
       if (originalScale < windowscale) {//图片高宽比小于屏幕高宽比
         //图片缩放后的宽为屏幕宽
         imageSize.imageWidth = windowWidth;

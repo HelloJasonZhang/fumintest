@@ -57,7 +57,8 @@ Page({
       icon: "/static/images/fumin/4.png",
       sValue: 0,
       comment: ""
-      }, {
+      }, 
+      {
         id: 5,
         code: "caizheng",
         name: "财政部",
@@ -73,7 +74,9 @@ Page({
     picUrls: [],
     files: [],
     selecValue: "",
-    hsTopAmount: 0
+    hsTopAmount: 0,
+    disableApplicantTip: "",
+    orignalStatus: 0,
   },
   onLoad: function() {
     this.getApplicant();
@@ -91,9 +94,9 @@ Page({
       that.setData({
         selecValue: res.data.applicantType,
         hsTopAmount: res.data.hsTopAmount == null ? "-" : res.data.hsTopAmount,
-        applicantId: res.data.id
+        applicantId: res.data.id,
+        orignalStatus: res.data.submitStatus
       })
-
       if (res.errno === 0) {
         let auditAll = that.data.items
         if (status == 1) {
@@ -124,6 +127,27 @@ Page({
       imageheight: imageSize.imageHeight
     })
   },
+  disableApplicant: function () {
+    util.request(api.DictRead, {
+      type: "立即结束"
+    }, "GET").then(function (res) {
+      let content = "是否立即结束?"
+      if (res.errno === 0) {
+        content = res.data[0].value
+      }
+      wx.showModal({
+        title: '提示',
+        content: content,
+        success(res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+    });
+  },
   goDetailChange: function(e) {
     console.log(e)
     let id = e.currentTarget.dataset.item.id;
@@ -133,6 +157,18 @@ Page({
     if (id == 5) {
       wx.navigateTo({
         url: '/pages/fumin/document/document?docType=caizheng_policy'
+      })
+    }
+
+    if (id == 4 && sValue == 0) {
+      var flag = false
+      if (this.data.orignalStatus >= 7) {
+        flag = true
+      }
+      console.log('orignalStatus = ' + this.data.orignalStatus)
+      console.log('flag = ' + flag)
+      wx.navigateTo({
+        url: '/pages/fumin/bank/bank?id=' + this.data.applicantId + '&needApprove=' + flag 
       })
     }
 
@@ -170,9 +206,6 @@ Page({
         title = "担保公司核查信息"
       } else if (sValue == 8) {
         title = "银行受理信息"
-        wx.navigateTo({
-          url: '/pages/fumin/bankDetail/bankDetail'
-        })
       }
       wx.navigateTo({
         url: '/pages/fumin/reject/reject?id=' + this.data.applicantId + "&errorMessage=" + errorMessage
@@ -192,7 +225,7 @@ Page({
       } else if (sValue == 9 || sValue == 10) {
         title = "银行受理信息"
         wx.navigateTo({
-          url: '/pages/fumin/bankDetail/bankDetail'
+          url: '/pages/fumin/bankApprove/bankApprove?title=' + title
         })        
       }
 

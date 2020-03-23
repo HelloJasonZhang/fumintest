@@ -1,0 +1,31 @@
+<view>
+  <image style="width: 100vw; height: 100vh;" src="{{imagethirdsrc}}"></image>
+</view>
+<view style="position:absolute; top:35vh;">
+  <view  style="margin: 0rpx 0rpx;">
+    <view class="dengdai">
+      <view class="contect-box" style="width: 100vw;">
+        <view>
+          <span style="color: #000; font-size:50rpx;font-weight:bold" >恭喜你的贷款被审核通过</span>
+        </view>
+        <view>
+          <span style="color: #333333; font-size:32rpx;">审批通过银行：{{bankAuitList[0].name}}</span>
+        </view>
+        <view>
+          <span style="color: #333333; font-size:32rpx;">银行电话：{{bankAuitList[0].contact}}</span>
+        </view>
+        <view>
+          <span style="color: #333333; font-size:32rpx;">银行备注：{{bankAuitList[0].address}}</span>
+        </view>
+
+        <view style="margin: 30rpx 0px;" wx:for="{{bLoanVoucherUrl}}" wx:key="item">
+          <image style="width: 90vw; height: 35vh;" src="{{item}}" bindload="imageLoad"></image>
+        </view>
+        
+        <view class="btns">
+          <button class="save" bindtap="navigateBack">返回</button>
+        </view>
+      </view>  
+    </view>
+  </view>
+</view>

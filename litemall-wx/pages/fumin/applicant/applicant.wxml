@@ -36,14 +36,14 @@
       <view  wx:if="{{isShow}}" class="form-item">
         <input class="input" bindinput="bindinputSpouseIdCardNumber" value="{{applicant.spouseIdCardNumber}}" placeholder="配偶身份证号" />
       </view>
-      <picker bindchange="bindPickerTypesChange" value="{{indexTypes}}" range="{{arrayTyps}}">
+      <!-- <picker bindchange="bindPickerTypesChange" value="{{indexTypes}}" range="{{arrayTyps}}">
         <view class="picker">
           <view class="fb-type">
             <view class="type-label">{{arrayTyps[indexTypes]}}</view>
             <van-icon class="type-icon" name="arrow-down" />
           </view>
         </view>
-      </picker>
+      </picker> -->
       <!-- <picker bindchange="bindPickerHireChange" value="{{indexHires}}" range="{{arrayHires}}">
         <view class="picker">
           <view class="fb-type">
@@ -55,11 +55,19 @@
       <view class="form-item">
         <input class="input" bindinput="bindinputApplicantAmount" value="{{applicant.applicantAmount}}" placeholder="申请额度（万元）" />
       </view>
-      <view class="form-item">
+      <!-- <view class="form-item">
         <input class="input" bindinput="bindinputAddress" value="{{applicant.address}}" placeholder="申请主体现住址" />
-      </view>
-      <view class="form-default">
-      </view>
+      </view> -->
+      <!-- <view class="form-default">
+      </view> -->
+      <picker bindchange="bindPickerObtainInfoChange" value="{{indexObtainInfo}}" range="{{arrayObtianInfos}}">
+        <view class="picker">
+          <view class="fb-type">
+            <view class="type-label">{{arrayObtianInfos[indexObtainInfo]}}</view>
+            <van-icon class="type-icon" name="arrow-down" />
+          </view>
+        </view>
+      </picker>  
     </view>
 
     <view class="btns">

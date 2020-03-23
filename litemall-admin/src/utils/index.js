@@ -289,3 +289,20 @@ export function uniqueArr(arr) {
 export function isExternal(path) {
   return /^(https?:|mailto:|tel:)/.test(path)
 }
+
+export function getAuditByStatus(status) {
+  const statusArray = [
+    '申请人未提交',
+    '申请人已提交',
+    '人社审核待补充',
+    '人社审核不通过',
+    '人社审核通过',
+    '担保公司审核待补充',
+    '担保公司审核不通过',
+    '担保公司审核通过',
+    '银行审核不通过',
+    '银行审核受理',
+    '银行审核通过,整个审核流程结束'
+  ]
+  return statusArray[status]
+}

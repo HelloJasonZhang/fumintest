@@ -26,23 +26,10 @@
         </view>
       </view>
       <view class="item-signature">
-        <view style="margin-left:15px;margin-top:15px;">
-            <view class="document-box">
-              <view style="padding-bottom: 0rpx;">
-                <checkbox-group bindchange="checkboxChange">
-                  <label class="checkbox" wx:for="{{checkboxItems}}">
-                    <checkbox value="{{item.name}}" checked="{{item.checked}}" color="#5677fe" />
-                  </label>
-                </checkbox-group>
-              </view>
-              <view style="padding-top: 10rpx; padding-bottom: 30rpx;">
-                <span class="link-tips">已阅读</span>
-                <span class="link-text" bindtap="showDocment" data-address-id="undertaking">承若书</span>
-                <span>并</span>
-                <span class="link-text" bindtap="signaturePic" data-address-id="workflow">填写电子签名</span>
-              </view>
-            </view>
-        </view>
+        <view style="padding-top: 30rpx; padding-bottom: 30rpx; margin-left: 20rpx;">
+          <span class="link-tips">备注：</span>
+          <span class="link-text">{{tipText}}</span>
+        </view>       
       </view>
     </view>
   </view>

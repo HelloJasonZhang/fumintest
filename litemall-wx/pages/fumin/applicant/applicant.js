@@ -17,11 +17,13 @@ Page({
       "phoneNumber": "",
       "spouseName": "",
       "applicantType": "",
+      "applicantTypeLable": "",
       "applicantAmount": "",
       "recruitCategory": "",
       "applicantCategory": "",
       "address": "",
       "spouseIdCardNumber": "",
+      "obtainInfo": ""
     },
     imageFirstSrc: '/static/images/fumin/step1.png',
     array: ['请选择婚姻状态', '已婚', '离异', '未婚'],
@@ -52,23 +54,27 @@ Page({
       '农村自主创业农民',
       '其他'
     ],
+    arrayObtianInfos: [
+    ],
     indexMaritalStatus: 0,
     indexTypes: 0,
     indexHires: 0,
     indexSex: 0,
+    indexObtainInfo: 0,
     isShow: false,
-    selecValue: "",
     type: "",
+    typeLabe: "",
     id: null
   },
   onLoad: function (options) {
     wx.setNavigationBarTitle({
       title: this.data._title
     })
-    // 页面初始化 options为页面跳转所带来的参数
+    // 页面初始化 options为页面跳转所带来的参数)
     if (options.type && options.type != "") {
       this.setData({
-        type: options.type
+        type: options.type,
+        typeLabe: options.typeLable
       });
     }
     //数据回填
@@ -80,6 +86,7 @@ Page({
       //回显数据
       this.getApplicant()
     }
+    this.getObtainInfos()
   },
   getApplicant: function () {
     let that = this;
@@ -93,9 +100,27 @@ Page({
         that.setData({
           applicant: res.data,
           indexMaritalStatus: util.filter(res.data.maritalStatus, that.data.array),
-          indexSex: util.filter(res.data.sex, that.data.arraySex),
-          indexTypes: util.filter(res.data.applicantCategory, that.data.arrayTyps),
-          indexHires: util.filter(res.data.recruitCategory, that.data.arrayHires)
+          indexSex: util.filter(res.data.sex, that.data.arraySex)
+        });
+        //indexTypes: util.filter(res.data.applicantCategory, that.data.arrayTyps),
+        //indexHires: util.filter(res.data.recruitCategory, that.data.arrayHires)
+      }
+    });
+  },
+  getObtainInfos: function () {
+    let that = this
+    util.request(api.DictRead, {
+      type: "获取途径"
+    }, "GET").then(function (res) {
+      console.log(res)
+      if (res.errno === 0) {
+        var obtainInfos = ['请选择获取途径']
+        for (var i = 0; i < res.data.length; i++) {
+          var obtainInfo = res.data[i]
+          obtainInfos.push(obtainInfo.name)
+        }
+        that.setData({
+          arrayObtianInfos: obtainInfos
         });
       }
     });
@@ -106,9 +131,6 @@ Page({
       imagewidth: imageSize.imageWidth,
       imageheight: imageSize.imageHeight
     })
-  },
-  radioChange(e) {
-    this.data.selecValue = e.detail.value
   },
   bindPickerSex: function (e) {
     this.setData({
@@ -125,9 +147,10 @@ Page({
       indexMaritalStatus: e.detail.value
     });
     //隐藏配偶
-    if (e.detail.value == 1) {
+    console.log(this.data.type)
+    if (e.detail.value == 1 ) {
       this.setData({
-        isShow: true
+        isShow: false
       });
     } else {
       this.setData({
@@ -154,6 +177,11 @@ Page({
     // this.setData({
     //   applicant: applicant
     // });
+  },
+  bindPickerObtainInfoChange: function (e) {
+    this.setData({
+      indexObtainInfo: e.detail.value //e.detail.value
+    });
   },
   bindinputIdCardNumber: function (e) {
     let applicant = this.data.applicant;
@@ -222,11 +250,16 @@ Page({
       return false;
     }
 
-    let indexTypes = this.data.indexTypes
-    if (this.data.indexTypes == 0) {
-      util.showErrorToast('请选择申请人类别');
+    let indexObtainInfo = this.data.indexObtainInfo
+    if (this.data.indexObtainInfo == 0) {
+      util.showErrorToast('请选择获取途径');
       return false;
     }
+    // let indexTypes = this.data.indexTypes
+    // if (this.data.indexTypes == 0) {
+    //   util.showErrorToast('请选择申请人类别');
+    //   return false;
+    // }
 
     if (this.data.applicant.applicantAmount == null || this.data.applicant.applicantAmount == "" || this.data.applicant.applicantAmount == "0") {
       util.showErrorToast('请填写申请额度');
@@ -250,13 +283,12 @@ Page({
 
     applicant.maritalStatus = this.data.array[indexMaritalStatus];
 
-    applicant.applicantCategory = this.data.arrayTyps[indexTypes];
+    applicant.obtainInfo = this.data.arrayObtianInfos[indexObtainInfo];
 
+    //applicant.applicantCategory = this.data.arrayTyps[indexTypes];
     //applicant.recruitCategory = this.data.arrayHires[indexHires];
-
     applicant.applicantType = this.data.type
-    console.log(applicant.applicantType)
-
+    applicant.applicantTypeLable = this.data.typeLabe
     this.setData({
       applicant: applicant
     });

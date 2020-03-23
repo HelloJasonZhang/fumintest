@@ -2,16 +2,20 @@ package org.linlinjava.litemall.admin.web;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.Subject;
 import org.linlinjava.litemall.admin.annotation.RequiresPermissionsDesc;
 import org.linlinjava.litemall.core.util.ResponseUtil;
 import org.linlinjava.litemall.core.validator.Order;
 import org.linlinjava.litemall.core.validator.Sort;
+import org.linlinjava.litemall.db.domain.LitemallAdmin;
 import org.linlinjava.litemall.db.domain.LitemallApplicant;
 import org.linlinjava.litemall.db.domain.LitemallApplicantBank;
 import org.linlinjava.litemall.db.domain.LitemallBank;
 import org.linlinjava.litemall.db.service.LitemallApplicantBankService;
 import org.linlinjava.litemall.db.service.LitemallApplicantService;
+import org.linlinjava.litemall.db.service.LitemallAuditService;
 import org.linlinjava.litemall.db.service.LitemallBankService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -35,6 +39,8 @@ public class AdminAssureController {
     private LitemallBankService bankService;
     @Autowired
     private LitemallApplicantBankService applicantBankService;
+    @Autowired
+    private LitemallAuditService auditService;
 
     @RequiresPermissions("admin:assure:list")
     @RequiresPermissionsDesc(menu = {"担保公司管理", "担保公司审核"}, button = "查询")
@@ -104,15 +110,22 @@ public class AdminAssureController {
     @RequiresPermissions("admin:assure:update")
     @RequiresPermissionsDesc(menu = {"担保公司管理", "担保公司审核"}, button = "编辑")
     @PostMapping("/update")
-    public Object update(@RequestBody LitemallApplicant Applicant) {
-        Object error = validate(Applicant);
+    public Object update(@RequestBody LitemallApplicant applicant) {
+        Object error = validate(applicant);
         if (error != null) {
             return error;
         }
-        if (applicantService.updateById(Applicant) == 0) {
+
+        Subject currentUser = SecurityUtils.getSubject();
+        LitemallAdmin currentAdmin = (LitemallAdmin) currentUser.getPrincipal();
+        Integer userId = currentAdmin.getId();
+        String username = currentAdmin.getUsername();
+        auditService.add(applicant,userId, username, applicant.getScComment());
+
+        if (applicantService.updateById(applicant) == 0) {
             return ResponseUtil.updatedDataFailed();
         }
-        return ResponseUtil.ok(Applicant);
+        return ResponseUtil.ok(applicant);
     }
 
     @RequiresPermissions("admin:assure:updateByBank")
@@ -140,6 +153,12 @@ public class AdminAssureController {
                 applicantBankService.add(newApplicantBank);
             }
         }
+
+        Subject currentUser = SecurityUtils.getSubject();
+        LitemallAdmin currentAdmin = (LitemallAdmin) currentUser.getPrincipal();
+        Integer userId = currentAdmin.getId();
+        String username = currentAdmin.getUsername();
+        auditService.add(applicant,userId, username, applicant.getHsComment());
 
         if (applicantService.updateById(applicant) == 0) {
             return ResponseUtil.updatedDataFailed();

@@ -1,5 +1,5 @@
 <view class="container">
-  <view class="header-container">
+  <view class="header-container" wx:if="{{showPic}}">
     <!--图片宽大于屏幕宽-->
     <image style="width: 95vw; height: {{imageheight}}px;" src="{{imageFirstSrc}}" bindload="imageLoad"></image>
   </view>

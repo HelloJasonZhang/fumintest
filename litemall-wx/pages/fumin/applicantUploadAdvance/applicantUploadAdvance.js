@@ -26,29 +26,41 @@ Page({
       "address": "",
       "spouseIdCardNumber": "",
       "businessLicenseUrl": "",
+      "businessLicenseUrl2": "",
+      "laborContractUrl": "",
       "salaryDetailUrl": "",
       "idCardUrl": "",
       "idCardUrl2": "",
       "spouseIdCardUrl": "",
-      "spouseIdCardUrl2": "",
+      "spouseIdCard_url2": "",
       "marriageCertificateUrl": "",
       "marriageCertificateUrl2": "",
       "residenceBookletUrl": "",
       "residenceBookletUrl2": "",
       "creditReportUrl": "",
       "creditReportUrl2": "",
+      "spouseCreditReportUrl": "",
+      "spouseCreditReportUrl2": "",
       "undertakingUrl": "",
       "signatureUrl": "",
-      "leaseContractUrl": "",
+      "leaseContractRrl": "",
       "propertyCertificateUrl": "",
       "houseProprietaryCertificateUrl": "",
       "vehiclesCertificateUrl": "",
       "bankReconciliationUrl": "",
       "suretyIdCardUrl": "",
       "suretyIdCardUrl2": "",
+      "assetUrl": "",
+      "jobUrl": "",
+      "jobUrl2": "",
+      "mortgageUrl": "",
+      "guaranteeStatementUrl": "",
+      "employmentPromotionUrl": "",
+      "payTaxesUrl": "",
       "extraUrl": ""
     },
     uploadFiles: [],
+    tipText: "",
     hasPicture: false,
     picUrls: [],
     files: [],
@@ -85,7 +97,6 @@ Page({
     }
 
     if (options.id && options.id != "" && options.id != "null") {
-      console.log(options.id)
       this.setData({
         applicantId: options.id
       });
@@ -94,25 +105,26 @@ Page({
     } else {
       //新增页面
       //根据企业类型和婚姻状态加载数据
-      // options.applicantType ='个人'
-      // options.maritalStatus ='已婚'
-      // options.applicantAmount ='19'
+      //options.applicantType ='company'
+      //options.maritalStatus ='未婚'
+      //options.applicantAmount ='9'
       this.setData({
-        uploadFiles: dataSource.getBizData(options.applicantType, options.maritalStatus, options.applicantAmount)
+        uploadFiles: dataSource.getBizData(options.applicantType, options.maritalStatus, options.applicantAmount),
+        tipText: dataSource.getBizTipsText(options.applicantType, options.maritalStatus, options.applicantAmount)
       });
     }
   },
   onShow: function (options) {
     //回显到电子签名
     console.log(this.data.signatureUrl)
-    if (this.data.signatureUrl != "") {
-      let signatureUrl = this.data.signatureUrl
-      let applicant = this.data.applicant
-      applicant.signatureUrl = signatureUrl
-      this.setData({
-        signatureUrl: this.data.signatureUrl,
-        applicant: applicant,
-      })
+    // if (this.data.signatureUrl != "") {
+    //   let signatureUrl = this.data.signatureUrl
+    //   let applicant = this.data.applicant
+    //   applicant.signatureUrl = signatureUrl
+    //   this.setData({
+    //     signatureUrl: this.data.signatureUrl,
+    //     applicant: applicant,
+    //   })
       //this.data.uploadFiles[7].imageURLs[1].picUrls[0] = this.data.signatureUrl
       // let uploadFiles = this.data.uploadFiles
       // let file = this.data.uploadFiles[7]
@@ -127,8 +139,7 @@ Page({
       // this.setData({
       //   uploadFiles: uploadFiles
       // })
-    }
-    // console.log(this.data.uploadFiles[7].imageURLs[1])
+    //}
   },
   goSignatureUrl: function() {
     wx.navigateTo({
@@ -178,7 +189,7 @@ Page({
         //回显所有图片
         let applicant = res.data
         that.setData({
-          uploadFiles: dataSource.getBizData(applicant)
+          uploadFiles: dataSource.getBizData(applicant.applicantType, applicant.maritalStatus, applicant.applicantAmount)
         });
       }
     });
@@ -225,9 +236,6 @@ Page({
         that.setData({
           uploadFiles: that.data.uploadFiles
         });
-        console.log("================== =" + xPosition)
-        console.log("xPosition =" + xPosition)
-        console.log("yPosition =" + yPosition)
         that.upload(res, xPosition, yPosition);
       }
     })
@@ -320,17 +328,17 @@ Page({
     }
   },
   saveUplaod() {
-    let checked = this.data.checked;
-    if (!checked) {
-      util.showErrorToast('请点击已阅读');
-      return false;
-    }
+    // let checked = this.data.checked;
+    // if (!checked) {
+    //   util.showErrorToast('请点击已阅读');
+    //   return false;
+    // }
 
-    let signatureUrl = this.data.signatureUrl;
-    if (signatureUrl == null || signatureUrl == "") {
-      util.showErrorToast('请填写电子签名');
-      return false;     
-    }
+    // let signatureUrl = this.data.signatureUrl;
+    // if (signatureUrl == null || signatureUrl == "") {
+    //   util.showErrorToast('请填写电子签名');
+    //   return false;     
+    // }
 
     let pages = getCurrentPages(); // 获取页面栈
     let prevpage = pages[pages.length - 2] // 上一个页面
@@ -345,21 +353,20 @@ Page({
       }
     }
 
-
     let applicant = data.applicant
+
     for (var i = 0; i < iconUrls.length; i++) {
       applicant[iconUrls[i]] = iconUrlJson[iconUrls[i]]
     }
-    applicant.signatureUrl = this.data.signatureUrl
+    //applicant.signatureUrl = this.data.signatureUrl
     console.log(applicant)
-    console.log(this.data.applicantId)
     //更新 
     if (this.data.applicantId != null && this.data.applicantId != 0 && this.data.applicantId != "null") {
       util.request(api.ApplicantRedoUpdate,
         applicant, 'POST').then(function (res) {
           if (res.errno === 0) {
             wx.navigateTo({
-              url: '/pages/fumin/daikuan/daikuan'
+              url: '/pages/handwriting/index/index?id=' + res.data.id
             })
           } else {
             util.showErrorToast('无法保存数据');
@@ -371,7 +378,7 @@ Page({
         applicant, 'POST').then(function(res) {
         if (res.errno === 0) {
           wx.navigateTo({
-            url: '/pages/fumin/bank/bank?id=' + res.data.id
+            url: '/pages/handwriting/index/index?id=' + res.data.id
           })
         } else {
           util.showErrorToast('无法保存数据');

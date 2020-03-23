@@ -16,8 +16,13 @@ Page({
     selecValue: "企业",
     total: 0,
     bankIds: [],
+    tips: "",
+    needApprove: undefined,
+    showPic: true
   },
   onLoad: function(options) {
+    var tipsType = '申请银行'
+
     wx.setNavigationBarTitle({
       title: this.data._title
     })
@@ -27,7 +32,16 @@ Page({
         id: options.id
       });
     }
+
+    if (options.needApprove && options.needApprove != "") {
+      tipsType = options.needApprove === 'false' ? '未审批更改银行' : '已审批更改银行'
+      this.setData({
+        needApprove: options.needApprove,
+        showPic: false
+      });
+    }
     this.getBankList();
+    this.getBankTips(tipsType);
   },
   getBankList: function() {
     let that = this;
@@ -41,6 +55,20 @@ Page({
       }
     });
   },
+  getBankTips: function(tipsType) {
+    let that = this
+    util.request(api.DictRead, {
+      type: tipsType
+    }, "GET").then(function(res) {
+      let content = "是否确定选择银行?"
+      if (res.errno === 0) {
+        content = res.data[0].value
+      }
+      that.setData({
+        tips: content
+      });
+    });
+  },
   imageLoad: function(e) {
     var imageSize = imageUtil.imageUtil(e)
     this.setData({
@@ -49,9 +77,7 @@ Page({
     })
   },
   checkboxChange: function(e) {
-    console.log('checkbox发生change事件，携带value值为：', e.detail.value)
     let ids = e.detail.value
-
     this.setData({
       bankIds: ids
     })
@@ -67,8 +93,8 @@ Page({
       return false;
     }
 
-    if (this.data.bankIds.length > 2) {
-      util.showErrorToast('请最多选择两家银行');
+    if (this.data.bankIds.length > 1) {
+      util.showErrorToast('选择一家银行');
       return false;
     }
 
@@ -76,14 +102,34 @@ Page({
       "id": this.data.id,
       "bankId": this.data.bankIds
     }
-    console.log(applicant)
-    util.request(api.ApplicantUpdate,
-      applicant, 'POST').then(function(res) {
-      if (res.errno === 0) {
-        wx.navigateTo({
-          url: '/pages/fumin/daikuan/daikuan'
-        })
+
+    wx.showModal({
+      title: '提示',
+      content: this.data.tips,
+      success(res) {
+        if (res.confirm) {
+          if (that.data.needApprove === 'true') {
+
+            util.request(api.ApplicantRedoBank,
+              applicant, 'POST').then(function(res) {
+              if (res.errno === 0) {
+                wx.navigateTo({
+                  url: '/pages/fumin/daikuan/daikuan'
+                })
+              }
+            });
+          } else {
+            util.request(api.ApplicantUpdate,
+              applicant, 'POST').then(function(res) {
+              if (res.errno === 0) {
+                wx.navigateTo({
+                  url: '/pages/fumin/daikuan/daikuan'
+                })
+              }
+            });
+          }
+        }
       }
-    });
+    })
   }
 })

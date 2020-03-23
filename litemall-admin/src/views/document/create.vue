@@ -21,7 +21,7 @@
         <el-input v-model="document.docName" />
       </el-form-item>
       <el-form-item label="专题内容" prop="detail">
-        <editor :init="editorInit" v-model="document.detail" />
+        <editor v-model="document.detail" :init="editorInit" />
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -79,7 +79,7 @@ export default {
 
       listLoading: false,
       docTypes: [{ code: 'policy', name: '贷款政策说明' }, { code: 'workflow', name: '贷款流程说明' }, { code: 'caizheng_policy', name: '财政部政策说明' }, { code: 'danbao_desc', name: '担保流程说明' }, { code: 'undertaking', name: '承诺书' }],
-      actives: [{ code: true , name: '启动' }, { code: false, name: '不启用' }],
+      actives: [{ code: true, name: '启动' }, { code: false, name: '不启用' }],
       rules: {
         docName: [
           { required: true, message: '标题不能为空', trigger: 'blur' }

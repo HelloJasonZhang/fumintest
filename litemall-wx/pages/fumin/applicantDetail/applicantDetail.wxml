@@ -21,14 +21,14 @@
       <view class="label">联系方式</view>
       <view class="name">{{applicant.phoneNumber}}</view>
     </view>
-    <view class="app-detail-item">
+    <!-- <view class="app-detail-item">
       <view class="label">配偶姓名</view>
       <view class="name">{{applicant.spouseName}}</view>
     </view>
     <view class="app-detail-item">
       <view class="label">配偶姓名</view>
       <view class="name">{{applicant.spouseIdCardNumber}}</view>
-    </view>
+    </view> -->
     <view class="app-detail-item">
       <view class="label">申请类型</view>
       <view class="name">{{applicant.applicantType}}</view>
@@ -37,17 +37,17 @@
       <view class="label">申请额度</view>
       <view class="name">{{applicant.applicantAmount}}</view>
     </view>
-    <view class="app-detail-item">
+    <!-- <view class="app-detail-item">
       <view class="label">申请人类别</view>
       <view class="name">{{applicant.applicantCategory}}</view>
     </view>    
     <view class="app-detail-item">
       <view class="label">新招/雇佣人类别</view>
       <view class="name">{{applicant.recruitCategory}}</view>
-    </view>
+    </view> -->
     <view class="app-detail-item">
-      <view class="label">申请主体现住址</view>
-      <view class="name">{{applicant.address}}</view>
+      <view class="label">获取途径</view>
+      <view class="name">{{applicant.obtainInfo}}</view>
     </view>
   </view>
 

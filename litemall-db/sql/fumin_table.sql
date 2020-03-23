@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS `litemall_applicant`;
 CREATE TABLE `litemall_applicant`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+ `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
   `user_id` int(11) NULL DEFAULT NULL COMMENT '用户',
   `name` varchar(10) NULL DEFAULT NULL COMMENT '申请人姓名',
   `sex` varchar(10) NULL DEFAULT NULL COMMENT '性别',
@@ -9,11 +9,13 @@ CREATE TABLE `litemall_applicant`  (
   `phone_number` varchar(20) NULL DEFAULT NULL COMMENT '联系方式',
   `spouse_name` varchar(20) NULL DEFAULT NULL COMMENT '配偶姓名',
   `applicant_type` varchar(20) NULL DEFAULT NULL COMMENT '申请类别',
+  `applicant_type_lable` varchar(20) NULL DEFAULT NULL COMMENT '申请类别标签名',
   `applicant_amount` varchar(20) NULL DEFAULT NULL COMMENT '申请人金额',
   `recruit_category` varchar(20) NULL DEFAULT NULL COMMENT '新招类别',
   `applicant_category` varchar(20) NULL DEFAULT NULL COMMENT '申请类别',
   `address` varchar(100) NULL DEFAULT NULL COMMENT '申请主体现住址',
   `spouse_id_card_number` varchar(60) NULL DEFAULT NULL COMMENT '配偶身份证号',
+  `obtain_info` varchar(20) NULL DEFAULT NULL COMMENT '获取途径',
   `business_license_url` varchar(255) NULL DEFAULT NULL COMMENT '营业执照正面',
   `business_license_url_2` varchar(255) NULL DEFAULT NULL COMMENT '营业执照反面',
   `labor_contract_url` varchar(255) NULL DEFAULT NULL COMMENT '劳动合同',
@@ -91,6 +93,10 @@ CREATE TABLE `litemall_applicant`  (
   `b_repayment` varchar(20) NULL DEFAULT NULL COMMENT '还款方式',
   `b_interest_rate` varchar(20) NULL DEFAULT NULL COMMENT '利率',
   `b_interest_period` varchar(255) NULL DEFAULT NULL COMMENT '利息/期',
+  `b_loan_start_date` datetime(0) NULL DEFAULT NULL COMMENT '货款发放日',
+  `b_loan_end_date` datetime(0) NULL DEFAULT NULL COMMENT '贷款到期日',
+  `b_loan_finance` varchar(100) NULL DEFAULT NULL COMMENT '贷款金融',
+  `b_loan_voucher_url` varchar(255) NULL DEFAULT NULL COMMENT '贷款凭证',
   `b_comment` varchar(255) NULL DEFAULT NULL COMMENT '银行受理情况',
   `b_audit_date` datetime(0) NULL DEFAULT NULL COMMENT '银行审核日期',
   `b_auditor` varchar(50) NULL DEFAULT NULL COMMENT '银行审核人',
@@ -103,13 +109,17 @@ CREATE TABLE `litemall_applicant_bank`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `applicant_id` int(11) NULL DEFAULT NULL COMMENT '申请人ID',
   `bank_id` int(11) NULL DEFAULT NULL COMMENT '受理人ID',
+  `loan_start_date` datetime(0) NULL DEFAULT NULL COMMENT '货款发放日',
+  `loan_end_date` datetime(0) NULL DEFAULT NULL COMMENT '贷款到期日',
+  `loan_finance` varchar(255) NULL DEFAULT NULL COMMENT '贷款金融',
+  `loan_voucher_url` varchar(255) NULL DEFAULT NULL COMMENT '贷款凭证',
   `credit` varchar(20) NULL DEFAULT NULL COMMENT '额度',
   `lending_date` datetime(0) NULL DEFAULT NULL COMMENT '放款日期',
   `period_loan` varchar(11) NULL DEFAULT NULL COMMENT '货款期限',
   `repayment` varchar(255) NULL DEFAULT NULL COMMENT '还款方式',
   `interest` varchar(10) NULL DEFAULT NULL COMMENT '利息',
   `interest_period` varchar(255) NULL DEFAULT NULL COMMENT '利息周',
-  `audit_comment` varchar(255) NULL DEFAULT NULL COMMENT '审核信息',
+  `audit_comment` varchar(255) NULL DEFAULT NULL COMMENT '审核情况',
   `status` int(5) NULL DEFAULT NULL COMMENT '审批状态',
   `opertator` varchar(255) NULL DEFAULT NULL COMMENT '经办人',
   `add_time` datetime(0) NULL DEFAULT NULL,
@@ -150,5 +160,33 @@ CREATE TABLE `litemall_document`  (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT= "富文本"
 
+DROP TABLE IF EXISTS `litemall_dict`;
+CREATE TABLE `litemall`.`litemall_dict`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` varchar(100) NULL DEFAULT NULL,
+  `name` varchar(100) NULL DEFAULT NULL,
+  `value` varchar(100) NULL DEFAULT NULL,
+  `index` int(10) NULL DEFAULT NULL,
+  `active` tinyint(1) NULL DEFAULT NULL,
+  `deleted` tinyint(1) NULL DEFAULT 0,
+  `creator` varchar(50) NULL DEFAULT NULL,
+  `updator` varchar(50) NULL DEFAULT NULL,
+  `add_time` datetime(0) NULL DEFAULT NULL,
+  `update_time` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT= "字典项"
 
-
+DROP TABLE IF EXISTS `litemall_audit`;
+CREATE TABLE `litemall`.`litemall_audit`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `applicant_id` int(11) NULL DEFAULT NULL COMMENT '申请人记录ID',
+  `operator_id` int(10) NULL DEFAULT NULL COMMENT '操作人ID',
+  `operator_name` varchar(50) NULL DEFAULT NULL COMMENT '操作人',
+  `orignal_status` int(50) NULL DEFAULT NULL COMMENT '原始状态',
+  `submite_status` int(50) NULL DEFAULT NULL COMMENT '提交状态',
+  `audit_commit` varchar(1023) NULL DEFAULT NULL COMMENT '评论',
+  `add_time` datetime(0) NULL DEFAULT NULL COMMENT '添加时间',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT= "审核记录表"

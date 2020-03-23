@@ -21,7 +21,7 @@ Page({
       imageheight: imageSize.imageHeight
     })
   },
-  saveApplicant() {
+  goBack() {
 
     wx.navigateBack();
 

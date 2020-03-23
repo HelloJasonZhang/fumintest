@@ -192,17 +192,27 @@
                             typeHandler="org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler"/>
             <columnOverride column="hs_extra_pic_url" javaType="java.lang.String[]"
                             typeHandler="org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler"/>
+            <columnOverride column="b_loan_voucher_url" javaType="java.lang.String[]"
+                            typeHandler="org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler"/>
         </table>
         <table tableName="litemall_bank">
             <generatedKey column="id" sqlStatement="MySql" identity="true" />
         </table>
         <table tableName="litemall_applicant_bank">
             <generatedKey column="id" sqlStatement="MySql" identity="true" />
+            <columnOverride column="loan_voucher_url" javaType="java.lang.String[]"
+                            typeHandler="org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler"/>
         </table>
         <table tableName="litemall_demo">
             <generatedKey column="id" sqlStatement="MySql" identity="true" />
         </table>
         <table tableName="litemall_document">
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
+        <table tableName="litemall_dict">
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
+        <table tableName="litemall_audit">
             <generatedKey column="id" sqlStatement="MySql" identity="true" />
         </table>
     </context>

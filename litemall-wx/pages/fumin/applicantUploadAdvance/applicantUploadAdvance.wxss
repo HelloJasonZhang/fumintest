@@ -1,3 +1,5 @@
+@import "../../../lib/wxParse/wxParse.wxss";
+
 page {
   height: 100%;
   width: 100%;
@@ -255,12 +257,12 @@ page {
   justify-content: flex-start;
 }
 
-.aplicant-upload .item-signature .document-box .link-tips {
-  font-size: 26rpx;
+.aplicant-upload .item-signature .link-tips {
+  font-size: 25rpx;
   color: #A7A9AA
 }
 
-.aplicant-upload .item-signature .document-box .link-text {
-  font-size: 26rpx;
+.aplicant-upload .item-signature  .link-text {
+  font-size: 25rpx;
   color: #5677fe;
 }

@@ -2,7 +2,7 @@
 //获取应用实例
 var util = require('../../../utils/util.js');
 var api = require('../../../config/api.js');
-
+var WxParse = require('../../../lib/wxParse/wxParse.js');
 var app = getApp()
 
 Page({
@@ -29,7 +29,9 @@ Page({
     chirography: [], //笔迹
     currentChirography: {}, //当前笔迹
     linePrack: [], //划线轨迹 , 生成线条的实际点
-    signatureUrl: ''
+    signatureUrl: '',
+    detail: "",
+    applicantId:''
   },
   subCanvas() {
     var that = this;
@@ -44,18 +46,30 @@ Page({
           name: 'file',
           success: function (res) {
             var _res = JSON.parse(res.data);
-            // console.log(_res.data.url)
-            // that.setData({
-            //   signatureUrl: _res.data.url
-            // })
-            let pages = getCurrentPages();  // 当前页的数据，可以输出来看看有什么东西
-            let prevPage = pages[pages.length - 2];  // 上一页的数据，也可以输出来看看有什么东西
-            /** 设置数据 这里面的 value 是上一页你想被携带过去的数据，
-        后面是本方法里你得到的数据，我这里是detail.value，根据自己实际情况设置 */
-            prevPage.setData({
-              signatureUrl:  _res.data.url,
-            })
-            wx.navigateBack();
+        //     let pages = getCurrentPages();  // 当前页的数据，可以输出来看看有什么东西
+        //     let prevPage = pages[pages.length - 2];  // 上一页的数据，也可以输出来看看有什么东西
+        //     /** 设置数据 这里面的 value 是上一页你想被携带过去的数据，
+        // 后面是本方法里你得到的数据，我这里是detail.value，根据自己实际情况设置 */
+        //     prevPage.setData({
+        //       signatureUrl:  _res.data.url,
+        //     })
+        //     wx.navigateBack();
+            if (that.data.applicantId != null && that.data.applicantId != 0 && that.data.applicantId != "null") {
+              util.request(api.ApplicantUpdate,
+                { 'id': that.data.applicantId,'signatureUrl': _res.data.url}, 'POST').then(function (res) {
+                  if (res.errno === 0) {
+                    wx.navigateTo({
+                      url: '/pages/fumin/bank/bank?id=' + that.data.applicantId
+                    })
+                  } else {
+                    util.showErrorToast('无法保存数据');
+                  }
+                });
+            } else {
+              wx.navigateTo({
+                url: '/pages/index/index'
+              })
+            }
           },
           fail: function (e) {
             wx.showModal({
@@ -73,10 +87,6 @@ Page({
         })
       }
     })
-  },
-  upload(res) {
-
-
   },
   // 笔迹开始
   uploadScaleStart (e) {
@@ -204,7 +214,9 @@ Page({
       currentLine: []
     })
   },
-  onLoad () {
+  onLoad(options) {
+    console.log('run laod signature')
+    console.log(options)
     let canvasName = this.data.canvasName
     let ctx = wx.createCanvasContext(canvasName)
     this.setData({
@@ -217,6 +229,15 @@ Page({
         canvasHeight: rect.height
       })
     }).exec();
+    
+
+
+    this.showDocment()
+    if (options.id && options.id != "" && options.id != "null") {
+      this.setData({
+        applicantId: options.id
+      });
+    }
   },
   retDraw () {
     this.data.ctx.clearRect(0, 0, 700, 730)
@@ -374,5 +395,33 @@ Page({
       selectColor: colorSelected,
       lineColor: color
     })
-  }
+  },
+  showDocment() {
+    let that = this
+    util.request(api.DocumentRead, {
+      docType: 'undertaking'
+    }, "GET").then(function (res) {
+      console.log(res)
+      if (res.errno === 0) {
+        that.setData({
+          detail: res.data.detail
+        })
+        WxParse.wxParse('documentDetail', 'html', res.data.detail, that);
+      } else {
+        that.setData({
+          show: false
+        })
+        util.showErrorToast("无法读取！")
+      }
+    })
+    //加载数据
+    this.setData({
+      show: true,
+    });
+  },
+  onClose() {
+    this.setData({
+      show: false,
+    });
+  },  
 })

@@ -16,6 +16,7 @@ import org.linlinjava.litemall.db.domain.LitemallApplicantBank;
 import org.linlinjava.litemall.db.domain.LitemallBank;
 import org.linlinjava.litemall.db.service.LitemallApplicantBankService;
 import org.linlinjava.litemall.db.service.LitemallApplicantService;
+import org.linlinjava.litemall.db.service.LitemallAuditService;
 import org.linlinjava.litemall.db.service.LitemallBankService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -40,6 +41,8 @@ public class AdminBankAuditController {
     private LitemallBankService litemallBankService;
     @Autowired
     private LitemallApplicantService litemallApplicantService;
+    @Autowired
+    private LitemallAuditService auditService;
 
     @RequiresPermissions("admin:ba:list")
     @RequiresPermissionsDesc(menu = {"贷款银行", "银行审核"}, button = "查询")
@@ -91,26 +94,26 @@ public class AdminBankAuditController {
                 if (roleIds.length == 1 && roleIds[0] == 1) {
                     // do nothing
                 } else {
-                    //获取当前银行的审核状态，复制给submitStatus
-                    List<Integer> bankIdsList = new ArrayList<>();
-                    for(LitemallBank bank : bankList) {
-                        bankIdsList.add(bank.getId());
-                    }
-                    List<LitemallApplicantBank> abList = applicantBankService.querySelectiveByAidAndBankId(al.getId(),bankIdsList);
-                    for (LitemallApplicantBank ab : abList) {
-                        //审核通过
-                        if (ab.getStatus() != null && ab.getStatus() == 2) {
-                            if (ab.getBankId() == al.getbBankId()) {
-                                al.setSubmitStatus(10);
-                            } else {
-                                al.setSubmitStatus(9);
-                            }
-                        } else if (ab.getStatus() != null && ab.getStatus() == 1) { //审核不通过
-                            al.setSubmitStatus(8);
-                        } else {
-                            al.setSubmitStatus(7);
-                        }
-                    }
+//                    //获取当前银行的审核状态，复制给submitStatus
+//                    List<Integer> bankIdsList = new ArrayList<>();
+//                    for(LitemallBank bank : bankList) {
+//                        bankIdsList.add(bank.getId());
+//                    }
+//                    List<LitemallApplicantBank> abList = applicantBankService.querySelectiveByAidAndBankId(al.getId(),bankIdsList);
+//                    for (LitemallApplicantBank ab : abList) {
+//                        //审核通过
+//                        if (ab.getStatus() != null && ab.getStatus() == 2) {
+//                            if (ab.getBankId() == al.getbBankId()) {
+//                                al.setSubmitStatus(10);
+//                            } else {
+//                                al.setSubmitStatus(9);
+//                            }
+//                        } else if (ab.getStatus() != null && ab.getStatus() == 1) { //审核不通过
+//                            al.setSubmitStatus(8);
+//                        } else {
+//                            al.setSubmitStatus(7);
+//                        }
+//                    }
                 }
             }
         }
@@ -176,12 +179,19 @@ public class AdminBankAuditController {
         if (applicant.getSubmitStatus() == 7 && applicantBank.getStatus() == 2) {
             //有一家银行受理，改变申请人状态
             applicant.setSubmitStatus(9);
+        } else if (applicant.getSubmitStatus() == 7 && applicantBank.getStatus() == 1){
+            applicant.setSubmitStatus(8);
         }
         applicantService.updateById(applicant);
         //更新申请人银行关系表, 银行审核数据只有一条
         if(applicantBank.getId() != null ){
             applicantBankService.updateById(applicantBank);
         }
+        Subject currentUser = SecurityUtils.getSubject();
+        LitemallAdmin currentAdmin = (LitemallAdmin) currentUser.getPrincipal();
+        Integer userId = currentAdmin.getId();
+        String username = currentAdmin.getUsername();
+        auditService.add(applicant,userId, username, applicantBank.getAuditComment());
         return ResponseUtil.ok(applicantBank);
     }
 
@@ -202,11 +212,17 @@ public class AdminBankAuditController {
         al.setbRepayment(applicantBank.getRepayment());
         al.setbInterestRate(applicantBank.getInterest());
         al.setbInterestPeriod(applicantBank.getInterestPeriod());
+        al.setbLoanStartDate(applicantBank.getLoanStartDate());
+        al.setbLoanEndDate(applicantBank.getLoanEndDate());
+        al.setbLoanFinance(applicantBank.getLoanFinance());
+        al.setbLoanVoucherUrl(applicantBank.getLoanVoucherUrl());
         al.setbComment(applicantBank.getAuditComment());
         Subject currentUser = SecurityUtils.getSubject();
         LitemallAdmin currentAdmin = (LitemallAdmin) currentUser.getPrincipal();
-        al.setbOpertator(currentAdmin.getUsername());
-
+        Integer userId = currentAdmin.getId();
+        String username = currentAdmin.getUsername();
+        al.setbOpertator(username);
+        auditService.add(al,userId, username, al.getbComment());
         if (litemallApplicantService.updateById(al) == 0) {
             return ResponseUtil.updatedDataFailed();
         }
@@ -254,16 +270,22 @@ public class AdminBankAuditController {
     @RequiresPermissions("admin:ba:update")
     @RequiresPermissionsDesc(menu = {"贷款银行", "银行审核"}, button = "编辑")
     @PostMapping("/update")
-    public Object update(@RequestBody LitemallApplicant Applicant) {
-        Object error = validate(Applicant);
+    public Object update(@RequestBody LitemallApplicant applicant) {
+        Object error = validate(applicant);
         if (error != null) {
             return error;
         }
-        if (applicantService.updateById(Applicant) == 0) {
+
+        Subject currentUser = SecurityUtils.getSubject();
+        LitemallAdmin currentAdmin = (LitemallAdmin) currentUser.getPrincipal();
+        Integer userId = currentAdmin.getId();
+        String username = currentAdmin.getUsername();
+        auditService.add(applicant,userId, username, applicant.getbComment());
+        if (applicantService.updateById(applicant) == 0) {
             //创建对应的
             return ResponseUtil.updatedDataFailed();
         }
-        return ResponseUtil.ok(Applicant);
+        return ResponseUtil.ok(applicant);
     }
 
     @RequiresPermissions("admin:ba:delete")

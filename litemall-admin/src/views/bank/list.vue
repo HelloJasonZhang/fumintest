@@ -74,14 +74,14 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col v-show="false" :span="8">
             <el-form-item label="受理银行" prop="name">
               <div class="block">
                 <el-cascader v-model="dataForm.bankCascader" :options="dataForm.cascaderOptions" :props="{ expandTrigger: 'hover' }" style="width:100%" @change="handleCascaderChange" />
               </div>
             </el-form-item>
           </el-col>
-          <el-col v-if="dataForm.isApprove" :span="8">
+          <el-col v-show="false" :span="8">
             <el-form-item label="经办人" prop="opertator">
               <el-input v-model="dataForm.opertator" />
             </el-form-item>
@@ -89,6 +89,62 @@
         </el-row>
         <el-row v-if="dataForm.isApprove">
           <el-row>
+            <el-col :span="12">
+              <el-form-item label="贷款发放日" prop="loanStartDate">
+                <el-date-picker
+                  v-model="dataForm.loanStartDate"
+                  type="date"
+                  placeholder="选择日期"
+                  value-format="yyyy-MM-dd HH:mm:ss"
+                  :picker-options="pickerOptions"
+                  style="width:100%"
+                />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="贷款到期日" prop="loanEndDate">
+                <el-date-picker
+                  v-model="dataForm.loanEndDate"
+                  type="date"
+                  placeholder="选择日期"
+                  value-format="yyyy-MM-dd HH:mm:ss"
+                  :picker-options="pickerOptions"
+                  style="width:100%"
+                />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="贷款期限" prop="periodLoan">
+                <el-input v-model="dataForm.periodLoan" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="贷款金融" prop="loanFinance">
+                <el-input v-model="dataForm.loanFinance" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-col :span="20">
+            <el-form-item label="贷款凭证">
+              <el-upload
+                :action="uploadPath"
+                :limit="100"
+                :file-list="loanVoucherUrlList"
+                :headers="headers"
+                :on-exceed="uploadOverrun"
+                :on-success="handleExtraPicUrl"
+                :on-remove="handleRemove"
+                multiple
+                accept=".jpg,.jpeg,.png,.gif"
+                list-type="picture-card"
+              >
+                <i class="el-icon-plus" />
+              </el-upload>
+            </el-form-item>
+          </el-col>
+          <!-- <el-row>
             <el-col :span="8">
               <el-form-item label="授信额度(万元)" prop="credit">
                 <el-input v-model="dataForm.credit" />
@@ -128,7 +184,7 @@
                 <el-input v-model="dataForm.interestPeriod" />
               </el-form-item>
             </el-col>
-          </el-row>
+          </el-row> -->
         </el-row>
         <el-form-item label="银行受理情况" prop="auditComment">
           <el-input v-model="dataForm.auditComment" type="textarea" :rows="7" />
@@ -149,13 +205,16 @@
         <el-table :data="dataForm.applicantBank" stripestyle="width: 100%">
           <el-table-column align="center" prop="bankName" label="银行" />
           <el-table-column align="center" prop="subBranch" label="分行" />
-          <el-table-column align="center" prop="credit" label="授信额度(万元)" />
+          <el-table-column align="center" prop="loanStartDate" label="贷款发放日" />
+          <el-table-column align="center" prop="loanEndDate" label="贷款到期日" />
+          <el-table-column align="center" prop="loanFinance" label="贷款金融" />
+          <!-- <el-table-column align="center" prop="credit" label="授信额度(万元)" />
           <el-table-column align="center" prop="opertator" label="经办人" />
           <el-table-column align="center" prop="lendingDate" label="放贷日期" width="180" />
           <el-table-column align="center" prop="periodLoan" label="还款方式" />
           <el-table-column align="center" prop="repayment" label="还款方式" />
           <el-table-column align="center" prop="interest" label="利率(%)" />
-          <el-table-column align="center" prop="interestPeriod" label="利息/期" />
+          <el-table-column align="center" prop="interestPeriod" label="利息/期" /> -->
           <el-table-column align="center" prop="auditComment" label="银行受理情况" width="180" />
           <el-table-column align="center" prop="status" label="受理状态" />
         </el-table>
@@ -169,13 +228,16 @@
           <el-table-column type="selection" width="55" />
           <el-table-column align="center" prop="bankName" label="银行" />
           <el-table-column align="center" prop="subBranch" label="分行" />
-          <el-table-column align="center" prop="credit" label="授信额度(万元)" />
+          <el-table-column align="center" prop="loanStartDate" label="贷款发放日" />
+          <el-table-column align="center" prop="loanEndDate" label="贷款到期日" />
+          <el-table-column align="center" prop="loanFinance" label="贷款金融" />
+          <!-- <el-table-column align="center" prop="credit" label="授信额度(万元)" />
           <el-table-column align="center" prop="opertator" label="经办人" />
           <el-table-column align="center" prop="lendingDate" label="放贷日期" width="180" />
           <el-table-column align="center" prop="periodLoan" label="还款方式" />
           <el-table-column align="center" prop="repayment" label="还款方式" />
           <el-table-column align="center" prop="interest" label="利率(%)" />
-          <el-table-column align="center" prop="interestPeriod" label="利息/期" />
+          <el-table-column align="center" prop="interestPeriod" label="利息/期" /> -->
           <el-table-column align="center" prop="auditComment" label="银行受理情况" width="180" />
           <el-table-column align="center" prop="status" label="受理状态" />
         </el-table>
@@ -204,6 +266,7 @@
 
 <script>
 import { readApplicantBank, listApplicant, createAlicantBank, createFinishAudit } from '@/api/bankAudit'
+import { uploadPath } from '@/api/storage'
 import { getToken } from '@/utils/auth'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
@@ -236,6 +299,7 @@ export default {
         submitStatusArray: [],
         order: 'desc'
       },
+      uploadPath,
       statusMap: [
         '申请人已提交',
         '人社审核待补充',
@@ -295,6 +359,9 @@ export default {
         cascaderOptions: [],
         bankCascader: [],
         bankId: null,
+        loanStartDate: null,
+        loanEndDate: null,
+        loanFinance: null,
         credit: null,
         lendingDate: null,
         periodLoan: null,
@@ -304,7 +371,8 @@ export default {
         auditComment: null,
         status: null,
         applicantBank: [],
-        isApprove: false
+        isApprove: false,
+        loanVoucherUrl: []
       },
       dialogFormVisible: false,
       dialogAduitFormVisible: false,
@@ -323,7 +391,8 @@ export default {
           { required: true, message: '此字段不能为空', trigger: 'change' }
         ]
       },
-      multipleSelection: []
+      multipleSelection: [],
+      loanVoucherUrlList: []
     }
   },
   computed: {
@@ -424,15 +493,17 @@ export default {
             var a = response.data.data.applicantBank[x]
             if (a.status === 2) {
               a.status = '通过'
-              for (let j = 0; j < response.data.data.bankslist.length; j++) {
-                var b = response.data.data.bankslist[j]
-                if (a.bankId === b.id) {
-                  a['bankName'] = b.name
-                  a['subBranch'] = b.subBranch
-                }
-              }
-              finishData.push(a)
+            } else {
+              a.status = '不通过'
             }
+            for (let j = 0; j < response.data.data.bankslist.length; j++) {
+              var b = response.data.data.bankslist[j]
+              if (a.bankId === b.id) {
+                a['bankName'] = b.name
+                a['subBranch'] = b.subBranch
+              }
+            }
+            finishData.push(a)
           }
           this.dataForm.applicantBank = finishData
           this.dataForm.applicantId = row.id
@@ -480,6 +551,10 @@ export default {
         this.dataForm.interest = applicantBank.interest
         this.dataForm.interestPeriod = applicantBank.interestPeriod
         this.dataForm.auditComment = applicantBank.auditComment
+        this.dataForm.loanStartDate = applicantBank.loanStartDate
+        this.dataForm.loanEndDate = applicantBank.loanEndDate
+        this.dataForm.loanFinance = applicantBank.loanFinance
+        this.dataForm.loanVoucherUrl = applicantBank.loanVoucherUrl
         this.canFinish = false
       }
     },
@@ -487,6 +562,7 @@ export default {
       // 显示银行数据
       readApplicantBank({ 'id': row.id })
         .then(response => {
+          console.log(response)
           this.dataForm.cascaderOptions = []
           this.dataForm.bankList = response.data.data.bankslist
           this.dataForm.applicantBank = response.data.data.applicantBank
@@ -522,6 +598,11 @@ export default {
             this.dataForm.periodLoan = applicantBank.periodLoan
             this.dataForm.repayment = applicantBank.repayment
             this.dataForm.interest = applicantBank.interest
+
+            this.dataForm.loanStartDate = applicantBank.loanStartDate
+            this.dataForm.loanEndDate = applicantBank.loanEndDate
+            this.dataForm.loanFinance = applicantBank.loanFinance
+            this.dataForm.loanVoucherUrl = applicantBank.loanVoucherUrl
             this.dataForm.interestPeriod = applicantBank.interestPeriod
             this.dataForm.auditComment = applicantBank.auditComment
             this.dataForm.status = applicantBank.status
@@ -549,6 +630,7 @@ export default {
       // 显示银行受理数据
       readApplicantBank({ 'id': row.id })
         .then(response => {
+
           for (let x = 0; x < response.data.data.applicantBank.length; x++) {
             var a = response.data.data.applicantBank[x]
             if (a.status === 1) {
@@ -570,6 +652,7 @@ export default {
           console.log(this.dataForm.applicantBank)
           this.dialogAduitFormVisible = true
         }).catch(response => {
+          console.log(response)
           this.$notify.error({
             title: '失败',
             message: response.data.errmsg
@@ -611,6 +694,38 @@ export default {
           title: '无法下载',
           message: '请选择数据'
         })
+      }
+    },
+    uploadOverrun: function() {
+      this.$message({
+        type: 'error',
+        message: '上传文件个数超出限制!最多上传5张图片!'
+      })
+    },
+    handleRemove: function(file, fileList) {
+      for (var i = 0; i < this.dataForm.loanVoucherUrl.length; i++) {
+        // 这里存在两种情况
+        // 1. 如果所删除图片是刚刚上传的图片，那么图片地址是file.response.data.url
+        //    此时的file.url虽然存在，但是是本机地址，而不是远程地址。
+        // 2. 如果所删除图片是后台返回的已有图片，那么图片地址是file.url
+        var url
+        if (file.response === undefined) {
+          url = file.url
+        } else {
+          url = file.response.data.url
+        }
+
+        if (this.dataForm.loanVoucherUrl[i] === url) {
+          this.dataForm.loanVoucherUrl.splice(i, 1)
+        }
+      }
+    },
+    handleExtraPicUrl: function(response) {
+      if (response.errno === 0) {
+        if (this.dataForm.loanVoucherUrl == null) {
+          this.dataForm.loanVoucherUrl = []
+        }
+        this.dataForm.loanVoucherUrl.push(response.data.url)
       }
     }
   }

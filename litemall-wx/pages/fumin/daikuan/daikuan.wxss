@@ -235,3 +235,9 @@ page {
 .yellow {
   color: #FF7754
 }
+
+.title-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

@@ -310,6 +310,16 @@ export const asyncRouterMap = [
         }
       },
       {
+        path: 'dict',
+        component: () => import('@/views/dict/list'),
+        name: 'dict',
+        meta: {
+          perms: ['GET /admin/dict/list', 'POST /admin/dict/create', 'GET /admin/dict/read', 'POST /admin/dict/update', 'POST /admin/dict/delete'],
+          title: '字典项管理',
+          noCache: true
+        }
+      },
+      {
         path: 'document-create',
         component: () => import('@/views/document/create'),
         name: 'documentCreate',

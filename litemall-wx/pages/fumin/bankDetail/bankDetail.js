@@ -27,8 +27,6 @@ Page({
   getBankList: function() {
     let that = this;
     util.request(api.BankAuditList).then(function(res) {
-      
-      (res.data)
       if (res.errno === 0) {
         that.setData({
           bankAuitList: res.data,

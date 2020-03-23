@@ -2,7 +2,7 @@
 // 本机开发时使用
 //var WxApiRoot = 'http://localhost:8080/wx/';
 // 局域网测试使用
-//var WxApiRoot = 'http://192.168.1.3:8080/wx/';
+// var WxApiRoot = 'http://192.168.1.3:8080/wx/';
 // 云平台部署时使用
 // var WxApiRoot = 'http://122.51.199.160:8080/wx/';
 // 云平台上线时使用
@@ -27,16 +27,15 @@ module.exports = {
   ApplicantRead: WxApiRoot + 'applicant/read',
   ApplicantUpdate: WxApiRoot + 'applicant/update',
   ApplicantRedo: WxApiRoot + 'applicant/redo',
+  ApplicantRedoBank: WxApiRoot + 'applicant/redoBank',
   ApplicantReadById: WxApiRoot + 'applicant/readById',
   BankAuditList: WxApiRoot + 'applicant/getBankAudits',
   ApplicantReadById: WxApiRoot + 'applicant/readById',
   ApplicantRedoUpdate: WxApiRoot + 'applicant/redoUpdate',
-
   BankAdd: WxApiRoot + 'bank/create',
   BankRead: WxApiRoot + 'bank/read',
   BankUpdate: WxApiRoot + 'bank/update',
   BankList: WxApiRoot + 'bank/list',
-
-  DocumentRead: WxApiRoot + 'document/read'
-
+  DocumentRead: WxApiRoot + 'document/read',
+  DictRead: WxApiRoot + 'dict/read'
 };

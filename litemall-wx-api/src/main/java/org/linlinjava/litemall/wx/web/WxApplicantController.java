@@ -206,7 +206,7 @@ public class WxApplicantController extends GetRegionService {
     }
 
     @PostMapping("redo")
-    public Object redo(@LoginUser Integer userId, @RequestParam LitemallApplicant applicant) {
+    public Object redo(@LoginUser Integer userId, @RequestBody LitemallApplicant applicant) {
         if (userId == null) {
             return ResponseUtil.unlogin();
         }
@@ -219,6 +219,36 @@ public class WxApplicantController extends GetRegionService {
         }
         return ResponseUtil.ok(objApplicant);
     }
+
+    @PostMapping("redoBank")
+    public Object redoBank(@LoginUser Integer userId, @RequestBody LitemallApplicant applicant) {
+        if (userId == null) {
+            return ResponseUtil.unlogin();
+        }
+        LitemallApplicant objApplicant = applicantService.findById(applicant.getId());
+        if (objApplicant.getSubmitStatus() == 7 ) {
+            //担保公司有已经审核，银行未受理
+            objApplicant.setSubmitStatus(1);
+        }
+        if (applicantService.updateById(objApplicant) == 0) {
+            return ResponseUtil.updatedDataFailed();
+        }
+        Integer[] bankIds = applicant.getBankId();
+        if (bankIds != null && bankIds.length > 0) {
+            List<LitemallApplicantBank> litemallApplicantBankList = litemallApplicantBankService.queryByAppliantId(applicant.getId());
+            for (LitemallApplicantBank lab : litemallApplicantBankList) {
+                litemallApplicantBankService.deleteById(lab.getId());
+            }
+            for (int i = 0; i < bankIds.length; i ++) {
+                LitemallApplicantBank litemallApplicantBank = new LitemallApplicantBank();
+                litemallApplicantBank.setApplicantId(applicant.getId());
+                litemallApplicantBank.setBankId(bankIds[i]);
+                litemallApplicantBankService.add(litemallApplicantBank);
+            }
+        }
+        return ResponseUtil.ok(objApplicant);
+    }
+
 
     @PostMapping("redoUpdate")
     public Object redoUpdate(@LoginUser Integer userId, @RequestBody LitemallApplicant applicant) {

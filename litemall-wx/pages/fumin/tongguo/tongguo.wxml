@@ -24,7 +24,7 @@
       </view>
     </view>
     <view class="btns" style="top:30vh;">
-      <button class="save" bindtap="dengdai">返回</button>
+      <button class="save" bindtap="goBack">返回</button>
     </view>
   </view>
 </view>

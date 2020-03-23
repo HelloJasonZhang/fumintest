@@ -128,7 +128,7 @@ export default {
               element['docTypeName'] = '财政部政策说明'
             } else if (element.docType === 'danbao_desc') {
               element['docTypeName'] = '担保流程说明'
-            }else if (element.docType === 'undertaking') {
+            } else if (element.docType === 'undertaking') {
               element['docTypeName'] = '承诺书'
             }
           }
