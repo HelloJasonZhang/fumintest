@@ -10,54 +10,54 @@ Page({
     imageFoursrc: '/static/images/fumin/bg3.png',
     imageIconSrc: '/static/images/fumin/4.png',
     items: [{
-      id: 1,
-      code: "info",
-      name: "个人信息",
-      submitStatus: "待完善",
-      statusIcon: "info",
-      statusColor: "",
-      isHiddenIcon: false,
-      fontColor: "gray",
-      icon: "/static/images/fumin/1.png",
-      sValue: 0,
-      comment: ""
-    }, {
-      id: 2,
-      code: "shenshe",
-      name: "人社审核信息",
-      submitStatus: "待审批",
-      statusIcon: "",
-      statusColor: "",
-      fontColor: "gray",
-      isHiddenIcon: false,
-      icon: "/static/images/fumin/2.png",
-      sValue: 0,
-      comment: ""
-    }, {
-      id: 3,
-      code: "danbao",
-      name: "担保公司审核信息",
-      submitStatus: "待审批",
-      statusIcon: "",
-      statusColor: "",
-      isHiddenIcon: false,
-      fontColor: "gray",
-      icon: "/static/images/fumin/3.png",
-      sValue: 0,
-      comment: ""
-    }, {
-      id: 4,
-      code: "bank",
-      name: "银行受理信息",
-      submitStatus: "待受理",
-      statusIcon: "",
-      statusColor: "",
-      isHiddenIcon: false,
-      fontColor: "gray",
-      icon: "/static/images/fumin/4.png",
-      sValue: 0,
-      comment: ""
-      }, 
+        id: 1,
+        code: "info",
+        name: "个人信息",
+        submitStatus: "待完善",
+        statusIcon: "info",
+        statusColor: "",
+        isHiddenIcon: false,
+        fontColor: "gray",
+        icon: "/static/images/fumin/1.png",
+        sValue: 0,
+        comment: ""
+      }, {
+        id: 2,
+        code: "shenshe",
+        name: "人社审核信息",
+        submitStatus: "待审批",
+        statusIcon: "",
+        statusColor: "",
+        fontColor: "gray",
+        isHiddenIcon: false,
+        icon: "/static/images/fumin/2.png",
+        sValue: 0,
+        comment: ""
+      }, {
+        id: 3,
+        code: "danbao",
+        name: "担保公司审核信息",
+        submitStatus: "待审批",
+        statusIcon: "",
+        statusColor: "",
+        isHiddenIcon: false,
+        fontColor: "gray",
+        icon: "/static/images/fumin/3.png",
+        sValue: 0,
+        comment: ""
+      }, {
+        id: 4,
+        code: "bank",
+        name: "银行受理信息",
+        submitStatus: "待受理",
+        statusIcon: "",
+        statusColor: "",
+        isHiddenIcon: false,
+        fontColor: "gray",
+        icon: "/static/images/fumin/4.png",
+        sValue: 0,
+        comment: ""
+      },
       {
         id: 5,
         code: "caizheng",
@@ -70,13 +70,15 @@ Page({
         icon: "/static/images/fumin/4.png",
         sValue: 0,
         comment: ""
-      }],
+      }
+    ],
     picUrls: [],
     files: [],
     selecValue: "",
     hsTopAmount: 0,
     disableApplicantTip: "",
     orignalStatus: 0,
+    selectBankIds: [],
   },
   onLoad: function() {
     this.getApplicant();
@@ -95,7 +97,8 @@ Page({
         selecValue: res.data.applicantType,
         hsTopAmount: res.data.hsTopAmount == null ? "-" : res.data.hsTopAmount,
         applicantId: res.data.id,
-        orignalStatus: res.data.submitStatus
+        orignalStatus: res.data.submitStatus,
+        selectBankIds: res.data.bankId,
       })
       if (res.errno === 0) {
         let auditAll = that.data.items
@@ -127,10 +130,11 @@ Page({
       imageheight: imageSize.imageHeight
     })
   },
-  disableApplicant: function () {
+  disableApplicant: function() {
+    var that = this
     util.request(api.DictRead, {
       type: "立即结束"
-    }, "GET").then(function (res) {
+    }, "GET").then(function(res) {
       let content = "是否立即结束?"
       if (res.errno === 0) {
         content = res.data[0].value
@@ -140,9 +144,19 @@ Page({
         content: content,
         success(res) {
           if (res.confirm) {
-            console.log('用户点击确定')
-          } else if (res.cancel) {
-            console.log('用户点击取消')
+            let applicant = {
+              id: that.data.applicantId,
+              isAvailable:true
+            }
+            console.log(applicant)
+            util.request(api.ApplicantUpdate,
+              applicant, 'POST').then(function(res) {
+                if (res.errno === 0) {
+                wx.navigateTo({
+                  url: '/pages/index/index'
+                })
+              }
+            });
           }
         }
       })
@@ -165,28 +179,26 @@ Page({
       if (this.data.orignalStatus >= 7) {
         flag = true
       }
-      console.log('orignalStatus = ' + this.data.orignalStatus)
-      console.log('flag = ' + flag)
       wx.navigateTo({
-        url: '/pages/fumin/bank/bank?id=' + this.data.applicantId + '&needApprove=' + flag 
+        url: '/pages/fumin/bank/bank?id=' + this.data.applicantId + '&needApprove=' + flag + '&bankIds=' + this.data.selectBankIds
       })
     }
 
     if (sValue == 0) {
-      if(id == 1) {
+      if (id == 1) {
         wx.navigateTo({
           url: '/pages/fumin/applicant/applicant/?type=' + this.data.selecValue
-        })   
+        })
       } else {
         wx.navigateTo({
           url: '/pages/fumin/dengdai/dengdai'
-        })         
+        })
       }
     } else if (sValue == 1) {
       // 0 填写  !0  查看 
       wx.navigateTo({
         url: '/pages/fumin/applicantDetail/applicantDetail'
-      })  
+      })
     } else if (sValue == 2 || sValue == 5) { //等待
       if (sValue == 2) {
         title = "社核查信息"
@@ -226,7 +238,7 @@ Page({
         title = "银行受理信息"
         wx.navigateTo({
           url: '/pages/fumin/bankApprove/bankApprove?title=' + title
-        })        
+        })
       }
 
     }

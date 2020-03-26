@@ -8,9 +8,7 @@ Page({
   data: {
     _title: "选择银行",
     imageFirstSrc: '/static/images/fumin/step3.png',
-    bankList: [
-
-    ],
+    bankList: [],
     picUrls: [],
     id: null,
     selecValue: "企业",
@@ -18,7 +16,9 @@ Page({
     bankIds: [],
     tips: "",
     needApprove: undefined,
-    showPic: true
+    showPic: true,
+    selectedBank: "",
+    orignalBank: ""
   },
   onLoad: function(options) {
     var tipsType = '申请银行'
@@ -31,6 +31,13 @@ Page({
       this.setData({
         id: options.id
       });
+    }
+
+    if (options.bankIds && options.bankIds != "") {
+      this.setData({
+        bankIds: options.bankIds
+      });
+      console.log(this.data.bankIds == 4)
     }
 
     if (options.needApprove && options.needApprove != "") {
@@ -48,6 +55,16 @@ Page({
     util.request(api.BankList).then(function(res) {
       if (res.errno === 0) {
         var banks = res.data.list
+        console.log(banks)
+        for(let i = 0; i < banks.length; i++) {
+          let bank = banks[i]
+          if (bank.id == that.data.bankIds) {
+            bank['checked'] = true
+            that.setData({
+              orignalBank: bank.name
+            })
+          }
+        }
         that.setData({
           bankList: banks,
           total: res.data.total
@@ -77,11 +94,18 @@ Page({
     })
   },
   checkboxChange: function(e) {
-    let ids = e.detail.value
+    let id = e.detail.value
+    for (let i = 0; i < this.data.bankList.length; i++) {
+      let bank = this.data.bankList[i]
+      if (bank.id == id) {
+        this.setData({
+          selectedBank: bank.name
+        })
+      }
+    }    
     this.setData({
-      bankIds: ids
+      bankIds: [id]
     })
-
   },
   saveApplicant() {
     let that = this
@@ -103,13 +127,19 @@ Page({
       "bankId": this.data.bankIds
     }
 
+    let title = ""
+    if (this.data.orignalBank != null && this.data.orignalBank != "") {
+      title = '从' + this.data.orignalBank + '更换到' + this.data.selectedBank + '?'
+    } else {
+      title = "选择" + this.data.selectedBank
+    }
+
     wx.showModal({
-      title: '提示',
+      title: title,
       content: this.data.tips,
       success(res) {
         if (res.confirm) {
           if (that.data.needApprove === 'true') {
-
             util.request(api.ApplicantRedoBank,
               applicant, 'POST').then(function(res) {
               if (res.errno === 0) {

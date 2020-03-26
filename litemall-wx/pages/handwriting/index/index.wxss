@@ -40,9 +40,6 @@ page {
 
 .delBtn {
   display: inline-flex;
-  position: absolute;
-  right: 150rpx;
-  bottom: 10rpx;
   background: #666;
   color: #fff;
   margin-right: 20rpx;
@@ -52,9 +49,6 @@ page {
 
 .subBtn {
   display: inline-flex;
-  position: absolute;
-  right: 20rpx;
-  bottom: 10rpx;
   background: #008ef6;
   color: #fff;
   text-align: center;

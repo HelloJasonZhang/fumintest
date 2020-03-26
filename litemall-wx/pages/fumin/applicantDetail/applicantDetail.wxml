@@ -49,6 +49,10 @@
       <view class="label">获取途径</view>
       <view class="name">{{applicant.obtainInfo}}</view>
     </view>
+        <view class="app-detail-item">
+      <view class="label">推荐人</view>
+      <view class="name">{{applicant.recommender}}</view>
+    </view>
   </view>
 
   <view class="app-detail-iamg">

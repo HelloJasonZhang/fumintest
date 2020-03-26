@@ -4,7 +4,7 @@
     <image style="width: 95vw; height: {{imageheight}}px;" src="{{imageFirstSrc}}" bindload="imageLoad"></image>
   </view>
   <view class="bank">
-    <checkbox-group bindchange="checkboxChange">
+    <radio-group bindchange="checkboxChange" data-address-id="{{item.name}}">
       <label class="checkbox" wx:for="{{bankList}}">
         <view class="bank-item-box">
           <view class="bank-right-box">
@@ -12,17 +12,17 @@
               <image class="img-box" src="{{item.icon}}" mode="aspectFill"></image>
             </view>
             <view class="bank-text-box">
-              <view class="bank-title">{{item.name}}{{item.subBranch}}</view>
+              <view class="bank-title">{{item.name}}</view>
               <view class="bank-address">{{item.address}}</view>
               <view class="bank-tel">{{item.contact}}</view>
             </view>
           </view>
           <view class="bank-checkbox-box">
-            <checkbox value="{{item.id}}" checked="{{item.checked}}" />
+            <radio value="{{item.id}}" checked="{{item.checked}}" color="#5677fe"/>
           </view>
         </view>
       </label>
-    </checkbox-group>
+    </radio-group>
     <view class="btns">
       <button class="save" bindtap="saveApplicant">确认提交</button>
     </view>

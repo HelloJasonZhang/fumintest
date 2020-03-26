@@ -22,6 +22,7 @@
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="spouse_id_card_number" jdbcType="VARCHAR" property="spouseIdCardNumber" />
     <result column="obtain_info" jdbcType="VARCHAR" property="obtainInfo" />
+    <result column="recommender" jdbcType="VARCHAR" property="recommender" />
     <result column="business_license_url" jdbcType="VARCHAR" property="businessLicenseUrl" />
     <result column="business_license_url_2" jdbcType="VARCHAR" property="businessLicenseUrl2" />
     <result column="labor_contract_url" jdbcType="VARCHAR" property="laborContractUrl" />
@@ -332,7 +333,7 @@
     -->
     id, user_id, `name`, sex, marital_status, id_card_number, phone_number, spouse_name, 
     applicant_type, applicant_type_lable, applicant_amount, recruit_category, applicant_category, 
-    address, spouse_id_card_number, obtain_info, business_license_url, business_license_url_2, 
+    address, spouse_id_card_number, obtain_info, recommender, business_license_url, business_license_url_2, 
     labor_contract_url, salary_detail_url, id_card_url, id_card_url_2, spouse_id_card_url, 
     spouse_id_card_url_2, marriage_certificate_url, marriage_certificate_url_2, residence_booklet_url, 
     residence_booklet_url_2, credit_report_url, credit_report_url_2, spouse_credit_report_url, 
@@ -475,7 +476,7 @@
       spouse_name, applicant_type, applicant_type_lable, 
       applicant_amount, recruit_category, applicant_category, 
       address, spouse_id_card_number, obtain_info, 
-      business_license_url, business_license_url_2, 
+      recommender, business_license_url, business_license_url_2, 
       labor_contract_url, salary_detail_url, id_card_url, 
       id_card_url_2, spouse_id_card_url, spouse_id_card_url_2, 
       marriage_certificate_url, marriage_certificate_url_2, 
@@ -512,7 +513,7 @@
       #{spouseName,jdbcType=VARCHAR}, #{applicantType,jdbcType=VARCHAR}, #{applicantTypeLable,jdbcType=VARCHAR}, 
       #{applicantAmount,jdbcType=VARCHAR}, #{recruitCategory,jdbcType=VARCHAR}, #{applicantCategory,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{spouseIdCardNumber,jdbcType=VARCHAR}, #{obtainInfo,jdbcType=VARCHAR}, 
-      #{businessLicenseUrl,jdbcType=VARCHAR}, #{businessLicenseUrl2,jdbcType=VARCHAR}, 
+      #{recommender,jdbcType=VARCHAR}, #{businessLicenseUrl,jdbcType=VARCHAR}, #{businessLicenseUrl2,jdbcType=VARCHAR}, 
       #{laborContractUrl,jdbcType=VARCHAR}, #{salaryDetailUrl,jdbcType=VARCHAR}, #{idCardUrl,jdbcType=VARCHAR}, 
       #{idCardUrl2,jdbcType=VARCHAR}, #{spouseIdCardUrl,jdbcType=VARCHAR}, #{spouseIdCardUrl2,jdbcType=VARCHAR}, 
       #{marriageCertificateUrl,jdbcType=VARCHAR}, #{marriageCertificateUrl2,jdbcType=VARCHAR}, 
@@ -599,6 +600,9 @@
       </if>
       <if test="obtainInfo != null">
         obtain_info,
+      </if>
+      <if test="recommender != null">
+        recommender,
       </if>
       <if test="businessLicenseUrl != null">
         business_license_url,
@@ -898,6 +902,9 @@
       </if>
       <if test="obtainInfo != null">
         #{obtainInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="recommender != null">
+        #{recommender,jdbcType=VARCHAR},
       </if>
       <if test="businessLicenseUrl != null">
         #{businessLicenseUrl,jdbcType=VARCHAR},
@@ -1218,6 +1225,9 @@
       <if test="record.obtainInfo != null">
         obtain_info = #{record.obtainInfo,jdbcType=VARCHAR},
       </if>
+      <if test="record.recommender != null">
+        recommender = #{record.recommender,jdbcType=VARCHAR},
+      </if>
       <if test="record.businessLicenseUrl != null">
         business_license_url = #{record.businessLicenseUrl,jdbcType=VARCHAR},
       </if>
@@ -1497,6 +1507,7 @@
       address = #{record.address,jdbcType=VARCHAR},
       spouse_id_card_number = #{record.spouseIdCardNumber,jdbcType=VARCHAR},
       obtain_info = #{record.obtainInfo,jdbcType=VARCHAR},
+      recommender = #{record.recommender,jdbcType=VARCHAR},
       business_license_url = #{record.businessLicenseUrl,jdbcType=VARCHAR},
       business_license_url_2 = #{record.businessLicenseUrl2,jdbcType=VARCHAR},
       labor_contract_url = #{record.laborContractUrl,jdbcType=VARCHAR},
@@ -1636,6 +1647,9 @@
       </if>
       <if test="obtainInfo != null">
         obtain_info = #{obtainInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="recommender != null">
+        recommender = #{recommender,jdbcType=VARCHAR},
       </if>
       <if test="businessLicenseUrl != null">
         business_license_url = #{businessLicenseUrl,jdbcType=VARCHAR},
@@ -1913,6 +1927,7 @@
       address = #{address,jdbcType=VARCHAR},
       spouse_id_card_number = #{spouseIdCardNumber,jdbcType=VARCHAR},
       obtain_info = #{obtainInfo,jdbcType=VARCHAR},
+      recommender = #{recommender,jdbcType=VARCHAR},
       business_license_url = #{businessLicenseUrl,jdbcType=VARCHAR},
       business_license_url_2 = #{businessLicenseUrl2,jdbcType=VARCHAR},
       labor_contract_url = #{laborContractUrl,jdbcType=VARCHAR},

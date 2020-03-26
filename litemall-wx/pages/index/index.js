@@ -33,7 +33,6 @@ Page({
     ]
   },
   onLoad: function() {
-    console.log(1111111111111)
     //主动检查权限
     if (wx.getStorageSync('userInfo') && wx.getStorageSync('token')) {
       //判断是否有申请数据

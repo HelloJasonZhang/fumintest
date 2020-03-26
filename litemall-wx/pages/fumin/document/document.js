@@ -11,7 +11,7 @@ Page({
     detail: "",
   },
   onLoad: function (options) {
-    let docType = "caizheng_policy"
+    let docType = "danbao_desc"
     // 页面初始化 options为页面跳转所带来的参数
     if (options.docType && options.docType != "") {
       docType = options.docType

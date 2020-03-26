@@ -3,7 +3,7 @@ function getBizData(applicantType, maritalStatus, amount) {
   console.log(maritalStatus)
   console.log(amount)
   let data = []
-  if (parseInt(amount) > 10 || applicantType === 'company') {
+  if (parseInt(amount) >= 10 || applicantType === 'company') {
     //10万以上个人、分个人和企业
     if (applicantType === 'company') {
       data = getCompanyOrExceedData(applicantType)
@@ -625,10 +625,10 @@ function getCompanyOrExceedData(type) {
 
 
 function getBizTipsText(applicantType, maritalStatus, amount) { 
-  if (parseInt(amount) > 10 || applicantType === 'company') {
-    return "其他反担保、配偶及资料材料有工作人员提供清单"
+  if (applicantType === 'company') {
+    return "其他反担保、配偶及其他材料由工作人员提供清单"
   } else {
-    return "以上材料提供后等待现成核实通知"
+    return "以上材料提供后等待现场核实通知"
   }
 }
 

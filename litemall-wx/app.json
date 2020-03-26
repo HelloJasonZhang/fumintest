@@ -1,9 +1,9 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/handwriting/index/index",
-    "pages/fumin/bank/bank",
     "pages/fumin/document/document",
+    "pages/fumin/bank/bank",
+    "pages/handwriting/index/index",
     "pages/fumin/applicantUploadAdvance/applicantUploadAdvance",
     "pages/fumin/applicant/applicant",
     "pages/fumin/applicantUpload/applicantUpload",

@@ -24,6 +24,8 @@ Page({
       "recruitCategory": "",
       "applicantCategory": "",
       "address": "",
+      "obtainInfo": "",
+      "recommender": "",
       "spouseIdCardNumber": "",
       "businessLicenseUrl": "",
       "businessLicenseUrl2": "",

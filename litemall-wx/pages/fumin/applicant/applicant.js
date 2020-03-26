@@ -23,7 +23,8 @@ Page({
       "applicantCategory": "",
       "address": "",
       "spouseIdCardNumber": "",
-      "obtainInfo": ""
+      "obtainInfo": "",
+      "recommender": ""
     },
     imageFirstSrc: '/static/images/fumin/step1.png',
     array: ['请选择婚姻状态', '已婚', '离异', '未婚'],
@@ -183,6 +184,11 @@ Page({
       indexObtainInfo: e.detail.value //e.detail.value
     });
   },
+  bindinputRecommender: function(e) {
+    this.setData({
+      recommender: e.detail.value //e.detail.value
+    });
+  },
   bindinputIdCardNumber: function (e) {
     let applicant = this.data.applicant;
     applicant.idCardNumber = e.detail.value;
@@ -284,7 +290,8 @@ Page({
     applicant.maritalStatus = this.data.array[indexMaritalStatus];
 
     applicant.obtainInfo = this.data.arrayObtianInfos[indexObtainInfo];
-
+    
+    applicant.recommender = this.data.recommender;
     //applicant.applicantCategory = this.data.arrayTyps[indexTypes];
     //applicant.recruitCategory = this.data.arrayHires[indexHires];
     applicant.applicantType = this.data.type
