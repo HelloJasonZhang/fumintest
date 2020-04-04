@@ -205,7 +205,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="其他/备注" prop="hsMark">
+            <el-form-item label="企业名称" prop="hsMark">
               <el-input v-model="rensheForm.hsMark" />
             </el-form-item>
           </el-col>
@@ -254,7 +254,7 @@
         </el-row>
         <el-row>
           <el-col :span="24">
-            <el-form-item v-if="rensheForm.hsExtraPicUrl.length > 0" label="补充资料">
+            <el-form-item v-if="rensheForm.hsExtraPicUrl" label="补充资料">
               <el-image v-for="picUrl in rensheForm.hsExtraPicUrl" :key="picUrl" style="width:50px;height:50px; margin: 0px 10px" :src="picUrl" :preview-src-list="[picUrl]" />
             </el-form-item>
           </el-col>
@@ -364,7 +364,7 @@
         </el-form-item> -->
         <el-row v-if="disableAssureHidden">
           <el-col>
-            <el-form-item v-if="assureForm.scExtraPicUrl.length > 0" label="补充资料">
+            <el-form-item v-if="assureForm.scExtraPicUrl" label="补充资料">
               <el-image v-for="picUrl in assureForm.scExtraPicUrl" :key="picUrl" style="width:50px;height:50px; margin: 0px 10px" :src="picUrl" :preview-src-list="[picUrl]" />
             </el-form-item>
           </el-col>

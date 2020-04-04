@@ -7,10 +7,24 @@
   <view class="daikuan">
     <view style="text-align: center">
       <view style="">
-        <span style="color: #333333; font-size:40rpx;font-weight:bold" >抱歉，你的审核未通过</span>
+        <span style="color: #333333; font-size:40rpx;font-weight:bold">抱歉，你的审核未通过</span>
       </view>
       <view style="margin-top: 30rpx">
         <span style="color: #A7A9AA; font-size:32rpx;">{{errorMessage}}申请没有通过</span>
+      </view>
+      <view wx:if="{{bankVisable}}" style="text-align:left; margin-top:50rpx;">
+        <view>
+          <span style="color: #A7A9AA; font-size:32rpx; min-width:250rpx;">审批银行:</span>
+          <span style="color: #A7A9AA; font-size:32rpx;">{{bank.name}}</span>
+        </view>
+        <view>
+          <span style="color: #A7A9AA; font-size:32rpx;min-width:250rpx;">银行电话:</span>
+          <span style="color: #A7A9AA; font-size:32rpx;">{{bank.contact}}</span>
+        </view>
+        <view>
+          <span style="color: #A7A9AA; font-size:32rpx;min-width:250rpx;">银行地址:</span>
+          <span style="color: #A7A9AA; font-size:32rpx;">{{bank.address}}</span>
+        </view>
       </view>
     </view>
     <view class="btns" style="top:40vh;">

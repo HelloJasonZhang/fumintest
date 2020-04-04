@@ -37,7 +37,6 @@ Page({
       this.setData({
         bankIds: options.bankIds
       });
-      console.log(this.data.bankIds == 4)
     }
 
     if (options.needApprove && options.needApprove != "") {

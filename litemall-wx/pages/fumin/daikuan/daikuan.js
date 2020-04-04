@@ -209,7 +209,6 @@ Page({
         url: '/pages/fumin/applicant/applicant?id=' + this.data.applicantId + '&type=' + this.data.selecValue
       })
     } else if (sValue == 3 || sValue == 6 || sValue == 8) { //拒绝
-      console.log(e.currentTarget.dataset.item)
       let errorMessage = e.currentTarget.dataset.item.comment;
       console.log(e.currentTarget.dataset)
       if (sValue == 3) {
@@ -218,6 +217,9 @@ Page({
         title = "担保公司核查信息"
       } else if (sValue == 8) {
         title = "银行受理信息"
+        wx.navigateTo({
+          url: '/pages/fumin/reject/reject?id=' + this.data.applicantId + "&errorMessage=" + errorMessage + '&bankIds=' + this.data.selectBankIds
+        })
       }
       wx.navigateTo({
         url: '/pages/fumin/reject/reject?id=' + this.data.applicantId + "&errorMessage=" + errorMessage
@@ -237,7 +239,7 @@ Page({
       } else if (sValue == 9 || sValue == 10) {
         title = "银行受理信息"
         wx.navigateTo({
-          url: '/pages/fumin/bankApprove/bankApprove?title=' + title
+          url: '/pages/fumin/bankApprove/bankApprove?id=' + this.data.applicantId + '&bankIds=' + this.data.selectBankIds
         })
       }
 

@@ -7,33 +7,41 @@ var app = getApp()
 Page({
   data: {
     imagethirdsrc: '/static/images/fumin/bg5.png',
-    bLoanVoucherUrl: [],
-    bankAuitList: []
+    loanVoucherUrl: [],
+    bank: null
   },
-  onLoad: function () {
-    this.getApplicant();
-    this.getBankList();
+  onLoad: function (options) {
+    
+    if (options.id && options.id != "") {
+      console.log(options.id)
+      this.applicantaudit(options.id);
+    }
+    if (options.bankIds && options.bankIds != "") {
+      this.getBank(options.bankIds)
+    }
   },
-  getApplicant: function() {
+  applicantaudit: function(id) {
     let that = this;
-    util.request(api.ApplicantRead).then(function (res) {
-      if (res.errno === 0 && res.data.bLoanVoucherUrl) {
+    util.request(api.Applicantaudit, { id: id }, 'Get').then(function (res) {
+      console.log(res.data)
+      if (res.errno === 0 && res.data.list[0].loanVoucherUrl) {
         that.setData({
-          bLoanVoucherUrl: res.data.bLoanVoucherUrl
+          loanVoucherUrl: res.data.list[0].loanVoucherUrl
         })
       }
     });
   },
-  getBankList: function () {
+  getBank: function (bankId) {
     let that = this;
-    util.request(api.BankAuditList).then(function (res) {
-      console.log(res.data)
-      if (res.errno === 0) {
-        that.setData({
-          bankAuitList: res.data,
-        });
-      }
-    });
+    util.request(api.BankRead,
+      { id: bankId }, 'Get').then(function (res) {
+
+        if (res.errno === 0) {
+          that.setData({
+            bank: res.data,
+          });
+        }
+      });
   },
   imageLoad: function (e) {
     var imageSize = imageUtil.imageUtil(e)

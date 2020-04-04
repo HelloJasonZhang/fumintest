@@ -44,8 +44,8 @@ public class WxApplicantController extends GetRegionService {
 
 
     @GetMapping("audit")
-    public Object audit(@LoginUser Integer userId, @RequestBody LitemallApplicant applicant) {
-        List<LitemallApplicantBank> banikAuditList = litemallApplicantBankService.queryByAppliantId(applicant.getId());
+    public Object audit(@LoginUser Integer userId, @RequestParam Integer id ) {
+        List<LitemallApplicantBank> banikAuditList = litemallApplicantBankService.queryByAppliantId(id);
         return ResponseUtil.okList(banikAuditList);
     }
 

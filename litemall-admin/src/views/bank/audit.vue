@@ -334,7 +334,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="其他/备注" prop="hsMark">
+            <el-form-item label="企业名称" prop="hsMark">
               <el-input v-model="rensheForm.hsMark" />
             </el-form-item>
           </el-col>

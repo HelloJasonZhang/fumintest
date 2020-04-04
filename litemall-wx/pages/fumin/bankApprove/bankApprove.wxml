@@ -8,20 +8,23 @@
         <view>
           <span style="color: #000; font-size:50rpx;font-weight:bold" >恭喜你的贷款被审核通过</span>
         </view>
-        <view>
-          <span style="color: #333333; font-size:32rpx;">审批通过银行：{{bankAuitList[0].name}}</span>
+        <view style="margin: 30rpx 0px;" wx:for="{{loanVoucherUrl}}" wx:key="item">
+          <image style="width: 35vh; height: 35vh;" src="{{item}}" bindload="imageLoad"></image>
         </view>
-        <view>
-          <span style="color: #333333; font-size:32rpx;">银行电话：{{bankAuitList[0].contact}}</span>
-        </view>
-        <view>
-          <span style="color: #333333; font-size:32rpx;">银行备注：{{bankAuitList[0].address}}</span>
-        </view>
-
-        <view style="margin: 30rpx 0px;" wx:for="{{bLoanVoucherUrl}}" wx:key="item">
-          <image style="width: 90vw; height: 35vh;" src="{{item}}" bindload="imageLoad"></image>
-        </view>
-        
+        <view style="text-align:left; margin-top:50rpx; margin-left: 60rpx; margin-bottom: 50rpx;">
+          <view>
+            <span style="color: #A7A9AA; font-size:32rpx; min-width:250rpx;">审批银行:</span>
+            <span style="color: #A7A9AA; font-size:32rpx;">{{bank.name}}</span>
+          </view>
+          <view>
+            <span style="color: #A7A9AA; font-size:32rpx;min-width:250rpx;">银行电话:</span>
+            <span style="color: #A7A9AA; font-size:32rpx;">{{bank.contact}}</span>
+          </view>
+          <view>
+            <span style="color: #A7A9AA; font-size:32rpx;min-width:250rpx;">银行地址:</span>
+            <span style="color: #A7A9AA; font-size:32rpx;">{{bank.address}}</span>
+          </view>
+        </view>        
         <view class="btns">
           <button class="save" bindtap="navigateBack">返回</button>
         </view>

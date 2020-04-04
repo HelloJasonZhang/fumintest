@@ -8,7 +8,9 @@ Page({
   data: {
     imagethirdsrc: '/static/images/fumin/bg6.png',
     errorMessage: "",
-    id: ""
+    id: "",
+    bankVisable: false,
+    bank: null
   },
   onLoad: function(options) {
     wx.setNavigationBarColor({
@@ -30,10 +32,29 @@ Page({
         id: options.id
       })
     }
+
+    if (options.bankIds && options.bankIds != "") {
+      console.log(options.bankIds)
+      this.setData({
+        bankVisable: true
+      })
+      this.getBank(options.bankIds)
+    }
+  },
+  getBank: function (bankId) {
+    let that = this;
+    util.request(api.BankRead,
+      { id: bankId }, 'Get').then(function (res) {
+      console.log(res.data)
+      if (res.errno === 0) {
+        that.setData({
+          bank: res.data,
+        });
+      }
+    });
   },
   redo() {
     //让当前状态值减一
-
     if (this.data.id && this.data.id != "") {
       util.request(api.ApplicantRedo, {
         id: this.data.id

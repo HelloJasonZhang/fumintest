@@ -1,5 +1,6 @@
 package org.linlinjava.litemall.db.domain;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -671,7 +672,7 @@ public class LitemallRecordExample {
             return (Criteria) this;
         }
 
-        public Criteria andLoanStartDateEqualTo(LocalDateTime value) {
+        public Criteria andLoanStartDateEqualTo(LocalDate value) {
             addCriterion("loan_start_date =", value, "loanStartDate");
             return (Criteria) this;
         }
@@ -687,7 +688,7 @@ public class LitemallRecordExample {
             return (Criteria) this;
         }
 
-        public Criteria andLoanStartDateNotEqualTo(LocalDateTime value) {
+        public Criteria andLoanStartDateNotEqualTo(LocalDate value) {
             addCriterion("loan_start_date <>", value, "loanStartDate");
             return (Criteria) this;
         }
@@ -703,7 +704,7 @@ public class LitemallRecordExample {
             return (Criteria) this;
         }
 
-        public Criteria andLoanStartDateGreaterThan(LocalDateTime value) {
+        public Criteria andLoanStartDateGreaterThan(LocalDate value) {
             addCriterion("loan_start_date >", value, "loanStartDate");
             return (Criteria) this;
         }
@@ -719,7 +720,7 @@ public class LitemallRecordExample {
             return (Criteria) this;
         }
 
-        public Criteria andLoanStartDateGreaterThanOrEqualTo(LocalDateTime value) {
+        public Criteria andLoanStartDateGreaterThanOrEqualTo(LocalDate value) {
             addCriterion("loan_start_date >=", value, "loanStartDate");
             return (Criteria) this;
         }
@@ -735,7 +736,7 @@ public class LitemallRecordExample {
             return (Criteria) this;
         }
 
-        public Criteria andLoanStartDateLessThan(LocalDateTime value) {
+        public Criteria andLoanStartDateLessThan(LocalDate value) {
             addCriterion("loan_start_date <", value, "loanStartDate");
             return (Criteria) this;
         }
@@ -751,7 +752,7 @@ public class LitemallRecordExample {
             return (Criteria) this;
         }
 
-        public Criteria andLoanStartDateLessThanOrEqualTo(LocalDateTime value) {
+        public Criteria andLoanStartDateLessThanOrEqualTo(LocalDate value) {
             addCriterion("loan_start_date <=", value, "loanStartDate");
             return (Criteria) this;
         }
@@ -767,22 +768,22 @@ public class LitemallRecordExample {
             return (Criteria) this;
         }
 
-        public Criteria andLoanStartDateIn(List<LocalDateTime> values) {
+        public Criteria andLoanStartDateIn(List<LocalDate> values) {
             addCriterion("loan_start_date in", values, "loanStartDate");
             return (Criteria) this;
         }
 
-        public Criteria andLoanStartDateNotIn(List<LocalDateTime> values) {
+        public Criteria andLoanStartDateNotIn(List<LocalDate> values) {
             addCriterion("loan_start_date not in", values, "loanStartDate");
             return (Criteria) this;
         }
 
-        public Criteria andLoanStartDateBetween(LocalDateTime value1, LocalDateTime value2) {
+        public Criteria andLoanStartDateBetween(LocalDate value1, LocalDate value2) {
             addCriterion("loan_start_date between", value1, value2, "loanStartDate");
             return (Criteria) this;
         }
 
-        public Criteria andLoanStartDateNotBetween(LocalDateTime value1, LocalDateTime value2) {
+        public Criteria andLoanStartDateNotBetween(LocalDate value1, LocalDate value2) {
             addCriterion("loan_start_date not between", value1, value2, "loanStartDate");
             return (Criteria) this;
         }
@@ -797,7 +798,7 @@ public class LitemallRecordExample {
             return (Criteria) this;
         }
 
-        public Criteria andLoanEndDateEqualTo(LocalDateTime value) {
+        public Criteria andLoanEndDateEqualTo(LocalDate value) {
             addCriterion("loan_end_date =", value, "loanEndDate");
             return (Criteria) this;
         }
@@ -813,7 +814,7 @@ public class LitemallRecordExample {
             return (Criteria) this;
         }
 
-        public Criteria andLoanEndDateNotEqualTo(LocalDateTime value) {
+        public Criteria andLoanEndDateNotEqualTo(LocalDate value) {
             addCriterion("loan_end_date <>", value, "loanEndDate");
             return (Criteria) this;
         }
@@ -829,7 +830,7 @@ public class LitemallRecordExample {
             return (Criteria) this;
         }
 
-        public Criteria andLoanEndDateGreaterThan(LocalDateTime value) {
+        public Criteria andLoanEndDateGreaterThan(LocalDate value) {
             addCriterion("loan_end_date >", value, "loanEndDate");
             return (Criteria) this;
         }
@@ -845,7 +846,7 @@ public class LitemallRecordExample {
             return (Criteria) this;
         }
 
-        public Criteria andLoanEndDateGreaterThanOrEqualTo(LocalDateTime value) {
+        public Criteria andLoanEndDateGreaterThanOrEqualTo(LocalDate value) {
             addCriterion("loan_end_date >=", value, "loanEndDate");
             return (Criteria) this;
         }
@@ -861,7 +862,7 @@ public class LitemallRecordExample {
             return (Criteria) this;
         }
 
-        public Criteria andLoanEndDateLessThan(LocalDateTime value) {
+        public Criteria andLoanEndDateLessThan(LocalDate value) {
             addCriterion("loan_end_date <", value, "loanEndDate");
             return (Criteria) this;
         }
@@ -877,7 +878,7 @@ public class LitemallRecordExample {
             return (Criteria) this;
         }
 
-        public Criteria andLoanEndDateLessThanOrEqualTo(LocalDateTime value) {
+        public Criteria andLoanEndDateLessThanOrEqualTo(LocalDate value) {
             addCriterion("loan_end_date <=", value, "loanEndDate");
             return (Criteria) this;
         }
@@ -893,22 +894,22 @@ public class LitemallRecordExample {
             return (Criteria) this;
         }
 
-        public Criteria andLoanEndDateIn(List<LocalDateTime> values) {
+        public Criteria andLoanEndDateIn(List<LocalDate> values) {
             addCriterion("loan_end_date in", values, "loanEndDate");
             return (Criteria) this;
         }
 
-        public Criteria andLoanEndDateNotIn(List<LocalDateTime> values) {
+        public Criteria andLoanEndDateNotIn(List<LocalDate> values) {
             addCriterion("loan_end_date not in", values, "loanEndDate");
             return (Criteria) this;
         }
 
-        public Criteria andLoanEndDateBetween(LocalDateTime value1, LocalDateTime value2) {
+        public Criteria andLoanEndDateBetween(LocalDate value1, LocalDate value2) {
             addCriterion("loan_end_date between", value1, value2, "loanEndDate");
             return (Criteria) this;
         }
 
-        public Criteria andLoanEndDateNotBetween(LocalDateTime value1, LocalDateTime value2) {
+        public Criteria andLoanEndDateNotBetween(LocalDate value1, LocalDate value2) {
             addCriterion("loan_end_date not between", value1, value2, "loanEndDate");
             return (Criteria) this;
         }
@@ -1583,6 +1584,142 @@ public class LitemallRecordExample {
             return (Criteria) this;
         }
 
+        public Criteria andAddPersonIsNull() {
+            addCriterion("add_person is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddPersonIsNotNull() {
+            addCriterion("add_person is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddPersonEqualTo(String value) {
+            addCriterion("add_person =", value, "addPerson");
+            return (Criteria) this;
+        }
+
+        /**
+         * This method was generated by MyBatis Generator.
+         * This method corresponds to the database table litemall_record
+         *
+         * @mbg.generated
+         */
+        public Criteria andAddPersonEqualToColumn(LitemallRecord.Column column) {
+            addCriterion(new StringBuilder("add_person = ").append(column.getEscapedColumnName()).toString());
+            return (Criteria) this;
+        }
+
+        public Criteria andAddPersonNotEqualTo(String value) {
+            addCriterion("add_person <>", value, "addPerson");
+            return (Criteria) this;
+        }
+
+        /**
+         * This method was generated by MyBatis Generator.
+         * This method corresponds to the database table litemall_record
+         *
+         * @mbg.generated
+         */
+        public Criteria andAddPersonNotEqualToColumn(LitemallRecord.Column column) {
+            addCriterion(new StringBuilder("add_person <> ").append(column.getEscapedColumnName()).toString());
+            return (Criteria) this;
+        }
+
+        public Criteria andAddPersonGreaterThan(String value) {
+            addCriterion("add_person >", value, "addPerson");
+            return (Criteria) this;
+        }
+
+        /**
+         * This method was generated by MyBatis Generator.
+         * This method corresponds to the database table litemall_record
+         *
+         * @mbg.generated
+         */
+        public Criteria andAddPersonGreaterThanColumn(LitemallRecord.Column column) {
+            addCriterion(new StringBuilder("add_person > ").append(column.getEscapedColumnName()).toString());
+            return (Criteria) this;
+        }
+
+        public Criteria andAddPersonGreaterThanOrEqualTo(String value) {
+            addCriterion("add_person >=", value, "addPerson");
+            return (Criteria) this;
+        }
+
+        /**
+         * This method was generated by MyBatis Generator.
+         * This method corresponds to the database table litemall_record
+         *
+         * @mbg.generated
+         */
+        public Criteria andAddPersonGreaterThanOrEqualToColumn(LitemallRecord.Column column) {
+            addCriterion(new StringBuilder("add_person >= ").append(column.getEscapedColumnName()).toString());
+            return (Criteria) this;
+        }
+
+        public Criteria andAddPersonLessThan(String value) {
+            addCriterion("add_person <", value, "addPerson");
+            return (Criteria) this;
+        }
+
+        /**
+         * This method was generated by MyBatis Generator.
+         * This method corresponds to the database table litemall_record
+         *
+         * @mbg.generated
+         */
+        public Criteria andAddPersonLessThanColumn(LitemallRecord.Column column) {
+            addCriterion(new StringBuilder("add_person < ").append(column.getEscapedColumnName()).toString());
+            return (Criteria) this;
+        }
+
+        public Criteria andAddPersonLessThanOrEqualTo(String value) {
+            addCriterion("add_person <=", value, "addPerson");
+            return (Criteria) this;
+        }
+
+        /**
+         * This method was generated by MyBatis Generator.
+         * This method corresponds to the database table litemall_record
+         *
+         * @mbg.generated
+         */
+        public Criteria andAddPersonLessThanOrEqualToColumn(LitemallRecord.Column column) {
+            addCriterion(new StringBuilder("add_person <= ").append(column.getEscapedColumnName()).toString());
+            return (Criteria) this;
+        }
+
+        public Criteria andAddPersonLike(String value) {
+            addCriterion("add_person like", value, "addPerson");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddPersonNotLike(String value) {
+            addCriterion("add_person not like", value, "addPerson");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddPersonIn(List<String> values) {
+            addCriterion("add_person in", values, "addPerson");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddPersonNotIn(List<String> values) {
+            addCriterion("add_person not in", values, "addPerson");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddPersonBetween(String value1, String value2) {
+            addCriterion("add_person between", value1, value2, "addPerson");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddPersonNotBetween(String value1, String value2) {
+            addCriterion("add_person not between", value1, value2, "addPerson");
+            return (Criteria) this;
+        }
+
         public Criteria andUpdateTimeIsNull() {
             addCriterion("update_time is null");
             return (Criteria) this;
@@ -1706,6 +1843,142 @@ public class LitemallRecordExample {
 
         public Criteria andUpdateTimeNotBetween(LocalDateTime value1, LocalDateTime value2) {
             addCriterion("update_time not between", value1, value2, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatePersonIsNull() {
+            addCriterion("update_person is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatePersonIsNotNull() {
+            addCriterion("update_person is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatePersonEqualTo(String value) {
+            addCriterion("update_person =", value, "updatePerson");
+            return (Criteria) this;
+        }
+
+        /**
+         * This method was generated by MyBatis Generator.
+         * This method corresponds to the database table litemall_record
+         *
+         * @mbg.generated
+         */
+        public Criteria andUpdatePersonEqualToColumn(LitemallRecord.Column column) {
+            addCriterion(new StringBuilder("update_person = ").append(column.getEscapedColumnName()).toString());
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatePersonNotEqualTo(String value) {
+            addCriterion("update_person <>", value, "updatePerson");
+            return (Criteria) this;
+        }
+
+        /**
+         * This method was generated by MyBatis Generator.
+         * This method corresponds to the database table litemall_record
+         *
+         * @mbg.generated
+         */
+        public Criteria andUpdatePersonNotEqualToColumn(LitemallRecord.Column column) {
+            addCriterion(new StringBuilder("update_person <> ").append(column.getEscapedColumnName()).toString());
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatePersonGreaterThan(String value) {
+            addCriterion("update_person >", value, "updatePerson");
+            return (Criteria) this;
+        }
+
+        /**
+         * This method was generated by MyBatis Generator.
+         * This method corresponds to the database table litemall_record
+         *
+         * @mbg.generated
+         */
+        public Criteria andUpdatePersonGreaterThanColumn(LitemallRecord.Column column) {
+            addCriterion(new StringBuilder("update_person > ").append(column.getEscapedColumnName()).toString());
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatePersonGreaterThanOrEqualTo(String value) {
+            addCriterion("update_person >=", value, "updatePerson");
+            return (Criteria) this;
+        }
+
+        /**
+         * This method was generated by MyBatis Generator.
+         * This method corresponds to the database table litemall_record
+         *
+         * @mbg.generated
+         */
+        public Criteria andUpdatePersonGreaterThanOrEqualToColumn(LitemallRecord.Column column) {
+            addCriterion(new StringBuilder("update_person >= ").append(column.getEscapedColumnName()).toString());
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatePersonLessThan(String value) {
+            addCriterion("update_person <", value, "updatePerson");
+            return (Criteria) this;
+        }
+
+        /**
+         * This method was generated by MyBatis Generator.
+         * This method corresponds to the database table litemall_record
+         *
+         * @mbg.generated
+         */
+        public Criteria andUpdatePersonLessThanColumn(LitemallRecord.Column column) {
+            addCriterion(new StringBuilder("update_person < ").append(column.getEscapedColumnName()).toString());
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatePersonLessThanOrEqualTo(String value) {
+            addCriterion("update_person <=", value, "updatePerson");
+            return (Criteria) this;
+        }
+
+        /**
+         * This method was generated by MyBatis Generator.
+         * This method corresponds to the database table litemall_record
+         *
+         * @mbg.generated
+         */
+        public Criteria andUpdatePersonLessThanOrEqualToColumn(LitemallRecord.Column column) {
+            addCriterion(new StringBuilder("update_person <= ").append(column.getEscapedColumnName()).toString());
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatePersonLike(String value) {
+            addCriterion("update_person like", value, "updatePerson");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatePersonNotLike(String value) {
+            addCriterion("update_person not like", value, "updatePerson");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatePersonIn(List<String> values) {
+            addCriterion("update_person in", values, "updatePerson");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatePersonNotIn(List<String> values) {
+            addCriterion("update_person not in", values, "updatePerson");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatePersonBetween(String value1, String value2) {
+            addCriterion("update_person between", value1, value2, "updatePerson");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatePersonNotBetween(String value1, String value2) {
+            addCriterion("update_person not between", value1, value2, "updatePerson");
             return (Criteria) this;
         }
 

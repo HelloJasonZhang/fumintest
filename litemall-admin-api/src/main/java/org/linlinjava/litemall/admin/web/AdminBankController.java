@@ -49,11 +49,6 @@ public class AdminBankController {
         if (StringUtils.isEmpty(desc)) {
             return ResponseUtil.badArgument();
         }
-
-        String price = Bank.getSubBranch();
-        if (price == null) {
-            return ResponseUtil.badArgument();
-        }
         return null;
     }
 

@@ -28,7 +28,7 @@
       <el-table-column align="center" label="婚姻状况" prop="maritalStatus" />
       <el-table-column align="center" label="身份证号" prop="idCardNumber" />
       <el-table-column align="center" label="联系方式" prop="phoneNumber" />
-      <el-table-column align="center" label="类别" prop="applicantType" />
+      <el-table-column align="center" label="类别" prop="applicantTypeLable" />
       <el-table-column align="center" label="申请额度" prop="applicantAmount" />
       <el-table-column align="center" label="状态" prop="isAvailable">
         <template slot-scope="scope">
@@ -126,6 +126,18 @@
               </el-form-item>
             </el-col>
           </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="利率" prop="interest">
+                <el-input v-model="dataForm.interest" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="贷款金额" prop="credit">
+                <el-input v-model="dataForm.credit" />
+              </el-form-item>
+            </el-col>
+          </el-row>
           <el-col :span="20">
             <el-form-item label="贷款凭证">
               <el-upload
@@ -204,7 +216,7 @@
       <template>
         <el-table :data="dataForm.applicantBank" stripestyle="width: 100%">
           <el-table-column align="center" prop="bankName" label="银行" />
-          <el-table-column align="center" prop="subBranch" label="分行" />
+          <!-- <el-table-column align="center" prop="subBranch" label="分行" /> -->
           <el-table-column align="center" prop="loanStartDate" label="贷款发放日" />
           <el-table-column align="center" prop="loanEndDate" label="贷款到期日" />
           <el-table-column align="center" prop="loanFinance" label="贷款金融" />
@@ -212,10 +224,19 @@
           <el-table-column align="center" prop="opertator" label="经办人" />
           <el-table-column align="center" prop="lendingDate" label="放贷日期" width="180" />
           <el-table-column align="center" prop="periodLoan" label="还款方式" />
-          <el-table-column align="center" prop="repayment" label="还款方式" />
+          <el-table-column align="center" prop="repayment" label="还款方式" />-->
           <el-table-column align="center" prop="interest" label="利率(%)" />
-          <el-table-column align="center" prop="interestPeriod" label="利息/期" /> -->
+          <el-table-column align="center" prop="credit" label="授信额度(万元)" />
           <el-table-column align="center" prop="auditComment" label="银行受理情况" width="180" />
+          <el-table-column align="center" property="loanVoucherUrl" label="受理凭证">
+            <template slot-scope="scope">
+              <el-row class="row-bg" justify="center">
+                <el-col v-for="item in scope.row.loanVoucherUrl" :span="8">
+                  <el-image style="width:40px;height:40px;" :src="item" :preview-src-list="[item]" />
+                </el-col>
+              </el-row>
+            </template>
+          </el-table-column>
           <el-table-column align="center" prop="status" label="受理状态" />
         </el-table>
       </template>
@@ -225,9 +246,9 @@
     <el-dialog title="结束审批流程" :visible.sync="dialogFinnishFormVisible" width="70%">
       <template>
         <el-table ref="multipleTable" :data="dataForm.applicantBank" stripestyle="width: 100%" @selection-change="handleSelectionChange">
-          <el-table-column type="selection" width="55" />
+          <el-table-column type="selection" width="30" />
           <el-table-column align="center" prop="bankName" label="银行" />
-          <el-table-column align="center" prop="subBranch" label="分行" />
+          <!-- <el-table-column align="center" prop="subBranch" label="分行" /> -->
           <el-table-column align="center" prop="loanStartDate" label="贷款发放日" />
           <el-table-column align="center" prop="loanEndDate" label="贷款到期日" />
           <el-table-column align="center" prop="loanFinance" label="贷款金融" />
@@ -235,10 +256,19 @@
           <el-table-column align="center" prop="opertator" label="经办人" />
           <el-table-column align="center" prop="lendingDate" label="放贷日期" width="180" />
           <el-table-column align="center" prop="periodLoan" label="还款方式" />
-          <el-table-column align="center" prop="repayment" label="还款方式" />
+          <el-table-column align="center" prop="repayment" label="还款方式" /> -->
           <el-table-column align="center" prop="interest" label="利率(%)" />
-          <el-table-column align="center" prop="interestPeriod" label="利息/期" /> -->
+          <el-table-column align="center" prop="credit" label="授信额度(万元)" />
           <el-table-column align="center" prop="auditComment" label="银行受理情况" width="180" />
+          <el-table-column align="center" property="loanVoucherUrl" label="受理凭证">
+            <template slot-scope="scope">
+              <el-row type="flex" class="row-bg" justify="center">
+                <el-col v-for="item in scope.row.loanVoucherUrl" :span="8">
+                  <el-image style="width:40px;height:40px;" :src="item" :preview-src-list="[item]" />
+                </el-col>
+              </el-row>
+            </template>
+          </el-table-column>
           <el-table-column align="center" prop="status" label="受理状态" />
         </el-table>
       </template>
@@ -541,6 +571,7 @@ export default {
           }
         })
       } else if (val.length === 1) {
+        console.log(val[0])
         var applicantBank = val[0]
         this.dataForm.id = applicantBank.id
         this.dataForm.bankId = applicantBank.bankId
@@ -556,6 +587,7 @@ export default {
         this.dataForm.loanFinance = applicantBank.loanFinance
         this.dataForm.loanVoucherUrl = applicantBank.loanVoucherUrl
         this.canFinish = false
+        console.log(applicantBank)
       }
     },
     handleAudit(row) {

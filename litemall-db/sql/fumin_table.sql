@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS `litemall_applicant`;
 CREATE TABLE `litemall_applicant`  (
- `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
   `user_id` int(11) NULL DEFAULT NULL COMMENT '用户',
   `name` varchar(10) NULL DEFAULT NULL COMMENT '申请人姓名',
   `sex` varchar(10) NULL DEFAULT NULL COMMENT '性别',
@@ -16,6 +16,7 @@ CREATE TABLE `litemall_applicant`  (
   `address` varchar(100) NULL DEFAULT NULL COMMENT '申请主体现住址',
   `spouse_id_card_number` varchar(60) NULL DEFAULT NULL COMMENT '配偶身份证号',
   `obtain_info` varchar(20) NULL DEFAULT NULL COMMENT '获取途径',
+  `recommender` varchar(50) NULL DEFAULT NULL COMMENT '推荐人',
   `business_license_url` varchar(255) NULL DEFAULT NULL COMMENT '营业执照正面',
   `business_license_url_2` varchar(255) NULL DEFAULT NULL COMMENT '营业执照反面',
   `labor_contract_url` varchar(255) NULL DEFAULT NULL COMMENT '劳动合同',
@@ -53,7 +54,7 @@ CREATE TABLE `litemall_applicant`  (
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除',
   `submit_status` int(10) NULL DEFAULT 0 COMMENT '提交状态',
-  `is_available` tinyint(1) NULL DEFAULT NULL COMMENT '数据状态',
+  `is_available` tinyint(1) NULL DEFAULT 0 COMMENT '数据状态',
   `bank_id` varchar(30) NULL DEFAULT NULL COMMENT '受理银行采用JSON数组格式',
   `hs_business_license_type` varchar(50) NULL DEFAULT NULL COMMENT '营业执照类型',
   `hs_applicant` varchar(255) NULL DEFAULT NULL COMMENT '法定代表人/申请人',
@@ -64,9 +65,9 @@ CREATE TABLE `litemall_applicant`  (
   `hs_employees_info` varchar(255) NULL DEFAULT NULL COMMENT '带动就业人员信息',
   `hs_active_employees` int(11) NULL DEFAULT NULL COMMENT '在职人数',
   `hs_recruit_people` int(11) NULL DEFAULT NULL COMMENT '当年新招人数',
-  `hs_mark` varchar(255) NULL DEFAULT NULL COMMENT '其他备注',
+  `hs_mark` varchar(255) NULL DEFAULT NULL COMMENT '其他/备注',
   `hs_recuit_rate` varchar(255) NULL DEFAULT NULL COMMENT '新招用员工占比',
-  `hs_comment` varchar(255) NULL DEFAULT NULL COMMENT '市人社部门\r\n意见\r\n市人社部门\r\n意见\r\n',
+  `hs_comment` varchar(255) NULL DEFAULT NULL COMMENT '市人社部门意见',
   `hs_audit_date` datetime(0) NULL DEFAULT NULL COMMENT '人社审核日期',
   `hs_operator` varchar(255) NULL DEFAULT NULL COMMENT '人社经办人',
   `hs_top_amount` decimal(20, 0) NULL DEFAULT NULL COMMENT '最高批复额度',
@@ -76,8 +77,8 @@ CREATE TABLE `litemall_applicant`  (
   `sc_applicant_credit_report` varchar(255) NULL DEFAULT NULL COMMENT '申请人信用报告',
   `sc_spouse_credit_report` varchar(255) NULL DEFAULT NULL COMMENT '配偶信用报告',
   `sc_guarantor` varchar(255) NULL DEFAULT NULL COMMENT '担保人姓名',
-  `sc_guarantor_asset` varchar(255) NULL DEFAULT NULL COMMENT '担保人抵押资产情况',
-  `sc_extra_info` varchar(255) NULL DEFAULT NULL COMMENT '其他补充情况',
+  `sc_guarantor_asset` varchar(100) NULL DEFAULT NULL COMMENT '担保人抵押资产情况',
+  `sc_extra_info` varchar(10) NULL DEFAULT NULL COMMENT '其他补充情况',
   `sc_comment` varchar(255) NULL DEFAULT NULL COMMENT '担保公司意见',
   `sc_letter_intent_url` varchar(255) NULL DEFAULT NULL COMMENT '担保意向书内容',
   `sc_audit_date` datetime(0) NULL DEFAULT NULL COMMENT '担保公司审核日期',
@@ -190,3 +191,22 @@ CREATE TABLE `litemall`.`litemall_audit`  (
   `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT= "审核记录表"
+
+DROP TABLE IF EXISTS `litemall_record`;
+CREATE TABLE `litemall`.`litemall_record`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `name` varchar(255) NULL DEFAULT NULL COMMENT '姓名',
+  `id_card_no` varchar(255) NULL DEFAULT NULL COMMENT '身份证号',
+  `loan_start_date` date NULL DEFAULT NULL COMMENT '贷款发放日期',
+  `loan_end_date` date NULL DEFAULT NULL COMMENT '贷款到期日期',
+  `period_loan` varchar(255) NULL DEFAULT NULL COMMENT '贷款期限',
+  `credit` varchar(255) NULL DEFAULT NULL COMMENT '贷款金额',
+  `interest` varchar(255) NULL DEFAULT NULL COMMENT '利率',
+  `bank_name` varchar(255) NULL DEFAULT NULL COMMENT '贷款银行',
+  `add_time` datetime(0) NULL DEFAULT NULL COMMENT '新增时间',
+  `add_person` varchar(255) NULL DEFAULT NULL COMMENT '增加人',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `update_person` varchar(255) NULL DEFAULT NULL COMMENT '更新人',
+  `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT= "历史数据"

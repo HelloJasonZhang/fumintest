@@ -60,8 +60,11 @@ public class WxBankController extends GetRegionService {
         return ResponseUtil.ok(Bank);
     }
 
-    @PostMapping("read")
-    public Object read( @NotNull Integer id) {
+    @GetMapping("read")
+    public Object read(@LoginUser Integer userId, @RequestParam Integer id) {
+        if (userId == null) {
+            return ResponseUtil.unlogin();
+        }
         LitemallBank Bank = BankService.findById(id);
         return ResponseUtil.ok(Bank);
     }

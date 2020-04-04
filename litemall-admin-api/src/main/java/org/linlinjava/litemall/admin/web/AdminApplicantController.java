@@ -92,7 +92,7 @@ public class AdminApplicantController {
     }
 
     @RequiresPermissions("admin:applicant:readBank")
-    @RequiresPermissionsDesc(menu = {"人社管理", "人社审核"}, button = "详情")
+    @RequiresPermissionsDesc(menu = {"人社管理", "人社审核"}, button = "银行详情")
     @GetMapping("/readBank")
     public Object readBank(@NotNull Integer bankId) {
         LitemallBank bank = bankService.findById(bankId);

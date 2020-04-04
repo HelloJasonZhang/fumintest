@@ -7,6 +7,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
 import org.linlinjava.litemall.admin.annotation.RequiresPermissionsDesc;
+import org.linlinjava.litemall.admin.util.CheckBizTypeUtil;
 import org.linlinjava.litemall.core.util.ResponseUtil;
 import org.linlinjava.litemall.core.validator.Order;
 import org.linlinjava.litemall.core.validator.Sort;
@@ -60,6 +61,7 @@ public class AdminBankAuditController {
 
         Integer uId = currentAdmin.getId();
         Integer[] roleIds = currentAdmin.getRoleIds();
+        Integer[] bizTypes = currentAdmin.getBizType();
         List<LitemallApplicant> result = new ArrayList<LitemallApplicant>();
 
         List<Integer> roleIdsList = Arrays.asList(roleIds);
@@ -118,10 +120,11 @@ public class AdminBankAuditController {
             }
         }
 
-        //担保通过后，银行才能看到数据
+        //1. 担保通过后，银行才能看到数据
+        //2. 管理员对接业务匹配，银行才能看到数据
         List<LitemallApplicant> tempList = new ArrayList<LitemallApplicant>();
         for (LitemallApplicant applicant : result) {
-            if (applicant.getSubmitStatus() >= 7) {
+            if (applicant.getSubmitStatus() >= 7 && CheckBizTypeUtil.hasPermission(roleIds, bizTypes, applicant.getApplicantType())) {
                 tempList.add(applicant);
             }
         }
@@ -206,6 +209,12 @@ public class AdminBankAuditController {
         //给银行属性设置，状态修改为10
         al.setSubmitStatus(10);
         al.setbBankId(applicantBank.getBankId());
+        if (applicantBank.getBankId() != null) {
+            LitemallBank bank = litemallBankService.findById(applicantBank.getBankId());
+            if (bank != null) {
+                al.setbName(bank.getName());
+            }
+        }
         al.setbCredit(applicantBank.getCredit());
         al.setbLendingDate(applicantBank.getLendingDate());
         al.setbPeriodLoan(applicantBank.getPeriodLoan());
@@ -223,6 +232,7 @@ public class AdminBankAuditController {
         String username = currentAdmin.getUsername();
         al.setbOpertator(username);
         auditService.add(al,userId, username, al.getbComment());
+        auditService.addRecord(al, applicantBank,username);
         if (litemallApplicantService.updateById(al) == 0) {
             return ResponseUtil.updatedDataFailed();
         }

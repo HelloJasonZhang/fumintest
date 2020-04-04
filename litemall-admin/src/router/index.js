@@ -104,7 +104,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/fumin/audit'),
         name: 'detail',
         meta: {
-          perms: ['POST /admin/applicant/update', 'GET /admin/applicant/read'],
+          perms: ['POST /admin/applicant/update', 'GET /admin/applicant/read', 'GET /admin/applicant/readBank'],
           title: '审核',
           noCache: true
         },
@@ -115,7 +115,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/fumin/edit'),
         name: 'edit',
         meta: {
-          perms: ['POST /admin/applicant/update', 'GET /admin/applicant/read'],
+          perms: ['POST /admin/applicant/update', 'GET /admin/applicant/read', 'GET /admin/applicant/readBank'],
           title: '修改申请人',
           noCache: true
         },
@@ -126,7 +126,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/fumin/detail'),
         name: 'detailView',
         meta: {
-          perms: ['GET /admin/applicant/read'],
+          perms: ['GET /admin/applicant/read', 'GET /admin/applicant/readBank'],
           title: '查看',
           noCache: true
         },
@@ -153,6 +153,16 @@ export const asyncRouterMap = [
           noCache: true
         },
         hidden: true
+      },
+      {
+        path: 'record',
+        component: () => import('@/views/record/list'),
+        name: 'record',
+        meta: {
+          perms: ['GET /admin/record/list', 'POST /admin/record/create', 'GET /admin/record/read', 'POST /admin/record/update', 'POST /admin/record/delete', 'POST /admin/record/importData'],
+          title: '历史数据',
+          noCache: true
+        }
       }
     ]
   }, {

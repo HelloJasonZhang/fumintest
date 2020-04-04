@@ -3,7 +3,7 @@
 
     <!-- 查询和其他操作 -->
     <div class="filter-container">
-      <el-input v-model="listQuery.username" clearable class="filter-item" style="width: 200px;" placeholder="请输入管理员名称"/>
+      <el-input v-model="listQuery.username" clearable class="filter-item" style="width: 200px;" placeholder="请输入管理员名称" />
       <el-button v-permission="['GET /admin/admin/list']" class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查找</el-button>
       <el-button v-permission="['POST /admin/admin/create']" class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">添加</el-button>
       <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">导出</el-button>
@@ -11,9 +11,9 @@
 
     <!-- 查询结果 -->
     <el-table v-loading="listLoading" :data="list" element-loading-text="正在查询中。。。" border fit highlight-current-row>
-      <el-table-column align="center" label="管理员ID" prop="id" sortable/>
+      <el-table-column align="center" label="管理员ID" prop="id" sortable />
 
-      <el-table-column align="center" label="管理员名称" prop="username"/>
+      <el-table-column align="center" label="管理员名称" prop="username" />
 
       <el-table-column align="center" label="管理员头像" prop="avatar">
         <template slot-scope="scope">
@@ -24,6 +24,11 @@
       <el-table-column align="center" label="管理员角色" prop="roleIds">
         <template slot-scope="scope">
           <el-tag v-for="roleId in scope.row.roleIds" :key="roleId" type="primary" style="margin-right: 20px;"> {{ formatRole(roleId) }} </el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="对接业务类型" prop="bizType">
+        <template slot-scope="scope">
+          <el-tag v-for="type in scope.row.bizType" :key="type" type="primary" style="margin-right: 20px;"> {{ formatBizType(type) }} </el-tag>
         </template>
       </el-table-column>
 
@@ -41,10 +46,10 @@
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="dataForm" status-icon label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
         <el-form-item label="管理员名称" prop="username">
-          <el-input v-model="dataForm.username"/>
+          <el-input v-model="dataForm.username" />
         </el-form-item>
         <el-form-item label="管理员密码" prop="password">
-          <el-input v-model="dataForm.password" type="password" auto-complete="off"/>
+          <el-input v-model="dataForm.password" type="password" auto-complete="off" />
         </el-form-item>
         <el-form-item label="管理员头像" prop="avatar">
           <el-upload
@@ -53,9 +58,10 @@
             :show-file-list="false"
             :on-success="uploadAvatar"
             class="avatar-uploader"
-            accept=".jpg,.jpeg,.png,.gif">
+            accept=".jpg,.jpeg,.png,.gif"
+          >
             <img v-if="dataForm.avatar" :src="dataForm.avatar" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"/>
+            <i v-else class="el-icon-plus avatar-uploader-icon" />
           </el-upload>
         </el-form-item>
         <el-form-item label="管理员角色" prop="roleIds">
@@ -64,7 +70,18 @@
               v-for="item in roleOptions"
               :key="item.value"
               :label="item.label"
-              :value="item.value"/>
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="对接业务类" prop="bizType">
+          <el-select v-model="dataForm.bizType" multiple placeholder="请选择">
+            <el-option
+              v-for="item in bizTypeOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
           </el-select>
         </el-form-item>
       </el-form>
@@ -133,7 +150,8 @@ export default {
         username: undefined,
         password: undefined,
         avatar: undefined,
-        roleIds: []
+        roleIds: [],
+        bizType: []
       },
       dialogFormVisible: false,
       dialogStatus: '',
@@ -147,7 +165,8 @@ export default {
         ],
         password: [{ required: true, message: '密码不能为空', trigger: 'blur' }]
       },
-      downloadLoading: false
+      downloadLoading: false,
+      bizTypeOptions: [{ label: '个人', value: 0 }, { label: '小微企业', value: 1 }]
     }
   },
   computed: {
@@ -163,6 +182,7 @@ export default {
     roleOptions()
       .then(response => {
         this.roleOptions = response.data.data.list
+        console.log(this.roleOptions)
       })
   },
   methods: {
@@ -170,6 +190,14 @@ export default {
       for (let i = 0; i < this.roleOptions.length; i++) {
         if (roleId === this.roleOptions[i].value) {
           return this.roleOptions[i].label
+        }
+      }
+      return ''
+    },
+    formatBizType(bizTypeID) {
+      for (let i = 0; i < this.bizTypeOptions.length; i++) {
+        if (bizTypeID === this.bizTypeOptions[i].value) {
+          return this.bizTypeOptions[i].label
         }
       }
       return ''
@@ -215,6 +243,7 @@ export default {
     createData() {
       this.$refs['dataForm'].validate(valid => {
         if (valid) {
+          this.dataForm.bizType = [0]
           createAdmin(this.dataForm)
             .then(response => {
               this.list.unshift(response.data.data)
@@ -242,6 +271,7 @@ export default {
       })
     },
     updateData() {
+      console.log(this.dataForm)
       this.$refs['dataForm'].validate(valid => {
         if (valid) {
           updateAdmin(this.dataForm)

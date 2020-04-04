@@ -23,7 +23,7 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="16">
+          <el-col :span="8">
             <el-form-item label="身份证号" prop="idCardNumber">
               <el-input v-model="goods.idCardNumber" :readonly="goodsReadyOnly" />
             </el-form-item>
@@ -31,6 +31,11 @@
           <el-col :span="8">
             <el-form-item label="联系方式" prop="phoneNumber">
               <el-input v-model="goods.phoneNumber" :readonly="goodsReadyOnly" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="推荐人" prop="recommender">
+              <el-input v-model="goods.recommender" :readonly="goodsReadyOnly" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -217,7 +222,6 @@
               </el-form-item>
             </el-col>
           </el-row>
-
           <el-row>
             <el-col :span="12">
               <el-form-item label="身份证地址" prop="hsApplicantAdress">
@@ -225,10 +229,14 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="其他/备注" prop="hsMark">
-                <el-input v-model="rensheForm.hsMark" />
+              <el-form-item v-if="goods.applicantType === 'company'" label="企业名称" prop="hsMark">
+                <el-input v-model="rensheForm.hsMark"><el-button slot="append" icon="el-icon-search" @click="readRecords(rensheForm.hsMark)">历史数据查询</el-button></el-input>
+              </el-form-item>
+              <el-form-item v-else label="身份证号" prop="idCardNumber">
+                <el-input v-model="goods.idCardNumber"><el-button slot="append" icon="el-icon-search" @click="readRecords(goods.idCardNumber)">历史数据查询</el-button></el-input>
               </el-form-item>
             </el-col>
+
           </el-row>
 
           <el-row>
@@ -316,6 +324,25 @@
         </el-row>
       </div>
     </el-card>
+    <!-- 结束对话框 -->
+    <el-dialog title="历史数据" :visible.sync="dialogVisible" width="70%">
+      <template>
+        <el-table :data="recordList" stripestyle="width: 100%">
+          <el-table-column align="center" label="ID" min-width="50px" prop="id" />
+          <el-table-column align="center" label="姓名" prop="name" />
+          <el-table-column align="center" label="身份证号" property="idCardNo" />
+          <el-table-column align="center" label="贷款发放日期" prop="loanStartDate" />
+          <el-table-column align="center" label="贷款到期日期" prop="loanEndDate" />
+          <el-table-column align="center" label="贷款期限" prop="periodLoan" />
+          <el-table-column align="center" label="贷款金额" prop="credit" />
+          <el-table-column align="center" label="利率" prop="interest" />
+          <el-table-column align="center" label="贷款银行" prop="bankName" />
+        </el-table>
+      </template>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -370,6 +397,7 @@
 
 <script>
 import { readApplicant, updateApplicant } from '@/api/applicant'
+import { listByIdCardNo } from '@/api/record'
 import { createStorage, uploadPath } from '@/api/storage'
 import store from '@/store'
 import { MessageBox } from 'element-ui'
@@ -391,6 +419,8 @@ export default {
       disableRenSheHidden: false,
       disableAssureHidden: false,
       disableBankHidden: false,
+      dialogVisible: false,
+      recordList: [],
       renSheExtraPicUrlList: [],
       goods: { picUrl: '' },
       specForm: { specification: '', value: '', picUrl: '' },
@@ -608,6 +638,19 @@ export default {
           this.rensheForm.hsExtraPicUrl.splice(i, 1)
         }
       }
+    },
+    readRecords: function(name) {
+      if (name === null || name === '') {
+        this.$notify.warning({
+          title: '提示',
+          message: this.goods.applicantType === 'company' ? '请输入企业名称' : '请输入身份证号'
+        })
+        return true
+      }
+      this.dialogVisible = true
+      listByIdCardNo({ name: name, applicantType: this.goods.applicantType }).then(response => {
+        this.recordList = response.data.data.list
+      })
     },
     onChangeHrSubmitstatus: function(value) {
       if (value === 4) {

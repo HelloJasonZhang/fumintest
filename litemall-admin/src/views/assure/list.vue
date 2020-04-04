@@ -24,7 +24,7 @@
       <el-table-column align="center" label="婚姻状况" prop="maritalStatus" />
       <el-table-column align="center" label="身份证号" prop="idCardNumber" />
       <el-table-column align="center" label="联系方式" prop="phoneNumber" />
-      <el-table-column align="center" label="类别" prop="applicantType" />
+      <el-table-column align="center" label="类别" prop="applicantTypeLable" />
       <el-table-column align="center" label="申请额度" prop="applicantAmount" />
       <el-table-column align="center" label="状态" prop="isAvailable">
         <template slot-scope="scope">

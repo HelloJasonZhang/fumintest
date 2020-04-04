@@ -174,7 +174,7 @@ export default {
             element['has_redo'] = true
             element['has_disable'] = true
 
-            if (element.submitStatus !== 1 && element.submitStatus !== 2) {
+            if ((element.submitStatus !== 1 && element.submitStatus !== 2) || element.isAvailable) {
               element['has_edit'] = true
             }
 
