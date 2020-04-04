@@ -181,7 +181,7 @@
     </el-card>
 
     <el-card v-if="isRenSheHidden" class="box-card">
-      <h3>人社核查信息情况<el-button style="margin-left: 20px;" slot="append" icon="el-icon-search" @click="readRecords()">历史数据查询</el-button></h3>  
+      <h3>人社核查信息情况<el-button slot="append" style="margin-left: 20px;" icon="el-icon-search" @click="readRecords()">历史数据查询</el-button></h3>
       <el-form
         ref="rensheForm"
         :model="rensheForm"
