@@ -29,10 +29,12 @@ Page({
       "spouseIdCardNumber": "",
       "businessLicenseUrl": "",
       "businessLicenseUrl2": "",
+      "handBusinessLicenseUrl": "",
       "laborContractUrl": "",
       "salaryDetailUrl": "",
       "idCardUrl": "",
       "idCardUrl2": "",
+      "handIdCardUrl": "",
       "spouseIdCardUrl": "",
       "spouseIdCard_url2": "",
       "marriageCertificateUrl": "",
@@ -111,7 +113,7 @@ Page({
       //options.maritalStatus ='未婚'
       //options.applicantAmount ='9'
       this.setData({
-        uploadFiles: dataSource.getBizData(options.applicantType, options.maritalStatus, options.applicantAmount),
+        uploadFiles: dataSource.getBizData(options.applicantType, options.maritalStatus, options.applicantAmount, null),
         tipText: dataSource.getBizTipsText(options.applicantType, options.maritalStatus, options.applicantAmount)
       });
     }
@@ -191,7 +193,8 @@ Page({
         //回显所有图片
         let applicant = res.data
         that.setData({
-          uploadFiles: dataSource.getBizData(applicant.applicantType, applicant.maritalStatus, applicant.applicantAmount)
+          uploadFiles: dataSource.getBizData(applicant.applicantType, applicant.maritalStatus, applicant.applicantAmount, applicant),
+          tipText: dataSource.getBizTipsText(applicant.applicantType, applicant.maritalStatus, applicant.applicantAmount)
         });
       }
     });
@@ -204,7 +207,6 @@ Page({
     })
   },
   chooseImage: function(e) {
-
     let xPosition = 0
     let yPosition = 0
     for (var i = 0; i < this.data.uploadFiles.length; i++) {
@@ -368,7 +370,7 @@ Page({
         applicant, 'POST').then(function (res) {
           if (res.errno === 0) {
             wx.navigateTo({
-              url: '/pages/handwriting/index/index?id=' + res.data.id
+              url: '/pages/fumin/daikuan/daikuan'
             })
           } else {
             util.showErrorToast('无法保存数据');

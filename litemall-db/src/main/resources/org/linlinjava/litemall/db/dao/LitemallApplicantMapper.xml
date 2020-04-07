@@ -25,10 +25,12 @@
     <result column="recommender" jdbcType="VARCHAR" property="recommender" />
     <result column="business_license_url" jdbcType="VARCHAR" property="businessLicenseUrl" />
     <result column="business_license_url_2" jdbcType="VARCHAR" property="businessLicenseUrl2" />
+    <result column="hand_business_license_url" jdbcType="VARCHAR" property="handBusinessLicenseUrl" />
     <result column="labor_contract_url" jdbcType="VARCHAR" property="laborContractUrl" />
     <result column="salary_detail_url" jdbcType="VARCHAR" property="salaryDetailUrl" />
     <result column="id_card_url" jdbcType="VARCHAR" property="idCardUrl" />
     <result column="id_card_url_2" jdbcType="VARCHAR" property="idCardUrl2" />
+    <result column="hand_id_card_url" jdbcType="VARCHAR" property="handIdCardUrl" />
     <result column="spouse_id_card_url" jdbcType="VARCHAR" property="spouseIdCardUrl" />
     <result column="spouse_id_card_url_2" jdbcType="VARCHAR" property="spouseIdCardUrl2" />
     <result column="marriage_certificate_url" jdbcType="VARCHAR" property="marriageCertificateUrl" />
@@ -56,6 +58,7 @@
     <result column="employment_promotion_url" jdbcType="VARCHAR" property="employmentPromotionUrl" />
     <result column="pay_taxes_url" jdbcType="VARCHAR" property="payTaxesUrl" />
     <result column="extra_url" jdbcType="VARCHAR" property="extraUrl" />
+    <result column="qr_code_signature" jdbcType="VARCHAR" property="qrCodeSignature" />
     <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="deleted" jdbcType="BIT" property="deleted" />
@@ -334,23 +337,23 @@
     id, user_id, `name`, sex, marital_status, id_card_number, phone_number, spouse_name, 
     applicant_type, applicant_type_lable, applicant_amount, recruit_category, applicant_category, 
     address, spouse_id_card_number, obtain_info, recommender, business_license_url, business_license_url_2, 
-    labor_contract_url, salary_detail_url, id_card_url, id_card_url_2, spouse_id_card_url, 
-    spouse_id_card_url_2, marriage_certificate_url, marriage_certificate_url_2, residence_booklet_url, 
-    residence_booklet_url_2, credit_report_url, credit_report_url_2, spouse_credit_report_url, 
-    spouse_credit_report_url_2, undertaking_url, signature_url, lease_contract_url, property_certificate_url, 
-    house_proprietary_certificate_url, vehicles_certificate_url, bank_reconciliation_url, 
-    surety_id_card_url, surety_id_card_url_2, asset_url, job_url, job_url_2, mortgage_url, 
-    guarantee_statement_url, employment_promotion_url, pay_taxes_url, extra_url, add_time, 
-    update_time, deleted, submit_status, is_available, bank_id, hs_business_license_type, 
-    hs_applicant, hs_unified_social_credit_code, hs_applicant_adress, hs_rigster_date, 
-    hs_employment_business_license_no, hs_employees_info, hs_active_employees, hs_recruit_people, 
-    hs_mark, hs_recuit_rate, hs_comment, hs_audit_date, hs_operator, hs_top_amount, hs_extra_pic_url, 
-    sc_business_address, sc_property_right, sc_applicant_credit_report, sc_spouse_credit_report, 
-    sc_guarantor, sc_guarantor_asset, sc_extra_info, sc_comment, sc_letter_intent_url, 
-    sc_audit_date, sc_operator, sc_extra_pic_url, b_bank_id, b_name, b_sub_branch, b_opertator, 
-    b_credit, b_lending_date, b_period_loan, b_repayment, b_interest_rate, b_interest_period, 
-    b_loan_start_date, b_loan_end_date, b_loan_finance, b_loan_voucher_url, b_comment, 
-    b_audit_date, b_auditor
+    hand_business_license_url, labor_contract_url, salary_detail_url, id_card_url, id_card_url_2, 
+    hand_id_card_url, spouse_id_card_url, spouse_id_card_url_2, marriage_certificate_url, 
+    marriage_certificate_url_2, residence_booklet_url, residence_booklet_url_2, credit_report_url, 
+    credit_report_url_2, spouse_credit_report_url, spouse_credit_report_url_2, undertaking_url, 
+    signature_url, lease_contract_url, property_certificate_url, house_proprietary_certificate_url, 
+    vehicles_certificate_url, bank_reconciliation_url, surety_id_card_url, surety_id_card_url_2, 
+    asset_url, job_url, job_url_2, mortgage_url, guarantee_statement_url, employment_promotion_url, 
+    pay_taxes_url, extra_url, qr_code_signature, add_time, update_time, deleted, submit_status, 
+    is_available, bank_id, hs_business_license_type, hs_applicant, hs_unified_social_credit_code, 
+    hs_applicant_adress, hs_rigster_date, hs_employment_business_license_no, hs_employees_info, 
+    hs_active_employees, hs_recruit_people, hs_mark, hs_recuit_rate, hs_comment, hs_audit_date, 
+    hs_operator, hs_top_amount, hs_extra_pic_url, sc_business_address, sc_property_right, 
+    sc_applicant_credit_report, sc_spouse_credit_report, sc_guarantor, sc_guarantor_asset, 
+    sc_extra_info, sc_comment, sc_letter_intent_url, sc_audit_date, sc_operator, sc_extra_pic_url, 
+    b_bank_id, b_name, b_sub_branch, b_opertator, b_credit, b_lending_date, b_period_loan, 
+    b_repayment, b_interest_rate, b_interest_period, b_loan_start_date, b_loan_end_date, 
+    b_loan_finance, b_loan_voucher_url, b_comment, b_audit_date, b_auditor
   </sql>
   <select id="selectByExample" parameterType="org.linlinjava.litemall.db.domain.LitemallApplicantExample" resultMap="BaseResultMap">
     <!--
@@ -477,8 +480,9 @@
       applicant_amount, recruit_category, applicant_category, 
       address, spouse_id_card_number, obtain_info, 
       recommender, business_license_url, business_license_url_2, 
-      labor_contract_url, salary_detail_url, id_card_url, 
-      id_card_url_2, spouse_id_card_url, spouse_id_card_url_2, 
+      hand_business_license_url, labor_contract_url, 
+      salary_detail_url, id_card_url, id_card_url_2, 
+      hand_id_card_url, spouse_id_card_url, spouse_id_card_url_2, 
       marriage_certificate_url, marriage_certificate_url_2, 
       residence_booklet_url, residence_booklet_url_2, 
       credit_report_url, credit_report_url_2, spouse_credit_report_url, 
@@ -489,8 +493,9 @@
       surety_id_card_url_2, asset_url, job_url, 
       job_url_2, mortgage_url, guarantee_statement_url, 
       employment_promotion_url, pay_taxes_url, extra_url, 
-      add_time, update_time, deleted, 
-      submit_status, is_available, bank_id, 
+      qr_code_signature, add_time, update_time, 
+      deleted, submit_status, is_available, 
+      bank_id, 
       hs_business_license_type, hs_applicant, hs_unified_social_credit_code, 
       hs_applicant_adress, hs_rigster_date, hs_employment_business_license_no, 
       hs_employees_info, hs_active_employees, hs_recruit_people, 
@@ -514,8 +519,9 @@
       #{applicantAmount,jdbcType=VARCHAR}, #{recruitCategory,jdbcType=VARCHAR}, #{applicantCategory,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{spouseIdCardNumber,jdbcType=VARCHAR}, #{obtainInfo,jdbcType=VARCHAR}, 
       #{recommender,jdbcType=VARCHAR}, #{businessLicenseUrl,jdbcType=VARCHAR}, #{businessLicenseUrl2,jdbcType=VARCHAR}, 
-      #{laborContractUrl,jdbcType=VARCHAR}, #{salaryDetailUrl,jdbcType=VARCHAR}, #{idCardUrl,jdbcType=VARCHAR}, 
-      #{idCardUrl2,jdbcType=VARCHAR}, #{spouseIdCardUrl,jdbcType=VARCHAR}, #{spouseIdCardUrl2,jdbcType=VARCHAR}, 
+      #{handBusinessLicenseUrl,jdbcType=VARCHAR}, #{laborContractUrl,jdbcType=VARCHAR}, 
+      #{salaryDetailUrl,jdbcType=VARCHAR}, #{idCardUrl,jdbcType=VARCHAR}, #{idCardUrl2,jdbcType=VARCHAR}, 
+      #{handIdCardUrl,jdbcType=VARCHAR}, #{spouseIdCardUrl,jdbcType=VARCHAR}, #{spouseIdCardUrl2,jdbcType=VARCHAR}, 
       #{marriageCertificateUrl,jdbcType=VARCHAR}, #{marriageCertificateUrl2,jdbcType=VARCHAR}, 
       #{residenceBookletUrl,jdbcType=VARCHAR}, #{residenceBookletUrl2,jdbcType=VARCHAR}, 
       #{creditReportUrl,jdbcType=VARCHAR}, #{creditReportUrl2,jdbcType=VARCHAR}, #{spouseCreditReportUrl,jdbcType=VARCHAR}, 
@@ -526,8 +532,9 @@
       #{suretyIdCardUrl2,jdbcType=VARCHAR}, #{assetUrl,jdbcType=VARCHAR}, #{jobUrl,jdbcType=VARCHAR}, 
       #{jobUrl2,jdbcType=VARCHAR}, #{mortgageUrl,jdbcType=VARCHAR}, #{guaranteeStatementUrl,jdbcType=VARCHAR}, 
       #{employmentPromotionUrl,jdbcType=VARCHAR}, #{payTaxesUrl,jdbcType=VARCHAR}, #{extraUrl,jdbcType=VARCHAR}, 
-      #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}, 
-      #{submitStatus,jdbcType=INTEGER}, #{isAvailable,jdbcType=BIT}, #{bankId,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler}, 
+      #{qrCodeSignature,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{deleted,jdbcType=BIT}, #{submitStatus,jdbcType=INTEGER}, #{isAvailable,jdbcType=BIT}, 
+      #{bankId,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler}, 
       #{hsBusinessLicenseType,jdbcType=VARCHAR}, #{hsApplicant,jdbcType=VARCHAR}, #{hsUnifiedSocialCreditCode,jdbcType=VARCHAR}, 
       #{hsApplicantAdress,jdbcType=VARCHAR}, #{hsRigsterDate,jdbcType=TIMESTAMP}, #{hsEmploymentBusinessLicenseNo,jdbcType=VARCHAR}, 
       #{hsEmployeesInfo,jdbcType=VARCHAR}, #{hsActiveEmployees,jdbcType=INTEGER}, #{hsRecruitPeople,jdbcType=INTEGER}, 
@@ -610,6 +617,9 @@
       <if test="businessLicenseUrl2 != null">
         business_license_url_2,
       </if>
+      <if test="handBusinessLicenseUrl != null">
+        hand_business_license_url,
+      </if>
       <if test="laborContractUrl != null">
         labor_contract_url,
       </if>
@@ -621,6 +631,9 @@
       </if>
       <if test="idCardUrl2 != null">
         id_card_url_2,
+      </if>
+      <if test="handIdCardUrl != null">
+        hand_id_card_url,
       </if>
       <if test="spouseIdCardUrl != null">
         spouse_id_card_url,
@@ -702,6 +715,9 @@
       </if>
       <if test="extraUrl != null">
         extra_url,
+      </if>
+      <if test="qrCodeSignature != null">
+        qr_code_signature,
       </if>
       <if test="addTime != null">
         add_time,
@@ -912,6 +928,9 @@
       <if test="businessLicenseUrl2 != null">
         #{businessLicenseUrl2,jdbcType=VARCHAR},
       </if>
+      <if test="handBusinessLicenseUrl != null">
+        #{handBusinessLicenseUrl,jdbcType=VARCHAR},
+      </if>
       <if test="laborContractUrl != null">
         #{laborContractUrl,jdbcType=VARCHAR},
       </if>
@@ -923,6 +942,9 @@
       </if>
       <if test="idCardUrl2 != null">
         #{idCardUrl2,jdbcType=VARCHAR},
+      </if>
+      <if test="handIdCardUrl != null">
+        #{handIdCardUrl,jdbcType=VARCHAR},
       </if>
       <if test="spouseIdCardUrl != null">
         #{spouseIdCardUrl,jdbcType=VARCHAR},
@@ -1004,6 +1026,9 @@
       </if>
       <if test="extraUrl != null">
         #{extraUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="qrCodeSignature != null">
+        #{qrCodeSignature,jdbcType=VARCHAR},
       </if>
       <if test="addTime != null">
         #{addTime,jdbcType=TIMESTAMP},
@@ -1234,6 +1259,9 @@
       <if test="record.businessLicenseUrl2 != null">
         business_license_url_2 = #{record.businessLicenseUrl2,jdbcType=VARCHAR},
       </if>
+      <if test="record.handBusinessLicenseUrl != null">
+        hand_business_license_url = #{record.handBusinessLicenseUrl,jdbcType=VARCHAR},
+      </if>
       <if test="record.laborContractUrl != null">
         labor_contract_url = #{record.laborContractUrl,jdbcType=VARCHAR},
       </if>
@@ -1245,6 +1273,9 @@
       </if>
       <if test="record.idCardUrl2 != null">
         id_card_url_2 = #{record.idCardUrl2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.handIdCardUrl != null">
+        hand_id_card_url = #{record.handIdCardUrl,jdbcType=VARCHAR},
       </if>
       <if test="record.spouseIdCardUrl != null">
         spouse_id_card_url = #{record.spouseIdCardUrl,jdbcType=VARCHAR},
@@ -1326,6 +1357,9 @@
       </if>
       <if test="record.extraUrl != null">
         extra_url = #{record.extraUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qrCodeSignature != null">
+        qr_code_signature = #{record.qrCodeSignature,jdbcType=VARCHAR},
       </if>
       <if test="record.addTime != null">
         add_time = #{record.addTime,jdbcType=TIMESTAMP},
@@ -1510,10 +1544,12 @@
       recommender = #{record.recommender,jdbcType=VARCHAR},
       business_license_url = #{record.businessLicenseUrl,jdbcType=VARCHAR},
       business_license_url_2 = #{record.businessLicenseUrl2,jdbcType=VARCHAR},
+      hand_business_license_url = #{record.handBusinessLicenseUrl,jdbcType=VARCHAR},
       labor_contract_url = #{record.laborContractUrl,jdbcType=VARCHAR},
       salary_detail_url = #{record.salaryDetailUrl,jdbcType=VARCHAR},
       id_card_url = #{record.idCardUrl,jdbcType=VARCHAR},
       id_card_url_2 = #{record.idCardUrl2,jdbcType=VARCHAR},
+      hand_id_card_url = #{record.handIdCardUrl,jdbcType=VARCHAR},
       spouse_id_card_url = #{record.spouseIdCardUrl,jdbcType=VARCHAR},
       spouse_id_card_url_2 = #{record.spouseIdCardUrl2,jdbcType=VARCHAR},
       marriage_certificate_url = #{record.marriageCertificateUrl,jdbcType=VARCHAR},
@@ -1541,6 +1577,7 @@
       employment_promotion_url = #{record.employmentPromotionUrl,jdbcType=VARCHAR},
       pay_taxes_url = #{record.payTaxesUrl,jdbcType=VARCHAR},
       extra_url = #{record.extraUrl,jdbcType=VARCHAR},
+      qr_code_signature = #{record.qrCodeSignature,jdbcType=VARCHAR},
       add_time = #{record.addTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       deleted = #{record.deleted,jdbcType=BIT},
@@ -1657,6 +1694,9 @@
       <if test="businessLicenseUrl2 != null">
         business_license_url_2 = #{businessLicenseUrl2,jdbcType=VARCHAR},
       </if>
+      <if test="handBusinessLicenseUrl != null">
+        hand_business_license_url = #{handBusinessLicenseUrl,jdbcType=VARCHAR},
+      </if>
       <if test="laborContractUrl != null">
         labor_contract_url = #{laborContractUrl,jdbcType=VARCHAR},
       </if>
@@ -1668,6 +1708,9 @@
       </if>
       <if test="idCardUrl2 != null">
         id_card_url_2 = #{idCardUrl2,jdbcType=VARCHAR},
+      </if>
+      <if test="handIdCardUrl != null">
+        hand_id_card_url = #{handIdCardUrl,jdbcType=VARCHAR},
       </if>
       <if test="spouseIdCardUrl != null">
         spouse_id_card_url = #{spouseIdCardUrl,jdbcType=VARCHAR},
@@ -1749,6 +1792,9 @@
       </if>
       <if test="extraUrl != null">
         extra_url = #{extraUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="qrCodeSignature != null">
+        qr_code_signature = #{qrCodeSignature,jdbcType=VARCHAR},
       </if>
       <if test="addTime != null">
         add_time = #{addTime,jdbcType=TIMESTAMP},
@@ -1930,10 +1976,12 @@
       recommender = #{recommender,jdbcType=VARCHAR},
       business_license_url = #{businessLicenseUrl,jdbcType=VARCHAR},
       business_license_url_2 = #{businessLicenseUrl2,jdbcType=VARCHAR},
+      hand_business_license_url = #{handBusinessLicenseUrl,jdbcType=VARCHAR},
       labor_contract_url = #{laborContractUrl,jdbcType=VARCHAR},
       salary_detail_url = #{salaryDetailUrl,jdbcType=VARCHAR},
       id_card_url = #{idCardUrl,jdbcType=VARCHAR},
       id_card_url_2 = #{idCardUrl2,jdbcType=VARCHAR},
+      hand_id_card_url = #{handIdCardUrl,jdbcType=VARCHAR},
       spouse_id_card_url = #{spouseIdCardUrl,jdbcType=VARCHAR},
       spouse_id_card_url_2 = #{spouseIdCardUrl2,jdbcType=VARCHAR},
       marriage_certificate_url = #{marriageCertificateUrl,jdbcType=VARCHAR},
@@ -1961,6 +2009,7 @@
       employment_promotion_url = #{employmentPromotionUrl,jdbcType=VARCHAR},
       pay_taxes_url = #{payTaxesUrl,jdbcType=VARCHAR},
       extra_url = #{extraUrl,jdbcType=VARCHAR},
+      qr_code_signature = #{qrCodeSignature,jdbcType=VARCHAR},
       add_time = #{addTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       deleted = #{deleted,jdbcType=BIT},

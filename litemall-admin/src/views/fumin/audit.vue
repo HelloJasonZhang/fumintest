@@ -65,8 +65,18 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
+            <el-form-item label="手持营业执照正面" prop="businessLicenseUrl">
+              <el-image v-if="goods.handBusinessLicenseUrl" style="width:50px;height:50px;" :src="goods.handBusinessLicenseUrl" :preview-src-list="[goods.handBusinessLicenseUrl]" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
             <el-form-item label="身份证正面" prop="idCardUrl">
               <el-image v-if="goods.idCardUrl" style="width:50px;height:50px;" :src="goods.idCardUrl" :preview-src-list="[goods.idCardUrl]" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="手持身份证" prop="idCardUrl2">
+              <el-image v-if="goods.handIdCardUrl" style="width:50px;height:50px;" :src="goods.handIdCardUrl" :preview-src-list="[goods.handIdCardUrl]" />
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -96,28 +106,31 @@
           </el-col>
         </el-row>
         <el-row v-if="goods.applicantType == 'personal' && goods.applicantAmount < 10">
-          <el-row>
-            <el-col :span="6">
-              <el-form-item label="营业执照正面" prop="businessLicenseUrl">
-                <el-image v-if="goods.businessLicenseUrl" style="width:50px;height:50px;" :src="goods.businessLicenseUrl" :preview-src-list="[goods.businessLicenseUrl]" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="身份证正面" prop="idCardUrl">
-                <el-image v-if="goods.idCardUrl" style="width:50px;height:50px;" :src="goods.idCardUrl" :preview-src-list="[goods.idCardUrl]" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="身份证反面" prop="idCardUrl2">
-                <el-image v-if="goods.idCardUrl2" style="width:50px;height:50px;" :src="goods.idCardUrl2" :preview-src-list="[goods.idCardUrl2]" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="户口本首页" prop="residenceBookletUrl">
-                <el-image v-if="goods.residenceBookletUrl" style="width:50px;height:50px;" :src="goods.residenceBookletUrl" :preview-src-list="[goods.residenceBookletUrl]" />
-              </el-form-item>
-            </el-col>
-          </el-row>
+          <el-col :span="6">
+            <el-form-item label="营业执照正面" prop="businessLicenseUrl">
+              <el-image v-if="goods.businessLicenseUrl" style="width:50px;height:50px;" :src="goods.businessLicenseUrl" :preview-src-list="[goods.businessLicenseUrl]" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="身份证正面" prop="idCardUrl">
+              <el-image v-if="goods.idCardUrl" style="width:50px;height:50px;" :src="goods.idCardUrl" :preview-src-list="[goods.idCardUrl]" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="手持身份证" prop="idCardUrl2">
+              <el-image v-if="goods.handIdCardUrl" style="width:50px;height:50px;" :src="goods.handIdCardUrl" :preview-src-list="[goods.handIdCardUrl]" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="身份证反面" prop="idCardUrl2">
+              <el-image v-if="goods.idCardUrl2" style="width:50px;height:50px;" :src="goods.idCardUrl2" :preview-src-list="[goods.idCardUrl2]" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="户口本首页" prop="residenceBookletUrl">
+              <el-image v-if="goods.residenceBookletUrl" style="width:50px;height:50px;" :src="goods.residenceBookletUrl" :preview-src-list="[goods.residenceBookletUrl]" />
+            </el-form-item>
+          </el-col>
           <el-col :span="6">
             <el-form-item label="户口本本人页" prop="residenceBookletUrl2">
               <el-image v-if="goods.residenceBookletUrl2" style="width:50px;height:50px;" :src="goods.residenceBookletUrl2" :preview-src-list="[goods.residenceBookletUrl2]" />
@@ -212,7 +225,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="法定代表人/申请人" prop="hsApplicant">
+              <el-form-item label="申请人" prop="hsApplicant">
                 <el-input v-model="rensheForm.hsApplicant" />
               </el-form-item>
             </el-col>
@@ -230,10 +243,10 @@
             </el-col>
             <el-col :span="12">
               <el-form-item v-if="goods.applicantType === 'company'" label="企业名称" prop="hsMark">
-                <el-input v-model="rensheForm.hsMark"><el-button slot="append" icon="el-icon-search" @click="readRecords(rensheForm.hsMark)">历史数据查询</el-button></el-input>
+                <el-input v-model="rensheForm.hsMark"><el-button slot="append" icon="el-icon-search" @click="readRecords(rensheForm.hsMark)">历史数据</el-button></el-input>
               </el-form-item>
               <el-form-item v-else label="身份证号" prop="idCardNumber">
-                <el-input v-model="goods.idCardNumber"><el-button slot="append" icon="el-icon-search" @click="readRecords(goods.idCardNumber)">历史数据查询</el-button></el-input>
+                <el-input v-model="goods.idCardNumber" readonly><el-button slot="append" icon="el-icon-search" @click="readRecords(goods.idCardNumber)">历史数据</el-button></el-input>
               </el-form-item>
             </el-col>
 
@@ -297,6 +310,19 @@
             >
               <i class="el-icon-plus" />
             </el-upload>
+          </el-form-item>
+          <el-form-item label="电子签名">
+            <el-button type="success" style="position: absolute" @click="showQrCode()">生成二维码</el-button>
+            <el-image v-if="rensheForm.qrCodeSignature != null" style="width:50px;height:50px; margin-left: 150px" :src="rensheForm.qrCodeSignature" :preview-src-list="[rensheForm.qrCodeSignature]" />
+            <el-dialog title="请扫二维码，去小程序签名" :visible.sync="qrCodeDialogVisible" width="15%">
+              <el-row type="flex" justify="center">
+                <div id="qrcode" />
+              </el-row>
+              <span slot="footer" class="dialog-footer">
+                <el-button @click="qrCodeDialogVisible = false">取消</el-button>
+                <el-button type="primary" @click="qrCodeHandle()">确定</el-button>
+              </span>
+            </el-dialog>
           </el-form-item>
         </el-row>
         <el-form-item label="人社部门意见" prop="hsComment">
@@ -398,16 +424,20 @@
 <script>
 import { readApplicant, updateApplicant } from '@/api/applicant'
 import { listByIdCardNo } from '@/api/record'
+import { readSignature } from '@/api/signature'
 import { createStorage, uploadPath } from '@/api/storage'
 import store from '@/store'
 import { MessageBox } from 'element-ui'
 import { getToken } from '@/utils/auth'
 import { listAudit } from '@/api/audit'
-import { getAuditByStatus } from '@/utils'
+import { getAuditByStatus, uuid2 } from '@/utils'
+import QRCode from 'qrcodejs2'
 
 export default {
   name: 'GoodsCreate',
-  components: { },
+  components: {
+    QRCode
+  },
   data() {
     return {
       uploadPath,
@@ -429,7 +459,8 @@ export default {
         isApproval: false,
         status: '',
         hsComment: '',
-        hsExtraPicUrl: []
+        hsExtraPicUrl: [],
+        qrCodeSignature: undefined
       },
       assureForm: { scLetterIntentUrl: '', value: '', picUrl: '' },
       bankForm: { },
@@ -468,7 +499,9 @@ export default {
         submitStatus: [{ required: true, message: '此字段不能为空', trigger: 'change' }],
         status: [{ required: true, message: '此字段不能为空', trigger: 'change' }]
       },
-      auditList: []
+      auditList: [],
+      uuid: '',
+      qrCodeDialogVisible: false
     }
   },
   computed: {
@@ -481,7 +514,6 @@ export default {
   created() {
     this.init()
   },
-
   methods: {
     init: function() {
       if (this.$route.query.id == null) {
@@ -490,7 +522,6 @@ export default {
       if (this.$route.query.action == null) {
         return
       }
-
       const goAction = this.$route.query.action
       const goodsId = this.$route.query.id
 
@@ -502,6 +533,8 @@ export default {
           this.isAssureHidden = false
           this.isBankHidden = false
           this.rensheForm = response.data.data
+          this.rensheForm.hsApplicant = response.data.data.name
+          this.rensheForm.hsRigsterDate = response.data.data.addTime
           this.getAuditList(goodsId)
         } else if (parseInt(goAction) === 4 || parseInt(goAction) === 5) {
           this.isRenSheHidden = true
@@ -572,6 +605,13 @@ export default {
       return target
     },
     handleEdit: function() {
+      if (this.rensheForm.isApproval && (this.rensheForm.qrCodeSignature == null || this.rensheForm.qrCodeSignature === '')) {
+        MessageBox.alert('请上传电子签名', '提示', {
+          confirmButtonText: '确定',
+          type: 'warning'
+        })
+        return
+      }
       this.$refs['rensheForm'].validate((valid) => {
         if (valid) {
           const finalGoods = {}
@@ -658,6 +698,39 @@ export default {
       } else {
         this.rensheForm.isApproval = false
       }
+    },
+    showQrCode() {
+      this.qrCodeDialogVisible = true
+      this.uuid = uuid2() // 5715891D-0E3E-4A13-835A-09D4715FFE17
+      // this.$route.query.id
+      this.$nextTick(function() {
+        document.getElementById('qrcode').innerHTML = ''
+        const qrcode = new QRCode('qrcode', {
+          width: 150,
+          height: 150,
+          text: 'https://testrenshe.zujioa.com/abc/?applicant=1&uuid=5715891D-0E3E-4A13-835A-09D4715FFE17',
+          colorDark: '#109dff',
+          colorLight: '#d9d9d9'
+        })
+      })
+    },
+    qrCodeHandle() {
+      readSignature({ applicantId: 100, uuid: '5715891D-0E3E-4A13-835A-09D4715FFE17' }).then(response => {
+        if (response.data.data.signatureUrl != null && response.data.data.signatureUrl !== '') {
+          this.qrCodeDialogVisible = false
+          this.rensheForm.qrCodeSignature = response.data.data.signatureUrl
+        } else {
+          MessageBox.alert('请在小程序里面上传电子签名', '提示', {
+            confirmButtonText: '确定',
+            type: 'warning'
+          })
+        }
+      }).catch(response => {
+        this.$notify.error({
+          title: '失败',
+          message: response.data.errmsg
+        })
+      })
     }
   }
 }

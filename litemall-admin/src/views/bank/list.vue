@@ -63,7 +63,7 @@
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @paginat3ion="getList" />
 
     <!-- 添加或修改对话框 -->
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" width="70%">
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" width="70%" append-to-body>
       <el-form ref="dataForm" :rules="rules" :model="dataForm" status-icon label-position="right" label-width="120px">
         <el-row>
           <el-col :span="8">
@@ -154,6 +154,21 @@
               >
                 <i class="el-icon-plus" />
               </el-upload>
+            </el-form-item>
+          </el-col>
+          <el-col :span="20">
+            <el-form-item label="电子签名">
+              <el-button type="success" style="position: absolute" @click="showQrCode()">生成二维码</el-button>
+              <el-image v-if="dataForm.qrCodeSignature != null" style="width:50px;height:50px; margin-left: 150px" :src="dataForm.qrCodeSignature" :preview-src-list="[dataForm.qrCodeSignature]" />
+              <el-dialog title="请扫二维码，去小程序签名" :visible.sync="qrCodeDialogVisible" width="15%" append-to-body>
+                <el-row type="flex" justify="center">
+                  <div id="qrcode" />
+                </el-row>
+                <span slot="footer" class="dialog-footer">
+                  <el-button @click="qrCodeDialogVisible = false">取消</el-button>
+                  <el-button type="primary" @click="qrCodeHandle()">确定</el-button>
+                </span>
+              </el-dialog>
             </el-form-item>
           </el-col>
           <!-- <el-row>
@@ -299,6 +314,9 @@ import { readApplicantBank, listApplicant, createAlicantBank, createFinishAudit 
 import { uploadPath } from '@/api/storage'
 import { getToken } from '@/utils/auth'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+import { uuid2 } from '@/utils'
+import QRCode from 'qrcodejs2'
+import { readSignature } from '@/api/signature'
 
 const queryStatusMap = {
   '7': '待审核',
@@ -309,7 +327,7 @@ const queryStatusMap = {
 
 export default {
   name: 'Applicant',
-  components: { Pagination },
+  components: { Pagination, QRCode },
   filters: {
     submitStatuFilter(status) {
       return queryStatusMap[status]
@@ -402,7 +420,8 @@ export default {
         status: null,
         applicantBank: [],
         isApprove: false,
-        loanVoucherUrl: []
+        loanVoucherUrl: [],
+        qrCodeSignature: undefined
       },
       dialogFormVisible: false,
       dialogAduitFormVisible: false,
@@ -422,7 +441,9 @@ export default {
         ]
       },
       multipleSelection: [],
-      loanVoucherUrlList: []
+      loanVoucherUrlList: [],
+      uuid: '',
+      qrCodeDialogVisible: false
     }
   },
   computed: {
@@ -468,6 +489,13 @@ export default {
       this.getList()
     },
     createData() {
+      if (this.dataForm.isApprove && (this.dataForm.qrCodeSignature == null || this.dataForm.qrCodeSignature === '')) {
+        this.$notify.warning({
+          title: '提示',
+          message: '请上传电子签名'
+        })
+        return
+      }
       createAlicantBank(this.dataForm)
         .then(response => {
           this.dialogFormVisible = false
@@ -758,6 +786,39 @@ export default {
         }
         this.dataForm.loanVoucherUrl.push(response.data.url)
       }
+    },
+    showQrCode() {
+      this.qrCodeDialogVisible = true
+      this.uuid = uuid2() // 5715891D-0E3E-4A13-835A-09D4715FFE17
+      // this.$route.query.id
+      this.$nextTick(function() {
+        document.getElementById('qrcode').innerHTML = ''
+        const qrcode = new QRCode('qrcode', {
+          width: 150,
+          height: 150,
+          text: 'https://testrenshe.zujioa.com/abc/?applicant=1&uuid=5715891D-0E3E-4A13-835A-09D4715FFE17',
+          colorDark: '#109dff',
+          colorLight: '#d9d9d9'
+        })
+      })
+    },
+    qrCodeHandle() {
+      readSignature({ applicantId: 100, uuid: '5715891D-0E3E-4A13-835A-09D4715FFE17' }).then(response => {
+        if (response.data.data.signatureUrl != null && response.data.data.signatureUrl !== '') {
+          this.qrCodeDialogVisible = false
+          this.dataForm.qrCodeSignature = response.data.data.signatureUrl
+        } else {
+          this.$notify.warning({
+            title: '提示',
+            message: '请在小程序里面上传电子签名'
+          })
+        }
+      }).catch(response => {
+        this.$notify.error({
+          title: '失败',
+          message: response.data.errmsg
+        })
+      })
     }
   }
 }

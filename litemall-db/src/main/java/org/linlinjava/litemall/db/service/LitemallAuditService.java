@@ -33,6 +33,7 @@ public class LitemallAuditService {
         litemallAudit.setAuditCommit(comment);
         litemallAudit.setAddTime(LocalDateTime.now());
         litemallAudit.setUpdateTime(LocalDateTime.now());
+        litemallAudit.setSignatureUrl(applicant.getQrCodeSignature());
         auditMapper.insertSelective(litemallAudit);
     }
 
@@ -60,4 +61,5 @@ public class LitemallAuditService {
         record.setUpdatePerson(username);
         recordMapper.insertSelective(record);
     }
+
 }

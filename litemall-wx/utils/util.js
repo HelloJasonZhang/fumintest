@@ -135,6 +135,14 @@ function getArray(name) {
   return array
 }
 
+function getArrayURL(applicant, name) {
+  var array = []
+  if (applicant != null && applicant[name] != null && applicant[name] != "") {
+    array[0] = applicant[name]
+  }
+  return array
+}
+
 module.exports = {
   formatTime,
   request,
@@ -142,7 +150,8 @@ module.exports = {
   showErrorToast,
   fillAudit,
   filter,
-  getArray
+  getArray,
+  getArrayURL
 }
 
 

@@ -22,6 +22,7 @@
     <result column="audit_comment" jdbcType="VARCHAR" property="auditComment" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="opertator" jdbcType="VARCHAR" property="opertator" />
+    <result column="qr_code_signature" jdbcType="VARCHAR" property="qrCodeSignature" />
     <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="deleted" jdbcType="BIT" property="deleted" />
@@ -137,7 +138,7 @@
     -->
     id, applicant_id, bank_id, loan_start_date, loan_end_date, loan_finance, loan_voucher_url, 
     credit, lending_date, period_loan, repayment, interest, interest_period, audit_comment, 
-    `status`, opertator, add_time, update_time, deleted
+    `status`, opertator, qr_code_signature, add_time, update_time, deleted
   </sql>
   <select id="selectByExample" parameterType="org.linlinjava.litemall.db.domain.LitemallApplicantBankExample" resultMap="BaseResultMap">
     <!--
@@ -263,15 +264,15 @@
       credit, lending_date, period_loan, 
       repayment, interest, interest_period, 
       audit_comment, `status`, opertator, 
-      add_time, update_time, deleted
-      )
+      qr_code_signature, add_time, update_time, 
+      deleted)
     values (#{applicantId,jdbcType=INTEGER}, #{bankId,jdbcType=INTEGER}, #{loanStartDate,jdbcType=TIMESTAMP}, 
       #{loanEndDate,jdbcType=TIMESTAMP}, #{loanFinance,jdbcType=VARCHAR}, #{loanVoucherUrl,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler}, 
       #{credit,jdbcType=VARCHAR}, #{lendingDate,jdbcType=TIMESTAMP}, #{periodLoan,jdbcType=VARCHAR}, 
       #{repayment,jdbcType=VARCHAR}, #{interest,jdbcType=VARCHAR}, #{interestPeriod,jdbcType=VARCHAR}, 
       #{auditComment,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{opertator,jdbcType=VARCHAR}, 
-      #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}
-      )
+      #{qrCodeSignature,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{deleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="org.linlinjava.litemall.db.domain.LitemallApplicantBank">
     <!--
@@ -328,6 +329,9 @@
       <if test="opertator != null">
         opertator,
       </if>
+      <if test="qrCodeSignature != null">
+        qr_code_signature,
+      </if>
       <if test="addTime != null">
         add_time,
       </if>
@@ -383,6 +387,9 @@
       </if>
       <if test="opertator != null">
         #{opertator,jdbcType=VARCHAR},
+      </if>
+      <if test="qrCodeSignature != null">
+        #{qrCodeSignature,jdbcType=VARCHAR},
       </if>
       <if test="addTime != null">
         #{addTime,jdbcType=TIMESTAMP},
@@ -460,6 +467,9 @@
       <if test="record.opertator != null">
         opertator = #{record.opertator,jdbcType=VARCHAR},
       </if>
+      <if test="record.qrCodeSignature != null">
+        qr_code_signature = #{record.qrCodeSignature,jdbcType=VARCHAR},
+      </if>
       <if test="record.addTime != null">
         add_time = #{record.addTime,jdbcType=TIMESTAMP},
       </if>
@@ -496,6 +506,7 @@
       audit_comment = #{record.auditComment,jdbcType=VARCHAR},
       `status` = #{record.status,jdbcType=INTEGER},
       opertator = #{record.opertator,jdbcType=VARCHAR},
+      qr_code_signature = #{record.qrCodeSignature,jdbcType=VARCHAR},
       add_time = #{record.addTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       deleted = #{record.deleted,jdbcType=BIT}
@@ -555,6 +566,9 @@
       <if test="opertator != null">
         opertator = #{opertator,jdbcType=VARCHAR},
       </if>
+      <if test="qrCodeSignature != null">
+        qr_code_signature = #{qrCodeSignature,jdbcType=VARCHAR},
+      </if>
       <if test="addTime != null">
         add_time = #{addTime,jdbcType=TIMESTAMP},
       </if>
@@ -588,6 +602,7 @@
       audit_comment = #{auditComment,jdbcType=VARCHAR},
       `status` = #{status,jdbcType=INTEGER},
       opertator = #{opertator,jdbcType=VARCHAR},
+      qr_code_signature = #{qrCodeSignature,jdbcType=VARCHAR},
       add_time = #{addTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       deleted = #{deleted,jdbcType=BIT}

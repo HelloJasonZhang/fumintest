@@ -13,65 +13,66 @@ Page({
     canvasHeight: 0,
     transparent: 1, // 透明度
     selectColor: 'white',
-    lineColor: '#1A1A1A',//'#1A1A1A', // 颜色
-    lineSize: 1.5,  // 笔记倍数
-    lineMin: 0.5,   // 最小笔画半径
-    lineMax: 4,     // 最大笔画半径
-    pressure: 1,     // 默认压力
-    smoothness: 60,  //顺滑度，用60的距离来计算速度
+    lineColor: '#1A1A1A', //'#1A1A1A', // 颜色
+    lineSize: 1.5, // 笔记倍数
+    lineMin: 0.5, // 最小笔画半径
+    lineMax: 4, // 最大笔画半径
+    pressure: 1, // 默认压力
+    smoothness: 60, //顺滑度，用60的距离来计算速度
     currentPoint: {},
-    currentLine: [],  // 当前线条
+    currentLine: [], // 当前线条
     firstTouch: true, // 第一次触发
     radius: 1, //画圆的半径
-    cutArea: { top: 0, right: 0, bottom: 0, left: 0 }, //裁剪区域
-    bethelPoint: [],  //保存所有线条 生成的贝塞尔点；
+    cutArea: {
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0
+    }, //裁剪区域
+    bethelPoint: [], //保存所有线条 生成的贝塞尔点；
     lastPoint: 0,
     chirography: [], //笔迹
     currentChirography: {}, //当前笔迹
     linePrack: [], //划线轨迹 , 生成线条的实际点
     signatureUrl: '',
     detail: "",
-    applicantId:''
+    applicantId: '',
+    uuid: '',
   },
   subCanvas() {
     var that = this;
     wx.canvasToTempFilePath({
-      x:0,
-      y:0,
+      x: 0,
+      y: 0,
       canvasId: 'handWriting',
       success(res) {
         const uploadTask = wx.uploadFile({
           url: api.StorageUpload,
           filePath: res.tempFilePath,
           name: 'file',
-          success: function (res) {
+          success: function(res) {
             var _res = JSON.parse(res.data);
-        //     let pages = getCurrentPages();  // 当前页的数据，可以输出来看看有什么东西
-        //     let prevPage = pages[pages.length - 2];  // 上一页的数据，也可以输出来看看有什么东西
-        //     /** 设置数据 这里面的 value 是上一页你想被携带过去的数据，
-        // 后面是本方法里你得到的数据，我这里是detail.value，根据自己实际情况设置 */
-        //     prevPage.setData({
-        //       signatureUrl:  _res.data.url,
-        //     })
-        //     wx.navigateBack();
+            console.log(that.data.applicantId)
             if (that.data.applicantId != null && that.data.applicantId != 0 && that.data.applicantId != "null") {
-              util.request(api.ApplicantUpdate,
-                { 'id': that.data.applicantId,'signatureUrl': _res.data.url}, 'POST').then(function (res) {
-                  if (res.errno === 0) {
-                    wx.navigateTo({
-                      url: '/pages/fumin/bankInstruction/bankInstruction?id=' + that.data.applicantId
-                    })
-                  } else {
-                    util.showErrorToast('无法保存数据');
-                  }
-                });
+              util.request(api.SignatureAdd, {
+                'applicantId': 100, //that.data.applicantId,
+                'uuid': '5715891D-0E3E-4A13-835A-09D4715FFE17', //that.data.uuid,
+                'signatureUrl': _res.data.url
+              }, 'POST').then(function(res) {
+                if (res.errno === 0) {
+                  util.showErrorToast('上传成功')
+                  // wx.navigateTo({
+                  //   url: '/pages/index/index'
+                  // })
+                } else {
+                  util.showErrorToast('无法保存数据');
+                }
+              });
             } else {
-              wx.navigateTo({
-                url: '/pages/index/index'
-              })
+              util.showErrorToast('无法保存数据');
             }
           },
-          fail: function (e) {
+          fail: function(e) {
             wx.showModal({
               title: '错误',
               content: '上传失败',
@@ -89,11 +90,11 @@ Page({
     })
   },
   // 笔迹开始
-  uploadScaleStart (e) {
+  uploadScaleStart(e) {
     if (e.type != 'touchstart') return false;
     let ctx = this.data.ctx;
-    ctx.setFillStyle(this.data.lineColor);  // 初始线条设置颜色
-    ctx.setGlobalAlpha(this.data.transparent);  // 设置半透明
+    ctx.setFillStyle(this.data.lineColor); // 初始线条设置颜色
+    ctx.setGlobalAlpha(this.data.transparent); // 设置半透明
     let currentPoint = {
       x: e.touches[0].x,
       y: e.touches[0].y
@@ -111,14 +112,19 @@ Page({
     })
     if (this.data.firstTouch) {
       this.setData({
-        cutArea: { top: currentPoint.y, right: currentPoint.x, bottom: currentPoint.y, left: currentPoint.x },
+        cutArea: {
+          top: currentPoint.y,
+          right: currentPoint.x,
+          bottom: currentPoint.y,
+          left: currentPoint.x
+        },
         firstTouch: false
       })
     }
     this.pointToLine(currentLine);
   },
   // 笔迹移动
-  uploadScaleMove (e) {
+  uploadScaleMove(e) {
     if (e.type != 'touchmove') return false;
     if (e.cancelable) {
       // 判断默认行为是否已经被禁用
@@ -171,7 +177,7 @@ Page({
     this.pointToLine(currentLine);
   },
   // 笔迹结束
-  uploadScaleEnd (e) {
+  uploadScaleEnd(e) {
     if (e.type != 'touchend') return 0;
     let point = {
       x: e.changedTouches[0].x,
@@ -229,33 +235,50 @@ Page({
         canvasHeight: rect.height
       })
     }).exec();
-    
 
-
-    this.showDocment()
-    if (options.id && options.id != "" && options.id != "null") {
-      this.setData({
-        applicantId: options.id
-      });
+    console.log(options)
+    if (options.q) {
+      let queryAll = decodeURIComponent(options.q);
+      console.log(queryAll);
     }
+      let id = 100 //this.gup('applicant', queryAll);
+      let uuid = '5715891D-0E3E-4A13-835A-09D4715FFE17' //this.gup('uuid', queryAll);
+    
+      console.log(id);
+      console.log(uuid);
+
+      if (id && id != "" && id != "null") {
+        this.setData({
+          applicantId: id
+        });
+      } 
+
+      if (uuid && uuid != "" && uuid != "null") {
+        this.setData({
+          uuid: uuid
+        });
+      }
+
   },
-  retDraw () {
+  retDraw() {
     this.data.ctx.clearRect(0, 0, 700, 730)
     this.data.ctx.draw()
   },
 
   //画两点之间的线条；参数为:line，会绘制最近的开始的两个点；
-  pointToLine (line) {
+  pointToLine(line) {
     this.calcBethelLine(line);
     return;
   },
   //计算插值的方式；
-  calcBethelLine (line) {
+  calcBethelLine(line) {
     if (line.length <= 1) {
       line[0].r = this.data.radius;
       return;
     }
-    let x0, x1, x2, y0, y1, y2, r0, r1, r2, len, lastRadius, dis = 0, time = 0, curveValue = 0.5;
+    let x0, x1, x2, y0, y1, y2, r0, r1, r2, len, lastRadius, dis = 0,
+      time = 0,
+      curveValue = 0.5;
     if (line.length <= 2) {
       x0 = line[1].x
       y0 = line[1].y
@@ -275,7 +298,13 @@ Page({
       y2 = y1 + (line[0].y - y1) * curveValue;
     }
     //从计算公式看，三个点分别是(x0,y0),(x1,y1),(x2,y2) ；(x1,y1)这个是控制点，控制点不会落在曲线上；实际上，这个点还会手写获取的实际点，却落在曲线上
-    len = this.distance({ x: x2, y: y2 }, { x: x0, y: y0 });
+    len = this.distance({
+      x: x2,
+      y: y2
+    }, {
+      x: x0,
+      y: y0
+    });
     lastRadius = this.data.radius;
     for (let n = 0; n < line.length - 1; n++) {
       dis += line[n].dis;
@@ -304,7 +333,11 @@ Page({
       let x = (1 - t) * (1 - t) * x0 + 2 * t * (1 - t) * x1 + t * t * x2;
       let y = (1 - t) * (1 - t) * y0 + 2 * t * (1 - t) * y1 + t * t * y2;
       let r = lastRadius + (this.data.radius - lastRadius) / n * i;
-      point.push({ x: x, y: y, r: r });
+      point.push({
+        x: x,
+        y: y,
+        r: r
+      });
       if (point.length == 3) {
         let a = this.ctaCalc(point[0].x, point[0].y, point[0].r, point[1].x, point[1].y, point[1].r, point[2].x, point[2].y, point[2].r);
         a[0].color = this.data.lineColor;
@@ -313,7 +346,11 @@ Page({
         // console.log(this.data.bethelPoint)
         // bethelPoint = bethelPoint.push(a);
         this.bethelDraw(a, 1);
-        point = [{ x: x, y: y, r: r }];
+        point = [{
+          x: x,
+          y: y,
+          r: r
+        }];
       }
     }
     this.setData({
@@ -321,13 +358,14 @@ Page({
     })
   },
   //求两点之间距离
-  distance (a, b) {
+  distance(a, b) {
     let x = b.x - a.x;
     let y = b.y - a.y;
     return Math.sqrt(x * x + y * y);
   },
-  ctaCalc (x0, y0, r0, x1, y1, r1, x2, y2, r2) {
-    let a = [], vx01, vy01, norm, n_x0, n_y0, vx21, vy21, n_x2, n_y2;
+  ctaCalc(x0, y0, r0, x1, y1, r1, x2, y2, r2) {
+    let a = [],
+      vx01, vy01, norm, n_x0, n_y0, vx21, vy21, n_x2, n_y2;
     vx01 = x1 - x0;
     vy01 = y1 - y0;
     norm = Math.sqrt(vx01 * vx01 + vy01 * vy01 + 0.0001) * 2;
@@ -342,11 +380,43 @@ Page({
     vy21 = vy21 / norm * r2;
     n_x2 = -vy21;
     n_y2 = vx21;
-    a.push({ mx: x0 + n_x0, my: y0 + n_y0, color: "#1A1A1A" });
-    a.push({ c1x: x1 + n_x0, c1y: y1 + n_y0, c2x: x1 + n_x2, c2y: y1 + n_y2, ex: x2 + n_x2, ey: y2 + n_y2 });
-    a.push({ c1x: x2 + n_x2 - vx21, c1y: y2 + n_y2 - vy21, c2x: x2 - n_x2 - vx21, c2y: y2 - n_y2 - vy21, ex: x2 - n_x2, ey: y2 - n_y2 });
-    a.push({ c1x: x1 - n_x2, c1y: y1 - n_y2, c2x: x1 - n_x0, c2y: y1 - n_y0, ex: x0 - n_x0, ey: y0 - n_y0 });
-    a.push({ c1x: x0 - n_x0 - vx01, c1y: y0 - n_y0 - vy01, c2x: x0 + n_x0 - vx01, c2y: y0 + n_y0 - vy01, ex: x0 + n_x0, ey: y0 + n_y0 });
+    a.push({
+      mx: x0 + n_x0,
+      my: y0 + n_y0,
+      color: "#1A1A1A"
+    });
+    a.push({
+      c1x: x1 + n_x0,
+      c1y: y1 + n_y0,
+      c2x: x1 + n_x2,
+      c2y: y1 + n_y2,
+      ex: x2 + n_x2,
+      ey: y2 + n_y2
+    });
+    a.push({
+      c1x: x2 + n_x2 - vx21,
+      c1y: y2 + n_y2 - vy21,
+      c2x: x2 - n_x2 - vx21,
+      c2y: y2 - n_y2 - vy21,
+      ex: x2 - n_x2,
+      ey: y2 - n_y2
+    });
+    a.push({
+      c1x: x1 - n_x2,
+      c1y: y1 - n_y2,
+      c2x: x1 - n_x0,
+      c2y: y1 - n_y0,
+      ex: x0 - n_x0,
+      ey: y0 - n_y0
+    });
+    a.push({
+      c1x: x0 - n_x0 - vx01,
+      c1y: y0 - n_y0 - vy01,
+      c2x: x0 + n_x0 - vx01,
+      c2y: y0 + n_y0 - vy01,
+      ex: x0 + n_x0,
+      ey: y0 + n_y0
+    });
     a[0].mx = a[0].mx.toFixed(1);
     a[0].mx = parseFloat(a[0].mx);
     a[0].my = a[0].my.toFixed(1);
@@ -367,7 +437,7 @@ Page({
     }
     return a;
   },
-  bethelDraw (point, is_fill, color) {
+  bethelDraw(point, is_fill, color) {
     let ctx = this.data.ctx;
     ctx.beginPath();
     ctx.moveTo(point[0].mx, point[0].my);
@@ -387,7 +457,7 @@ Page({
     }
     ctx.draw(true)
   },
-  selectColorEvent (event) {
+  selectColorEvent(event) {
     console.log(event)
     var color = event.currentTarget.dataset.colorValue;
     var colorSelected = event.currentTarget.dataset.color;
@@ -396,32 +466,17 @@ Page({
       lineColor: color
     })
   },
-  showDocment() {
-    let that = this
-    util.request(api.DocumentRead, {
-      docType: 'undertaking'
-    }, "GET").then(function (res) {
-      console.log(res)
-      if (res.errno === 0) {
-        that.setData({
-          detail: res.data.detail
-        })
-        WxParse.wxParse('documentDetail', 'html', res.data.detail, that);
-      } else {
-        that.setData({
-          show: false
-        })
-        util.showErrorToast("无法读取！")
-      }
-    })
-    //加载数据
-    this.setData({
-      show: true,
-    });
-  },
   onClose() {
     this.setData({
       show: false,
     });
-  },  
+  },
+  gup(name, url) {
+    if (!url) url = location.href;
+    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+    var regexS = "[\\?&]" + name + "=([^&#]*)";
+    var regex = new RegExp(regexS);
+    var results = regex.exec(url);
+    return results == null ? null : results[1];
+  },
 })

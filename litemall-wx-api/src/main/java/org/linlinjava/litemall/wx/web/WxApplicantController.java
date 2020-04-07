@@ -259,7 +259,7 @@ public class WxApplicantController extends GetRegionService {
             return ResponseUtil.fail();
         }
         //回到申请人提交流程节点、重新审核
-        applicant.setSubmitStatus(1);
+        applicant.setSubmitStatus(applicant.getSubmitStatus() - 1);
         // 重新补充资料后再次上传
         if (applicantService.updateById(applicant) == 0) {
             return ResponseUtil.updatedDataFailed();

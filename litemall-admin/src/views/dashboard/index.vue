@@ -1,7 +1,17 @@
 <template>
   <div class="dashboard-editor-container">
     <div>你好，{{ user.getters.name }}用户, 欢迎使用本系统。</div>
-
+    <!-- <div>
+      <el-button type="primary" style="margin-left: 20px" @click="qrCode()">生成二维码</el-button>
+      <el-dialog title="电子签名" :visible.sync="dialogVisible" width="20%">
+        <div id="qrcode"/>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        </span>
+      </el-dialog>
+    </div>
+    <div id="qrcode2"/> -->
     <!--
     <el-row :gutter="40" class="panel-group">
       <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
@@ -56,10 +66,9 @@
 import { info } from '@/api/dashboard'
 import store from '@/store'
 import CountTo from 'vue-count-to'
-
 export default {
   components: {
-    CountTo
+    CountTo,
   },
   data() {
     return {
@@ -67,7 +76,8 @@ export default {
       goodsTotal: 0,
       productTotal: 0,
       orderTotal: 0,
-      user: store
+      user: store,
+      dialogVisible: false
     }
   },
   created() {
@@ -81,7 +91,7 @@ export default {
   methods: {
     handleSetLineChartData(type) {
       this.$emit('handleSetLineChartData', type)
-    }
+    },
   }
 }
 </script>

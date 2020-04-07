@@ -37,5 +37,6 @@ module.exports = {
   BankUpdate: WxApiRoot + 'bank/update',
   BankList: WxApiRoot + 'bank/list',
   DocumentRead: WxApiRoot + 'document/read',
-  DictRead: WxApiRoot + 'dict/read'
+  DictRead: WxApiRoot + 'dict/read',
+  SignatureAdd: WxApiRoot + 'signature/create',
 };

@@ -19,10 +19,12 @@ CREATE TABLE `litemall_applicant`  (
   `recommender` varchar(50) NULL DEFAULT NULL COMMENT '推荐人',
   `business_license_url` varchar(255) NULL DEFAULT NULL COMMENT '营业执照正面',
   `business_license_url_2` varchar(255) NULL DEFAULT NULL COMMENT '营业执照反面',
+  `hand_business_license_url` varchar(255) NULL DEFAULT NULL COMMENT '手持营业执照正面',
   `labor_contract_url` varchar(255) NULL DEFAULT NULL COMMENT '劳动合同',
   `salary_detail_url` varchar(255) NULL DEFAULT NULL COMMENT '工资明细',
   `id_card_url` varchar(255) NULL DEFAULT NULL COMMENT '身份证正面',
   `id_card_url_2` varchar(255) NULL DEFAULT NULL COMMENT '身份证反面',
+  `hand_id_card_url` varchar(255) NULL DEFAULT NULL COMMENT '手持身份证正面',
   `spouse_id_card_url` varchar(255) NULL DEFAULT NULL COMMENT '配偶身份证正面',
   `spouse_id_card_url_2` varchar(255) NULL DEFAULT NULL COMMENT '配偶身份证反面',
   `marriage_certificate_url` varchar(255) NULL DEFAULT NULL COMMENT '婚姻证首页',
@@ -50,6 +52,7 @@ CREATE TABLE `litemall_applicant`  (
   `employment_promotion_url` varchar(255) NULL DEFAULT NULL COMMENT '带动就业人员信息',
   `pay_taxes_url` varchar(255) NULL DEFAULT NULL COMMENT '当年纳税申报及上年纳税收据',
   `extra_url` varchar(255) NULL DEFAULT NULL COMMENT '其他照片',
+  `qr_code_signature` varchar(255) NULL DEFAULT NULL COMMENT '临时审核电子签名',
   `add_time` datetime(0) NULL DEFAULT NULL COMMENT '新增时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除',
@@ -123,6 +126,7 @@ CREATE TABLE `litemall_applicant_bank`  (
   `audit_comment` varchar(255) NULL DEFAULT NULL COMMENT '审核情况',
   `status` int(5) NULL DEFAULT NULL COMMENT '审批状态',
   `opertator` varchar(255) NULL DEFAULT NULL COMMENT '经办人',
+  `qr_code_signature` varchar(255) NULL DEFAULT NULL COMMENT '临时审核电子签名',
   `add_time` datetime(0) NULL DEFAULT NULL,
   `update_time` datetime(0) NULL DEFAULT NULL,
   `deleted` tinyint(1) NULL DEFAULT 0,
@@ -159,7 +163,7 @@ CREATE TABLE `litemall_document`  (
   `updator` varchar(20) NULL DEFAULT NULL COMMENT '修改人',
   `active` tinyint(1) NULL DEFAULT 0 COMMENT '启用状态',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT= "富文本"
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT= "富文本";
 
 DROP TABLE IF EXISTS `litemall_dict`;
 CREATE TABLE `litemall`.`litemall_dict`  (
@@ -175,7 +179,7 @@ CREATE TABLE `litemall`.`litemall_dict`  (
   `add_time` datetime(0) NULL DEFAULT NULL,
   `update_time` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT= "字典项"
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT= "字典项";
 
 DROP TABLE IF EXISTS `litemall_audit`;
 CREATE TABLE `litemall`.`litemall_audit`  (
@@ -186,11 +190,12 @@ CREATE TABLE `litemall`.`litemall_audit`  (
   `orignal_status` int(50) NULL DEFAULT NULL COMMENT '原始状态',
   `submite_status` int(50) NULL DEFAULT NULL COMMENT '提交状态',
   `audit_commit` varchar(1023) NULL DEFAULT NULL COMMENT '评论',
+  `signature_url` varchar(255) NULL DEFAULT NULL COMMENT '电子签名',
   `add_time` datetime(0) NULL DEFAULT NULL COMMENT '添加时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT= "审核记录表"
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT= "审核记录表";
 
 DROP TABLE IF EXISTS `litemall_record`;
 CREATE TABLE `litemall`.`litemall_record`  (
@@ -205,8 +210,22 @@ CREATE TABLE `litemall`.`litemall_record`  (
   `bank_name` varchar(255) NULL DEFAULT NULL COMMENT '贷款银行',
   `add_time` datetime(0) NULL DEFAULT NULL COMMENT '新增时间',
   `add_person` varchar(255) NULL DEFAULT NULL COMMENT '增加人',
+  `signature_url` varchar(255) NULL DEFAULT NULL COMMENT '电子签名',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   `update_person` varchar(255) NULL DEFAULT NULL COMMENT '更新人',
   `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT= "历史数据"
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT= "历史数据";
+
+DROP TABLE IF EXISTS `litemall_electronic_signature`;
+CREATE TABLE `litemall`.`litemall_electronic_signature`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `applicant_id` int(11) NULL DEFAULT NULL COMMENT '申请人ID',
+  `user_id` int(11) NULL DEFAULT NULL COMMENT '用户ID',
+  `uuid` varchar(50) NULL DEFAULT NULL COMMENT 'UUID',
+  `signature_url` varchar(255) NULL DEFAULT NULL COMMENT '电子签名',
+  `add_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT= "临时表";

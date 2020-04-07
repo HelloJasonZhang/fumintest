@@ -113,6 +113,7 @@ public class AdminApplicantController {
         Integer userId = currentAdmin.getId();
         String username = currentAdmin.getUsername();
         auditService.add(Applicant,userId, username, Applicant.getHsComment());
+        Applicant.setQrCodeSignature(null);
         if (applicantService.updateById(Applicant, username) == 0) {
             return ResponseUtil.updatedDataFailed();
         }

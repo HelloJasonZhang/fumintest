@@ -121,7 +121,7 @@ public class AdminAssureController {
         Integer userId = currentAdmin.getId();
         String username = currentAdmin.getUsername();
         auditService.add(applicant,userId, username, applicant.getScComment());
-
+        applicant.setQrCodeSignature(null);
         if (applicantService.updateById(applicant) == 0) {
             return ResponseUtil.updatedDataFailed();
         }
@@ -159,7 +159,7 @@ public class AdminAssureController {
         Integer userId = currentAdmin.getId();
         String username = currentAdmin.getUsername();
         auditService.add(applicant,userId, username, applicant.getHsComment());
-
+        applicant.setQrCodeSignature(null);
         if (applicantService.updateById(applicant) == 0) {
             return ResponseUtil.updatedDataFailed();
         }

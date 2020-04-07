@@ -83,7 +83,8 @@ export default {
         { code: 'workflow', name: '贷款流程说明' },
         { code: 'caizheng_policy', name: '财政部政策说明' },
         { code: 'danbao_desc', name: '担保流程说明' },
-        { code: 'undertaking', name: '承诺书' }
+        { code: 'undertaking', name: '承诺书' },
+        { code: 'bank_desc', name: '选择银行须知' }
       ],
       actives: [{ code: true, name: '启动' }, { code: false, name: '不启用' }],
       rules: {

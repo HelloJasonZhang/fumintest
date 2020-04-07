@@ -97,6 +97,7 @@ Page({
         selecValue: res.data.applicantType,
         hsTopAmount: res.data.hsTopAmount == null ? "-" : res.data.hsTopAmount,
         applicantId: res.data.id,
+        typeLable: res.data.applicantTypeLable,
         orignalStatus: res.data.submitStatus,
         selectBankIds: res.data.bankId,
       })
@@ -180,7 +181,7 @@ Page({
         flag = true
       }
       wx.navigateTo({
-        url: '/pages/fumin/bank/bank?id=' + this.data.applicantId + '&needApprove=' + flag + '&bankIds=' + this.data.selectBankIds
+        url: '/pages/fumin/bankInstruction/bankInstruction?id=' + this.data.applicantId + '&needApprove=' + flag + '&bankIds=' + this.data.selectBankIds
       })
     }
 
@@ -206,7 +207,7 @@ Page({
         title = "担保公司核查信息"
       }
       wx.navigateTo({
-        url: '/pages/fumin/applicant/applicant?id=' + this.data.applicantId + '&type=' + this.data.selecValue
+        url: '/pages/fumin/applicant/applicant?id=' + this.data.applicantId + '&type=' + this.data.selecValue + '&typeLable=' + this.data.typeLable
       })
     } else if (sValue == 3 || sValue == 6 || sValue == 8) { //拒绝
       let errorMessage = e.currentTarget.dataset.item.comment;

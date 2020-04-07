@@ -75,9 +75,15 @@ Page({
     if (options.type && options.type != "") {
       this.setData({
         type: options.type,
+      });
+    }
+
+    if (options.typeLable && options.typeLable != "") {
+      this.setData({
         typeLabe: options.typeLable
       });
     }
+
     //数据回填
     // 页面初始化 options为页面跳转所带来的参数
     if (options.id && options.id != "") {
@@ -86,8 +92,9 @@ Page({
       });
       //回显数据
       this.getApplicant()
+    } else {
+      this.getObtainInfos()
     }
-    this.getObtainInfos()
   },
   getApplicant: function () {
     let that = this;
@@ -97,14 +104,32 @@ Page({
         //回显性别
         //回显婚姻状态
         //回显申请人类别
-        //回显新招/雇佣人类别  
+        //回显新招/雇佣人类别
         that.setData({
           applicant: res.data,
+          recommender: res.data.recommender,
           indexMaritalStatus: util.filter(res.data.maritalStatus, that.data.array),
-          indexSex: util.filter(res.data.sex, that.data.arraySex)
+          indexSex: util.filter(res.data.sex, that.data.arraySex),
         });
         //indexTypes: util.filter(res.data.applicantCategory, that.data.arrayTyps),
         //indexHires: util.filter(res.data.recruitCategory, that.data.arrayHires)
+        util.request(api.DictRead, {
+          type: "获取途径"
+        }, "GET").then(function (resDict) {
+          console.log(res.data.obtainInfo)
+          if (res.errno === 0) {
+            var obtainInfos = ['请选择获取途径']
+            for (var i = 0; i < resDict.data.length; i++) {
+              var obtainInfo = resDict.data[i]
+              obtainInfos.push(obtainInfo.name)
+            }
+            that.setData({
+              arrayObtianInfos: obtainInfos,
+              indexObtainInfo: util.filter(res.data.obtainInfo, obtainInfos),
+            });
+
+          }
+        });
       }
     });
   },
@@ -113,7 +138,7 @@ Page({
     util.request(api.DictRead, {
       type: "获取途径"
     }, "GET").then(function (res) {
-      console.log(res)
+      console.log(obtainInfo)
       if (res.errno === 0) {
         var obtainInfos = ['请选择获取途径']
         for (var i = 0; i < res.data.length; i++) {
@@ -123,6 +148,7 @@ Page({
         that.setData({
           arrayObtianInfos: obtainInfos
         });
+
       }
     });
   },

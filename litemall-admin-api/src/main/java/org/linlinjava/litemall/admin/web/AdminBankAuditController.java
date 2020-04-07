@@ -176,7 +176,7 @@ public class AdminBankAuditController {
         if (applicantBank.getStatus() == null) {
             return ResponseUtil.badArgumentValue();
         }
-
+        String pirURl = applicantBank.getQrCodeSignature();
         //更新申请人
         LitemallApplicant applicant = applicantService.findById(applicantBank.getApplicantId());
         if (applicant.getSubmitStatus() == 7 && applicantBank.getStatus() == 2) {
@@ -186,6 +186,7 @@ public class AdminBankAuditController {
             applicant.setSubmitStatus(8);
         }
         applicantService.updateById(applicant);
+        applicantBank.setQrCodeSignature(null);
         //更新申请人银行关系表, 银行审核数据只有一条
         if(applicantBank.getId() != null ){
             applicantBankService.updateById(applicantBank);
@@ -194,7 +195,9 @@ public class AdminBankAuditController {
         LitemallAdmin currentAdmin = (LitemallAdmin) currentUser.getPrincipal();
         Integer userId = currentAdmin.getId();
         String username = currentAdmin.getUsername();
+        applicant.setQrCodeSignature(pirURl);
         auditService.add(applicant,userId, username, applicantBank.getAuditComment());
+
         return ResponseUtil.ok(applicantBank);
     }
 
