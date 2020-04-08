@@ -156,6 +156,16 @@ export const asyncRouterMap = [
       },
       {
         path: 'record',
+        component: () => import('@/views/fumin/review'),
+        name: 'record',
+        meta: {
+          perms: ['GET /admin/applicantReview/list', 'GET /admin/applicantReview/read', 'POST /admin/applicantReview/update'],
+          title: '人社复核',
+          noCache: true
+        }
+      },
+      {
+        path: 'record',
         component: () => import('@/views/record/list'),
         name: 'record',
         meta: {
@@ -172,7 +182,7 @@ export const asyncRouterMap = [
     alwaysShow: true,
     name: 'assure',
     meta: {
-      title: '担保公司审核',
+      title: '担保公司管理',
       icon: 'chart'
     },
     children: [
@@ -182,7 +192,7 @@ export const asyncRouterMap = [
         name: 'list',
         meta: {
           perms: ['GET /admin/assure/list', 'POST /admin/assure/create', 'GET /admin/assure/read', 'POST /admin/assure/update'],
-          title: '担保公司管理',
+          title: '担保公司审核',
           noCache: true
         }
       },
