@@ -155,14 +155,25 @@ export const asyncRouterMap = [
         hidden: true
       },
       {
-        path: 'record',
+        path: 'review',
         component: () => import('@/views/fumin/review'),
-        name: 'record',
+        name: 'review',
         meta: {
           perms: ['GET /admin/applicantReview/list', 'GET /admin/applicantReview/read', 'POST /admin/applicantReview/update'],
           title: '人社复核',
           noCache: true
         }
+      },
+      {
+        path: 'reviewDetailView',
+        component: () => import('@/views/fumin/reviewDetail'),
+        name: 'reviewDetailView',
+        meta: {
+          perms: ['GET /admin/applicantReview/read', 'GET /admin/applicantReview/readBank'],
+          title: '人社复核查看',
+          noCache: true
+        },
+        hidden: true
       },
       {
         path: 'record',
