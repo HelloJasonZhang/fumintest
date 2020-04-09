@@ -7,7 +7,12 @@
       <el-select v-model="listQuery.submitStatusArray" style="width: 200px" class="filter-item" placeholder="请选择审核状态" clearable>
         <el-option v-for="(key, value) in queryStatusMap" :key="key" :label="key" :value="value" />
       </el-select>
-      <el-button v-permission="['GET /admin/applicantReview/list']" class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查找</el-button>
+      <el-button v-permission="['GET /admin/assure/list']" class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查找</el-button>
+      <!--      <el-button v-permission="['POST /admin/applicant/create']" class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">创建</el-button> -->
+      <!--
+      <el-button v-permission="['POST /admin/applicant/create']" class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">担保公司审核</el-button>
+      <el-button v-permission="['POST /admin/applicant/create']" class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">银行审核</el-button> -->
+      <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">导出</el-button>
     </div>
 
     <!-- 查询结果 -->
@@ -40,24 +45,22 @@
           </el-steps>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="操作" width="200" class-name="small-padding fixed-width">
+      <el-table-column align="center" label="操作" width="150" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleView(scope.row)">查看</el-button>
           <el-button type="success" :disabled="scope.row.has_edit" size="mini" @click="handleAudit(scope.row)">审核</el-button>
+          <!--           <el-button v-permission="['POST /admin/applicant/delete']" type="primary" size="mini" @click="handleUpdate(scope.row)">修改</el-button> -->
         </template>
       </el-table-column>
-      <el-table-column align="center" label="申请时间" min-width="180px" prop="addTime" />
-      <el-table-column align="center" label="修改时间" min-width="180px" prop="updateTime" />
     </el-table>
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
-      
     <!-- 添加或修改对话框 -->
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" append-to-body>
       <el-form ref="dataForm" :rules="rules" :model="dataForm" status-icon label-position="right" label-width="120px" style="width: 400px; margin-left:50px;">
         <el-form-item label="是否审核通过" prop="submitStatus">
           <el-select v-model="dataForm.status" style="width:100%" @change="onChangeHrSubmitstatus">
-            <el-option :value="5" label="通过" />
-            <el-option :value="2" label="不通过" />
+            <el-option :value="9" label="通过" />
+            <el-option :value="6" label="不通过" />
           </el-select>
         </el-form-item>
         <el-form-item v-if="dataForm.isApproval" label="电子签名">
@@ -97,25 +100,18 @@
 </style>
 
 <script>
-import { listApplicant, updateApplicant } from '@/api/applicantReview'
-import { MessageBox } from 'element-ui'
+import { listApplicant, updateApplicant } from '@/api/assureReview'
 import { getToken } from '@/utils/auth'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+import { MessageBox } from 'element-ui'
 import { readSignature } from '@/api/signature'
 import { qrCodeUrl, uuid2 } from '@/utils'
 import QRCode from 'qrcodejs2'
 
 const queryStatusMap = {
-  '1': '待审核',
-  '2': '待补充',
-  '3': '不通过',
-  '4': '通过',
-  '5': '担保公司待审核',
-  '6': '担保公司不通过',
-  '7': '担保公司通过',
-  '8': '银行待受理',
-  '9': '银行已受理',
-  '10': '结束'
+  '4': '待补充',
+  '5': '不通过',
+  '6': '通过'
 }
 
 export default {
@@ -206,9 +202,8 @@ export default {
           this.listLoading = false
           for (let index = 0; index < this.list.length; index++) {
             var element = this.list[index]
-
-            if ((element.submitStatus !== 1 && element.submitStatus !== 2) || element.isAvailable) {
-              // element['has_edit'] = false
+            if (element.submitStatus != 4 && element.submitStatus != 5) {
+              // element['has_edit'] = true
             }
             element.statusLable = this.statusMap[element.submitStatus - 1]
             element.status = this.setepStatusArray[element.submitStatus - 1].status
@@ -225,9 +220,6 @@ export default {
       this.listQuery.page = 1
       this.getList()
     },
-    handleCreate() {
-      this.$router.push({ path: '/hr/create' })
-    },
     handleAudit(row) {
       this.resetForm()
       this.dataForm = Object.assign({}, row)
@@ -237,6 +229,46 @@ export default {
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
       })
+    },
+    handleView(row) {
+      this.$router.push({ path: '/assure/reivewDetailView', query: { id: row.id, action: row.submitStatus }})
+    },
+    handleApplicantSelectionChange(value) {
+      this.multipleSelection = value
+    },
+    handleDownload() {
+      if (this.multipleSelection.length > 0) {
+        this.downloadLoading = true
+        import('@/vendor/Export2Excel').then(excel => {
+          const tHeader = [
+            '姓名',
+            '性别',
+            '联系方式',
+            '申请人（法人）类别',
+            '申请额度'
+          ]
+          const filterVal = ['name', 'sex', 'phoneNumber', 'applicantType', 'applicantAmount']
+          excel.export_json_to_excel2(
+            tHeader,
+            this.multipleSelection,
+            filterVal,
+            '申请人'
+          )
+          this.downloadLoading = false
+        })
+      } else {
+        this.$notify.warning({
+          title: '无法下载',
+          message: '请选择数据'
+        })
+      }
+    },
+    resetForm() {
+      this.dataForm = {
+        id: undefined,
+        status: null,
+        qrCodeSignature: null
+      }
     },
     updateData() {
       if (this.dataForm.isApproval && (this.dataForm.qrCodeSignature == null || this.dataForm.qrCodeSignature === '')) {
@@ -267,62 +299,8 @@ export default {
         }
       })
     },
-    resetForm() {
-      this.dataForm = {
-        id: undefined,
-        status: null,
-        qrCodeSignature: null
-      }
-    },
-    handleView(row) {
-      this.$router.push({ path: '/hr/reviewDetailView', query: { id: row.id, action: row.submitStatus }})
-    },
-    handleApplicantSelectionChange(value) {
-      this.multipleSelection = value
-    },
-    handleDownload() {
-      if (this.multipleSelection.length > 0) {
-        this.downloadLoading = true
-        import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = [
-            '姓名',
-            '身份证号',
-            '贷款发放日期',
-            '贷款到期日期',
-            '贷款期限',
-            '贷款金额',
-            '贷款银行',
-            '支行',
-            '利率'
-          ]
-          const filterVal = [
-            'name',
-            'idCardNumber',
-            'bLendingDate',
-            'bLendingDate',
-            'bPeriodLoan',
-            'bCredit',
-            'bName',
-            'bSubBranch',
-            'bInterestRate'
-          ]
-          excel.export_json_to_excel2(
-            tHeader,
-            this.multipleSelection,
-            filterVal,
-            '申请人'
-          )
-          this.downloadLoading = false
-        })
-      } else {
-        this.$notify.warning({
-          title: '无法下载',
-          message: '请选择数据'
-        })
-      }
-    },
     onChangeHrSubmitstatus: function(value) {
-      if (value === 5) {
+      if (value === 9) {
         this.dataForm.isApproval = true
       } else {
         this.dataForm.isApproval = false

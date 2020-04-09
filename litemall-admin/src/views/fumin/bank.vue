@@ -25,7 +25,7 @@
       <el-table-column align="center" label="地址" prop="address" />
       <el-table-column align="center" label="角色绑定" prop="roleId">
         <template slot-scope="scope">
-          <el-tag type="primary" style="margin-right: 20px;"> {{ formatRole(scope.row.roleId) }} </el-tag>
+          <el-tag v-for="item in scope.row.roleId" type="primary" style="margin-right: 20px;">{{ formatRole(item) }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column align="center" label="操作" width="200" class-name="small-padding fixed-width">
@@ -70,7 +70,7 @@
           <el-input v-model="dataForm.roleId" />
         </el-form-item> -->
         <el-form-item label="关联角色" prop="roleId">
-          <el-select v-model="dataForm.roleId" placeholder="请选择">
+          <el-select v-model="dataForm.roleId" multiple placeholder="请选择">
             <el-option
               v-for="item in roleOptions"
               :key="item.value"
@@ -179,7 +179,6 @@ export default {
     roleOptions()
       .then(response => {
         this.roleOptions = response.data.data.list
-        console.log(this.roleOptions)
       })
   },
   methods: {

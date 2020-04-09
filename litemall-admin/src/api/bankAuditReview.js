@@ -2,38 +2,22 @@ import request from '@/utils/request'
 
 export function listApplicant(query) {
   return request({
-    url: '/ba/list',
+    url: '/baReview/list',
     method: 'get',
     params: query
   })
 }
 
-export function createApplicant(data) {
-  return request({
-    url: '/ba/create',
-    method: 'post',
-    data
-  })
-}
-
 export function readApplicant(data) {
   return request({
-    url: '/ba/read?id=' + data.id,
+    url: '/baReview/read?id=' + data.id,
     method: 'get'
   })
 }
 
 export function updateApplicant(data) {
   return request({
-    url: '/ba/update',
-    method: 'post',
-    data
-  })
-}
-
-export function deleteApplicant(data) {
-  return request({
-    url: '/ba/delete',
+    url: '/baReview/update',
     method: 'post',
     data
   })
@@ -41,14 +25,14 @@ export function deleteApplicant(data) {
 
 export function readApplicantBank(data) {
   return request({
-    url: '/ba/readAudit?id=' + data.id,
+    url: '/baReview/readAudit?id=' + data.id,
     method: 'get'
   })
 }
 
 export function createAlicantBank(data) {
   return request({
-    url: '/ba/createAudit',
+    url: '/baReview/createAudit',
     method: 'post',
     data
   })
@@ -56,7 +40,7 @@ export function createAlicantBank(data) {
 
 export function createFinishAudit(data) {
   return request({
-    url: '/ba/createFinishAudit',
+    url: '/baReview/createFinishAudit',
     method: 'post',
     data
   })

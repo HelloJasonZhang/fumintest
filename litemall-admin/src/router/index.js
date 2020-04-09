@@ -228,6 +228,27 @@ export const asyncRouterMap = [
           noCache: true
         },
         hidden: true
+      },
+      {
+        path: 'reivew',
+        component: () => import('@/views/assure/review'),
+        name: 'reivew',
+        meta: {
+          perms: ['GET /admin/assureReview/list', 'GET /admin/assureReview/read', 'POST /admin/assureReview/update'],
+          title: '担保公司复核',
+          noCache: true
+        }
+      },
+      {
+        path: 'reivewDetailView',
+        component: () => import('@/views/assure/reviewDetail'),
+        name: 'reivewDetailView',
+        meta: {
+          perms: ['GET /admin/assureReview/read'],
+          title: '复核查看',
+          noCache: true
+        },
+        hidden: true
       }
     ]
   }, {
@@ -268,6 +289,27 @@ export const asyncRouterMap = [
         name: 'detailView',
         meta: {
           perms: ['GET /admin/ba/list', 'POST /admin/ba/create', 'GET /admin/ba/read', 'POST /admin/ba/update'],
+          title: '查看',
+          noCache: true
+        },
+        hidden: true
+      },
+      {
+        path: 'review',
+        component: () => import('@/views/bank/review'),
+        name: 'review',
+        meta: {
+          perms: ['GET /admin/baReview/list', 'GET /admin/baReview/read', 'POST /admin/baReview/update'],
+          title: '贷款复核',
+          noCache: true
+        }
+      },
+      {
+        path: 'reviewDetailView',
+        component: () => import('@/views/bank/reviewDetail'),
+        name: 'reviewDetailView',
+        meta: {
+          perms: ['GET /admin/baReview/list', 'GET /admin/baReview/read'],
           title: '查看',
           noCache: true
         },

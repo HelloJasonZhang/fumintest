@@ -335,3 +335,6 @@ export function uuid2(len, radix) {
   }
   return uuid.join('')
 }
+
+const qrCodeUrl = process.env.VUE_APP_QRCODE_URL 
+export { qrCodeUrl }
