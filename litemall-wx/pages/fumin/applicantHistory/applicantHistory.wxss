@@ -1,0 +1,138 @@
+page {
+  height: 100%;
+  width: 100%;
+  background: #f4f4f4;
+}
+
+.container {
+  height: 100%;
+  width: 100%;
+}
+
+.header-container {
+  margin: 20rpx 20rpx 20rpx 20rpx;
+}
+
+.history {
+  background-size: auto 10.5rpx;
+  margin-bottom: 90rpx;
+  padding-top: 0rpx;
+  background: #fff;
+}
+
+.history .checkbox {
+  padding-top: 30rpx;
+}
+
+.history .history-item-box {
+  display: flex;
+  flex-direction: row;
+  height: 150rpx;
+  margin: 30rpx 20px;
+  border-bottom: solid rgba(167, 169, 170, 0.3) 1rpx;
+  justify-content: space-between;
+}
+
+.history .history-icon-box {
+  margin-top: 0rpx;
+  width: 150rpx;
+  height: 150rpx;
+}
+
+.history .history-icon-box .img-box {
+  width: 100rpx;
+  height:100rpx;
+  display: block;
+}
+
+.history .history-checkbox-box {
+  margin-top: 30rpx;
+  width: 40rpx;
+  height: 40rpx;
+}
+
+
+.history .history-right-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.history .history-right-box .history-title  {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333333;
+}
+
+
+.history .history-right-box .history-address  {
+  font-size: 26rpx;
+  color: #A7A9AA;
+  margin: 5rpx 0rpx;
+}
+
+.history .history-right-box .history-tel {
+  font-size: 26rpx;
+  color: #A7A9AA
+}
+
+
+
+.history .btns {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  display: flex;
+  height: 100rpx;
+  width: 100%;
+}
+
+
+.history .btns .save {
+  flex: 1;
+  height: 100rpx;
+  text-align: center;
+  line-height: 100rpx;
+  font-size: 38rpx;
+  color: #fff;
+  border: none;
+  border-radius: 0;
+  background: #5677fe;
+}
+
+
+.history .table {
+  border: 0px solid darkgray;
+}
+.history .tr {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  height: 3rem;
+  align-items: center;
+}
+.history .td {
+    width:40%;
+    justify-content: center;
+    text-align: center;
+}
+.history .bg-w{
+  background: snow;
+}
+.history .bg-g{
+  background: #E6F3F9;
+}
+.history .th {
+  width: 40%;
+  justify-content: center;
+  background: #5677fe;
+  color: #fff;
+  display: flex;
+  height: 3rem;
+  align-items: center;
+}
+
+.history .link-color {
+  color:#5677fe
+}

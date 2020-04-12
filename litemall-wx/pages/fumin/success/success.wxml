@@ -1,0 +1,19 @@
+<!--index.wxml-->
+<view>
+  <image style="width: 100vw; height: 100vh; position:relative; z-index:-1" src="{{imagethirdsrc}}"></image>
+</view>
+<view style="width: 85vw; height: 60vh; position:absolute;  left: 60rpx; top:40vh; ">
+  <view class="daikuan">
+    <view style="text-align: center">
+      <view style="">
+        <span style="color: #000; font-size:50rpx;font-weight:bold" >签名成功！</span>
+      </view>
+      <view style="margin-top: 30rpx">
+        <span style="color: #A7A9AA; font-size:30rpx;">请关闭小程序，返回管理端继续操作</span>
+      </view>
+    </view>
+    <!-- <view class="btns" style="top:30vh;">
+      <button class="save" bindtap="goBack">返回</button>
+    </view> -->
+  </view>
+</view>

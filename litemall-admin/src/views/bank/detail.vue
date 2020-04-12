@@ -214,12 +214,17 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="12">
+          <el-col :span="8">
+            <el-form-item label="贴息比例(%)" prop="hsDiscount">
+              <el-input v-model="rensheForm.hsDiscount" type="number" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
             <el-form-item label="身份证地址" prop="hsApplicantAdress">
               <el-input v-model="rensheForm.hsApplicantAdress" />
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="8">
             <el-form-item label="企业名称" prop="hsMark">
               <el-input v-model="rensheForm.hsMark" />
             </el-form-item>
@@ -281,7 +286,8 @@
           <el-col :span="8">
             <el-form-item label="是否审核通过" prop="submitStatus">
               <el-select v-model="rensheForm.status" prop="submitStatus" style="width:100%">
-                <el-option :value="4" label="通过" />
+                <el-option :value="5" label="复核通过" />
+                <el-option :value="4" label="审核通过" />
                 <el-option :value="3" label="不通过" />
                 <el-option :value="2" label="待补充" />
               </el-select>
@@ -357,7 +363,7 @@
         <el-form-item label="其他补充情况" prop="scExtraInfo">
           <el-input v-model="assureForm.scExtraInfo" />
         </el-form-item> -->
-        <el-form-item label="市人社部门意见" prop="scComment">
+        <el-form-item label="担保公司意见" prop="scComment">
           <el-input v-model="assureForm.scComment" type="textarea" :rows="7" />
         </el-form-item>
         <el-form-item v-if="!disableAssureHidden" label="担保意向书" label-width="200px">
@@ -387,9 +393,10 @@
           <el-col :span="8">
             <el-form-item label="是否审核通过" prop="submitStatus">
               <el-select v-model="assureForm.status" prop="submitStatus" style="width:100%">
-                <el-option :value="7" label="通过" />
-                <el-option :value="6" label="不通过" />
-                <el-option :value="5" label="待补充" />
+                <el-option :value="9" label="复核通过" />
+                <el-option :value="8" label="审核通过" />
+                <el-option :value="7" label="不通过" />
+                <el-option :value="6" label="待补充" />
               </el-select>
             </el-form-item>
           </el-col>
@@ -413,9 +420,10 @@
         </el-row>
         <el-form-item v-if="!disableAssureHidden" label="是否审核通过" prop="submitStatus">
           <el-select v-model="assureForm.status" prop="submitStatus" style="width:25%">
-            <el-option :value="7" label="通过" />
-            <el-option :value="6" label="不通过" />
-            <el-option :value="5" label="待补充" />
+            <el-option :value="9" label="复核通过" />
+            <el-option :value="8" label="审核通过" />
+            <el-option :value="7" label="不通过" />
+            <el-option :value="6" label="待补充" />
           </el-select>
         </el-form-item>
         <el-input v-model="assureForm.scOperator" type="hidden" />
@@ -500,8 +508,10 @@
         <el-col :span="8">
           <el-form-item label="是否审核通过" prop="submitStatus">
             <el-select v-model="bankForm.status" prop="submitStatus" style="width:100%">
-              <el-option :value="9" label="通过" />
-              <el-option :value="8" label="不通过" />
+              <el-option :value="13" label="复核通过" />
+              <el-option :value="12" label="复核通过" />
+              <el-option :value="11" label="审核通过" />
+              <el-option :value="10" label="不通过" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -703,25 +713,26 @@ export default {
           this.isAssureHidden = false
           this.isBankHidden = false
           this.rensheForm = response.data.data
-        } else if (parseInt(goAction) === 2 || parseInt(goAction) === 3 || parseInt(goAction) === 4) {
+        } else if (parseInt(goAction) === 2 || parseInt(goAction) === 3 || parseInt(goAction) === 4 || parseInt(goAction) === 5) {
           this.isRenSheHidden = true
           this.disableRenSheHidden = true
           this.isAssureHidden = false
           this.isBankHidden = false
           this.rensheForm = response.data.data
-          this.rensheForm.status = 4
+          this.rensheForm.status = 5
           this.extend(this.rensheForm, response.data.data)
-        } else if (parseInt(goAction) === 4 || parseInt(goAction) === 5 || parseInt(goAction) === 6) {
+        } else if (parseInt(goAction) === 6 || parseInt(goAction) === 7 || parseInt(goAction) === 8 || parseInt(goAction) === 9) {
           this.isRenSheHidden = true
           this.disableRenSheHidden = true
           this.isAssureHidden = true
           this.disableAssureHidden = true
           this.isBankHidden = false
           this.extend(this.rensheForm, response.data.data)
-          this.rensheForm.status = 4
+          this.rensheForm.status = 5
           this.extend(this.assureForm, response.data.data)
           this.assureForm.status = parseInt(goAction)
-        } else if (parseInt(goAction) === 7 || parseInt(goAction) === 8 || parseInt(goAction) === 9 || parseInt(goAction) === 10) {
+          this.getAuditList(goodsId)
+        } else if (parseInt(goAction) === 10 || parseInt(goAction) === 11 || parseInt(goAction) === 12 || parseInt(goAction) === 13) {
           this.isRenSheHidden = true
           this.disableRenSheHidden = true
           this.isAssureHidden = true
@@ -729,9 +740,9 @@ export default {
           this.isBankHidden = false
           this.disableBankHidden = true
           this.extend(this.rensheForm, response.data.data)
-          this.rensheForm.status = 4
+          this.rensheForm.status = 5
           this.extend(this.assureForm, response.data.data)
-          this.assureForm.status = 7
+          this.assureForm.status = 9
           this.extend(this.bankForm, response.data.data)
           this.getAuditList(goodsId)
         }

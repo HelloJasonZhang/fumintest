@@ -75,17 +75,21 @@ public class WxApplicantController extends GetRegionService {
 
         //查询当前该用户所有的数据，确实没有走流程的数据，可以创建新数据。
         // 人社拒绝 submiteStatus = 3
-        // 担保拒绝 submiteStatus = 6
-        // 银行拒绝 submiteStatus = 9
+        // 担保拒绝 submiteStatus = 7
+        // 银行拒绝 submiteStatus = 10
         ArrayList<Integer> statusList = new ArrayList<Integer>();
         statusList.add(0);
         statusList.add(1);
         statusList.add(2);
         statusList.add(4);
         statusList.add(5);
-        statusList.add(7);
+        statusList.add(6);
         statusList.add(8);
+        statusList.add(9);
         statusList.add(10);
+        statusList.add(11);
+        statusList.add(12);
+        statusList.add(13);
         List<LitemallApplicant> applicantList = applicantService.queryByUidAndSubmitStatus(userId,statusList);
 
         //拦截状态非法的数据
@@ -116,15 +120,28 @@ public class WxApplicantController extends GetRegionService {
         }
 
         List<Integer> submitStatusList = new ArrayList<>();
-        submitStatusList.add(10);
+        submitStatusList.add(13);
         LitemallApplicant applicant = null;
-        //submiteStatus不等于10的申请数据, 流程结束重新开始流程
+        //submiteStatus不等于13的申请数据, 流程结束重新开始流程
         List<LitemallApplicant> applicantList = applicantService.queryByUidAndSubmitStatus(userId,submitStatusList);
         if (applicantList.size() > 0) {
             applicant = applicantList.get(0);
             return ResponseUtil.ok(applicant);
         }
         return ResponseUtil.fail();
+    }
+
+    @GetMapping("history")
+    public Object history(@LoginUser Integer userId) {
+        if (userId == null) {
+            return ResponseUtil.unlogin();
+        }
+        List<Integer> submitStatusList = new ArrayList<>();
+        submitStatusList.add(13);
+        // 展示流程结束的数据
+        List<LitemallApplicant> appList = applicantService.queryByUidAndFinishApplicant(userId,submitStatusList);
+        appList.addAll(applicantService.queryByUidAndNotAvailable(userId));
+        return ResponseUtil.ok(appList);
     }
 
     @GetMapping("readById")
@@ -145,9 +162,9 @@ public class WxApplicantController extends GetRegionService {
             return ResponseUtil.unlogin();
         }
         List<Integer> submitStatusList = new ArrayList<>();
-        submitStatusList.add(10);
+        submitStatusList.add(13);
         LitemallApplicant applicant = null;
-        //获取submiteStatus不等于10的申请数据, 否则表示流程结束, 重新开始流程
+        //获取submiteStatus不等于13的申请数据, 否则表示流程结束, 重新开始流程
         List<LitemallApplicant> applicantList = applicantService.queryByUidAndSubmitStatus(userId, submitStatusList);
         if (applicantList.size() > 0) {
             applicant = applicantList.get(0);
@@ -211,7 +228,7 @@ public class WxApplicantController extends GetRegionService {
             return ResponseUtil.unlogin();
         }
         LitemallApplicant objApplicant = applicantService.findById(applicant.getId());
-        if (objApplicant.getSubmitStatus() == 3 || objApplicant.getSubmitStatus() == 6 || objApplicant.getSubmitStatus() == 8) {
+        if (objApplicant.getSubmitStatus() == 3 || objApplicant.getSubmitStatus() == 7 || objApplicant.getSubmitStatus() == 10) {
             objApplicant.setSubmitStatus(objApplicant.getSubmitStatus() - 1);
         }
         if (applicantService.updateById(objApplicant) == 0) {
@@ -226,7 +243,7 @@ public class WxApplicantController extends GetRegionService {
             return ResponseUtil.unlogin();
         }
         LitemallApplicant objApplicant = applicantService.findById(applicant.getId());
-        if (objApplicant.getSubmitStatus() == 7 ) {
+        if (objApplicant.getSubmitStatus() == 9 ) {
             //担保公司有已经审核，银行未受理
             objApplicant.setSubmitStatus(1);
         }

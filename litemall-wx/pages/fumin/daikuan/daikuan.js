@@ -105,17 +105,17 @@ Page({
         let auditAll = that.data.items
         if (status == 1) {
           auditAll[0] = util.fillAudit(auditAll[0], status)
-        } else if (status == 2 || status == 3 || status == 4) {
+        } else if (status == 2 || status == 3 || status == 4 || status == 5) {
           auditAll[0] = util.fillAudit(auditAll[0], 1)
           auditAll[1] = util.fillAudit(auditAll[1], status, res.data.hsComment)
-        } else if (status == 5 || status == 6 || status == 7) {
+        } else if (status == 6 || status == 7 || status == 8 || status == 9) {
           auditAll[0] = util.fillAudit(auditAll[0], 1)
-          auditAll[1] = util.fillAudit(auditAll[1], 4, res.data.hsComment)
+          auditAll[1] = util.fillAudit(auditAll[1], 5, res.data.hsComment)
           auditAll[2] = util.fillAudit(auditAll[2], status, res.data.scComment)
-        } else if (status == 8 || status == 9 || status == 10) {
+        } else if (status == 10 || status == 11 || status == 12 || status == 13) {
           auditAll[0] = util.fillAudit(auditAll[0], 1)
-          auditAll[1] = util.fillAudit(auditAll[1], 4, res.data.hsComment)
-          auditAll[2] = util.fillAudit(auditAll[2], 7, res.data.scComment)
+          auditAll[1] = util.fillAudit(auditAll[1], 5, res.data.hsComment)
+          auditAll[2] = util.fillAudit(auditAll[2], 9, res.data.scComment)
           auditAll[3] = util.fillAudit(auditAll[3], status, res.data.bComment)
         }
         that.setData({
@@ -149,7 +149,6 @@ Page({
               id: that.data.applicantId,
               isAvailable:true
             }
-            console.log(applicant)
             util.request(api.ApplicantUpdate,
               applicant, 'POST').then(function(res) {
                 if (res.errno === 0) {
@@ -177,7 +176,7 @@ Page({
 
     if (id == 4 && sValue == 0) {
       var flag = false
-      if (this.data.orignalStatus >= 7) {
+      if (this.data.orignalStatus >= 9) {
         flag = true
       }
       wx.navigateTo({
@@ -200,7 +199,7 @@ Page({
       wx.navigateTo({
         url: '/pages/fumin/applicantDetail/applicantDetail'
       })
-    } else if (sValue == 2 || sValue == 5) { //等待
+    } else if (sValue == 2 || sValue == 6) { //等待
       if (sValue == 2) {
         title = "社核查信息"
       } else {
@@ -209,14 +208,14 @@ Page({
       wx.navigateTo({
         url: '/pages/fumin/applicant/applicant?id=' + this.data.applicantId + '&type=' + this.data.selecValue + '&typeLable=' + this.data.typeLable
       })
-    } else if (sValue == 3 || sValue == 6 || sValue == 8) { //拒绝
+    } else if (sValue == 3 || sValue == 7 || sValue == 10) { //拒绝
       let errorMessage = e.currentTarget.dataset.item.comment;
       console.log(e.currentTarget.dataset)
       if (sValue == 3) {
         title = "人社核查信息"
-      } else if (sValue == 6) {
+      } else if (sValue == 7) {
         title = "担保公司核查信息"
-      } else if (sValue == 8) {
+      } else if (sValue == 10) {
         title = "银行受理信息"
         wx.navigateTo({
           url: '/pages/fumin/reject/reject?id=' + this.data.applicantId + "&errorMessage=" + errorMessage + '&bankIds=' + this.data.selectBankIds
@@ -225,19 +224,19 @@ Page({
       wx.navigateTo({
         url: '/pages/fumin/reject/reject?id=' + this.data.applicantId + "&errorMessage=" + errorMessage
       })
-    } else if (sValue == 4 || sValue == 7 || sValue == 9 || sValue == 10) { //通过
+    } else if (sValue == 4 || sValue == 5 || sValue == 8 || sValue == 9 || sValue == 11 || sValue == 12 || sValue == 13) { //通过
       //人社通过，担保通过，银行通过
-      if (sValue == 4) {
+      if (sValue == 4 || sValue == 5) {
         title = "人社核查信息"
         wx.navigateTo({
           url: '/pages/fumin/tongguo/tongguo?hsTopAmount=' + this.data.hsTopAmount
         })
-      } else if (sValue == 7) {
+      } else if (sValue == 8 || sValue == 9) {
         title = "担保公司核查信息"
         wx.navigateTo({
           url: '/pages/fumin/shenhe/shenhe?title=' + title
         })
-      } else if (sValue == 9 || sValue == 10) {
+      } else if (sValue == 11 || sValue == 12 || sValue == 13) {
         title = "银行受理信息"
         wx.navigateTo({
           url: '/pages/fumin/bankApprove/bankApprove?id=' + this.data.applicantId + '&bankIds=' + this.data.selectBankIds

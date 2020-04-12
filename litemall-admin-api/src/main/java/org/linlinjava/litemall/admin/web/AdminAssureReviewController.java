@@ -28,9 +28,9 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/admin/assure")
+@RequestMapping("/admin/assureReview")
 @Validated
-public class AdminAssureController {
+public class AdminAssureReviewController {
     private final Log logger = LogFactory.getLog(AdminApplicantController.class);
 
     @Autowired
@@ -42,8 +42,8 @@ public class AdminAssureController {
     @Autowired
     private LitemallAuditService auditService;
 
-    @RequiresPermissions("admin:assure:list")
-    @RequiresPermissionsDesc(menu = {"担保公司管理", "担保公司审核"}, button = "查询")
+    @RequiresPermissions("admin:assureReview:list")
+    @RequiresPermissionsDesc(menu = {"担保公司管理", "担保公司复核"}, button = "查询")
     @GetMapping("/list")
     public Object list(String id, String name,
                        @RequestParam(defaultValue = "1") Integer page,
@@ -79,36 +79,25 @@ public class AdminAssureController {
         return null;
     }
 
-    @RequiresPermissions("admin:assure:create")
-    @RequiresPermissionsDesc(menu = {"担保公司管理", "担保公司审核"}, button = "添加")
-    @PostMapping("/create")
-    public Object create(@RequestBody LitemallApplicant Applicant) {
-        Object error = validate(Applicant);
-        if (error != null) {
-            return error;
-        }
-        applicantService.add(Applicant);
-        return ResponseUtil.ok(Applicant);
-    }
 
-    @RequiresPermissions("admin:assure:read")
-    @RequiresPermissionsDesc(menu = {"担保公司管理", "担保公司审核"}, button = "详情")
+    @RequiresPermissions("admin:assureReview:read")
+    @RequiresPermissionsDesc(menu = {"担保公司管理", "担保公司复核"}, button = "详情")
     @GetMapping("/read")
     public Object read(@NotNull Integer id) {
         LitemallApplicant Applicant = applicantService.findById(id);
         return ResponseUtil.ok(Applicant);
     }
 
-    @RequiresPermissions("admin:assure:listBank")
-    @RequiresPermissionsDesc(menu = {"担保公司管理", "担保公司审核"}, button = "查询银行")
+    @RequiresPermissions("admin:assureReview:listBank")
+    @RequiresPermissionsDesc(menu = {"担保公司管理", "担保公司复核"}, button = "查询银行")
     @GetMapping("/listBank")
     public Object listBank() {
         List<LitemallBank> bankList =bankService.all();
         return ResponseUtil.ok(bankList);
     }
 
-    @RequiresPermissions("admin:assure:update")
-    @RequiresPermissionsDesc(menu = {"担保公司管理", "担保公司审核"}, button = "编辑")
+    @RequiresPermissions("admin:assureReview:update")
+    @RequiresPermissionsDesc(menu = {"担保公司管理", "担保公司复核"}, button = "编辑")
     @PostMapping("/update")
     public Object update(@RequestBody LitemallApplicant applicant) {
         Object error = validate(applicant);
@@ -129,7 +118,7 @@ public class AdminAssureController {
     }
 
     @RequiresPermissions("admin:assure:updateByBank")
-    @RequiresPermissionsDesc(menu = {"担保公司管理", "担保公司审核"}, button = "提交")
+    @RequiresPermissionsDesc(menu = {"担保公司管理", "担保公司复核"}, button = "提交")
     @PostMapping("/updateByBank")
     public Object updateByBank(@RequestBody LitemallApplicant applicant) {
         Object error = validate(applicant);
@@ -160,21 +149,10 @@ public class AdminAssureController {
         String username = currentAdmin.getUsername();
         auditService.add(applicant,userId, username, applicant.getScComment());
         applicant.setQrCodeSignature(null);
+        applicant.setScComment(null);
         if (applicantService.updateById(applicant) == 0) {
             return ResponseUtil.updatedDataFailed();
         }
         return ResponseUtil.ok(applicant);
-    }
-
-    @RequiresPermissions("admin:assure:delete")
-    @RequiresPermissionsDesc(menu = {"担保公司管理", "担保公司审核"}, button = "删除")
-    @PostMapping("/delete")
-    public Object delete(@RequestBody LitemallApplicant Applicant) {
-        Integer id = Applicant.getId();
-        if (id == null) {
-            return ResponseUtil.badArgument();
-        }
-        applicantService.deleteById(id);
-        return ResponseUtil.ok();
     }
 }

@@ -118,7 +118,7 @@ public class LitemallBank {
      *
      * @mbg.generated
      */
-    private Integer roleId;
+    private Integer[] roleId;
 
     /**
      *
@@ -377,7 +377,7 @@ public class LitemallBank {
      *
      * @mbg.generated
      */
-    public Integer getRoleId() {
+    public Integer[] getRoleId() {
         return roleId;
     }
 
@@ -389,7 +389,7 @@ public class LitemallBank {
      *
      * @mbg.generated
      */
-    public void setRoleId(Integer roleId) {
+    public void setRoleId(Integer[] roleId) {
         this.roleId = roleId;
     }
 
@@ -485,7 +485,7 @@ public class LitemallBank {
             && (this.getInterest() == null ? other.getInterest() == null : this.getInterest().equals(other.getInterest()))
             && (this.getAddTime() == null ? other.getAddTime() == null : this.getAddTime().equals(other.getAddTime()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
-            && (this.getRoleId() == null ? other.getRoleId() == null : this.getRoleId().equals(other.getRoleId()))
+            && (Arrays.equals(this.getRoleId(), other.getRoleId()))
             && (this.getDeleted() == null ? other.getDeleted() == null : this.getDeleted().equals(other.getDeleted()));
     }
 
@@ -509,7 +509,7 @@ public class LitemallBank {
         result = prime * result + ((getInterest() == null) ? 0 : getInterest().hashCode());
         result = prime * result + ((getAddTime() == null) ? 0 : getAddTime().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
-        result = prime * result + ((getRoleId() == null) ? 0 : getRoleId().hashCode());
+        result = prime * result + (Arrays.hashCode(getRoleId()));
         result = prime * result + ((getDeleted() == null) ? 0 : getDeleted().hashCode());
         return result;
     }
@@ -599,7 +599,7 @@ public class LitemallBank {
         interest("interest", "interest", "VARCHAR", false),
         addTime("add_time", "addTime", "TIMESTAMP", false),
         updateTime("update_time", "updateTime", "TIMESTAMP", false),
-        roleId("role_id", "roleId", "INTEGER", false),
+        roleId("role_id", "roleId", "VARCHAR", false),
         deleted("deleted", "deleted", "BIT", false);
 
         /**

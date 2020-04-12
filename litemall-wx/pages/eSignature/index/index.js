@@ -60,10 +60,11 @@ Page({
                 'signatureUrl': _res.data.url
               }, 'POST').then(function(res) {
                 if (res.errno === 0) {
-                  util.showErrorToast('上传成功')
-                  // wx.navigateTo({
-                  //   url: '/pages/index/index'
-                  // })
+                  //util.showErrorToast('上传成功')
+                  wx.navigateTo({
+                    url: '/pages/fumin/success/success'
+                  })
+                  
                 } else {
                   util.showErrorToast('无法保存数据');
                 }

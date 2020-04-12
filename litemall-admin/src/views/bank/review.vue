@@ -30,12 +30,17 @@
       <el-table-column align="center" label="联系方式" prop="phoneNumber" />
       <el-table-column align="center" label="类别" prop="applicantTypeLable" />
       <el-table-column align="center" label="申请额度" prop="applicantAmount" />
+      <el-table-column align="center" label="贴息比例(%)" prop="hsDiscount">
+        <template slot-scope="scope">
+          <el-tag size="mini">{{ scope.row.hsDiscount }}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column align="center" label="状态" prop="isAvailable">
         <template slot-scope="scope">
           <el-tag size="mini">{{ scope.row.isAvailable ? "作废" : "有效" }}</el-tag>
         </template>
       </el-table-column>
-      <!-- <el-table-column align="center" label="审核状态" prop="submitStatus" /> -->
+      <!-- <el-table-column align="center" label="当前状态" prop="statusLable" /> -->
       <el-table-column
         align="center"
         label="审核状态"
@@ -54,8 +59,7 @@
       <el-table-column align="left" label="操作" width="150" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button v-permission="['GET /admin/baReview/read']" type="primary" size="mini" @click="handleAuditView(scope.row)">查看</el-button>
-          <el-button v-permission="['POST /admin/baReview/update']" type="primary" size="mini" @click="handleAudit(scope.row)">复核</el-button>
-          <!--           <el-button v-permission="['POST /admin/applicant/delete']" type="primary" size="mini" @click="handleUpdate(scope.row)">修改</el-button> -->
+          <el-button v-permission="['POST /admin/baReview/update']" type="primary" :disabled="scope.row.has_edit" size="mini" @click="handleAudit(scope.row)">复核</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -162,16 +166,18 @@
 import { readApplicantBank, listApplicant, updateApplicant } from '@/api/bankAuditReview'
 import { uploadPath } from '@/api/storage'
 import { getToken } from '@/utils/auth'
+import { MessageBox } from 'element-ui'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import { qrCodeUrl, uuid2 } from '@/utils'
 import QRCode from 'qrcodejs2'
 import { readSignature } from '@/api/signature'
 
 const queryStatusMap = {
-  '7': '待审核',
-  '8': '不通过',
-  '9': '通过',
-  '10': '放贷'
+  '9': '待审核',
+  '10': '不通过',
+  '11': '通过',
+  '12': '复核',
+  '13': '放贷'
 }
 
 export default {
@@ -202,24 +208,30 @@ export default {
         '人社审核待补充',
         '人社审核不通过',
         '人社审核通过',
+        '人社审核复核',
         '担保公司审核待补充',
         '担保公司审核不通过',
         '担保公司审核通过',
+        '担保公司审核复核',
         '银行审核不通过',
         '银行审核受理',
+        '银行审核复核',
         '银行审核通过'
       ],
       setepStatusArray: [
-        { step: 0, status: 'success' },
-        { step: 1, status: 'wait' },
-        { step: 1, status: 'error' },
-        { step: 1, status: 'success' },
-        { step: 2, status: 'wait' },
-        { step: 2, status: 'error' },
-        { step: 2, status: 'success' },
-        { step: 3, status: 'error' },
-        { step: 3, status: 'process' },
-        { step: 3, status: 'finish' }
+        { step: 0, status: 'success' }, // 申请人 1
+        { step: 1, status: 'wait' }, // 人社待补充 2
+        { step: 1, status: 'error' }, // 人社不通过 3
+        { step: 1, status: 'process' }, // 人社复核 4
+        { step: 1, status: 'success' }, // 人社通过 5
+        { step: 2, status: 'wait' }, // 担保公司待补充 6
+        { step: 2, status: 'error' }, // 担保公司不通过 7
+        { step: 2, status: 'process' }, // 担保公司复核 8
+        { step: 2, status: 'success' }, // 担保公司通过 9
+        { step: 3, status: 'error' }, // 银行待不通过 10
+        { step: 3, status: 'process' }, // 银行通过 11
+        { step: 3, status: 'success' }, // 银行复核 12
+        { step: 3, status: 'finish' } // 银行复核 结束 13
       ],
       queryStatusMap: queryStatusMap,
       downloadLoading: false,
@@ -268,13 +280,12 @@ export default {
           this.list = response.data.data.list
           this.total = response.data.data.total
           this.listLoading = false
+          console.log(this.list)
           for (let index = 0; index < this.list.length; index++) {
             var element = this.list[index]
-            if (element.submitStatus !== 7) {
-              element['has_edit'] = true
-            }
-            if (element.submitStatus !== 9) {
-              element['has_finish'] = true
+            element['has_edit'] = true
+            if (element.submitStatus === 11) {
+              element['has_edit'] = false
             }
             element.statusLable = this.statusMap[element.submitStatus - 1]
             element.status = this.setepStatusArray[element.submitStatus - 1].status
@@ -293,9 +304,9 @@ export default {
     },
     updateData() {
       if (this.dataForm.isApprove && (this.dataForm.qrCodeSignature == null || this.dataForm.qrCodeSignature === '')) {
-        this.$notify.warning({
-          title: '提示',
-          message: '请上传电子签名'
+        MessageBox.alert('请上传电子签名', '提示', {
+          confirmButtonText: '确定',
+          type: 'warning'
         })
         return
       }

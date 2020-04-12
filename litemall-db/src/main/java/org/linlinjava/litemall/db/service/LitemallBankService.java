@@ -11,6 +11,7 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -31,8 +32,24 @@ public class LitemallBankService {
 
     public List<LitemallBank> queryByIdsAndRoleIds(List<Integer> ids, List<Integer> roleIds) {
         LitemallBankExample example = new LitemallBankExample();
-        example.or().andIdIn(ids).andDeletedEqualTo(false).andRoleIdIn(roleIds);
-        return bankMapper.selectByExampleSelective(example, columns);
+        example.or().andIdIn(ids).andDeletedEqualTo(false);
+        List<LitemallBank> lbList = bankMapper.selectByExampleSelective(example, columns);
+        List<LitemallBank> tempList = new ArrayList<LitemallBank>();
+        for (LitemallBank bank: lbList) {
+            List<Integer> tableRoleIds = Arrays.asList(bank.getRoleId());
+            Boolean flag = false;
+            for (Integer roleId : roleIds) {
+                for (Integer tableRoleId : tableRoleIds) {
+                    if (roleId.intValue() == tableRoleId.intValue()) {
+                        flag = true;
+                    }
+                }
+            }
+            if (flag) {
+                tempList.add(bank);
+            }
+        }
+        return tempList;
     }
 
     public List<LitemallBank> queryByIds(List<Integer> ids) {
@@ -42,14 +59,27 @@ public class LitemallBankService {
     }
 
     public List<LitemallBank> queryByRids(Integer[] roleIds) {
-        List<Integer> roleIdsList = new ArrayList<Integer>();
-        for (int i =0 ; i < roleIds.length; i++){
-            roleIdsList.add(new Integer(roleIds[i]));
-        }
         LitemallBankExample example = new LitemallBankExample();
-        example.or().andDeletedEqualTo(false).andRoleIdIn(roleIdsList);
-        return bankMapper.selectByExampleSelective(example, columns);
+        example.or().andDeletedEqualTo(false);
+        List<LitemallBank> lbList = bankMapper.selectByExampleSelective(example, columns);
+        List<LitemallBank> tempList = new ArrayList<LitemallBank>();
+        for (LitemallBank bank: lbList) {
+            List<Integer> tableRoleIds = Arrays.asList(bank.getRoleId());
+            Boolean flag = false;
+            for (Integer roleId : roleIds) {
+                for (Integer tableRoleId : tableRoleIds) {
+                    if (roleId.intValue() == tableRoleId.intValue()) {
+                        flag = true;
+                    }
+                }
+            }
+            if (flag) {
+                tempList.add(bank);
+            }
+        }
+        return tempList;
     }
+
 
     public List<LitemallBank> query(Integer page, Integer limit) {
         return query(page, limit, null, null);

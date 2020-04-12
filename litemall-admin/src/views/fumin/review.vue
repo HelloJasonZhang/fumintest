@@ -20,7 +20,12 @@
       <el-table-column align="center" label="身份证号" prop="idCardNumber" />
       <el-table-column align="center" label="联系方式" prop="phoneNumber" />
       <el-table-column align="center" label="类别" prop="applicantTypeLable" />
-      <el-table-column align="center" label="申请额度" prop="applicantAmount" />
+      <el-table-column align="center" label="申请额度(万元)" prop="applicantAmount" />
+      <el-table-column align="center" label="贴息比例(%)" prop="hsDiscount">
+        <template slot-scope="scope">
+          <el-tag size="mini">{{ scope.row.hsDiscount }}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column align="center" label="状态" prop="isAvailable">
         <template slot-scope="scope">
           <el-tag size="mini">{{ scope.row.isAvailable ? "作废" : "有效" }}</el-tag>
@@ -42,23 +47,26 @@
       </el-table-column>
       <el-table-column align="center" label="操作" width="200" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="handleView(scope.row)">查看</el-button>
-          <el-button type="success" :disabled="scope.row.has_edit" size="mini" @click="handleAudit(scope.row)">审核</el-button>
+          <el-button type="primary" size="mini" @click="handleView(scope.row)">查看111</el-button>
+          <el-button type="success" :disabled="scope.row.has_edit" size="mini" @click="handleAudit(scope.row)">复核</el-button>
         </template>
       </el-table-column>
       <el-table-column align="center" label="申请时间" min-width="180px" prop="addTime" />
       <el-table-column align="center" label="修改时间" min-width="180px" prop="updateTime" />
     </el-table>
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
-      
+
     <!-- 添加或修改对话框 -->
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" append-to-body>
       <el-form ref="dataForm" :rules="rules" :model="dataForm" status-icon label-position="right" label-width="120px" style="width: 400px; margin-left:50px;">
-        <el-form-item label="是否审核通过" prop="submitStatus">
+        <el-form-item label="是否复核通过" prop="status">
           <el-select v-model="dataForm.status" style="width:100%" @change="onChangeHrSubmitstatus">
             <el-option :value="5" label="通过" />
             <el-option :value="2" label="不通过" />
           </el-select>
+        </el-form-item>
+        <el-form-item label="复核意见" prop="hsComment">
+          <el-input v-model="dataForm.hsComment" type="textarea" :rows="7" />
         </el-form-item>
         <el-form-item v-if="dataForm.isApproval" label="电子签名">
           <el-button type="success" style="position: absolute" @click="showQrCode()">生成二维码</el-button>
@@ -110,12 +118,15 @@ const queryStatusMap = {
   '2': '待补充',
   '3': '不通过',
   '4': '通过',
-  '5': '担保公司待审核',
-  '6': '担保公司不通过',
-  '7': '担保公司通过',
-  '8': '银行待受理',
-  '9': '银行已受理',
-  '10': '结束'
+  '5': '复核',
+  '6': '担保公司待审核',
+  '7': '担保公司不通过',
+  '8': '担保公司通过',
+  '9': '担保公司复核',
+  '10': '银行待受理',
+  '11': '银行已受理',
+  '12': '银行复核',
+  '13': '结束'
 }
 
 export default {
@@ -153,24 +164,30 @@ export default {
         '人社审核待补充',
         '人社审核不通过',
         '人社审核通过',
+        '人社审核复核',
         '担保公司审核待补充',
         '担保公司审核不通过',
         '担保公司审核通过',
+        '担保公司审核复核',
         '银行审核不通过',
         '银行审核受理',
+        '银行审核复核',
         '银行审核通过'
       ],
       setepStatusArray: [
-        { step: 0, status: 'success' },
-        { step: 1, status: 'wait' },
-        { step: 1, status: 'error' },
-        { step: 1, status: 'success' },
-        { step: 2, status: 'wait' },
-        { step: 2, status: 'error' },
-        { step: 2, status: 'success' },
-        { step: 3, status: 'error' },
-        { step: 3, status: 'process' },
-        { step: 3, status: 'finish' }
+        { step: 0, status: 'success' }, // 申请人 1
+        { step: 1, status: 'wait' }, // 人社待补充 2
+        { step: 1, status: 'error' }, // 人社不通过 3
+        { step: 1, status: 'process' }, // 人社复核 4
+        { step: 1, status: 'success' }, // 人社通过 5
+        { step: 2, status: 'wait' }, // 担保公司待补充 6
+        { step: 2, status: 'error' }, // 担保公司不通过 7
+        { step: 2, status: 'process' }, // 担保公司复核 8
+        { step: 2, status: 'success' }, // 担保公司通过 9
+        { step: 3, status: 'error' }, // 银行待不通过 10
+        { step: 3, status: 'process' }, // 银行通过 11
+        { step: 3, status: 'success' }, // 银行复核 12
+        { step: 3, status: 'finish' } // 银行复核 结束 13
       ],
       queryStatusMap: queryStatusMap,
       downloadLoading: false,
@@ -206,9 +223,9 @@ export default {
           this.listLoading = false
           for (let index = 0; index < this.list.length; index++) {
             var element = this.list[index]
-
-            if ((element.submitStatus !== 1 && element.submitStatus !== 2) || element.isAvailable) {
-              // element['has_edit'] = false
+            element['has_edit'] = true
+            if ((element.submitStatus === 4) || element.isAvailable) {
+              element['has_edit'] = false
             }
             element.statusLable = this.statusMap[element.submitStatus - 1]
             element.status = this.setepStatusArray[element.submitStatus - 1].status
@@ -232,6 +249,7 @@ export default {
       this.resetForm()
       this.dataForm = Object.assign({}, row)
       this.dataForm.status = null
+      this.dataForm.hsComment = null
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
       this.$nextTick(() => {

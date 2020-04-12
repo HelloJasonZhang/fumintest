@@ -84,8 +84,8 @@ function showErrorToast(msg) {
 
 function fillAudit(auditItem, stataus, comment) {
   var temp = auditItem
-  if (stataus == 1 || stataus == 4 || stataus == 7 || stataus == 9 || stataus == 10) {
-    if (stataus == 9 || stataus == 10) {
+  if (stataus == 1 || stataus == 4 || stataus == 8 || stataus == 11 || stataus == 13) {
+    if (stataus == 11 || stataus == 13) {
       temp.submitStatus = "已受理"
     } else {
       temp.submitStatus = stataus == 1 ? "已提交" : "已审批"
@@ -95,22 +95,29 @@ function fillAudit(auditItem, stataus, comment) {
     temp.fontColor = "green"
     temp.statusColor = "#07c160"
     temp.colorIcon = "#07c160"
-  } else if (stataus == 3 || stataus == 6 || stataus == 8) {
+  } else if (stataus == 3 || stataus == 7 || stataus == 10) {
     temp.submitStatus = "不符合"
     temp.isHiddenIcon = true
     temp.statusIcon = "close"
     temp.fontColor = "red"
     temp.statusColor = "#FE0904"
     temp.colorIcon = "#fe0904"
-  } else if (stataus == 2 || stataus == 5) {
+  } else if (stataus == 2 || stataus == 6) {
     temp.submitStatus = "待补充"
     temp.isHiddenIcon = true
     temp.statusIcon = "warning - o"
     temp.fontColor = "yellow"
     temp.statusColor = "#FE0904"
     temp.colorIcon = "#FF7754"
+  } else if (stataus == 5 || stataus == 9 || stataus == 12) {
+    temp.submitStatus = "已复核"
+    temp.isHiddenIcon = true
+    temp.statusIcon = "sign - o"
+    temp.fontColor = "green"
+    temp.statusColor = "#07c160"
+    temp.colorIcon = "#07c160"
   }
-  if (comment && (stataus != 9 && stataus != 10)) {
+  if (comment && (stataus != 12 && stataus != 13)) {
     temp.comment = comment
   }
   temp.sValue = stataus

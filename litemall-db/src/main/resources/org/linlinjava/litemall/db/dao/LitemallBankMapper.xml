@@ -16,7 +16,7 @@
     <result column="interest" jdbcType="VARCHAR" property="interest" />
     <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" typeHandler="org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler" />
     <result column="deleted" jdbcType="BIT" property="deleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -43,6 +43,25 @@
                   and ${criterion.condition}
                   <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+            <foreach collection="criteria.roleIdCriteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value,typeHandler=org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value,typeHandler=org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler} and #{criterion.secondValue,typeHandler=org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem,typeHandler=org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler}
                   </foreach>
                 </when>
               </choose>
@@ -76,6 +95,25 @@
                   and ${criterion.condition}
                   <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+            <foreach collection="criteria.roleIdCriteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value,typeHandler=org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value,typeHandler=org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler} and #{criterion.secondValue,typeHandler=org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem,typeHandler=org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler}
                   </foreach>
                 </when>
               </choose>
@@ -215,11 +253,13 @@
     insert into litemall_bank (icon, `name`, contact, 
       address, sub_branch, loan, 
       interest, add_time, update_time, 
-      role_id, deleted)
+      role_id, 
+      deleted)
     values (#{icon,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{contact,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{subBranch,jdbcType=VARCHAR}, #{loan,jdbcType=INTEGER}, 
       #{interest,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{roleId,jdbcType=INTEGER}, #{deleted,jdbcType=BIT})
+      #{roleId,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler}, 
+      #{deleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="org.linlinjava.litemall.db.domain.LitemallBank">
     <!--
@@ -294,7 +334,7 @@
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="roleId != null">
-        #{roleId,jdbcType=INTEGER},
+        #{roleId,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler},
       </if>
       <if test="deleted != null">
         #{deleted,jdbcType=BIT},
@@ -349,7 +389,7 @@
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.roleId != null">
-        role_id = #{record.roleId,jdbcType=INTEGER},
+        role_id = #{record.roleId,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler},
       </if>
       <if test="record.deleted != null">
         deleted = #{record.deleted,jdbcType=BIT},
@@ -375,7 +415,7 @@
       interest = #{record.interest,jdbcType=VARCHAR},
       add_time = #{record.addTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      role_id = #{record.roleId,jdbcType=INTEGER},
+      role_id = #{record.roleId,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler},
       deleted = #{record.deleted,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -416,7 +456,7 @@
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="roleId != null">
-        role_id = #{roleId,jdbcType=INTEGER},
+        role_id = #{roleId,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler},
       </if>
       <if test="deleted != null">
         deleted = #{deleted,jdbcType=BIT},
@@ -439,7 +479,7 @@
       interest = #{interest,jdbcType=VARCHAR},
       add_time = #{addTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      role_id = #{roleId,jdbcType=INTEGER},
+      role_id = #{roleId,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler},
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>

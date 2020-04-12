@@ -75,6 +75,7 @@ CREATE TABLE `litemall_applicant`  (
   `hs_operator` varchar(255) NULL DEFAULT NULL COMMENT '人社经办人',
   `hs_top_amount` decimal(20, 0) NULL DEFAULT NULL COMMENT '最高批复额度',
   `hs_extra_pic_url` varchar(1023) NULL DEFAULT NULL COMMENT '人社补充图片',
+  `hs_discount` int(10) NULL DEFAULT NULL COMMENT '人社贴息',
   `sc_business_address` varchar(255) NULL DEFAULT NULL COMMENT '营业地址',
   `sc_property_right` varchar(255) NULL DEFAULT NULL COMMENT '产权性质',
   `sc_applicant_credit_report` varchar(255) NULL DEFAULT NULL COMMENT '申请人信用报告',
@@ -136,17 +137,17 @@ CREATE TABLE `litemall_applicant_bank`  (
 DROP TABLE IF EXISTS `litemall_bank`;
 CREATE TABLE `litemall_bank`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `icon` varchar(1023)  DEFAULT NULL COMMENT '小图标',
+  `icon` varchar(1023) NULL DEFAULT NULL COMMENT '小图标',
   `name` varchar(255) NULL DEFAULT NULL COMMENT '银行',
   `contact` varchar(255) NULL DEFAULT NULL COMMENT '联系方式',
   `address` varchar(255) NULL DEFAULT NULL COMMENT '地址',
   `sub_branch` varchar(255) NULL DEFAULT NULL COMMENT '支行',
   `loan` int(10) NULL DEFAULT NULL COMMENT '货款额度',
-  `interest` varchar(10)  DEFAULT NULL COMMENT '利息',
+  `interest` varchar(10) NULL DEFAULT NULL COMMENT '利息',
   `add_time` datetime(0) NULL DEFAULT NULL COMMENT '新增时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
-  `role_id` int(11) NULL DEFAULT NULL,
-  `deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除',
+  `role_id` varchar(50) NULL DEFAULT NULL COMMENT '关联角色多选JSON数组格式',
+  `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '删除',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT= '申请人—银行' ;
 
@@ -183,14 +184,16 @@ CREATE TABLE `litemall`.`litemall_dict`  (
 
 DROP TABLE IF EXISTS `litemall_audit`;
 CREATE TABLE `litemall`.`litemall_audit`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `applicant_id` int(11) NULL DEFAULT NULL COMMENT '申请人记录ID',
   `operator_id` int(10) NULL DEFAULT NULL COMMENT '操作人ID',
-  `operator_name` varchar(50) NULL DEFAULT NULL COMMENT '操作人',
+  `operator_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作人',
   `orignal_status` int(50) NULL DEFAULT NULL COMMENT '原始状态',
   `submite_status` int(50) NULL DEFAULT NULL COMMENT '提交状态',
-  `audit_commit` varchar(1023) NULL DEFAULT NULL COMMENT '评论',
-  `signature_url` varchar(255) NULL DEFAULT NULL COMMENT '电子签名',
+  `audit_commit` varchar(1023) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '评论',
+  `singnature` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '电子签名',
+  `review` tinyint(1) NULL DEFAULT 0 COMMENT '复核',
+  `signature_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '电子签名',
   `add_time` datetime(0) NULL DEFAULT NULL COMMENT '添加时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除',

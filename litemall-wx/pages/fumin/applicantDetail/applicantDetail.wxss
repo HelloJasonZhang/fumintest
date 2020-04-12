@@ -58,7 +58,7 @@ page {
 }
 
 .app-detail-iamg  .icon-url {
-  width: 250rpx;
-  height: 250rpx;
+  width: 200rpx;
+  height: 200rpx;
   display: block;
 }

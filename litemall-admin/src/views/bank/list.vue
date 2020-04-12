@@ -30,6 +30,11 @@
       <el-table-column align="center" label="联系方式" prop="phoneNumber" />
       <el-table-column align="center" label="类别" prop="applicantTypeLable" />
       <el-table-column align="center" label="申请额度" prop="applicantAmount" />
+      <el-table-column align="center" label="贴息比例(%)" prop="hsDiscount">
+        <template slot-scope="scope">
+          <el-tag size="mini">{{ scope.row.hsDiscount }}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column align="center" label="状态" prop="isAvailable">
         <template slot-scope="scope">
           <el-tag size="mini">{{ scope.row.isAvailable ? "作废" : "有效" }}</el-tag>
@@ -54,8 +59,8 @@
       <el-table-column align="left" label="操作" width="150" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button v-permission="['POST /admin/ba/update']" type="primary" size="mini" @click="handleAuditView(scope.row)">查看</el-button>
-          <el-button v-if="scope.row.submitStatus === 7 && !scope.row.isAvailable " v-permission="['POST /admin/ba/update']" type="primary" :disabled="scope.row.has_edit" size="mini" @click="handleAudit(scope.row)">受理</el-button>
-          <el-button v-if="scope.row.submitStatus === 9 && !scope.row.isAvailable " v-permission="['POST /admin/ba/update']" type="success" :disabled="scope.row.has_finish" size="mini" @click="handleFinish(scope.row)">结束</el-button>
+          <el-button v-if="scope.row.submitStatus === 9 && !scope.row.isAvailable " v-permission="['POST /admin/ba/update']" type="primary" :disabled="scope.row.has_edit" size="mini" @click="handleAudit(scope.row)">受理</el-button>
+          <el-button v-if="scope.row.submitStatus === 12 && !scope.row.isAvailable " v-permission="['POST /admin/ba/update']" type="success" :disabled="scope.row.has_finish" size="mini" @click="handleFinish(scope.row)">结束</el-button>
           <!--           <el-button v-permission="['POST /admin/applicant/delete']" type="primary" size="mini" @click="handleUpdate(scope.row)">修改</el-button> -->
         </template>
       </el-table-column>
@@ -68,7 +73,7 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="是否审核通过" prop="status">
-              <el-select v-model="dataForm.status" prop="status" style="width:100%" @change="onChangeAuditStatus">
+              <el-select v-model="dataForm.status" style="width:100%" @change="onChangeAuditStatus">
                 <el-option :value="2" label="通过" />
                 <el-option :value="1" label="不通过" />
               </el-select>
@@ -156,6 +161,11 @@
               </el-upload>
             </el-form-item>
           </el-col>
+          <el-col :span="24">
+            <el-form-item label="银行受理情况" prop="auditComment">
+              <el-input v-model="dataForm.auditComment" type="textarea" :rows="7" />
+            </el-form-item>
+          </el-col>
           <el-col :span="20">
             <el-form-item label="电子签名">
               <el-button type="success" style="position: absolute" @click="showQrCode()">生成二维码</el-button>
@@ -171,51 +181,14 @@
               </el-dialog>
             </el-form-item>
           </el-col>
-          <!-- <el-row>
-            <el-col :span="8">
-              <el-form-item label="授信额度(万元)" prop="credit">
-                <el-input v-model="dataForm.credit" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item label="放贷日期" prop="lendingDate">
-                <el-date-picker
-                  v-model="dataForm.lendingDate"
-                  type="date"
-                  placeholder="选择日期"
-                  value-format="yyyy-MM-dd HH:mm:ss"
-                  :picker-options="pickerOptions"
-                  style="width:100%"
-                />
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item label="贷款期限" prop="periodLoan">
-                <el-input v-model="dataForm.periodLoan" />
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="8">
-              <el-form-item label="还款方式" prop="repayment">
-                <el-input v-model="dataForm.repayment" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item label="利率(%)" prop="interest">
-                <el-input v-model="dataForm.interest" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item label="利息/期" prop="interestPeriod">
-                <el-input v-model="dataForm.interestPeriod" />
-              </el-form-item>
-            </el-col>
-          </el-row> -->
         </el-row>
-        <el-form-item label="银行受理情况" prop="auditComment">
-          <el-input v-model="dataForm.auditComment" type="textarea" :rows="7" />
-        </el-form-item>
+        <el-row v-else>
+          <el-col :span="24">
+            <el-form-item label="银行受理情况" prop="auditComment">
+              <el-input v-model="dataForm.auditComment" type="textarea" :rows="7" />
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-input v-model="dataForm.applicantId" type="hidden" />
         <el-input v-model="dataForm.id" type="hidden" />
       </el-form>
@@ -311,6 +284,7 @@
 
 <script>
 import { readApplicantBank, listApplicant, createAlicantBank, createFinishAudit } from '@/api/bankAudit'
+import { MessageBox } from 'element-ui'
 import { uploadPath } from '@/api/storage'
 import { getToken } from '@/utils/auth'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
@@ -319,10 +293,10 @@ import QRCode from 'qrcodejs2'
 import { readSignature } from '@/api/signature'
 
 const queryStatusMap = {
-  '7': '待审核',
-  '8': '不通过',
-  '9': '通过',
-  '10': '放贷'
+  '9': '待审核',
+  '10': '不通过',
+  '11': '通过',
+  '12': '放贷'
 }
 
 export default {
@@ -353,24 +327,30 @@ export default {
         '人社审核待补充',
         '人社审核不通过',
         '人社审核通过',
+        '人社审核复核',
         '担保公司审核待补充',
         '担保公司审核不通过',
         '担保公司审核通过',
+        '担保公司审核复核',
         '银行审核不通过',
         '银行审核受理',
+        '银行审核复核',
         '银行审核通过'
       ],
       setepStatusArray: [
-        { step: 0, status: 'success' },
-        { step: 1, status: 'wait' },
-        { step: 1, status: 'error' },
-        { step: 1, status: 'success' },
-        { step: 2, status: 'wait' },
-        { step: 2, status: 'error' },
-        { step: 2, status: 'success' },
-        { step: 3, status: 'error' },
-        { step: 3, status: 'process' },
-        { step: 3, status: 'finish' }
+        { step: 0, status: 'success' }, // 申请人 1
+        { step: 1, status: 'wait' }, // 人社待补充 2
+        { step: 1, status: 'error' }, // 人社不通过 3
+        { step: 1, status: 'process' }, // 人社通过 4
+        { step: 1, status: 'success' }, // 人社复核 5
+        { step: 2, status: 'wait' }, // 担保公司待补充 6
+        { step: 2, status: 'error' }, // 担保公司不通过 7
+        { step: 2, status: 'process' }, // 担保公司通过 8
+        { step: 2, status: 'success' }, // 担保公司复核 9
+        { step: 3, status: 'error' }, // 银行待不通过 10
+        { step: 3, status: 'process' }, // 银行通过 11
+        { step: 3, status: 'success' }, // 银行复核 12
+        { step: 3, status: 'finish' } // 银行复核 结束 13
       ],
       queryStatusMap: queryStatusMap,
       downloadLoading: false,
@@ -433,11 +413,26 @@ export default {
         create: '受理'
       },
       rules: {
-        name: [
-          { required: true, message: '此字段不能为空', trigger: 'blur' }
-        ],
         status: [
           { required: true, message: '此字段不能为空', trigger: 'change' }
+        ],
+        loanStartDate: [
+          { required: true, message: '此字段不能为空', trigger: 'change' }
+        ],
+        loanEndDate: [
+          { required: true, message: '此字段不能为空', trigger: 'change' }
+        ],
+        periodLoan: [
+          { required: true, message: '此字段不能为空', trigger: 'blur' }
+        ],
+        loanFinance: [
+          { required: true, message: '此字段不能为空', trigger: 'blur' }
+        ],
+        interest: [
+          { required: true, message: '此字段不能为空', trigger: 'blur' }
+        ],
+        credit: [
+          { required: true, message: '此字段不能为空', trigger: 'blur' }
         ]
       },
       multipleSelection: [],
@@ -467,11 +462,11 @@ export default {
           this.listLoading = false
           for (let index = 0; index < this.list.length; index++) {
             var element = this.list[index]
-            if (element.submitStatus !== 7) {
-              element['has_edit'] = true
+            if (element.submitStatus === 9) {
+              element['has_edit'] = false
             }
-            if (element.submitStatus !== 9) {
-              element['has_finish'] = true
+            if (element.submitStatus === 12) {
+              element['has_finish'] = false
             }
             element.statusLable = this.statusMap[element.submitStatus - 1]
             element.status = this.setepStatusArray[element.submitStatus - 1].status
@@ -490,27 +485,40 @@ export default {
     },
     createData() {
       if (this.dataForm.isApprove && (this.dataForm.qrCodeSignature == null || this.dataForm.qrCodeSignature === '')) {
-        this.$notify.warning({
-          title: '提示',
-          message: '请上传电子签名'
+        MessageBox.alert('请上传电子签名', '提示', {
+          confirmButtonText: '确定',
+          type: 'warning'
         })
         return
       }
-      createAlicantBank(this.dataForm)
-        .then(response => {
-          this.dialogFormVisible = false
-          this.getList()
-          this.$notify.success({
-            title: '成功',
-            message: '创建成功'
-          })
+
+      if (this.dataForm.loanStartDate != null && !this.dataForm.loanEndDate != null && this.dataForm.loanStartDate > this.dataForm.loanEndDate) {
+        MessageBox.alert('贷款发放日必须小于贷款到期日', '提示', {
+          confirmButtonText: '确定',
+          type: 'warning'
         })
-        .catch(response => {
-          this.$notify.error({
-            title: '失败',
-            message: response.data.errmsg
-          })
-        })
+        return
+      }
+
+      this.$refs['dataForm'].validate((valid) => {
+        if (valid) {
+          createAlicantBank(this.dataForm)
+            .then(response => {
+              this.dialogFormVisible = false
+              this.getList()
+              this.$notify.success({
+                title: '成功',
+                message: '创建成功'
+              })
+            })
+            .catch(response => {
+              this.$notify.error({
+                title: '失败',
+                message: response.data.errmsg
+              })
+            })
+        }
+      })
     },
     resetForm() {
       this.dataForm = {
@@ -599,7 +607,6 @@ export default {
           }
         })
       } else if (val.length === 1) {
-        console.log(val[0])
         var applicantBank = val[0]
         this.dataForm.id = applicantBank.id
         this.dataForm.bankId = applicantBank.bankId
@@ -665,7 +672,7 @@ export default {
             this.dataForm.loanVoucherUrl = applicantBank.loanVoucherUrl
             this.dataForm.interestPeriod = applicantBank.interestPeriod
             this.dataForm.auditComment = applicantBank.auditComment
-            this.dataForm.status = applicantBank.status
+            // this.dataForm.status = applicantBank.status
           }
 
           this.dialogStatus = 'create'

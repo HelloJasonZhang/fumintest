@@ -214,12 +214,17 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="12">
+          <el-col :span="8">
+            <el-form-item label="贴息比例(%)" prop="hsDiscount">
+              <el-input v-model="rensheForm.hsDiscount" type="number" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
             <el-form-item label="身份证地址" prop="hsApplicantAdress">
               <el-input v-model="rensheForm.hsApplicantAdress" />
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="8">
             <el-form-item label="企业名称" prop="hsMark">
               <el-input v-model="rensheForm.hsMark" />
             </el-form-item>
@@ -274,7 +279,8 @@
           <el-col :span="8">
             <el-form-item label="是否审核通过" prop="submitStatus">
               <el-select v-model="rensheForm.status" prop="submitStatus" style="width:100%">
-                <el-option :value="4" label="通过" />
+                <el-option :value="5" label="复核通过" />
+                <el-option :value="4" label="审核通过" />
                 <el-option :value="3" label="不通过" />
                 <el-option :value="2" label="待补充" />
               </el-select>
@@ -300,7 +306,8 @@
         </el-row>
         <el-form-item v-if="!disableRenSheHidden" label="是否审核通过" prop="submitStatus">
           <el-select v-model="rensheForm.status" style="width:25%">
-            <el-option :value="4" label="通过" />
+            <el-option :value="5" label="复核通过" />
+            <el-option :value="4" label="审核通过" />
             <el-option :value="3" label="不通过" />
             <el-option :value="2" label="待补充" />
           </el-select>
@@ -334,9 +341,9 @@
           <el-col :span="12">
             <el-form-item v-if="!disableAssureHidden" label="是否审核通过" prop="status">
               <el-select v-model="assureForm.status" style="width:100%" @change="onChangeAcSubmitstatus">
-                <el-option :value="7" label="通过" />
-                <el-option :value="6" label="不通过" />
-                <el-option :value="5" label="待补充" />
+                <el-option :value="8" label="通过" />
+                <el-option :value="7" label="不通过" />
+                <el-option :value="6" label="待补充" />
               </el-select>
             </el-form-item>
           </el-col>
@@ -527,7 +534,7 @@ import { MessageBox } from 'element-ui'
 import { getToken } from '@/utils/auth'
 import { listAudit } from '@/api/audit'
 import { readSignature } from '@/api/signature'
-import { getAuditByStatus, uuid2 } from '@/utils'
+import { qrCodeUrl, getAuditByStatus, uuid2 } from '@/utils'
 import QRCode from 'qrcodejs2'
 
 export default {
@@ -636,26 +643,26 @@ export default {
           this.isAssureHidden = false
           this.isBankHidden = false
           this.rensheForm = response.data.data
-        } else if (parseInt(goAction) === 4 || parseInt(goAction) === 5) {
+        } else if (parseInt(goAction) === 5 || parseInt(goAction) === 6) {
           this.isRenSheHidden = true
           this.disableRenSheHidden = true
           this.isAssureHidden = true
           this.isBankHidden = false
           this.extend(this.rensheForm, response.data.data)
-          this.rensheForm.status = 4
+          this.rensheForm.status = 5
           this.extend(this.assureForm, response.data.data)
           this.assureForm.scComment = ''
           this.getAuditList(goodsId)
-        } else if (parseInt(goAction) === 7) {
+        } else if (parseInt(goAction) === 9) {
           this.isRenSheHidden = true
           this.disableRenSheHidden = true
           this.isAssureHidden = true
           this.disableAssureHidden = true
           this.isBankHidden = true
           this.extend(this.rensheForm, response.data.data)
-          this.rensheForm.status = 4
+          this.rensheForm.status = 5
           this.extend(this.assureForm, response.data.data)
-          this.assureForm.status = 7
+          this.assureForm.status = 9
           this.extend(this.bankForm, response.data.data)
         }
         this.scExtraPicUrlList = []
@@ -695,11 +702,11 @@ export default {
     },
     goBoack: function() {
       var goAction = this.$route.query.action
-      if (parseInt(goAction) === 1 || parseInt(goAction) === 2 || parseInt(goAction) === 3) {
+      if (parseInt(goAction) === 1 || parseInt(goAction) === 2 || parseInt(goAction) === 3 || parseInt(goAction) === 4) {
         this.$router.push({ path: '/hr/audit' })
-      } else if (parseInt(goAction) === 4 || parseInt(goAction) === 5 || parseInt(goAction) === 6) {
+      } else if (parseInt(goAction) === 5 || parseInt(goAction) === 6 || parseInt(goAction) === 7 || parseInt(goAction) === 8) {
         this.$router.push({ path: '/assure/list' })
-      } else if (parseInt(goAction) === 7 || parseInt(goAction) === 8) {
+      } else if (parseInt(goAction) === 10 || parseInt(goAction) === 11) {
         this.$router.push({ path: '/bank/list' })
       } else {
         this.$router.push({ path: '/dashboard' })
@@ -739,20 +746,9 @@ export default {
         if (valid) {
           const finalGoods = {}
           this.extend(finalGoods, { 'id': this.$route.query.id })
-          // this.extend(finalGoods, this.goods)
-          if (parseInt(this.$route.query.action) === 1 || parseInt(this.$route.query.action) === 2) {
-            // this.rensheForm.hsOperator = store.getters.name
-            this.rensheForm.submitStatus = this.rensheForm.status
-            this.extend(finalGoods, this.rensheForm)
-          } else if (parseInt(this.$route.query.action) === 4 || parseInt(this.$route.query.action) === 5) {
-            this.assureForm.submitStatus = this.assureForm.status
-            this.assureForm.scOperator = this.user.getters.name
-            this.extend(finalGoods, this.assureForm)
-          } else if (parseInt(this.$route.query.action) === 9) {
-            // this.bankForm.bOpertator = store.getters.name
-            this.bankForm.submitStatus = this.bankForm.status
-            this.extend(finalGoods, this.bankForm)
-          }
+          this.assureForm.submitStatus = this.assureForm.status
+          this.assureForm.scOperator = this.user.getters.name
+          this.extend(finalGoods, this.assureForm)
           updateByBank(finalGoods)
             .then(response => {
               this.$notify.success({
@@ -810,7 +806,7 @@ export default {
       this.assureForm.bankId = [value[0]]
     },
     onChangeAcSubmitstatus: function(value) {
-      if (value === 7) {
+      if (value === 8) {
         this.assureForm.isApproval = true
       } else {
         this.assureForm.isApproval = false
@@ -825,7 +821,7 @@ export default {
         const qrcode = new QRCode('qrcode', {
           width: 150,
           height: 150,
-          text: 'https://testrenshe.zujioa.com/abc/?applicant=1&uuid=5715891D-0E3E-4A13-835A-09D4715FFE17',
+          text: qrCodeUrl + '?applicant=1&uuid=5715891D-0E3E-4A13-835A-09D4715FFE17',
           colorDark: '#109dff',
           colorLight: '#d9d9d9'
         })

@@ -1,6 +1,5 @@
 package org.linlinjava.litemall.admin.web;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.SecurityUtils;
@@ -29,9 +28,9 @@ import java.util.*;
 
 
 @RestController
-@RequestMapping("/admin/ba")
+@RequestMapping("/admin/baReview")
 @Validated
-public class AdminBankAuditController {
+public class AdminBankAuditReviewController {
     private final Log logger = LogFactory.getLog(AdminApplicantController.class);
 
     @Autowired
@@ -45,8 +44,8 @@ public class AdminBankAuditController {
     @Autowired
     private LitemallAuditService auditService;
 
-    @RequiresPermissions("admin:ba:list")
-    @RequiresPermissionsDesc(menu = {"贷款银行", "银行审核"}, button = "查询")
+    @RequiresPermissions("admin:baReview:list")
+    @RequiresPermissionsDesc(menu = {"贷款银行", "银行复核"}, button = "查询")
     @GetMapping("/list")
     public Object list(String id, String name,
                        @RequestParam(defaultValue = "1") Integer page,
@@ -70,7 +69,7 @@ public class AdminBankAuditController {
 
         for (LitemallApplicant al : applicantList) {
             //过滤担保公司审核没通过的数据
-            if (al.getSubmitStatus() < 9) {
+            if (al.getSubmitStatus() <9) {
                 continue;
             }
 
@@ -149,28 +148,17 @@ public class AdminBankAuditController {
         return null;
     }
 
-    @RequiresPermissions("admin:ba:create")
-    @RequiresPermissionsDesc(menu = {"贷款银行", "银行审核"}, button = "添加")
-    @PostMapping("/create")
-    public Object create(@RequestBody LitemallApplicant Applicant) {
-        Object error = validate(Applicant);
-        if (error != null) {
-            return error;
-        }
-        applicantService.add(Applicant);
-        return ResponseUtil.ok(Applicant);
-    }
 
-    @RequiresPermissions("admin:ba:read")
-    @RequiresPermissionsDesc(menu = {"贷款银行", "银行审核"}, button = "查看详情")
+    @RequiresPermissions("admin:baReview:read")
+    @RequiresPermissionsDesc(menu = {"贷款银行", "银行复核"}, button = "查看详情")
     @GetMapping("/read")
     public Object read(@NotNull Integer id) {
         LitemallApplicant Applicant = applicantService.findById(id);
         return ResponseUtil.ok(Applicant);
     }
 
-    @RequiresPermissions("admin:ba:createAudit")
-    @RequiresPermissionsDesc(menu = {"贷款银行", "银行审核"}, button = "添加审核")
+    @RequiresPermissions("admin:baReview:createAudit")
+    @RequiresPermissionsDesc(menu = {"贷款银行", "银行复核"}, button = "添加审核")
     @PostMapping("/createAudit")
     public Object createAudit(@RequestBody LitemallApplicantBank applicantBank) {
         if (applicantBank.getStatus() == null) {
@@ -201,15 +189,15 @@ public class AdminBankAuditController {
         return ResponseUtil.ok(applicantBank);
     }
 
-    @RequiresPermissions("admin:ba:createFinishAudit")
-    @RequiresPermissionsDesc(menu = {"贷款银行", "银行审核"}, button = "添加结束")
+    @RequiresPermissions("admin:baReview:createFinishAudit")
+    @RequiresPermissionsDesc(menu = {"贷款银行", "银行复核"}, button = "添加结束")
     @PostMapping("/createFinishAudit")
     public Object createFinishAudit(@RequestBody LitemallApplicantBank applicantBank) {
         if (applicantBank.getApplicantId() == null) {
             return ResponseUtil.badArgumentValue();
         }
         LitemallApplicant al = litemallApplicantService.findById(applicantBank.getApplicantId());
-        //给银行属性设置，状态修改为13
+        //给银行属性设置，状态修改为10
         al.setSubmitStatus(13);
         al.setbBankId(applicantBank.getBankId());
         if (applicantBank.getBankId() != null) {
@@ -242,8 +230,8 @@ public class AdminBankAuditController {
         return ResponseUtil.ok(applicantBank);
     }
 
-    @RequiresPermissions("admin:ba:readAudit")
-    @RequiresPermissionsDesc(menu = {"贷款银行", "银行审核"}, button = "查看审核详情")
+    @RequiresPermissions("admin:baReview:readAudit")
+    @RequiresPermissionsDesc(menu = {"贷款银行", "银行复核"}, button = "查看审核详情")
     @GetMapping("/readAudit")
     public Object readAudit(@RequestParam Integer id) {
         //通过UserName拿到角色ID
@@ -279,38 +267,24 @@ public class AdminBankAuditController {
         return ResponseUtil.ok(map);
     }
 
-
-    @RequiresPermissions("admin:ba:update")
-    @RequiresPermissionsDesc(menu = {"贷款银行", "银行审核"}, button = "编辑")
+    @RequiresPermissions("admin:baReview:update")
+    @RequiresPermissionsDesc(menu = {"贷款银行", "银行复核"}, button = "编辑")
     @PostMapping("/update")
     public Object update(@RequestBody LitemallApplicant applicant) {
-        Object error = validate(applicant);
-        if (error != null) {
-            return error;
-        }
-
         Subject currentUser = SecurityUtils.getSubject();
         LitemallAdmin currentAdmin = (LitemallAdmin) currentUser.getPrincipal();
         Integer userId = currentAdmin.getId();
         String username = currentAdmin.getUsername();
-        auditService.add(applicant,userId, username, applicant.getbComment());
-        if (applicantService.updateById(applicant) == 0) {
+        LitemallApplicant tempApplicant = litemallApplicantService.findById(applicant.getId());
+        tempApplicant.setQrCodeSignature(applicant.getQrCodeSignature());
+        tempApplicant.setSubmitStatus(applicant.getSubmitStatus());
+        auditService.add(applicant, userId, username, applicant.getbComment());
+        tempApplicant.setQrCodeSignature("");
+        tempApplicant.setbComment("");
+        if (applicantService.updateById(tempApplicant) == 0) {
             //创建对应的
             return ResponseUtil.updatedDataFailed();
         }
-        return ResponseUtil.ok(applicant);
+        return ResponseUtil.ok(tempApplicant);
     }
-
-    @RequiresPermissions("admin:ba:delete")
-    @RequiresPermissionsDesc(menu = {"贷款银行", "银行审核"}, button = "删除")
-    @PostMapping("/delete")
-    public Object delete(@RequestBody LitemallApplicant Applicant) {
-        Integer id = Applicant.getId();
-        if (id == null) {
-            return ResponseUtil.badArgument();
-        }
-        applicantService.deleteById(id);
-        return ResponseUtil.ok();
-    }
-
 }

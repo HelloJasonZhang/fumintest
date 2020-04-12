@@ -662,8 +662,10 @@
         </el-form-item>
         <el-form-item label="是否审核通过" prop="submitStatus">
           <el-select v-model="bankForm.submitStatus" style="width:100%">
-            <el-option key="通过  " label="通过  " value="7" />
-            <el-option key="不通过" label="不通过" value="8" />
+            <el-option key="通过  " label="复核通过  " value="13" />
+            <el-option key="通过" label="复审通过" value="12" />
+            <el-option key="通过" label="审核通过" value="11" />
+            <el-option key="不通过" label="不通过" value="10" />
           </el-select>
         </el-form-item>
         <el-input v-model="bankForm.scAuditDate" type="hidden" />

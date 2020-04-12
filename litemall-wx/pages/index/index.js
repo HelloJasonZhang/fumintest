@@ -28,38 +28,64 @@ Page({
     selectLable: "小微企业",
     detail: "",
     checked: false,
+    needCreate:false,
     checkboxItems: [
       { name: 'read', value: '0' },
     ]
   },
-  onLoad: function() {
+  onLoad: function (options) {
+    // 页面初始化 options为页面跳转所带来的参数)
+    if (options.needCreate && options.needCreate != "") {
+      this.setData({
+        needCreate: options.needCreate === 'true',
+      });
+    }
     //主动检查权限
     if (wx.getStorageSync('userInfo') && wx.getStorageSync('token')) {
-      //判断是否有申请数据
-      util.request(api.ApplicantRead).then(function(res) {
-        if (res.data != null) {
-          if (res.data.submitStatus != null && (res.data.submitStatus == 10 || res.data.submitStatus == 0 || res.data.isAvailable)) {
-            //do nothing 重新申请
+      this.checkApplicant()
+    }
+  },
+  onPullDownRefresh() {
+    wx.showNavigationBarLoading() //在标题栏中显示加载
+    //this.checkApplicant();
+    wx.hideNavigationBarLoading() //完成停止加载
+    wx.stopPullDownRefresh() //停止下拉刷新
+  },
+  checkApplicant() {
+    //判断是否有申请数据
+    var that = this
+    util.request(api.ApplicantRead).then(function (res) {
+      if (res.errno === -1 && !that.data.needCreate) {
+        //检查历史申请记录是否有数据
+        util.request(api.ApplicantHistoryById).then(function (res) {
+          if (res.errno === 0 && res.data && res.data.length > 0) {
+            wx.navigateTo({
+              url: '/pages/fumin/applicantHistory/applicantHistory'
+            })
+          }
+        });
+      }
+      if (res.data != null) {
+        if (res.data.submitStatus != null && (res.data.submitStatus == 13 || res.data.submitStatus == 0 || res.data.isAvailable)) {
+          //do nothing 重新申请
+        } else {
+          //去申请状态页面
+          if (res.data.signatureUrl == null) {
+            wx.navigateTo({
+              url: '/pages/handwriting/index/index?id=' + res.data.id
+            })
+          } else if (res.data.bankId == null) {
+            wx.navigateTo({
+              url: '/pages/fumin/bank/bank?id=' + res.data.id
+            })
           } else {
-            //去申请状态页面
-            console.log(res)
-            if (res.data.signatureUrl == null) {
-              wx.navigateTo({
-                url: '/pages/handwriting/index/index?id=' + res.data.id
-              })
-            } else if (res.data.bankId == null) {
-              wx.navigateTo({
-                url: '/pages/fumin/bank/bank?id=' + res.data.id
-              })
-            } else {
-              wx.navigateTo({
-                url: '/pages/fumin/daikuan/daikuan'
-              })
-            }
+            wx.navigateTo({
+              url: '/pages/fumin/daikuan/daikuan'
+            })
           }
         }
-      })
-    }
+      }
+    })
   },
   imageLoad: function(e) {
     var imageSize = imageUtil.imageUtil(e)
@@ -71,13 +97,6 @@ Page({
   radioChange(e) {
     this.data.selecValue = e.detail.value
     this.data.selectLable = e.detail.value === 'company' ? "小微企业" : "个人"
-    //  for (var i = 0; this.data.items.length; i++) {
-    //    var item = this.data.items[i];
-    //    console.log(item)
-    // //   if (e.detail.value === item.value) {
-    // //     this.data.selectLable = item.name
-    // //   }
-    //  }
   },
   checkboxChange(e) {
     this.setData({
@@ -165,7 +184,7 @@ Page({
       })
     } else {
       wx.navigateTo({
-        url: '/pages/fumin/applicant/applicant?type=' + type
+        url: '/pages/fumin/applicant/applicant?type=' + type + '&typeLable=' + that.data.selectLable
       })
     }
   }

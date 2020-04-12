@@ -87,8 +87,8 @@ public class AdminApplicantReviewController {
     @RequiresPermissions("admin:applicantReview:update")
     @RequiresPermissionsDesc(menu = {"人社管理", "人社复核"}, button = "编辑")
     @PostMapping("/update")
-    public Object update(@RequestBody LitemallApplicant Applicant) {
-        Object error = validate(Applicant);
+    public Object update(@RequestBody LitemallApplicant applicant) {
+        Object error = validate(applicant);
         if (error != null) {
             return error;
         }
@@ -96,11 +96,13 @@ public class AdminApplicantReviewController {
         LitemallAdmin currentAdmin = (LitemallAdmin) currentUser.getPrincipal();
         Integer userId = currentAdmin.getId();
         String username = currentAdmin.getUsername();
-        auditService.add(Applicant,userId, username, Applicant.getHsComment());
-        Applicant.setQrCodeSignature(null);
-        if (applicantService.updateById(Applicant, username) == 0) {
+        auditService.add(applicant,userId, username, applicant.getHsComment());
+        // 清空临时数据
+        applicant.setQrCodeSignature(null);
+        applicant.setHsComment(null);
+        if (applicantService.updateById(applicant) == 0) {
             return ResponseUtil.updatedDataFailed();
         }
-        return ResponseUtil.ok(Applicant);
+        return ResponseUtil.ok(applicant);
     }
 }

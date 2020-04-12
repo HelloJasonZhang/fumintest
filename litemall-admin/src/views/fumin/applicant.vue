@@ -25,7 +25,12 @@
       <el-table-column align="center" label="身份证号" prop="idCardNumber" />
       <el-table-column align="center" label="联系方式" prop="phoneNumber" />
       <el-table-column align="center" label="类别" prop="applicantTypeLable" />
-      <el-table-column align="center" label="申请额度" prop="applicantAmount" />
+      <el-table-column align="center" label="申请额度(万元)" prop="applicantAmount" />
+      <el-table-column align="center" label="贴息比例(%)" prop="hsDiscount">
+        <template slot-scope="scope">
+          <el-tag size="mini">{{ scope.row.hsDiscount }}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column align="center" label="状态" prop="isAvailable">
         <template slot-scope="scope">
           <el-tag size="mini">{{ scope.row.isAvailable ? "作废" : "有效" }}</el-tag>
@@ -72,6 +77,14 @@
   .el-step__icon.is-text {
     right: 2px;
   }
+
+  /* .el-table .warning-row {
+    background: rgba(102, 255, 204, 0.1)
+  }
+
+  .el-table .normal-row {
+    background: rgba(51, 255, 102, 0.2)
+  } */
 </style>
 
 <script>
@@ -85,12 +98,15 @@ const queryStatusMap = {
   '2': '待补充',
   '3': '不通过',
   '4': '通过',
-  '5': '担保公司待审核',
-  '6': '担保公司不通过',
-  '7': '担保公司通过',
-  '8': '银行待受理',
-  '9': '银行已受理',
-  '10': '结束'
+  '5': '复核',
+  '6': '担保公司待审核',
+  '7': '担保公司不通过',
+  '8': '担保公司通过',
+  '9': '担保公司复核',
+  '10': '银行待受理',
+  '11': '银行已受理',
+  '12': '银行复核',
+  '13': '结束'
 }
 
 export default {
@@ -127,24 +143,30 @@ export default {
         '人社审核待补充',
         '人社审核不通过',
         '人社审核通过',
+        '人社审核复核',
         '担保公司审核待补充',
         '担保公司审核不通过',
         '担保公司审核通过',
+        '担保公司审核复核',
         '银行审核不通过',
         '银行审核受理',
+        '银行审核复核',
         '银行审核通过'
       ],
       setepStatusArray: [
-        { step: 0, status: 'success' },
-        { step: 1, status: 'wait' },
-        { step: 1, status: 'error' },
-        { step: 1, status: 'success' },
-        { step: 2, status: 'wait' },
-        { step: 2, status: 'error' },
-        { step: 2, status: 'success' },
-        { step: 3, status: 'error' },
-        { step: 3, status: 'process' },
-        { step: 3, status: 'finish' }
+        { step: 0, status: 'success' }, // 申请人 1
+        { step: 1, status: 'wait' }, // 人社待补充 2
+        { step: 1, status: 'error' }, // 人社不通过 3
+        { step: 1, status: 'process' }, // 人社复核 4
+        { step: 1, status: 'success' }, // 人社通过 5
+        { step: 2, status: 'wait' }, // 担保公司待补充 6
+        { step: 2, status: 'error' }, // 担保公司不通过 7
+        { step: 2, status: 'process' }, // 担保公司复核 8
+        { step: 2, status: 'success' }, // 担保公司通过 9
+        { step: 3, status: 'error' }, // 银行待不通过 10
+        { step: 3, status: 'process' }, // 银行通过 11
+        { step: 3, status: 'success' }, // 银行复核 12
+        { step: 3, status: 'finish' } // 银行复核 结束 13
       ],
       queryStatusMap: queryStatusMap,
       downloadLoading: false,
@@ -178,13 +200,13 @@ export default {
               element['has_edit'] = true
             }
 
-            if (element.submitStatus === 3 || element.submitStatus === 6) {
+            if (element.submitStatus === 3 || element.submitStatus === 7) {
               if (!element.isAvailable) {
                 element['has_redo'] = false
               }
             }
 
-            if (!element.isAvailable && element.submitStatus !== 10) {
+            if (!element.isAvailable && element.submitStatus !== 13) {
               element['has_disable'] = false
             }
             element.statusLable = this.statusMap[element.submitStatus - 1]
@@ -292,6 +314,13 @@ export default {
           title: '无法下载',
           message: '请选择数据'
         })
+      }
+    },
+    tableRowClassName(row) {
+      if (row.row.hsDiscount !== 100) {
+        return 'warning-row'
+      } else {
+        return 'normal-row'
       }
     }
   }

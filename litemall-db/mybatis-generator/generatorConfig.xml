@@ -199,6 +199,8 @@
         </table>
         <table tableName="litemall_bank">
             <generatedKey column="id" sqlStatement="MySql" identity="true" />
+            <columnOverride column="role_id" javaType="java.lang.Integer[]"
+                            typeHandler="org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler"/>
         </table>
         <table tableName="litemall_applicant_bank">
             <generatedKey column="id" sqlStatement="MySql" identity="true" />

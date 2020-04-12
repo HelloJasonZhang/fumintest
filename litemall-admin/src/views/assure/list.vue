@@ -26,6 +26,11 @@
       <el-table-column align="center" label="联系方式" prop="phoneNumber" />
       <el-table-column align="center" label="类别" prop="applicantTypeLable" />
       <el-table-column align="center" label="申请额度" prop="applicantAmount" />
+      <el-table-column align="center" label="贴息比例(%)" prop="hsDiscount">
+        <template slot-scope="scope">
+          <el-tag size="mini">{{ scope.row.hsDiscount }}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column align="center" label="状态" prop="isAvailable">
         <template slot-scope="scope">
           <el-tag size="mini">{{ scope.row.isAvailable ? "作废" : "有效" }}</el-tag>
@@ -77,9 +82,10 @@ import { getToken } from '@/utils/auth'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
 const queryStatusMap = {
-  '4': '待审核',
-  '5': '待补充',
-  '6': '通过'
+  '5': '待审核',
+  '6': '待补充',
+  '7': '通过',
+  '8': '复核通过'
 }
 
 export default {
@@ -116,24 +122,30 @@ export default {
         '人社审核待补充',
         '人社审核不通过',
         '人社审核通过',
+        '人社审核复核',
         '担保公司审核待补充',
         '担保公司审核不通过',
         '担保公司审核通过',
+        '担保公司审核复核',
         '银行审核不通过',
         '银行审核受理',
+        '银行审核复核',
         '银行审核通过'
       ],
       setepStatusArray: [
-        { step: 0, status: 'success' },
-        { step: 1, status: 'wait' },
-        { step: 1, status: 'error' },
-        { step: 1, status: 'success' },
-        { step: 2, status: 'wait' },
-        { step: 2, status: 'error' },
-        { step: 2, status: 'success' },
-        { step: 3, status: 'error' },
-        { step: 3, status: 'process' },
-        { step: 3, status: 'finish' }
+        { step: 0, status: 'success' }, // 申请人 1
+        { step: 1, status: 'wait' }, // 人社待补充 2
+        { step: 1, status: 'error' }, // 人社不通过 3
+        { step: 1, status: 'process' }, // 人社通过 4
+        { step: 1, status: 'success' }, // 人社复核 5
+        { step: 2, status: 'wait' }, // 担保公司待补充 6
+        { step: 2, status: 'error' }, // 担保公司不通过 7
+        { step: 2, status: 'process' }, // 担保公司通过 8
+        { step: 2, status: 'success' }, // 担保公司复核 9
+        { step: 3, status: 'error' }, // 银行待不通过 10
+        { step: 3, status: 'process' }, // 银行通过 11
+        { step: 3, status: 'success' }, // 银行复核 12
+        { step: 3, status: 'finish' } // 银行复核 结束 13
       ],
       queryStatusMap: queryStatusMap,
       downloadLoading: false,
@@ -161,7 +173,7 @@ export default {
           this.listLoading = false
           for (let index = 0; index < this.list.length; index++) {
             var element = this.list[index]
-            if (element.submitStatus != 4 && element.submitStatus != 5) {
+            if (element.submitStatus !== 6 && element.submitStatus !== 5) {
               element['has_edit'] = true
             }
             element.statusLable = this.statusMap[element.submitStatus - 1]
@@ -183,14 +195,7 @@ export default {
       this.$router.push({ path: '/assure/create' })
     },
     handleAudit(row) {
-      if (row.submitStatus != 3 && row.submitStatus != 6 && row.submitStatus != 8 && row.submitStatus != 9) {
-        this.$router.push({ path: '/assure/detail', query: { id: row.id, action: row.submitStatus }})
-      } else {
-        this.$message.error({
-          title: '失败',
-          message: '数据已审核，无法操作'
-        })
-      }
+      this.$router.push({ path: '/assure/detail', query: { id: row.id, action: row.submitStatus }})
     },
     handleView(row) {
       this.$router.push({ path: '/assure/detailView', query: { id: row.id, action: row.submitStatus }})

@@ -1,5 +1,3 @@
-/* eslint-disable vue/html-indent */
-/* eslint-disable no-trailing-spaces */
 <template>
   <div class="app-container">
     <el-card class="box-card">
@@ -216,6 +214,13 @@
               <el-input v-model="rensheForm.hsTopAmount" />
             </el-form-item>
           </el-col>
+          <el-col v-if="rensheForm.isApproval" :span="8">
+            <el-form-item label="贴息比例(%)" prop="hsDiscount">
+              <el-input v-model="rensheForm.hsDiscount" type="number">
+                <template slot="append">%</template>
+              </el-input>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row v-if="rensheForm.isApproval">
           <el-row>
@@ -311,6 +316,11 @@
               <i class="el-icon-plus" />
             </el-upload>
           </el-form-item>
+        </el-row>
+        <el-form-item label="人社部门意见" prop="hsComment">
+          <el-input v-model="rensheForm.hsComment" type="textarea" :rows="7" />
+        </el-form-item>
+        <el-col v-if="rensheForm.isApproval" :span="24">
           <el-form-item label="电子签名">
             <el-button type="success" style="position: absolute" @click="showQrCode()">生成二维码</el-button>
             <el-image v-if="rensheForm.qrCodeSignature != null" style="width:50px;height:50px; margin-left: 150px" :src="rensheForm.qrCodeSignature" :preview-src-list="[rensheForm.qrCodeSignature]" />
@@ -324,10 +334,7 @@
               </span>
             </el-dialog>
           </el-form-item>
-        </el-row>
-        <el-form-item label="人社部门意见" prop="hsComment">
-          <el-input v-model="rensheForm.hsComment" type="textarea" :rows="7" />
-        </el-form-item>
+        </el-col>
         <el-input v-if="!disableRenSheHidden" v-model="rensheForm.hsOperator" type="hidden" />
       </el-form>
       <div v-if="!disableRenSheHidden" class="op-container">
@@ -430,13 +437,12 @@ import store from '@/store'
 import { MessageBox } from 'element-ui'
 import { getToken } from '@/utils/auth'
 import { listAudit } from '@/api/audit'
-import { getAuditByStatus, uuid2 } from '@/utils'
+import { qrCodeUrl, getAuditByStatus, uuid2, validateDiscount } from '@/utils'
 import QRCode from 'qrcodejs2'
 
 export default {
   name: 'GoodsCreate',
   components: {
-    QRCode
   },
   data() {
     return {
@@ -460,7 +466,8 @@ export default {
         status: '',
         hsComment: '',
         hsExtraPicUrl: [],
-        qrCodeSignature: undefined
+        qrCodeSignature: undefined,
+        hsDiscount: 100
       },
       assureForm: { scLetterIntentUrl: '', value: '', picUrl: '' },
       bankForm: { },
@@ -496,6 +503,14 @@ export default {
         hsUnifiedSocialCreditCode: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
         hsApplicantAdress: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
         hsRigsterDate: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
+        hsDiscount: [{
+          required: true,
+          message: '此字段不能为空',
+          trigger: 'blur'
+        }, {
+          validator: validateDiscount, // 自定义验证
+          trigger: 'blur'
+        }],
         submitStatus: [{ required: true, message: '此字段不能为空', trigger: 'change' }],
         status: [{ required: true, message: '此字段不能为空', trigger: 'change' }]
       },
@@ -535,26 +550,27 @@ export default {
           this.rensheForm = response.data.data
           this.rensheForm.hsApplicant = response.data.data.name
           this.rensheForm.hsRigsterDate = response.data.data.addTime
+          this.rensheForm.hsDiscount = 100
           this.getAuditList(goodsId)
-        } else if (parseInt(goAction) === 4 || parseInt(goAction) === 5) {
+        } else if (parseInt(goAction) === 5 || parseInt(goAction) === 6) {
           this.isRenSheHidden = true
           this.disableRenSheHidden = true
           this.isAssureHidden = true
           this.isBankHidden = false
           this.extend(this.rensheForm, response.data.data)
-          this.rensheForm.status = 4
+          this.rensheForm.status = parseInt(goAction)
           this.extend(this.assureForm, response.data.data)
-        } else if (parseInt(goAction) === 7) {
+        } else if (parseInt(goAction) === 9) {
           this.isRenSheHidden = true
           this.disableRenSheHidden = true
           this.isAssureHidden = true
           this.disableAssureHidden = true
           this.isBankHidden = true
           this.extend(this.rensheForm, response.data.data)
-          this.rensheForm.status = 4
+          this.rensheForm.status = 5
           this.extend(this.assureForm, response.data.data)
           console.log(this.assureForm)
-          this.assureForm.status = 7
+          this.assureForm.status = 9
           this.extend(this.bankForm, response.data.data)
         }
 
@@ -708,7 +724,7 @@ export default {
         const qrcode = new QRCode('qrcode', {
           width: 150,
           height: 150,
-          text: 'https://testrenshe.zujioa.com/abc/?applicant=1&uuid=5715891D-0E3E-4A13-835A-09D4715FFE17',
+          text: qrCodeUrl + '?applicant=1&uuid=5715891D-0E3E-4A13-835A-09D4715FFE17',
           colorDark: '#109dff',
           colorLight: '#d9d9d9'
         })

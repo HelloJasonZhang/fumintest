@@ -1,6 +1,6 @@
 // 以下是业务服务器API地址
 // 本机开发时使用
-//var WxApiRoot = 'http://localhost:8080/wx/';
+// var WxApiRoot = 'http://localhost:8080/wx/';
 // 局域网测试使用
 // var WxApiRoot = 'http://192.168.1.3:8080/wx/';
 // 云平台部署时使用
@@ -30,6 +30,7 @@ module.exports = {
   Applicantaudit: WxApiRoot + 'applicant/audit',
   ApplicantRedoBank: WxApiRoot + 'applicant/redoBank',
   ApplicantReadById: WxApiRoot + 'applicant/readById',
+  ApplicantHistoryById: WxApiRoot + 'applicant/history',
   BankAuditList: WxApiRoot + 'applicant/getBankAudits',
   ApplicantRedoUpdate: WxApiRoot + 'applicant/redoUpdate',
   BankAdd: WxApiRoot + 'bank/create',

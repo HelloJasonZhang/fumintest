@@ -297,11 +297,14 @@ export function getAuditByStatus(status) {
     '人社审核待补充',
     '人社审核不通过',
     '人社审核通过',
+    '人社审核复核通过',
     '担保公司审核待补充',
     '担保公司审核不通过',
     '担保公司审核通过',
+    '担保公司复核通过',
     '银行审核不通过',
     '银行审核受理',
+    '银行审核复核通过',
     '银行审核通过,整个审核流程结束'
   ]
   return statusArray[status]
@@ -336,5 +339,46 @@ export function uuid2(len, radix) {
   return uuid.join('')
 }
 
-const qrCodeUrl = process.env.VUE_APP_QRCODE_URL 
-export { qrCodeUrl }
+const qrCodeUrl = process.env.VUE_APP_QRCODE_URL
+
+const validateDiscount = (rule, value, callback) => {
+  if (!value) {
+    callback(new Error('此字段不能为空'))
+  }
+  value = Number(value)
+  if (typeof value === 'number' && !isNaN(value)) {
+    if (value < 0 || value > 100) {
+      callback(new Error('贴息比例在 0 至 100 %之间'))
+    } else {
+      callback()
+    }
+  } else {
+    callback(new Error('此字段必须为数字'))
+  }
+}
+
+const validateStartTime = (rule, value, callback) => {
+  if (!value) {
+    callback(new Error('请选择开始时间'))
+  } else {
+    if (this.dataForm.endTime) {
+      this.$refs.ruleForm.validateField('endTime')
+    }
+    callback()
+  }
+}
+const validateEndTime = (rule, value, callback) => {
+  if (!value) {
+    callback(new Error('请选择结束时间'))
+  } else {
+    if (!this.dataForm.startTime) {
+      callback(new Error('请选择开始时间！'))
+    } else if (Date.parse(this.form.startTime) >= Date.parse(value)) {
+      callback(new Error('结束时间必须大于开始时间！'))
+    } else {
+      callback()
+    }
+  }
+}
+
+export { qrCodeUrl, validateDiscount, validateStartTime, validateEndTime }
