@@ -41,6 +41,18 @@
         </el-row>
         <el-row>
           <el-col :span="8">
+            <el-form-item label="企业名称" prop="applicantTypeLable">
+              <el-input v-model="goods.companyName" :readonly="goodsReadyOnly" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="申请银行" prop="applicantAmount">
+              <el-input v-model="goods.bankName" placeholder="0.00" :readonly="goodsReadyOnly" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8">
             <el-form-item label="申请类别" prop="applicantTypeLable">
               <el-input v-model="goods.applicantTypeLable" :readonly="goodsReadyOnly" />
             </el-form-item>
@@ -222,20 +234,19 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="贴息比例(%)" prop="hsDiscount">
-              <el-input v-model="rensheForm.hsDiscount" type="number" />
+              <el-input v-model="rensheForm.hsDiscount" type="number">
+                <template slot="append">%</template>
+              </el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="身份证地址" prop="hsApplicantAdress">
+            <el-form-item label="公司所在地" prop="hsApplicantAdress">
               <el-input v-model="rensheForm.hsApplicantAdress" />
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item v-if="goods.applicantType === 'company'" label="企业名称" prop="hsMark">
-              <el-input v-model="rensheForm.hsMark" />
-            </el-form-item>
-            <el-form-item v-else label="身份证号" prop="idCardNumber">
-              <el-input v-model="goods.idCardNumber" />
+            <el-form-item label="最高额度(万元)" prop="hsTopAmount">
+              <el-input v-model="rensheForm.hsTopAmount" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -280,6 +291,11 @@
               <el-input v-model="rensheForm.hsRecuitRate" />
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
+          <el-form-item label="备注" prop="hsMark">
+            <el-input v-model="rensheForm.hsMark" type="textarea" :rows="7" />
+          </el-form-item>
         </el-row>
         <el-row>
           <el-col :span="24">

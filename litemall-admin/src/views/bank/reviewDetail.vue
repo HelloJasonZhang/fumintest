@@ -51,6 +51,18 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="企业名称" prop="applicantTypeLable">
+              <el-input v-model="goods.companyName" :readonly="goodsReadyOnly" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="申请银行" prop="applicantAmount">
+              <el-input v-model="goods.bankName" placeholder="0.00" :readonly="goodsReadyOnly" />
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-row v-if="goods.applicantType == 'company' || goods.applicantAmount >= 10">
           <el-col :span="6">
             <el-form-item label="营业执照正面" prop="businessLicenseUrl">
@@ -216,17 +228,19 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="贴息比例(%)" prop="hsDiscount">
-              <el-input v-model="rensheForm.hsDiscount" type="number" />
+              <el-input v-model="rensheForm.hsDiscount" type="number">
+                <template slot="append">%</template>
+              </el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="身份证地址" prop="hsApplicantAdress">
+            <el-form-item label="公司所在地" prop="hsApplicantAdress">
               <el-input v-model="rensheForm.hsApplicantAdress" />
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="企业名称" prop="hsMark">
-              <el-input v-model="rensheForm.hsMark" />
+            <el-form-item label="最高额度(万元)" prop="hsTopAmount">
+              <el-input v-model="rensheForm.hsTopAmount" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -279,6 +293,11 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row>
+          <el-form-item label="备注" prop="hsMark">
+            <el-input v-model="rensheForm.hsMark" type="textarea" :rows="7" />
+          </el-form-item>
+        </el-row>
         <el-form-item label="人社部门意见" prop="hsComment">
           <el-input v-model="rensheForm.hsComment" type="textarea" :rows="7" />
         </el-form-item>
@@ -286,7 +305,8 @@
           <el-col :span="8">
             <el-form-item label="是否审核通过" prop="submitStatus">
               <el-select v-model="rensheForm.status" prop="submitStatus" style="width:100%">
-                <el-option :value="4" label="通过" />
+                <el-option :value="5" label="复核通过" />
+                <el-option :value="4" label="审核通过" />
                 <el-option :value="3" label="不通过" />
                 <el-option :value="2" label="待补充" />
               </el-select>
@@ -392,9 +412,10 @@
           <el-col :span="8">
             <el-form-item label="是否审核通过" prop="submitStatus">
               <el-select v-model="assureForm.status" prop="submitStatus" style="width:100%">
-                <el-option :value="7" label="通过" />
-                <el-option :value="6" label="不通过" />
-                <el-option :value="5" label="待补充" />
+                <el-option :value="9" label="复核通过" />
+                <el-option :value="8" label="审核通过" />
+                <el-option :value="7" label="不通过" />
+                <el-option :value="6" label="待补充" />
               </el-select>
             </el-form-item>
           </el-col>
@@ -702,7 +723,6 @@ export default {
 
       readApplicant({ id: goodsId }).then(response => {
         this.goods = response.data.data
-        console.log(response)
         if (parseInt(goAction) === 1) {
           this.isRenSheHidden = false
           this.isAssureHidden = false
@@ -726,12 +746,13 @@ export default {
           this.rensheForm.status = 5
           this.extend(this.assureForm, response.data.data)
           this.assureForm.status = 9
+          this.getAuditList(goodsId)
         } else if (parseInt(goAction) === 10 || parseInt(goAction) === 11 || parseInt(goAction) === 12 || parseInt(goAction) === 13) {
           this.isRenSheHidden = true
           this.disableRenSheHidden = true
           this.isAssureHidden = true
           this.disableAssureHidden = true
-          this.isBankHidden = false
+          this.isBankHidden = true
           this.disableBankHidden = true
           this.extend(this.rensheForm, response.data.data)
           this.rensheForm.status = 5
@@ -747,12 +768,12 @@ export default {
     },
     getAuditList: function(id) {
       listAudit({ id: id }).then(response => {
+        console.log(response)
         for (let i = 0; i < response.data.data.length; i++) {
           const element = response.data.data[i]
           element.submiteStatus = getAuditByStatus(element.submiteStatus)
         }
         this.auditList = response.data.data
-        console.log(this.auditList)
       })
     },
     extend: function() {

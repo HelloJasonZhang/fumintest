@@ -7,6 +7,9 @@
       <el-select v-model="listQuery.submitStatusArray" style="width: 200px" class="filter-item" placeholder="请选择审核状态" clearable>
         <el-option v-for="(key, value) in queryStatusMap" :key="key" :label="key" :value="value" />
       </el-select>
+      <el-select v-model="listQuery.isAvailable" style="width: 200px" class="filter-item" placeholder="请选择是否作废" clearable>
+        <el-option v-for="item in isAvailableArray" :key="item.value" :label="item.label" :value="item.value" />
+      </el-select>
       <el-button v-permission="['GET /admin/applicantReview/list']" class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查找</el-button>
     </div>
 
@@ -15,11 +18,10 @@
       <el-table-column type="selection" min-width="30px" />
       <el-table-column align="center" label="ID" min-width="50px" prop="id" />
       <el-table-column align="center" label="姓名" prop="name" />
-      <el-table-column align="center" label="性别" prop="sex" />
-      <el-table-column align="center" label="婚姻状况" prop="maritalStatus" />
       <el-table-column align="center" label="身份证号" prop="idCardNumber" />
       <el-table-column align="center" label="联系方式" prop="phoneNumber" />
       <el-table-column align="center" label="类别" prop="applicantTypeLable" />
+      <el-table-column align="center" label="银行" prop="bankName" />
       <el-table-column align="center" label="申请额度(万元)" prop="applicantAmount" />
       <el-table-column align="center" label="贴息比例(%)" prop="hsDiscount">
         <template slot-scope="scope">
@@ -34,7 +36,7 @@
       <el-table-column
         align="center"
         label="审核状态"
-        width="350"
+        width="200"
       >
         <template slot-scope="scope">
           <el-steps :space="100" :active="scope.row.statusName" :process-status="scope.row.status" align-center>
@@ -47,7 +49,7 @@
       </el-table-column>
       <el-table-column align="center" label="操作" width="200" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="handleView(scope.row)">查看111</el-button>
+          <el-button type="primary" size="mini" @click="handleView(scope.row)">查看</el-button>
           <el-button type="success" :disabled="scope.row.has_edit" size="mini" @click="handleAudit(scope.row)">复核</el-button>
         </template>
       </el-table-column>
@@ -117,7 +119,7 @@ const queryStatusMap = {
   '1': '待审核',
   '2': '待补充',
   '3': '不通过',
-  '4': '通过',
+  '4': '待复核',
   '5': '复核',
   '6': '担保公司待审核',
   '7': '担保公司不通过',
@@ -128,6 +130,12 @@ const queryStatusMap = {
   '12': '银行复核',
   '13': '结束'
 }
+
+const isAvailableArray = [
+  { value: '', label: '所有' },
+  { value: false, label: '有效' },
+  { value: true, label: '作废' }
+]
 
 export default {
   name: 'Applicant',
@@ -148,7 +156,8 @@ export default {
         id: undefined,
         name: undefined,
         sort: 'add_time',
-        submitStatusArray: [],
+        submitStatusArray: '4',
+        isAvailable: false,
         order: 'desc'
       },
       dataForm: {
@@ -190,6 +199,7 @@ export default {
         { step: 3, status: 'finish' } // 银行复核 结束 13
       ],
       queryStatusMap: queryStatusMap,
+      isAvailableArray: isAvailableArray,
       downloadLoading: false,
       multipleSelection: [],
       dialogFormVisible: false,

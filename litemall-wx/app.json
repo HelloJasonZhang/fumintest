@@ -1,6 +1,9 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/fumin/applicantUploadAdvance/applicantUploadAdvance",
+    "pages/second/second",
+    "pages/fumin/applicant/applicant",
     "pages/fumin/success/success",
     "pages/eSignature/index/index",
     "pages/fumin/applicantHistory/applicantHistory",
@@ -8,8 +11,6 @@
     "pages/fumin/bankInstruction/bankInstruction",
     "pages/fumin/document/document",
     "pages/handwriting/index/index",
-    "pages/fumin/applicantUploadAdvance/applicantUploadAdvance",
-    "pages/fumin/applicant/applicant",
     "pages/fumin/reject/reject",
     "pages/fumin/shenhe/shenhe",
     "pages/fumin/bankApprove/bankApprove",

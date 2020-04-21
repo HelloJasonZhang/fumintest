@@ -123,7 +123,8 @@ Page({
 
     let applicant = {
       "id": this.data.id,
-      "bankId": this.data.bankIds
+      "bankId": this.data.bankIds,
+      "bankName": this.data.selectedBank
     }
 
     let title = ""

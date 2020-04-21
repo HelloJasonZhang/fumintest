@@ -144,14 +144,23 @@ function getPersonalAndNoMarriedData(applicantType) {
       id: 6,
       imageURLs: [{
         id: "jobUrl",
-        name: "就业创业证第五页",
+        name: "创业就业证照片页",
         hasPicture: false,
         picUrls: util.getArrayURL(applicantType, 'jobUrl'),
         files: [],
         row: 5,
         col: 0,
         isHadden: true
-      }, ]
+      }, {
+          id: "jobUrl2",
+          name: "创业就业证第九页",
+          hasPicture: false,
+          picUrls: util.getArrayURL(applicantType, 'jobUrl2'),
+          files: [],
+          row: 5,
+          col: 1,
+          isHadden: true
+        }, ]
     },
     {
       id: 7,
@@ -307,14 +316,23 @@ function getPersonalAndDivorce(applicantType) {
       id: 6,
       imageURLs: [{
         id: "jobUrl",
-        name: "就业创业证第五页",
+        name: "创业就业证照片页",
         hasPicture: false,
         picUrls: util.getArrayURL(applicantType, 'jobUrl'),
         files: [],
         row: 5,
         col: 0,
         isHadden: true
-      }, ]
+      }, {
+          id: "jobUrl2",
+          name: "创业就业证第九页",
+          hasPicture: false,
+          picUrls: util.getArrayURL(applicantType, 'jobUrl2'),
+          files: [],
+          row: 5,
+          col: 1,
+          isHadden: true
+        },  ]
     },
     {
       id: 7,
@@ -493,14 +511,23 @@ function getPersonalAndIsMarried(applicantType) {
       id: 7,
       imageURLs: [{
         id: "jobUrl",
-        name: "就业创业证第五页",
+        name: "创业就业证照片页",
         hasPicture: false,
         picUrls: util.getArrayURL(applicantType, 'jobUrl'),
         files: [],
         row: 6,
         col: 0,
         isHadden: true
-      }, ]
+      }, {
+          id: "jobUrl2",
+          name: "创业就业证第九页",
+          hasPicture: false,
+          picUrls: util.getArrayURL(applicantType, 'jobUrl2'),
+          files: [],
+          row: 6,
+          col: 1,
+          isHadden: true
+        },  ]
     },
     {
       id: 8,
@@ -565,17 +592,16 @@ function getCompanyOrExceedData(type, applicantType) {
           row: 0,
           col: 0,
           isHadden: true,
-        },
-        {
-          id: "handBusinessLicenseUrl",
-          name: "手持营业执照",
+      }, {
+          id: "employmentPromotionUrl",
+          name: "带动人员工资流水",
           hasPicture: false,
-          picUrls: util.getArrayURL(applicantType, 'handBusinessLicenseUrl'),
+          picUrls: util.getArrayURL(applicantType, 'employmentPromotionUrl'),
           files: [],
           row: 0,
           col: 1,
-          isHadden: true,
-        }
+          isHadden: true
+        },
       ]
     }, {
       id: 2,
@@ -603,7 +629,7 @@ function getCompanyOrExceedData(type, applicantType) {
       id: 3,
       imageURLs: [{
         id: "jobUrl",
-        name: "就业创业证（第五页）",
+        name: "创业就业证照片页",
         hasPicture: false,
         picUrls: util.getArrayURL(applicantType, 'jobUrl'),
         files: [],
@@ -611,15 +637,15 @@ function getCompanyOrExceedData(type, applicantType) {
         col: 0,
         isHadden: true
       }, {
-        id: "employmentPromotionUrl",
-        name: "带动人员工资流水",
-        hasPicture: false,
-        picUrls: util.getArrayURL(applicantType, 'employmentPromotionUrl'),
-        files: [],
-        row: 2,
-        col: 1,
-        isHadden: true
-      }, ]
+          id: "jobUrl2",
+          name: "创业就业证第九页",
+          hasPicture: false,
+          picUrls: util.getArrayURL(applicantType, 'jobUrl2'),
+          files: [],
+          row: 2,
+          col: 1,
+          isHadden: true
+        },]
     },
     {
       id: 4,

@@ -132,6 +132,8 @@ export default {
               element['docTypeName'] = '承诺书'
             } else if (element.docType === 'bank_desc') {
               element['docTypeName'] = '选择银行须知'
+            } else if (element.docType === 'bank') {
+              element['docTypeName'] = '银行说明'
             }
           }
           this.list = response.data.data.list

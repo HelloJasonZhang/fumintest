@@ -11,6 +11,7 @@ Page({
     applicant: {
       "id": null,
       "name": "",
+      "companyName": "",
       "sex": "",
       "maritalStatus": "",
       "idCardNumber": "",
@@ -118,7 +119,7 @@ Page({
         }, "GET").then(function (resDict) {
           console.log(res.data.obtainInfo)
           if (res.errno === 0) {
-            var obtainInfos = ['请选择获取途径']
+            var obtainInfos = ['网点名称']
             for (var i = 0; i < resDict.data.length; i++) {
               var obtainInfo = resDict.data[i]
               obtainInfos.push(obtainInfo.name)
@@ -140,7 +141,7 @@ Page({
     }, "GET").then(function (res) {
       console.log(obtainInfo)
       if (res.errno === 0) {
-        var obtainInfos = ['请选择获取途径']
+        var obtainInfos = ['网点名称']
         for (var i = 0; i < res.data.length; i++) {
           var obtainInfo = res.data[i]
           obtainInfos.push(obtainInfo.name)
@@ -253,6 +254,13 @@ Page({
   bindinputName: function (e) {
     let applicant = this.data.applicant;
     applicant.name = e.detail.value;
+    this.setData({
+      applicant: applicant
+    });
+  },
+  bindinputCompanyName: function (e) {
+    let applicant = this.data.applicant;
+    applicant.companyName = e.detail.value;
     this.setData({
       applicant: applicant
     });

@@ -202,6 +202,11 @@ public class WxApplicantController extends GetRegionService {
             return ResponseUtil.unlogin();
         }
 
+        LitemallApplicant tempApplicant = applicantService.findById(applicant.getId());
+        if (tempApplicant.getSubmitStatus() == 0 && applicant.getbBankId() == null) {
+            applicant.setSubmitStatus(1);
+        }
+
         if (applicantService.updateById(applicant) == 0) {
             return ResponseUtil.updatedDataFailed();
         }
@@ -246,6 +251,7 @@ public class WxApplicantController extends GetRegionService {
         if (objApplicant.getSubmitStatus() == 9 ) {
             //担保公司有已经审核，银行未受理
             objApplicant.setSubmitStatus(1);
+            //清空人社和担保公司审核记录
         }
         if (applicantService.updateById(objApplicant) == 0) {
             return ResponseUtil.updatedDataFailed();

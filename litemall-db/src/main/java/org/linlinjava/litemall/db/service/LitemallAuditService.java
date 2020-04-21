@@ -42,7 +42,7 @@ public class LitemallAuditService {
         //给历史数据赋值
         if (al.getApplicantType().equals("company")) {
             // 企业
-            record.setName(al.getHsMark());
+            record.setName(al.getCompanyName());
             record.setIdCardNo(al.getHsUnifiedSocialCreditCode());
         } else {
             // 个人

@@ -1,0 +1,114 @@
+@import "../../lib/wxParse/wxParse.wxss";
+
+page {
+  height: 100%;
+  background: #f4f4f4;
+}
+
+.danbao .bg {
+  width: 80vw; 
+  height: 45vh; 
+  position:absolute;  
+  left: 20px; 
+  top:150px; 
+}
+
+.danbao .add-form {
+  background: #fff;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+}
+
+.danbao .form-item {
+  height: 136rpx;
+  padding-left: 31.25rpx;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  align-items: center;
+  padding-right: 31.25rpx;
+}
+
+.danbao .input {
+  flex: 1;
+  height: 60rpx;
+  line-height: 44rpx;
+  overflow: hidden;
+  color: #333333;
+  font-size: 36rpx;
+}
+
+.danbao .lable {
+  color: #333333;
+  font-size: 40rpx;
+}
+
+.danbao .form-default {
+  border-bottom: 1px solid #d9d9d9;
+  height: 96rpx;
+  background: #fff;
+  padding-top: 28rpx;
+  font-size: 28rpx;
+  padding-left: 31.25rpx;
+}
+
+.danbao .form-default .van-checkbox .van-icon {
+  color: #fff;
+}
+
+.danbao .btns {
+  position: relative;
+  bottom: 0;
+  left: 0;
+  top: 5rpx;
+  overflow: hidden;
+  display: flex;
+  height: 100rpx;
+  width: 100%;
+}
+
+.danbao .cannel, .danbao .save {
+  flex: 1;
+  height: 90rpx;
+  text-align: center;
+  line-height: 90rpx;
+  font-size: 28rpx;
+  color: #fff;
+  border: none;
+  border-radius: 0;
+}
+
+.danbao .cannel {
+  background: #333;
+}
+
+.danbao .save {
+  background: #5677fe;
+  border-radius: 50rpx;
+}
+
+.bg-mask {
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 8;
+}
+
+.danbao .link-tips {
+  font-size: 26rpx;
+  color: #A7A9AA
+}
+
+.danbao .link-text {
+  font-size: 26rpx;
+  color: #5677fe;
+}
+
+.danbao .document-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}

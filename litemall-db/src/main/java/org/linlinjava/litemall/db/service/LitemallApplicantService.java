@@ -66,6 +66,32 @@ public class LitemallApplicantService {
     }
 
 
+    public List<LitemallApplicant> querySelective(String id, String name, Integer page, Integer size, String sort, String order, List<Integer> submitStatusArray, String isAvaiable) {
+        LitemallApplicantExample example = new LitemallApplicantExample();
+        LitemallApplicantExample.Criteria criteria = example.createCriteria();
+
+        if (!StringUtils.isEmpty(id)) {
+            criteria.andIdEqualTo(Integer.valueOf(id));
+        }
+        if (!StringUtils.isEmpty(name)) {
+            criteria.andNameLike("%" + name + "%");
+        }
+        criteria.andDeletedEqualTo(false);
+
+        if (!StringUtils.isEmpty(sort) && !StringUtils.isEmpty(order)) {
+            example.setOrderByClause(sort + " " + order);
+        }
+        if (submitStatusArray != null && submitStatusArray.size() != 0) {
+            criteria.andSubmitStatusIn(submitStatusArray);
+        }
+        if (isAvaiable != null && isAvaiable != "") {
+            criteria.andIsAvailableEqualTo(Boolean.parseBoolean(isAvaiable));
+        }
+
+        PageHelper.startPage(page, size);
+        return applicantMapper.selectByExample(example);
+    }
+
     public List<LitemallApplicant> querySelective(String id, String name, Integer page, Integer size, String sort, String order, List<Integer> submitStatusArray) {
         LitemallApplicantExample example = new LitemallApplicantExample();
         LitemallApplicantExample.Criteria criteria = example.createCriteria();
@@ -84,7 +110,6 @@ public class LitemallApplicantService {
         if (submitStatusArray != null && submitStatusArray.size() != 0) {
             criteria.andSubmitStatusIn(submitStatusArray);
         }
-
         PageHelper.startPage(page, size);
         return applicantMapper.selectByExample(example);
     }

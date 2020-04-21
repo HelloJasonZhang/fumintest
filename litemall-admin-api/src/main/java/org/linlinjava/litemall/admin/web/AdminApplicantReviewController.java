@@ -21,6 +21,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -43,10 +44,16 @@ public class AdminApplicantReviewController {
                        @RequestParam(defaultValue = "1") Integer page,
                        @RequestParam(defaultValue = "10") Integer limit,
                        @RequestParam(required = false) List<Integer> submitStatusArray,
+                       @RequestParam(required = false) String isAvailable,
                        @Sort @RequestParam(defaultValue = "add_time") String sort,
                        @Order @RequestParam(defaultValue = "desc") String order) {
-        List<LitemallApplicant> ApplicantList = applicantService.querySelective(id, name, page, limit, sort, order, submitStatusArray);
-        return ResponseUtil.okList(ApplicantList);
+        List<LitemallApplicant> applicantList = applicantService.querySelective(id, name, page, limit, sort, order, submitStatusArray,isAvailable);
+        List<LitemallApplicant> tempList = new ArrayList<>();
+        for (LitemallApplicant applicant :  applicantList) {
+            if (applicant.getSubmitStatus() != null && applicant.getSubmitStatus() != 0)
+                tempList.add(applicant);
+        }
+        return ResponseUtil.okList(tempList);
     }
 
     private Object validate(LitemallApplicant Applicant) {

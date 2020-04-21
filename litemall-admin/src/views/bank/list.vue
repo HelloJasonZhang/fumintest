@@ -24,12 +24,11 @@
         </template>
       </el-table-column>
       <el-table-column align="center" label="姓名" prop="name" />
-      <el-table-column align="center" label="性别" prop="sex" />
-      <el-table-column align="center" label="婚姻状况" prop="maritalStatus" />
       <el-table-column align="center" label="身份证号" prop="idCardNumber" />
       <el-table-column align="center" label="联系方式" prop="phoneNumber" />
       <el-table-column align="center" label="类别" prop="applicantTypeLable" />
-      <el-table-column align="center" label="申请额度" prop="applicantAmount" />
+      <el-table-column align="center" label="银行" prop="bankName" />
+      <el-table-column align="center" label="申请额度(万元)" prop="applicantAmount" />
       <el-table-column align="center" label="贴息比例(%)" prop="hsDiscount">
         <template slot-scope="scope">
           <el-tag size="mini">{{ scope.row.hsDiscount }}</el-tag>
@@ -44,7 +43,7 @@
       <el-table-column
         align="center"
         label="审核状态"
-        width="350"
+        width="200"
       >
         <template slot-scope="scope">
           <el-steps :space="100" :active="scope.row.statusName" :process-status="scope.row.status" align-center>
@@ -122,7 +121,9 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="贷款期限" prop="periodLoan">
-                <el-input v-model="dataForm.periodLoan" />
+                <el-input v-model="dataForm.periodLoan">
+                  <template slot="append">期</template>
+                </el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -134,12 +135,16 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="利率" prop="interest">
-                <el-input v-model="dataForm.interest" />
+                <el-input v-model="dataForm.interest">
+                  <template slot="append">%</template>
+                </el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="贷款金额" prop="credit">
-                <el-input v-model="dataForm.credit" />
+                <el-input v-model="dataForm.credit">
+                  <template slot="append">万元</template>
+                </el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -292,11 +297,13 @@ import { uuid2 } from '@/utils'
 import QRCode from 'qrcodejs2'
 import { readSignature } from '@/api/signature'
 
+let tempApplicantAmount = null
 const queryStatusMap = {
   '9': '待审核',
   '10': '不通过',
   '11': '通过',
-  '12': '放贷'
+  '12': '复核通过',
+  '13': '放贷'
 }
 
 export default {
@@ -318,7 +325,7 @@ export default {
         id: undefined,
         name: undefined,
         sort: 'add_time',
-        submitStatusArray: [],
+        submitStatusArray: '9',
         order: 'desc'
       },
       uploadPath,
@@ -355,9 +362,6 @@ export default {
       queryStatusMap: queryStatusMap,
       downloadLoading: false,
       pickerOptions: {
-        disabledDate(time) {
-          return time.getTime() > Date.now()
-        },
         shortcuts: [{
           text: '今天',
           onClick(picker) {
@@ -432,7 +436,22 @@ export default {
           { required: true, message: '此字段不能为空', trigger: 'blur' }
         ],
         credit: [
-          { required: true, message: '此字段不能为空', trigger: 'blur' }
+          { required: true, message: '此字段不能为空', trigger: 'blur' },
+          { validator: function(rule, value, callback) {
+            if (!value) {
+              callback(new Error('此字段不能为空'))
+            }
+            value = Number(value)
+            if (typeof value === 'number' && !isNaN(value)) {
+              if (value < 0 || value > tempApplicantAmount) {
+                callback(new Error('最高额度在 0 至 ' + tempApplicantAmount + '万元之间'))
+              } else {
+                callback()
+              }
+            } else {
+              callback(new Error('此字段必须为数字'))
+            }
+          }, trigger: 'blur' }
         ]
       },
       multipleSelection: [],
@@ -626,6 +645,7 @@ export default {
       }
     },
     handleAudit(row) {
+      tempApplicantAmount = row.hsTopAmount
       // 显示银行数据
       readApplicantBank({ 'id': row.id })
         .then(response => {

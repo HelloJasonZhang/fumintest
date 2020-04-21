@@ -51,6 +51,18 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="企业名称" prop="applicantTypeLable">
+              <el-input v-model="goods.companyName" :readonly="goodsReadyOnly" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="申请银行" prop="applicantAmount">
+              <el-input v-model="goods.bankName" placeholder="0.00" :readonly="goodsReadyOnly" />
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-row v-if="goods.applicantType == 'company' || goods.applicantAmount >= 10">
           <el-col :span="6">
             <el-form-item label="营业执照正面" prop="businessLicenseUrl">
@@ -214,17 +226,19 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="贴息比例(%)" prop="hsDiscount">
-              <el-input v-model="rensheForm.hsDiscount" type="number" />
+              <el-input v-model="rensheForm.hsDiscount" type="number">
+                <template slot="append">%</template>
+              </el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="身份证地址" prop="hsApplicantAdress">
+            <el-form-item label="公司所在地" prop="hsApplicantAdress">
               <el-input v-model="rensheForm.hsApplicantAdress" />
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="企业名称" prop="hsMark">
-              <el-input v-model="rensheForm.hsMark" />
+            <el-form-item label="最高额度(万元)" prop="hsTopAmount">
+              <el-input v-model="rensheForm.hsTopAmount" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -276,6 +290,11 @@
               <el-image v-for="picUrl in rensheForm.hsExtraPicUrl" :key="picUrl" style="width:50px;height:50px; margin: 0px 10px" :src="picUrl" :preview-src-list="[picUrl]" />
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
+          <el-form-item label="备注" prop="hsMark">
+            <el-input v-model="rensheForm.hsMark" type="textarea" :rows="7" />
+          </el-form-item>
         </el-row>
         <el-form-item label="人社部门意见" prop="hsComment">
           <el-input v-model="rensheForm.hsComment" type="textarea" :rows="7" />
@@ -737,7 +756,7 @@ export default {
           this.disableRenSheHidden = true
           this.isAssureHidden = true
           this.disableAssureHidden = true
-          this.isBankHidden = false
+          this.isBankHidden = true
           this.disableBankHidden = true
           this.extend(this.rensheForm, response.data.data)
           this.rensheForm.status = 5

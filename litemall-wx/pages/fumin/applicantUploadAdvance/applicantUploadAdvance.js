@@ -14,6 +14,7 @@ Page({
     applicant: {
       "id": null,
       "name": "",
+      "companyName": "",
       "sex": "",
       "maritalStatus": "",
       "idCardNumber": "",
@@ -75,6 +76,7 @@ Page({
     applicantAmount: null,
     signatureUrl: '',
     checked: false,
+    isSubmit: false,
     checkboxItems: [
       { name: 'read', value: '0' },
     ],
@@ -343,7 +345,10 @@ Page({
     //   util.showErrorToast('请填写电子签名');
     //   return false;     
     // }
-
+    this.setData({
+      isSubmit: true
+    })
+    let that = this
     let pages = getCurrentPages(); // 获取页面栈
     let prevpage = pages[pages.length - 2] // 上一个页面
     let data = prevpage.data // 获取上一页data里的数据
@@ -363,11 +368,13 @@ Page({
       applicant[iconUrls[i]] = iconUrlJson[iconUrls[i]]
     }
     //applicant.signatureUrl = this.data.signatureUrl
-    console.log(applicant)
     //更新 
     if (this.data.applicantId != null && this.data.applicantId != 0 && this.data.applicantId != "null") {
       util.request(api.ApplicantRedoUpdate,
         applicant, 'POST').then(function (res) {
+          that.setData({
+            isSubmit: false
+          })
           if (res.errno === 0) {
             wx.navigateTo({
               url: '/pages/fumin/daikuan/daikuan'
@@ -378,8 +385,12 @@ Page({
         });
     } else {
       //新增
+      applicant['submitStatus'] = 0
       util.request(api.ApplicantAdd,
         applicant, 'POST').then(function(res) {
+        that.setData({
+          isSubmit: false
+        })
         if (res.errno === 0) {
           wx.navigateTo({
             url: '/pages/handwriting/index/index?id=' + res.data.id

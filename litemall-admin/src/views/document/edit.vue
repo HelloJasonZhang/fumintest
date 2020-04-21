@@ -81,6 +81,7 @@ export default {
       docTypes: [
         { code: 'policy', name: '贷款政策说明' },
         { code: 'workflow', name: '贷款流程说明' },
+        { code: 'bank', name: '银行说明' },
         { code: 'caizheng_policy', name: '财政部政策说明' },
         { code: 'danbao_desc', name: '担保流程说明' },
         { code: 'undertaking', name: '承诺书' },

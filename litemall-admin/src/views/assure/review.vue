@@ -20,12 +20,11 @@
       <el-table-column type="selection" min-width="30px" />
       <el-table-column align="center" label="ID" min-width="50px" prop="id" />
       <el-table-column align="center" label="姓名" prop="name" />
-      <el-table-column align="center" label="性别" prop="sex" />
-      <el-table-column align="center" label="婚姻状况" prop="maritalStatus" />
       <el-table-column align="center" label="身份证号" prop="idCardNumber" />
       <el-table-column align="center" label="联系方式" prop="phoneNumber" />
       <el-table-column align="center" label="类别" prop="applicantTypeLable" />
-      <el-table-column align="center" label="申请额度" prop="applicantAmount" />
+      <el-table-column align="center" label="银行" prop="bankName" />
+      <el-table-column align="center" label="申请额度(万元)" prop="applicantAmount" />
       <el-table-column align="center" label="贴息比例(%)" prop="hsDiscount">
         <template slot-scope="scope">
           <el-tag size="mini">{{ scope.row.hsDiscount }}</el-tag>
@@ -39,7 +38,7 @@
       <el-table-column
         align="center"
         label="审核状态"
-        width="350"
+        width="200"
       >
         <template slot-scope="scope">
           <el-steps :space="100" :active="scope.row.statusName" :process-status="scope.row.status" align-center>
@@ -119,8 +118,13 @@ import QRCode from 'qrcodejs2'
 const queryStatusMap = {
   '5': '待审核',
   '6': '待补充',
-  '7': '通过',
-  '8': '复核通过'
+  '7': '复核不通过',
+  '8': '待复核',
+  '9': '复核通过',
+  '10': '银行待受理',
+  '11': '银行已受理',
+  '12': '银行复核',
+  '13': '结束'
 }
 
 export default {
@@ -142,8 +146,8 @@ export default {
         id: undefined,
         name: undefined,
         sort: 'add_time',
-        submitStatusArray: [],
-        order: 'desc'
+        submitStatusArray: '8',
+        order: 'asc'
       },
       dataForm: {
         id: undefined,

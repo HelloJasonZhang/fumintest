@@ -457,7 +457,7 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="身份证地址" prop="hsApplicantAdress">
+            <el-form-item label="公司所在地" prop="hsApplicantAdress">
               <el-input v-model="rensheForm.hsApplicantAdress" />
             </el-form-item>
           </el-col>

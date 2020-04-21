@@ -9,6 +9,13 @@ Page({
     historyList: [],
   },
   onLoad: function(options) {
+    //主动检查权限
+    if (!app.globalData.hasLogin) {
+      //检查账号是否已经常见申请
+      wx.navigateTo({
+        url: "/pages/auth/login/login"
+      });
+    }
     this.getapplicantHistoryList();
   },
   getapplicantHistoryList: function() {
@@ -31,7 +38,7 @@ Page({
   },
   saveApplicant() {
     wx.navigateTo({
-      url: '/pages/index/index?needCreate=true'
+      url: '/pages/second/second?needCreate=true'
     })
   },
   showDetail(e) {

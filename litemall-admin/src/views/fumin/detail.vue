@@ -58,6 +58,18 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="企业名称" prop="applicantTypeLable">
+              <el-input v-model="goods.companyName" :readonly="goodsReadyOnly" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="申请银行" prop="applicantAmount">
+              <el-input v-model="goods.bankName" placeholder="0.00" :readonly="goodsReadyOnly" />
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-row v-if="goods.applicantType == 'company' || goods.applicantAmount >= 10">
           <el-col :span="6">
             <el-form-item label="营业执照正面" prop="businessLicenseUrl">
@@ -222,20 +234,19 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="贴息比例(%)" prop="hsDiscount">
-              <el-input v-model="rensheForm.hsDiscount" type="number" />
+              <el-input v-model="rensheForm.hsDiscount" type="number">
+                <template slot="append">%</template>
+              </el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="身份证地址" prop="hsApplicantAdress">
+            <el-form-item label="公司所在地" prop="hsApplicantAdress">
               <el-input v-model="rensheForm.hsApplicantAdress" />
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item v-if="goods.applicantType === 'company'" label="企业名称" prop="hsMark">
-              <el-input v-model="rensheForm.hsMark" />
-            </el-form-item>
-            <el-form-item v-else label="身份证号" prop="idCardNumber">
-              <el-input v-model="goods.idCardNumber" />
+            <el-form-item label="最高额度(万元)" prop="hsTopAmount">
+              <el-input v-model="rensheForm.hsTopAmount" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -280,6 +291,11 @@
               <el-input v-model="rensheForm.hsRecuitRate" />
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
+          <el-form-item label="备注" prop="hsMark">
+            <el-input v-model="rensheForm.hsMark" type="textarea" :rows="7" />
+          </el-form-item>
         </el-row>
         <el-row>
           <el-col :span="24">
@@ -429,10 +445,10 @@
         </el-row>
         <el-form-item v-if="!disableAssureHidden" label="是否审核通过" prop="submitStatus">
           <el-select v-model="assureForm.status" prop="submitStatus" style="width:25%">
-              <el-option :value="9" label="复核通过" />
-              <el-option :value="8" label="审核通过" />
-              <el-option :value="7" label="不通过" />
-              <el-option :value="6" label="待补充" />
+            <el-option :value="9" label="复核通过" />
+            <el-option :value="8" label="审核通过" />
+            <el-option :value="7" label="不通过" />
+            <el-option :value="6" label="待补充" />
           </el-select>
         </el-form-item>
         <el-input v-model="assureForm.scOperator" type="hidden" />
@@ -594,7 +610,7 @@
                 <el-row>
                   <el-col :span="20"><p>审批人:{{ item.operatorName }}, 审批状态: {{ item.submiteStatus }}</p></el-col>
                 </el-row>
-                <el-col :span="4" v-if="item.signatureUrl != null"><span>电子签名: </span><el-image style="width:50px;height:50px;" :src="item.signatureUrl" :preview-src-list="[item.signatureUrl]" /></el-col>
+                <el-col v-if="item.signatureUrl != null" :span="4"><span>电子签名: </span><el-image style="width:50px;height:50px;" :src="item.signatureUrl" :preview-src-list="[item.signatureUrl]" /></el-col>
               </el-card>
             </el-timeline-item>
           </el-timeline>

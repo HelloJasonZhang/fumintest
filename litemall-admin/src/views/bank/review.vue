@@ -24,12 +24,11 @@
         </template>
       </el-table-column>
       <el-table-column align="center" label="姓名" prop="name" />
-      <el-table-column align="center" label="性别" prop="sex" />
-      <el-table-column align="center" label="婚姻状况" prop="maritalStatus" />
       <el-table-column align="center" label="身份证号" prop="idCardNumber" />
       <el-table-column align="center" label="联系方式" prop="phoneNumber" />
       <el-table-column align="center" label="类别" prop="applicantTypeLable" />
-      <el-table-column align="center" label="申请额度" prop="applicantAmount" />
+      <el-table-column align="center" label="银行" prop="bankName" />
+      <el-table-column align="center" label="申请额度(万元)" prop="applicantAmount" />
       <el-table-column align="center" label="贴息比例(%)" prop="hsDiscount">
         <template slot-scope="scope">
           <el-tag size="mini">{{ scope.row.hsDiscount }}</el-tag>
@@ -44,7 +43,7 @@
       <el-table-column
         align="center"
         label="审核状态"
-        width="350"
+        width="200"
       >
         <template slot-scope="scope">
           <el-steps :space="100" :active="scope.row.statusName" :process-status="scope.row.status" align-center>
@@ -60,6 +59,7 @@
         <template slot-scope="scope">
           <el-button v-permission="['GET /admin/baReview/read']" type="primary" size="mini" @click="handleAuditView(scope.row)">查看</el-button>
           <el-button v-permission="['POST /admin/baReview/update']" type="primary" :disabled="scope.row.has_edit" size="mini" @click="handleAudit(scope.row)">复核</el-button>
+          <!-- <el-button v-if="scope.row.submitStatus === 12 && !scope.row.isAvailable " v-permission="['POST /admin/baReview/update']" type="success" :disabled="scope.row.has_finish" size="mini" @click="handleFinish(scope.row)">结束</el-button> -->
         </template>
       </el-table-column>
     </el-table>
@@ -175,8 +175,8 @@ import { readSignature } from '@/api/signature'
 const queryStatusMap = {
   '9': '待审核',
   '10': '不通过',
-  '11': '通过',
-  '12': '复核',
+  '11': '待复核',
+  '12': '复核通过',
   '13': '放贷'
 }
 
@@ -199,7 +199,7 @@ export default {
         id: undefined,
         name: undefined,
         sort: 'add_time',
-        submitStatusArray: [],
+        submitStatusArray: '11',
         order: 'desc'
       },
       uploadPath,
@@ -384,7 +384,6 @@ export default {
             }
           }
           this.dataForm.applicantBank = response.data.data.applicantBank
-          console.log(this.dataForm.applicantBank)
           this.dialogAduitFormVisible = true
         }).catch(response => {
           console.log(response)

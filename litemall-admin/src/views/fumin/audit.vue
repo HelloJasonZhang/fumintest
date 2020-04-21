@@ -56,6 +56,18 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="企业名称" prop="applicantTypeLable">
+              <el-input v-model="goods.companyName" :readonly="goodsReadyOnly" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="申请银行" prop="applicantAmount">
+              <el-input v-model="goods.bankName" placeholder="0.00" :readonly="goodsReadyOnly" />
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-row v-if="goods.applicantType == 'company' || goods.applicantAmount >= 10">
           <el-col :span="6">
             <el-form-item label="营业执照正面" prop="businessLicenseUrl">
@@ -190,7 +202,7 @@
       </el-form>
     </el-card>
     <el-card v-if="isRenSheHidden" class="box-card">
-      <h3>人社核查信息情况</h3>
+      <h3>人社核查信息情况<el-button slot="append" type="success" style="margin-left: 20px;" icon="el-icon-search" @click="readRecords()">历史数据</el-button></h3>
       <el-form
         ref="rensheForm"
         :model="rensheForm"
@@ -242,21 +254,11 @@
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="身份证地址" prop="hsApplicantAdress">
+              <el-form-item label="公司所在地" prop="hsApplicantAdress">
                 <el-input v-model="rensheForm.hsApplicantAdress" />
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item v-if="goods.applicantType === 'company'" label="企业名称" prop="hsMark">
-                <el-input v-model="rensheForm.hsMark"><el-button slot="append" icon="el-icon-search" @click="readRecords(rensheForm.hsMark)">历史数据</el-button></el-input>
-              </el-form-item>
-              <el-form-item v-else label="身份证号" prop="idCardNumber">
-                <el-input v-model="goods.idCardNumber" readonly><el-button slot="append" icon="el-icon-search" @click="readRecords(goods.idCardNumber)">历史数据</el-button></el-input>
-              </el-form-item>
-            </el-col>
-
           </el-row>
-
           <el-row>
             <el-col :span="8">
               <el-form-item label="注册日期" prop="hsRigsterDate">
@@ -282,7 +284,6 @@
               </el-form-item>
             </el-col>
           </el-row>
-
           <el-row>
             <el-col :span="8">
               <el-form-item label="在职人数" prop="hsActiveEmployees">
@@ -310,11 +311,14 @@
               :on-success="handleExtraPicUrl"
               :on-remove="handleRemove"
               multiple
-              accept=".jpg,.jpeg,.png,.gif"
+              accept="*"
               list-type="picture-card"
             >
               <i class="el-icon-plus" />
             </el-upload>
+          </el-form-item>
+          <el-form-item label="备注" prop="hsMark">
+            <el-input v-model="rensheForm.hsMark" type="textarea" :rows="7" />
           </el-form-item>
         </el-row>
         <el-form-item label="人社部门意见" prop="hsComment">
@@ -440,6 +444,8 @@ import { listAudit } from '@/api/audit'
 import { qrCodeUrl, getAuditByStatus, uuid2, validateDiscount } from '@/utils'
 import QRCode from 'qrcodejs2'
 
+let tempApplicantAmount = null
+
 export default {
   name: 'GoodsCreate',
   components: {
@@ -467,7 +473,7 @@ export default {
         hsComment: '',
         hsExtraPicUrl: [],
         qrCodeSignature: undefined,
-        hsDiscount: 100
+        hsDiscount: undefined
       },
       assureForm: { scLetterIntentUrl: '', value: '', picUrl: '' },
       bankForm: { },
@@ -497,20 +503,29 @@ export default {
         }]
       },
       rensheRulrs: {
-        hsTopAmount: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
+        hsTopAmount: [{ required: true, message: '此字段不能为空', trigger: 'blur' },
+          { validator: function(rule, value, callback) {
+            if (!value) {
+              callback(new Error('此字段不能为空'))
+            }
+            value = Number(value)
+            if (typeof value === 'number' && !isNaN(value)) {
+              if (value < 0 || value > tempApplicantAmount) {
+                callback(new Error('最高额度在 0 至 ' + tempApplicantAmount + '万元之间'))
+              } else {
+                callback()
+              }
+            } else {
+              callback(new Error('此字段必须为数字'))
+            }
+          }, trigger: 'blur' }],
         hsBusinessLicenseType: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
         hsApplicant: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
         hsUnifiedSocialCreditCode: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
         hsApplicantAdress: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
         hsRigsterDate: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
-        hsDiscount: [{
-          required: true,
-          message: '此字段不能为空',
-          trigger: 'blur'
-        }, {
-          validator: validateDiscount, // 自定义验证
-          trigger: 'blur'
-        }],
+        hsDiscount: [{ required: true, message: '此字段不能为空', trigger: 'blur' },
+          { validator: validateDiscount, trigger: 'blur' }],
         submitStatus: [{ required: true, message: '此字段不能为空', trigger: 'change' }],
         status: [{ required: true, message: '此字段不能为空', trigger: 'change' }]
       },
@@ -550,7 +565,7 @@ export default {
           this.rensheForm = response.data.data
           this.rensheForm.hsApplicant = response.data.data.name
           this.rensheForm.hsRigsterDate = response.data.data.addTime
-          this.rensheForm.hsDiscount = 100
+          tempApplicantAmount = this.goods.applicantAmount
           this.getAuditList(goodsId)
         } else if (parseInt(goAction) === 5 || parseInt(goAction) === 6) {
           this.isRenSheHidden = true
@@ -569,7 +584,6 @@ export default {
           this.extend(this.rensheForm, response.data.data)
           this.rensheForm.status = 5
           this.extend(this.assureForm, response.data.data)
-          console.log(this.assureForm)
           this.assureForm.status = 9
           this.extend(this.bankForm, response.data.data)
         }
@@ -695,16 +709,15 @@ export default {
         }
       }
     },
-    readRecords: function(name) {
-      if (name === null || name === '') {
-        this.$notify.warning({
-          title: '提示',
-          message: this.goods.applicantType === 'company' ? '请输入企业名称' : '请输入身份证号'
-        })
-        return true
+    readRecords: function() {
+      var query = {}
+      if (this.goods.applicantType === 'company') {
+        query = { name: this.goods.companyName, applicantType: this.goods.applicantType }
+      } else {
+        query = { name: this.goods.idCardNumber, applicantType: this.goods.applicantType }
       }
       this.dialogVisible = true
-      listByIdCardNo({ name: name, applicantType: this.goods.applicantType }).then(response => {
+      listByIdCardNo(query).then(response => {
         this.recordList = response.data.data.list
       })
     },

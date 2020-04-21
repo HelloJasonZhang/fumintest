@@ -34,7 +34,7 @@
     </view>
   </view>
   <view class="btns">
-    <button class="save" bindtap="saveUplaod">下一步</button>
+    <button class="save" bindtap="saveUplaod" disabled="{{isSubmit}}">下一步</button>
   </view>
 </view>
 <view class="round-click">

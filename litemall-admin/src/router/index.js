@@ -300,7 +300,7 @@ export const asyncRouterMap = [
         name: 'review',
         meta: {
           perms: ['GET /admin/baReview/list', 'GET /admin/baReview/read', 'POST /admin/baReview/update'],
-          title: '贷款复核',
+          title: '银行复核',
           noCache: true
         }
       },
