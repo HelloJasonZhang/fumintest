@@ -49,7 +49,7 @@ page {
 
 .subBtn {
   display: inline-flex;
-  background: #008ef6;
+  background: #ffab4b;
   color: #fff;
   text-align: center;
   justify-content: center;
@@ -63,7 +63,7 @@ page {
 
 .handTitle {
   flex: 1;
-  color: #008ef6;
+  color: #ffab4b;
 }
 
 .signature-deail {

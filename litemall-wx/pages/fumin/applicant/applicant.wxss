@@ -79,7 +79,7 @@ page {
 }
 
 .applicant .save {
-  background: #5677fe;
+  background: #ffab4b;
 }
 
 .region-select {

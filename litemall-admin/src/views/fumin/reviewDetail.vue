@@ -445,10 +445,10 @@
         </el-row>
         <el-form-item v-if="!disableAssureHidden" label="是否审核通过" prop="submitStatus">
           <el-select v-model="assureForm.status" prop="submitStatus" style="width:25%">
-              <el-option :value="9" label="复核通过" />
-              <el-option :value="8" label="审核通过" />
-              <el-option :value="7" label="不通过" />
-              <el-option :value="6" label="待补充" />
+            <el-option :value="9" label="复核通过" />
+            <el-option :value="8" label="审核通过" />
+            <el-option :value="7" label="不通过" />
+            <el-option :value="6" label="待补充" />
           </el-select>
         </el-form-item>
         <el-input v-model="assureForm.scOperator" type="hidden" />
@@ -610,7 +610,7 @@
                 <el-row>
                   <el-col :span="20"><p>审批人:{{ item.operatorName }}, 审批状态: {{ item.submiteStatus }}</p></el-col>
                 </el-row>
-                <el-col :span="4" v-if="item.signatureUrl != null"><span>电子签名: </span><el-image style="width:50px;height:50px;" :src="item.signatureUrl" :preview-src-list="[item.signatureUrl]" /></el-col>
+                <el-col v-if="item.signatureUrl != null" :span="4"><span>电子签名: </span><el-image style="width:50px;height:50px;" :src="item.signatureUrl" :preview-src-list="[item.signatureUrl]" /></el-col>
               </el-card>
             </el-timeline-item>
           </el-timeline>

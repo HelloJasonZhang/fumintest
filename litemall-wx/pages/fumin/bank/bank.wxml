@@ -18,7 +18,7 @@
             </view>
           </view>
           <view class="bank-checkbox-box">
-            <radio value="{{item.id}}" checked="{{item.checked}}" color="#5677fe"/>
+            <radio value="{{item.id}}" checked="{{item.checked}}" color="#ffab4b"/>
           </view>
         </view>
       </label>

@@ -83,7 +83,7 @@
             <el-col :span="16">
               <el-form-item label="复核意见" prop="bComment">
                 <el-input v-model="dataForm.bComment" type="textarea" :rows="7" />
-              </el-form-item>     
+              </el-form-item>
             </el-col>
           </el-row>
           <el-col v-if="dataForm.isApprove" :span="20">

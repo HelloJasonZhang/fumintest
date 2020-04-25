@@ -7,7 +7,7 @@
         <template is="wxParse" data="{{wxParseData:documentDetail.nodes}}" />
       </view>
     </view>
-    <view class="btns" style="top:3vh;">
+    <view class="btns" style="top:5vh; margin-bottom: 20rpx;">
       <button class="save" bindtap="goBack">返回</button>
     </view>
   </view>

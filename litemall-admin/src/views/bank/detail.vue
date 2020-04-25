@@ -565,7 +565,7 @@
                 <el-row>
                   <el-col :span="20"><p>审批人:{{ item.operatorName }}, 审批状态: {{ item.submiteStatus }}</p></el-col>
                 </el-row>
-                <el-col :span="4" v-if="item.signatureUrl != null"><span>电子签名: </span><el-image style="width:50px;height:50px;" :src="item.signatureUrl" :preview-src-list="[item.signatureUrl]" /></el-col>
+                <el-col v-if="item.signatureUrl != null" :span="4"><span>电子签名: </span><el-image style="width:50px;height:50px;" :src="item.signatureUrl" :preview-src-list="[item.signatureUrl]" /></el-col>
               </el-card>
             </el-timeline-item>
           </el-timeline>

@@ -7,8 +7,8 @@ var WxParse = require('../../lib/wxParse/wxParse.js');
 var app = getApp()
 Page({
   data: {
-    imagethirdsrc: '/static/images/fumin/bg1.png',
-    imageFoursrc: '/static/images/fumin/bg3.png',
+    imagethirdsrc: '/static/images/fumin/index.jpg',
+    detail: "",
   },
   onLoad: function () {
   },
@@ -72,5 +72,43 @@ Page({
     wx.navigateTo({
       url: '/pages/fumin/applicantHistory/applicantHistory'
     })
-  }
+  }, 
+  showDocment(e) {
+    let that = this
+    let docId = e.currentTarget.dataset.addressId;
+    let docTyp = null;
+    if (docId === "policy") {
+      docTyp = "政策说明"
+    } else if (docId === "workflow") {
+      docTyp = "流程说明"
+    } else {
+      docTyp = "选择银行须知"
+    }
+    util.request(api.DocumentRead, {
+      docType: docId
+    }, "GET").then(function (res) {
+      if (res.errno === 0) {
+        that.setData({
+          detail: res.data.detail
+        })
+        WxParse.wxParse('documentDetail', 'html', res.data.detail, that);
+      } else {
+        that.setData({
+          show: false
+        })
+        util.showErrorToast("无法读取！")
+      }
+    })
+    //加载数据
+    this.setData({
+      show: true,
+      docTyp: docTyp
+    });
+  },
+  onClose() {
+    this.setData({
+      show: false,
+      docTyp: ""
+    });
+  },
 })

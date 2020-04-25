@@ -54,7 +54,7 @@ Page({
         statusColor: "",
         isHiddenIcon: false,
         fontColor: "gray",
-        icon: "/static/images/fumin/4.png",
+        icon: "/static/images/fumin/5.png",
         sValue: 0,
         comment: ""
       },

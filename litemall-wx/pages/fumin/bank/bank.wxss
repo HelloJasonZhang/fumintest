@@ -98,5 +98,5 @@ page {
   color: #fff;
   border: none;
   border-radius: 0;
-  background: #5677fe;
+  background: #ffab4b;
 }

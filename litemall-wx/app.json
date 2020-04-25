@@ -1,8 +1,8 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/fumin/applicantUploadAdvance/applicantUploadAdvance",
     "pages/second/second",
+    "pages/fumin/applicantUploadAdvance/applicantUploadAdvance",
     "pages/fumin/applicant/applicant",
     "pages/fumin/success/success",
     "pages/eSignature/index/index",
@@ -21,8 +21,8 @@
     "pages/fumin/dengdai/dengdai"
   ],
   "window": {
-    "navigationBarBackgroundColor": "#5677fe",
-    "navigationBarTitleText": "富民创业担保贷款",
+    "navigationBarBackgroundColor": "#ffab4b",
+    "navigationBarTitleText": "富e通",
     "enablePullDownRefresh": true,
     "navigationBarTextStyle": "white",
     "backgroundColor": "#FFFFFF",

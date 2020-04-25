@@ -110,7 +110,7 @@ page {
   color: #fff;
   border: none;
   border-radius: 0;
-  background: #5677fe;
+  background: #ffab4b;
 }
 
 .add-wrap {
@@ -233,7 +233,7 @@ page {
   position: relative;
   left: 200rpx;
   max-width: 200rpx;
-  background: #5677fe;
+  background: #ffab4b;
   height: 100rpx;
   text-align: center;
   line-height: 100rpx;
@@ -264,5 +264,5 @@ page {
 
 .aplicant-upload .item-signature  .link-text {
   font-size: 25rpx;
-  color: #5677fe;
+  color: #ffab4b;
 }

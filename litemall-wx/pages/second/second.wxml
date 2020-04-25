@@ -12,7 +12,7 @@
       <radio-group class="radio-group" bindchange="radioChange">
         <view class="form-item" wx:for-items="{{items}}">
           <span class="input">{{item.name}}</span>
-          <radio wx:key="{{item.name}}" value="{{item.value}}" color="#5677fe" checked="{{item.checked}}" auto-focus/>
+          <radio wx:key="{{item.name}}" value="{{item.value}}" color="#ffab4b" checked="{{item.checked}}" auto-focus/>
         </view>
       </radio-group>
     </view>
@@ -21,7 +21,7 @@
         <view style="padding-bottom: 0rpx;">
           <checkbox-group bindchange="checkboxChange">
             <label class="checkbox" wx:for="{{checkboxItems}}">
-              <checkbox value="{{item.name}}" checked="{{item.checked}}" color="#5677fe"/>
+              <checkbox value="{{item.name}}" checked="{{item.checked}}" color="#ffab4b"/>
             </label>
           </checkbox-group>
         </view>
@@ -31,7 +31,7 @@
           <span>,</span>
           <span class="link-text" bindtap="showDocment" data-address-id="workflow">流程说明</span>
           <span>,</span>
-          <span class="link-text" bindtap="showDocment" data-address-id="bank">银行说明</span>
+          <span class="link-text" bindtap="showDocment" data-address-id="bank_desc">银行说明</span>
         </view>
       </view>
     </view>
@@ -52,5 +52,4 @@
       </view>
     </view>
   </view>
-
 </van-popup>

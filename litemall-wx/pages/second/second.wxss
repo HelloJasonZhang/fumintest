@@ -83,7 +83,7 @@ page {
 }
 
 .danbao .save {
-  background: #5677fe;
+  background: #ffab4b;
   border-radius: 50rpx;
 }
 
@@ -104,7 +104,7 @@ page {
 
 .danbao .link-text {
   font-size: 26rpx;
-  color: #5677fe;
+  color: #ffab4b;
 }
 
 .danbao .document-box {

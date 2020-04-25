@@ -98,7 +98,7 @@ page {
   color: #fff;
   border: none;
   border-radius: 0;
-  background: #5677fe;
+  background: #ffab4b;
 }
 
 
@@ -126,7 +126,7 @@ page {
 .history .th {
   width: 40%;
   justify-content: center;
-  background: #5677fe;
+  background: #ffab4b;
   color: #fff;
   display: flex;
   height: 3rem;
@@ -134,5 +134,5 @@ page {
 }
 
 .history .link-color {
-  color:#5677fe
+  color:#ffab4b
 }

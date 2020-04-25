@@ -4,7 +4,7 @@
 </view>
 <view style="width: 100vw; height: 20vh; position:absolute;top:90rpx; text-align:center">
   <view style="">
-    <span style="color: #ffffff; font-size:35rpx;" >最高额度(万元)</span>
+    <!-- <span style="color: #ffffff; font-size:35rpx;" >最高额度(万元)</span> -->
   </view>
   <view style="margin-top: 10rpx">
     <span style="color: #ffffff; font-size:90rpx;">{{hsTopAmount}}</span>
