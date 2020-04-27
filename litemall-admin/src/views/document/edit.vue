@@ -82,8 +82,11 @@ export default {
         { code: 'policy', name: '贷款政策说明' },
         { code: 'workflow', name: '贷款流程说明' },
         { code: 'bank', name: '银行说明' },
+        { code: 'dongfang', name: '东方农商行银行说明' },
+        { code: 'suzhou', name: '苏州银行说明' },
+        { code: 'jiangsu', name: '江苏银行说明' },
         { code: 'caizheng_policy', name: '财政部政策说明' },
-        { code: 'danbao_desc', name: '担保流程说明' },
+        { code: 'danbao_desc', name: '用户须知' },
         { code: 'undertaking', name: '承诺书' },
         { code: 'bank_desc', name: '选择银行须知' }
       ],

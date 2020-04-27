@@ -38,11 +38,11 @@ page {
   height: 60rpx;
   line-height: 60rpx;
   font-size: 28rpx;
-  background: #ffab4b;
+  background: linear-gradient(#fa1948, #fc403e);
 }
 
 .danbao .save {
-  background: #ffab4b;
+  background: linear-gradient(#fa1948, #fc403e);
 }
 
 .bg-mask {

@@ -110,7 +110,7 @@ function fillAudit(auditItem, stataus, comment) {
     temp.statusColor = "#FE0904"
     temp.colorIcon = "#FF7754"
   } else if (stataus == 5 || stataus == 9 || stataus == 12) {
-    temp.submitStatus = "已复核"
+    temp.submitStatus = "已审批"
     temp.isHiddenIcon = true
     temp.statusIcon = "sign - o"
     temp.fontColor = "green"

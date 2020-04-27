@@ -28,8 +28,8 @@ Page({
       "recommender": ""
     },
     imageFirstSrc: '/static/images/fumin/step1.png',
-    array: ['请选择婚姻状态', '已婚', '离异', '未婚'],
-    arraySex: ['请选择性别', '男', '女'],
+    array: ['*请选择婚姻状态', '已婚', '离异', '未婚'],
+    arraySex: ['*请选择性别', '男', '女'],
     arrayTyps: [
       '请选择申请人类别',
       '城镇登记失业人员 ',
@@ -119,7 +119,7 @@ Page({
         }, "GET").then(function (resDict) {
           console.log(res.data.obtainInfo)
           if (res.errno === 0) {
-            var obtainInfos = ['网点名称']
+            var obtainInfos = ['获取途径']
             for (var i = 0; i < resDict.data.length; i++) {
               var obtainInfo = resDict.data[i]
               obtainInfos.push(obtainInfo.name)
@@ -141,7 +141,7 @@ Page({
     }, "GET").then(function (res) {
       console.log(obtainInfo)
       if (res.errno === 0) {
-        var obtainInfos = ['网点名称']
+        var obtainInfos = ['获取途径']
         for (var i = 0; i < res.data.length; i++) {
           var obtainInfo = res.data[i]
           obtainInfos.push(obtainInfo.name)

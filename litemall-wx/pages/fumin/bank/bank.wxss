@@ -27,7 +27,7 @@ page {
 .bank .bank-item-box {
   display: flex;
   flex-direction: row;
-  height: 150rpx;
+  height: 160rpx;
   margin: 30rpx 20px;
   border-bottom: solid rgba(167, 169, 170, 0.3) 1rpx;
   justify-content: space-between;

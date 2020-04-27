@@ -11,10 +11,20 @@ Page({
     detail: "",
   },
   onLoad: function (options) {
-    let docType = "danbao_desc"
+    let docType = "suzhou"
     // 页面初始化 options为页面跳转所带来的参数
     if (options.docType && options.docType != "") {
       docType = options.docType
+    }
+
+    if (options.title && options.title != "") {
+      wx.setNavigationBarTitle({
+        title: options.title
+      })
+    } else {
+      wx.setNavigationBarTitle({
+        title: this.data._title
+      })
     }
     this.showDocment(docType)
   }, 
@@ -24,6 +34,7 @@ Page({
       docType: docType
     }, "GET").then(function (res) {
       if (res.errno === 0) {
+        console.log(res.data.detail)
         that.setData({
           detail: res.data.detail
         })

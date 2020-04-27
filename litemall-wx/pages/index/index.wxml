@@ -10,7 +10,7 @@
     <button class="save" bindtap="showHistory" style="margin-top: 20rpx;">历史记录</button>
     <button class="cannel" bindtap="showDocment" data-address-id="policy" style="margin-top: 20rpx;">政策说明</button>
     <button class="cannel" bindtap="showDocment" data-address-id="workflow" style="margin-top: 20rpx;">流程说明</button>
-    <button class="cannel" bindtap="showDocment" data-address-id="bank_desc" style="margin-top: 20rpx;">银行说明</button>
+    <button class="cannel" bindtap="showDocment" data-address-id="bank_desc" style="margin-top: 20rpx;">银行介绍</button>
   </view>
 </view>
 

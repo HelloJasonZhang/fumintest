@@ -127,13 +127,19 @@ export default {
             } else if (element.docType === 'caizheng_policy') {
               element['docTypeName'] = '财政部政策说明'
             } else if (element.docType === 'danbao_desc') {
-              element['docTypeName'] = '担保流程说明'
+              element['docTypeName'] = '用户须知'
             } else if (element.docType === 'undertaking') {
               element['docTypeName'] = '承诺书'
             } else if (element.docType === 'bank_desc') {
               element['docTypeName'] = '选择银行须知'
             } else if (element.docType === 'bank') {
               element['docTypeName'] = '银行说明'
+            } else if (element.docType === 'dongfang') {
+              element['docTypeName'] = '东方农商行银行说明'
+            } else if (element.docType === 'suzhou') {
+              element['docTypeName'] = '苏州银行说明'
+            } else if (element.docType === 'jiangsu') {
+              element['docTypeName'] = '江苏银行说明'
             }
           }
           this.list = response.data.data.list

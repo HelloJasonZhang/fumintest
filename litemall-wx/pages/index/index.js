@@ -82,7 +82,11 @@ Page({
     } else if (docId === "workflow") {
       docTyp = "流程说明"
     } else {
-      docTyp = "选择银行须知"
+      // docTyp = "选择银行须知"
+      wx.navigateTo({
+        url: '/pages/fumin/bankIntroduce/bankIntroduce'
+      })
+      return
     }
     util.request(api.DocumentRead, {
       docType: docId

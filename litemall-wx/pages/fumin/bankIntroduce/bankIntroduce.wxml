@@ -1,0 +1,5 @@
+<van-cell-group>
+  <van-cell title="连云港东方农业商业银行" is-link link-type="navigateTo" url="/pages/fumin/document/document?docType=dongfang&title=连云港东方农业商业银行" value="详细说明" />
+  <van-cell title="江苏银行" is-link link-type="navigateTo" url="/pages/fumin/document/document?docType=suzhou&title=江苏银行" value="详细说明" />
+  <van-cell title="苏州银行" is-link link-type="navigateTo" url="/pages/fumin/document/document?docType=jiangsu&title=苏州银行" value="详细说明" />
+</van-cell-group>

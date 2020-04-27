@@ -61,7 +61,7 @@ Page({
       {
         id: 5,
         code: "caizheng",
-        name: "财政部",
+        name: "财政",
         submitStatus: "政策说明",
         statusIcon: "",
         statusColor: "",

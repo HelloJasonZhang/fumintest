@@ -1,15 +1,16 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/fumin/bank/bank",
+    "pages/fumin/document/document",
+    "pages/fumin/bankIntroduce/bankIntroduce",
     "pages/second/second",
     "pages/fumin/applicantUploadAdvance/applicantUploadAdvance",
     "pages/fumin/applicant/applicant",
     "pages/fumin/success/success",
     "pages/eSignature/index/index",
     "pages/fumin/applicantHistory/applicantHistory",
-    "pages/fumin/bank/bank",
     "pages/fumin/bankInstruction/bankInstruction",
-    "pages/fumin/document/document",
     "pages/handwriting/index/index",
     "pages/fumin/reject/reject",
     "pages/fumin/shenhe/shenhe",
@@ -22,7 +23,7 @@
   ],
   "window": {
     "navigationBarBackgroundColor": "#ffab4b",
-    "navigationBarTitleText": "富e通",
+    "navigationBarTitleText": "创e通",
     "enablePullDownRefresh": true,
     "navigationBarTextStyle": "white",
     "backgroundColor": "#FFFFFF",

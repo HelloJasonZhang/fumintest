@@ -6,10 +6,10 @@
   <view class="applicant">
     <view class="add-form">
       <view class="form-item">
-        <input class="input" bindinput="bindinputName" placeholder="申请人姓名" value="{{applicant.name}}" auto-focus/>
+        <input class="input" bindinput="bindinputName" placeholder="*申请人姓名" value="{{applicant.name}}" auto-focus/>
       </view>
       <view class="form-item">
-        <input class="input" bindinput="bindinputCompanyName" placeholder="企业名称" value="{{applicant.companyName}}" auto-focus/>
+        <input class="input" bindinput="bindinputCompanyName" placeholder="*企业名称" value="{{applicant.companyName}}" auto-focus/>
       </view>
       <picker bindchange="bindPickerSex" value="{{indexSex}}" range="{{arraySex}}">
         <view class="picker">
@@ -28,10 +28,10 @@
         </view>
       </picker>
        <view class="form-item">
-        <input class="input" bindinput="bindinputIdCardNumber" value="{{applicant.idCardNumber}}" placeholder="身份证号" />
+        <input class="input" bindinput="bindinputIdCardNumber" value="{{applicant.idCardNumber}}" placeholder="*身份证号" />
       </view> 
       <view class="form-item">
-        <input class="input" bindinput="bindinputPhoneNumbere" value="{{applicant.phoneNumber}}" placeholder="联系方式" />
+        <input class="input" bindinput="bindinputPhoneNumbere" value="{{applicant.phoneNumber}}" placeholder="*联系方式" />
       </view>
       <view  wx:if="{{isShow}}" class="form-item">
         <input class="input" bindinput="bindinputSpouseName" value="{{applicant.spouseName}}" placeholder="配偶姓名" />
@@ -56,7 +56,7 @@
         </view>
       </picker> -->
       <view class="form-item">
-        <input class="input" bindinput="bindinputApplicantAmount" value="{{applicant.applicantAmount}}" placeholder="申请额度（万元）" />
+        <input class="input" bindinput="bindinputApplicantAmount" value="{{applicant.applicantAmount}}" placeholder="*申请额度（万元）" />
       </view>
       <view class="form-item">
         <input class="input" bindinput="bindinputRecommender" value="{{applicant.recommender}}" placeholder="推荐人" />
