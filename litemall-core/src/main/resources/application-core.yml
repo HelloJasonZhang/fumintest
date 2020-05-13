@@ -1,8 +1,8 @@
 litemall:
   # 开发者应该设置成自己的wx相关信息
   wx:
-    app-id: wx5a74321cfbf48da7
-    app-secret: d90ef45ed082d7ebdf7dcc49625d0de4
+    app-id: wxe414a335cb3a7a9e
+    app-secret: 843cb3d1a283f588cd393cf29b52e33b
     mch-id: 111111
     mch-key: xxxxxx
     notify-url: http://www.example.com/wx/order/pay-notify
@@ -89,6 +89,7 @@ litemall:
       # 这个地方应该是wx模块的WxStorageController的fetch方法对应的地址
       # address: https://testrenshe.zujioa.com/wx/storage/fetch/
       # address: http://localhost:8080/wx/storage/fetch/
+      address: https://e.zujioa.com/wx/storage/fetch/
     # 阿里云对象存储配置信息
     aliyun:
       endpoint: oss-cn-shenzhen.aliyuncs.com

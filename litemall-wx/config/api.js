@@ -6,7 +6,7 @@
 // 云平台部署时使用
 // var WxApiRoot = 'http://122.51.199.160:8080/wx/';
 // 云平台上线时使用
-var WxApiRoot = 'https://testrenshe.zujioa.com/wx/';
+var WxApiRoot = 'https://e.zujioa.com/wx/';
 
 
 module.exports = {
