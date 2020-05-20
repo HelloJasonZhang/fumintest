@@ -722,7 +722,7 @@ public class LitemallApplicant {
      *
      * @mbg.generated
      */
-    private Integer hsDiscount;
+    private String hsDiscount;
 
     /**
      *
@@ -2851,7 +2851,7 @@ public class LitemallApplicant {
      *
      * @mbg.generated
      */
-    public Integer getHsDiscount() {
+    public String getHsDiscount() {
         return hsDiscount;
     }
 
@@ -2863,7 +2863,7 @@ public class LitemallApplicant {
      *
      * @mbg.generated
      */
-    public void setHsDiscount(Integer hsDiscount) {
+    public void setHsDiscount(String hsDiscount) {
         this.hsDiscount = hsDiscount;
     }
 
@@ -4087,7 +4087,7 @@ public class LitemallApplicant {
         hsOperator("hs_operator", "hsOperator", "VARCHAR", false),
         hsTopAmount("hs_top_amount", "hsTopAmount", "DECIMAL", false),
         hsExtraPicUrl("hs_extra_pic_url", "hsExtraPicUrl", "VARCHAR", false),
-        hsDiscount("hs_discount", "hsDiscount", "INTEGER", false),
+        hsDiscount("hs_discount", "hsDiscount", "VARCHAR", false),
         scBusinessAddress("sc_business_address", "scBusinessAddress", "VARCHAR", false),
         scPropertyRight("sc_property_right", "scPropertyRight", "VARCHAR", false),
         scApplicantCreditReport("sc_applicant_credit_report", "scApplicantCreditReport", "VARCHAR", false),

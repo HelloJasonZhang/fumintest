@@ -227,10 +227,10 @@
             </el-form-item>
           </el-col>
           <el-col v-if="rensheForm.isApproval" :span="8">
-            <el-form-item label="贴息比例(%)" prop="hsDiscount">
-              <el-input v-model="rensheForm.hsDiscount" type="number">
-                <template slot="append">%</template>
-              </el-input>
+            <el-form-item label="贴息类型" prop="hsDiscount">
+              <el-select v-model="rensheForm.hsDiscount" style="width:100%">
+                <el-option v-for="item in hsDiscountArray" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -441,7 +441,7 @@ import store from '@/store'
 import { MessageBox } from 'element-ui'
 import { getToken } from '@/utils/auth'
 import { listAudit } from '@/api/audit'
-import { qrCodeUrl, getAuditByStatus, uuid2, validateDiscount } from '@/utils'
+import { qrCodeUrl, getAuditByStatus, uuid2, validateDiscount, hsDiscountArray } from '@/utils'
 import QRCode from 'qrcodejs2'
 
 let tempApplicantAmount = null
@@ -478,9 +478,6 @@ export default {
       assureForm: { scLetterIntentUrl: '', value: '', picUrl: '' },
       bankForm: { },
       pickerOptions: {
-        disabledDate(time) {
-          return time.getTime() > Date.now()
-        },
         shortcuts: [{
           text: '今天',
           onClick(picker) {
@@ -524,14 +521,14 @@ export default {
         hsUnifiedSocialCreditCode: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
         hsApplicantAdress: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
         hsRigsterDate: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
-        hsDiscount: [{ required: true, message: '此字段不能为空', trigger: 'blur' },
-          { validator: validateDiscount, trigger: 'blur' }],
+        hsDiscount: [{ required: true, message: '此字段不能为空', trigger: 'blur' }],
         submitStatus: [{ required: true, message: '此字段不能为空', trigger: 'change' }],
         status: [{ required: true, message: '此字段不能为空', trigger: 'change' }]
       },
       auditList: [],
       uuid: '',
-      qrCodeDialogVisible: false
+      qrCodeDialogVisible: false,
+      hsDiscountArray: hsDiscountArray
     }
   },
   computed: {

@@ -10735,7 +10735,7 @@ public class LitemallApplicantExample {
             return (Criteria) this;
         }
 
-        public Criteria andHsDiscountEqualTo(Integer value) {
+        public Criteria andHsDiscountEqualTo(String value) {
             addCriterion("hs_discount =", value, "hsDiscount");
             return (Criteria) this;
         }
@@ -10751,7 +10751,7 @@ public class LitemallApplicantExample {
             return (Criteria) this;
         }
 
-        public Criteria andHsDiscountNotEqualTo(Integer value) {
+        public Criteria andHsDiscountNotEqualTo(String value) {
             addCriterion("hs_discount <>", value, "hsDiscount");
             return (Criteria) this;
         }
@@ -10767,7 +10767,7 @@ public class LitemallApplicantExample {
             return (Criteria) this;
         }
 
-        public Criteria andHsDiscountGreaterThan(Integer value) {
+        public Criteria andHsDiscountGreaterThan(String value) {
             addCriterion("hs_discount >", value, "hsDiscount");
             return (Criteria) this;
         }
@@ -10783,7 +10783,7 @@ public class LitemallApplicantExample {
             return (Criteria) this;
         }
 
-        public Criteria andHsDiscountGreaterThanOrEqualTo(Integer value) {
+        public Criteria andHsDiscountGreaterThanOrEqualTo(String value) {
             addCriterion("hs_discount >=", value, "hsDiscount");
             return (Criteria) this;
         }
@@ -10799,7 +10799,7 @@ public class LitemallApplicantExample {
             return (Criteria) this;
         }
 
-        public Criteria andHsDiscountLessThan(Integer value) {
+        public Criteria andHsDiscountLessThan(String value) {
             addCriterion("hs_discount <", value, "hsDiscount");
             return (Criteria) this;
         }
@@ -10815,7 +10815,7 @@ public class LitemallApplicantExample {
             return (Criteria) this;
         }
 
-        public Criteria andHsDiscountLessThanOrEqualTo(Integer value) {
+        public Criteria andHsDiscountLessThanOrEqualTo(String value) {
             addCriterion("hs_discount <=", value, "hsDiscount");
             return (Criteria) this;
         }
@@ -10831,22 +10831,32 @@ public class LitemallApplicantExample {
             return (Criteria) this;
         }
 
-        public Criteria andHsDiscountIn(List<Integer> values) {
+        public Criteria andHsDiscountLike(String value) {
+            addCriterion("hs_discount like", value, "hsDiscount");
+            return (Criteria) this;
+        }
+
+        public Criteria andHsDiscountNotLike(String value) {
+            addCriterion("hs_discount not like", value, "hsDiscount");
+            return (Criteria) this;
+        }
+
+        public Criteria andHsDiscountIn(List<String> values) {
             addCriterion("hs_discount in", values, "hsDiscount");
             return (Criteria) this;
         }
 
-        public Criteria andHsDiscountNotIn(List<Integer> values) {
+        public Criteria andHsDiscountNotIn(List<String> values) {
             addCriterion("hs_discount not in", values, "hsDiscount");
             return (Criteria) this;
         }
 
-        public Criteria andHsDiscountBetween(Integer value1, Integer value2) {
+        public Criteria andHsDiscountBetween(String value1, String value2) {
             addCriterion("hs_discount between", value1, value2, "hsDiscount");
             return (Criteria) this;
         }
 
-        public Criteria andHsDiscountNotBetween(Integer value1, Integer value2) {
+        public Criteria andHsDiscountNotBetween(String value1, String value2) {
             addCriterion("hs_discount not between", value1, value2, "hsDiscount");
             return (Criteria) this;
         }

@@ -75,7 +75,9 @@
         </view>
       </picker>  
     </view>
-
+    <view class="form-item"></view>
+    <view class="form-item"></view>
+    <view class="form-item"></view>
     <view class="btns">
       <button class="save" bindtap="saveApplicant">下一步</button>
     </view>

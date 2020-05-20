@@ -83,7 +83,7 @@
     <result column="hs_operator" jdbcType="VARCHAR" property="hsOperator" />
     <result column="hs_top_amount" jdbcType="DECIMAL" property="hsTopAmount" />
     <result column="hs_extra_pic_url" jdbcType="VARCHAR" property="hsExtraPicUrl" typeHandler="org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler" />
-    <result column="hs_discount" jdbcType="INTEGER" property="hsDiscount" />
+    <result column="hs_discount" jdbcType="VARCHAR" property="hsDiscount" />
     <result column="sc_business_address" jdbcType="VARCHAR" property="scBusinessAddress" />
     <result column="sc_property_right" jdbcType="VARCHAR" property="scPropertyRight" />
     <result column="sc_applicant_credit_report" jdbcType="VARCHAR" property="scApplicantCreditReport" />
@@ -549,7 +549,7 @@
       #{hsMark,jdbcType=VARCHAR}, #{hsRecuitRate,jdbcType=VARCHAR}, #{hsComment,jdbcType=VARCHAR}, 
       #{hsAuditDate,jdbcType=TIMESTAMP}, #{hsOperator,jdbcType=VARCHAR}, #{hsTopAmount,jdbcType=DECIMAL}, 
       #{hsExtraPicUrl,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler}, 
-      #{hsDiscount,jdbcType=INTEGER}, #{scBusinessAddress,jdbcType=VARCHAR}, #{scPropertyRight,jdbcType=VARCHAR}, 
+      #{hsDiscount,jdbcType=VARCHAR}, #{scBusinessAddress,jdbcType=VARCHAR}, #{scPropertyRight,jdbcType=VARCHAR}, 
       #{scApplicantCreditReport,jdbcType=VARCHAR}, #{scSpouseCreditReport,jdbcType=VARCHAR}, 
       #{scGuarantor,jdbcType=VARCHAR}, #{scGuarantorAsset,jdbcType=VARCHAR}, #{scExtraInfo,jdbcType=VARCHAR}, 
       #{scComment,jdbcType=VARCHAR}, #{scLetterIntentUrl,jdbcType=VARCHAR}, #{scAuditDate,jdbcType=TIMESTAMP}, 
@@ -1121,7 +1121,7 @@
         #{hsExtraPicUrl,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler},
       </if>
       <if test="hsDiscount != null">
-        #{hsDiscount,jdbcType=INTEGER},
+        #{hsDiscount,jdbcType=VARCHAR},
       </if>
       <if test="scBusinessAddress != null">
         #{scBusinessAddress,jdbcType=VARCHAR},
@@ -1461,7 +1461,7 @@
         hs_extra_pic_url = #{record.hsExtraPicUrl,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler},
       </if>
       <if test="record.hsDiscount != null">
-        hs_discount = #{record.hsDiscount,jdbcType=INTEGER},
+        hs_discount = #{record.hsDiscount,jdbcType=VARCHAR},
       </if>
       <if test="record.scBusinessAddress != null">
         sc_business_address = #{record.scBusinessAddress,jdbcType=VARCHAR},
@@ -1638,7 +1638,7 @@
       hs_operator = #{record.hsOperator,jdbcType=VARCHAR},
       hs_top_amount = #{record.hsTopAmount,jdbcType=DECIMAL},
       hs_extra_pic_url = #{record.hsExtraPicUrl,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler},
-      hs_discount = #{record.hsDiscount,jdbcType=INTEGER},
+      hs_discount = #{record.hsDiscount,jdbcType=VARCHAR},
       sc_business_address = #{record.scBusinessAddress,jdbcType=VARCHAR},
       sc_property_right = #{record.scPropertyRight,jdbcType=VARCHAR},
       sc_applicant_credit_report = #{record.scApplicantCreditReport,jdbcType=VARCHAR},
@@ -1908,7 +1908,7 @@
         hs_extra_pic_url = #{hsExtraPicUrl,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler},
       </if>
       <if test="hsDiscount != null">
-        hs_discount = #{hsDiscount,jdbcType=INTEGER},
+        hs_discount = #{hsDiscount,jdbcType=VARCHAR},
       </if>
       <if test="scBusinessAddress != null">
         sc_business_address = #{scBusinessAddress,jdbcType=VARCHAR},
@@ -2082,7 +2082,7 @@
       hs_operator = #{hsOperator,jdbcType=VARCHAR},
       hs_top_amount = #{hsTopAmount,jdbcType=DECIMAL},
       hs_extra_pic_url = #{hsExtraPicUrl,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler},
-      hs_discount = #{hsDiscount,jdbcType=INTEGER},
+      hs_discount = #{hsDiscount,jdbcType=VARCHAR},
       sc_business_address = #{scBusinessAddress,jdbcType=VARCHAR},
       sc_property_right = #{scPropertyRight,jdbcType=VARCHAR},
       sc_applicant_credit_report = #{scApplicantCreditReport,jdbcType=VARCHAR},

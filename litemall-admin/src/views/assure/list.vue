@@ -25,7 +25,7 @@
       <el-table-column align="center" label="银行" prop="bankName" />
       <el-table-column align="center" label="类别" prop="applicantTypeLable" />
       <el-table-column align="center" label="申请额度(万元)" prop="applicantAmount" />
-      <el-table-column align="center" label="贴息比例(%)" prop="hsDiscount">
+      <el-table-column align="center" label="贴息类型" prop="hsDiscount">
         <template slot-scope="scope">
           <el-tag size="mini">{{ scope.row.hsDiscount }}</el-tag>
         </template>

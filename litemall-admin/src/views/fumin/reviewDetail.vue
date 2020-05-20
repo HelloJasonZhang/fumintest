@@ -233,10 +233,10 @@
         </el-row>
         <el-row>
           <el-col :span="8">
-            <el-form-item label="贴息比例(%)" prop="hsDiscount">
-              <el-input v-model="rensheForm.hsDiscount" type="number">
-                <template slot="append">%</template>
-              </el-input>
+            <el-form-item label="贴息类型" prop="hsDiscount">
+              <el-select v-model="rensheForm.hsDiscount" style="width:100%">
+                <el-option v-for="item in hsDiscountArray" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -695,7 +695,7 @@ import { createStorage, uploadPath } from '@/api/storage'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 import { listAudit } from '@/api/audit'
-import { getAuditByStatus } from '@/utils'
+import { getAuditByStatus, hsDiscountArray} from '@/utils'
 
 export default {
   name: 'GoodsCreate',

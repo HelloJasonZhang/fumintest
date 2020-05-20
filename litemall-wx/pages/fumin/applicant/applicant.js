@@ -57,6 +57,10 @@ Page({
       '其他'
     ],
     arrayObtianInfos: [
+      "获取途径",
+      "连云港东方农村商业银行",
+      "苏州银行",
+      "江苏银行"
     ],
     indexMaritalStatus: 0,
     indexTypes: 0,
@@ -94,7 +98,7 @@ Page({
       //回显数据
       this.getApplicant()
     } else {
-      this.getObtainInfos()
+      // this.getObtainInfos()
     }
   },
   getApplicant: function () {
@@ -111,26 +115,26 @@ Page({
           recommender: res.data.recommender,
           indexMaritalStatus: util.filter(res.data.maritalStatus, that.data.array),
           indexSex: util.filter(res.data.sex, that.data.arraySex),
+          indexObtainInfo: util.filter(res.data.obtainInfo, obtainInfos),
         });
         //indexTypes: util.filter(res.data.applicantCategory, that.data.arrayTyps),
         //indexHires: util.filter(res.data.recruitCategory, that.data.arrayHires)
-        util.request(api.DictRead, {
-          type: "获取途径"
-        }, "GET").then(function (resDict) {
-          console.log(res.data.obtainInfo)
-          if (res.errno === 0) {
-            var obtainInfos = ['获取途径']
-            for (var i = 0; i < resDict.data.length; i++) {
-              var obtainInfo = resDict.data[i]
-              obtainInfos.push(obtainInfo.name)
-            }
-            that.setData({
-              arrayObtianInfos: obtainInfos,
-              indexObtainInfo: util.filter(res.data.obtainInfo, obtainInfos),
-            });
 
-          }
-        });
+        // util.request(api.DictRead, {
+        //   type: "获取途径"
+        // }, "GET").then(function (resDict) {
+        //   if (res.errno === 0) {
+        //     var obtainInfos = ['获取途径']
+        //     for (var i = 0; i < resDict.data.length; i++) {
+        //       var obtainInfo = resDict.data[i]
+        //       obtainInfos.push(obtainInfo.name)
+        //     }
+        //     that.setData({
+        //       arrayObtianInfos: obtainInfos,
+        //       indexObtainInfo: util.filter(res.data.obtainInfo, obtainInfos),
+        //     });
+        //   }
+        // });
       }
     });
   },
@@ -139,7 +143,6 @@ Page({
     util.request(api.DictRead, {
       type: "获取途径"
     }, "GET").then(function (res) {
-      console.log(obtainInfo)
       if (res.errno === 0) {
         var obtainInfos = ['获取途径']
         for (var i = 0; i < res.data.length; i++) {
@@ -149,7 +152,6 @@ Page({
         that.setData({
           arrayObtianInfos: obtainInfos
         });
-
       }
     });
   },
@@ -291,10 +293,10 @@ Page({
     }
 
     let indexObtainInfo = this.data.indexObtainInfo
-    if (this.data.indexObtainInfo == 0) {
-      util.showErrorToast('请选择获取途径');
-      return false;
-    }
+    //if (this.data.indexObtainInfo == 0) {
+    //  util.showErrorToast('请选择获取途径');
+    //  return false;
+    // }
     // let indexTypes = this.data.indexTypes
     // if (this.data.indexTypes == 0) {
     //   util.showErrorToast('请选择申请人类别');

@@ -85,11 +85,11 @@ Page({
       { name: "担保人身份证正面", url: "suretyIdCardUrl", isShow: true },
       { name: "担保人身份证反面", url: "suretyIdCardUrl2", isShow: true },
       { name: "个人资产证明", url: "assetUrl", isShow: true },
-      { name: "就业创业证1", url: "jobUrl", isShow: true },
-      { name: "就业创业证2", url: "jobUrl2", isShow: true },
+      { name: "创业就业证照片页", url: "jobUrl", isShow: true },
+      { name: "创业就业证第九页", url: "jobUrl2", isShow: true },
       { name: "抵押信息", url: "mortgageUrl", isShow: true },
       { name: "共同担保声明", url: "guaranteeStatementUrl", isShow: true },
-      { name: "带动就业人员信息", url: "employmentPromotionUrl", isShow: true },
+      { name: "带动人员工资流水", url: "employmentPromotionUrl", isShow: true },
       { name: "当年纳税申报及上年纳税收据", url: "payTaxesUrl", isShow: true },
       { name: "其他照片", url: "extraUrl", isShow: true }
     ]

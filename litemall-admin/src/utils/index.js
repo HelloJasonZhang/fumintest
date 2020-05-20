@@ -381,4 +381,17 @@ const validateEndTime = (rule, value, callback) => {
   }
 }
 
-export { qrCodeUrl, validateDiscount, validateStartTime, validateEndTime }
+const hsDiscountArray = [
+  { value: '城镇登记失业人员', label: '城镇登记失业人员' },
+  { value: '就业困难人员', label: '就业困难人员' },
+  { value: '复员转业退役军人', label: '复员转业退役军人' },
+  { value: '刑满释放人员', label: '刑满释放人员' },
+  { value: '高校毕业生', label: '高校毕业生' },
+  { value: '化解产能企业职工和失业人员', label: '化解产能企业职工和失业人员' },
+  { value: '返乡创业农民', label: '返乡创业农民' },
+  { value: '网络商户', label: '网络商户' },
+  { value: '建档立卡贫困人员', label: '建档立卡贫困人员' },
+  { value: '农村自主创业农民', label: '农村自主创业农民' }
+]
+
+export { qrCodeUrl, hsDiscountArray, validateDiscount, validateStartTime, validateEndTime }

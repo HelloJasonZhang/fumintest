@@ -573,9 +573,9 @@ function getCompanyOrExceedData(type, applicantType) {
   var idCardLable2 = ""
   var idCardLable3 = ""
   if ("company" == type) {
-    idCardLable1 = "法人代表身份证正面"
-    idCardLable2 = "法人代表身份证反面"
-    idCardLable3 = "手持法人代表身份证正面"
+    idCardLable1 = "法人身份证正面"
+    idCardLable2 = "法人身份证反面"
+    idCardLable3 = "手持法人身份证正面"
   } else {
     idCardLable1 = "申请人身份证正面"
     idCardLable2 = "申请人身份证反面"
