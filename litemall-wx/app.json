@@ -1,12 +1,12 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/fumin/applicantUploadAdvance/applicantUploadAdvance",
     "pages/eSignature/index/index",
     "pages/fumin/bank/bank",
     "pages/fumin/document/document",
     "pages/fumin/bankIntroduce/bankIntroduce",
     "pages/second/second",
-    "pages/fumin/applicantUploadAdvance/applicantUploadAdvance",
     "pages/fumin/applicant/applicant",
     "pages/fumin/success/success",
     "pages/fumin/applicantHistory/applicantHistory",

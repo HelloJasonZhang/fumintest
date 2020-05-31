@@ -561,7 +561,7 @@ export default {
           this.isBankHidden = false
           this.rensheForm = response.data.data
           this.rensheForm.hsApplicant = response.data.data.name
-          this.rensheForm.hsRigsterDate = response.data.data.addTime
+          // this.rensheForm.hsRigsterDate = response.data.data.addTime
           tempApplicantAmount = this.goods.applicantAmount
           this.getAuditList(goodsId)
         } else if (parseInt(goAction) === 5 || parseInt(goAction) === 6) {

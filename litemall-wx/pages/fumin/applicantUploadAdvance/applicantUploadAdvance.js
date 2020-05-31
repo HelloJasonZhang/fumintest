@@ -111,9 +111,9 @@ Page({
     } else {
       //新增页面
       //根据企业类型和婚姻状态加载数据
-      //options.applicantType ='company'
-      //options.maritalStatus ='未婚'
-      //options.applicantAmount ='9'
+      // options.applicantType ='personal'
+      // options.maritalStatus ='未婚'
+      // options.applicantAmount ='15'
       this.setData({
         uploadFiles: dataSource.getBizData(options.applicantType, options.maritalStatus, options.applicantAmount, null),
         tipText: dataSource.getBizTipsText(options.applicantType, options.maritalStatus, options.applicantAmount)
