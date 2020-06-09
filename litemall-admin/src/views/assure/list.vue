@@ -83,8 +83,8 @@ import Pagination from '@/components/Pagination' // Secondary package based on e
 const queryStatusMap = {
   '5': '待审核',
   '6': '待补充',
-  '7': '通过',
-  '8': '不通过',
+  '7': '不通过',
+  '8': '审核通过',
   '9': '复核通过',
   '10': '银行待受理',
   '11': '银行已受理',
