@@ -123,7 +123,7 @@
           <!-- <el-table-column align="center" prop="subBranch" label="分行" /> -->
           <el-table-column align="center" prop="loanStartDate" label="贷款发放日" />
           <el-table-column align="center" prop="loanEndDate" label="贷款到期日" />
-          <el-table-column align="center" prop="loanFinance" label="贷款金融" />
+          <el-table-column align="center" prop="loanFinance" label="贷款金融机构" />
           <!-- <el-table-column align="center" prop="credit" label="授信额度(万元)" />
           <el-table-column align="center" prop="opertator" label="经办人" />
           <el-table-column align="center" prop="lendingDate" label="放贷日期" width="180" />

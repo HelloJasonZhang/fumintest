@@ -127,7 +127,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="贷款金融" prop="loanFinance">
+              <el-form-item label="贷款金融机构" prop="loanFinance">
                 <el-input v-model="dataForm.loanFinance" />
               </el-form-item>
             </el-col>
@@ -212,7 +212,7 @@
           <!-- <el-table-column align="center" prop="subBranch" label="分行" /> -->
           <el-table-column align="center" prop="loanStartDate" label="贷款发放日" />
           <el-table-column align="center" prop="loanEndDate" label="贷款到期日" />
-          <el-table-column align="center" prop="loanFinance" label="贷款金融" />
+          <el-table-column align="center" prop="loanFinance" label="贷款金融机构" />
           <!-- <el-table-column align="center" prop="credit" label="授信额度(万元)" />
           <el-table-column align="center" prop="opertator" label="经办人" />
           <el-table-column align="center" prop="lendingDate" label="放贷日期" width="180" />
@@ -244,7 +244,7 @@
           <!-- <el-table-column align="center" prop="subBranch" label="分行" /> -->
           <el-table-column align="center" prop="loanStartDate" label="贷款发放日" />
           <el-table-column align="center" prop="loanEndDate" label="贷款到期日" />
-          <el-table-column align="center" prop="loanFinance" label="贷款金融" />
+          <el-table-column align="center" prop="loanFinance" label="贷款金融机构" />
           <!-- <el-table-column align="center" prop="credit" label="授信额度(万元)" />
           <el-table-column align="center" prop="opertator" label="经办人" />
           <el-table-column align="center" prop="lendingDate" label="放贷日期" width="180" />
@@ -293,7 +293,7 @@ import { MessageBox } from 'element-ui'
 import { uploadPath } from '@/api/storage'
 import { getToken } from '@/utils/auth'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
-import { uuid2 } from '@/utils'
+import { qrCodeUrl,  uuid2} from '@/utils'
 import QRCode from 'qrcodejs2'
 import { readSignature } from '@/api/signature'
 
@@ -823,7 +823,7 @@ export default {
         const qrcode = new QRCode('qrcode', {
           width: 150,
           height: 150,
-          text: 'https://testrenshe.zujioa.com/abc/?applicant=1&uuid=5715891D-0E3E-4A13-835A-09D4715FFE17',
+          text: qrCodeUrl + '?applicant=1&uuid=5715891D-0E3E-4A13-835A-09D4715FFE17',
           colorDark: '#109dff',
           colorLight: '#d9d9d9'
         })
